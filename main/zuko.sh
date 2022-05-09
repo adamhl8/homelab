@@ -2,10 +2,11 @@
 
 step1() {
 
+source ${common}/update_system.sh
+source ${common}/common.sh
 source ${common}/debian_sid.sh
 source ${common}/add_ssh_key.sh
 source ${common}/ssh_perms.sh
-source ${common}/alias_l.sh
 
 sudo sed -i "s|127\.0\.1\.1.*|127.0.1.1       zuko|" /etc/hosts
 
@@ -35,8 +36,10 @@ EOF
 
 continue_prompt
 
+# Docker
 source ${common}/docker.sh
 
+# Uptime Kuma
 mkdir ~/uptime-kuma/
 
 tee ~/uptime-kuma/docker-compose.yml << EOF
@@ -57,4 +60,3 @@ cd ~/uptime-kuma/
 docker compose up -d
 cd ~/
 }
-

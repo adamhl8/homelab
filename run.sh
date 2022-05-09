@@ -9,10 +9,11 @@ name=$1
 
 root=~/homelab
 common=${root}/common
+files=${root}/files
 main=${root}/main
 modules=${main}/${name}
 
-source ${common}/functions.sh
+source ${common}/prompts.sh
 
 source ${main}/${name}.sh
 
@@ -20,12 +21,15 @@ for i in $(seq 1 ${steps}); do
 step=step${i}
 
 [ -f ~/${step} ] && continue
-touch ~/${step}
+
 echo "Running ${name} ${step}..."
 ${step}
+touch ~/${step}
 
 [ ${i} != ${steps} ] && exit
 done
 
 rm ~/step*
 echo "Finished running ${name}."
+
+reboot_prompt
