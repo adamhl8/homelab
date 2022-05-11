@@ -1,10 +1,12 @@
 #!/bin/bash
 
+steps=2
+
 step1() {
 
+source ${common}/debian_sid.sh
 source ${common}/update_system.sh
 source ${common}/common.sh
-source ${common}/debian_sid.sh
 source ${common}/add_ssh_key.sh
 source ${common}/ssh_perms.sh
 
@@ -12,8 +14,6 @@ sudo sed -i "s|127\.0\.1\.1.*|127.0.1.1       zuko|" /etc/hosts
 
 # Argon fan script
 curl https://download.argon40.com/argon1.sh | bash
-
-reboot_prompt
 }
 
 step2() {

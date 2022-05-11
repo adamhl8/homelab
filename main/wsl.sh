@@ -1,5 +1,7 @@
 #!/bin/bash
 
+steps=1
+
 step1() {
   source ${common}/update_system.sh
   source ${common}/common.sh

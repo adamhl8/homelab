@@ -4,8 +4,6 @@ step1() {
 
 source ${common}/update_system.sh
 sudo sed -i "s|Prompt=.*|Prompt=normal|" /etc/update-manager/release-upgrades
-
-reboot_prompt
 }
 
 step2() {
@@ -31,13 +29,6 @@ sudo tailscale up
 
 # Caddy
 source ${common}/caddy.sh
-
-tee ~/caddy/Caddyfile << EOF
-ezaks.freemyip.com {
-  reverse_proxy 100.67.147.105:8100
-}
-EOF
-~/caddy/caddy fmt -overwrite ~/caddy/Caddyfile
-
+source ${modules}/caddyfiles.sh
 source ${common}/caddy_service.sh
 }
