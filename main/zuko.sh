@@ -3,7 +3,7 @@
 steps=3
 
 step1() {
-  source ${common}/debian_sid.sh
+  echo 'deb http://deb.debian.org/debian/ unstable main' | sudo tee /etc/apt/sources.list
   source ${common}/common.sh
   source ${common}/ssh.sh
   cp ${bin}/docker-container-update ~/bin/
