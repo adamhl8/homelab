@@ -11,12 +11,12 @@ curl -s https://api.github.com/repos/caddyserver/xcaddy/releases/latest | grep -
 tar -vxzf ~/xcaddy.tar.gz -C ~/caddy/
 rm ~/xcaddy.tar.gz
 
-[ ${caddy_init} != true ] && sudo systemctl stop caddy
+[ -z ${caddy_init} ] && sudo systemctl stop caddy
 xcaddy build --with github.com/greenpau/caddy-security --output ~/caddy/caddy
 chmod 755 ~/caddy/caddy
 sudo rm -rf ~/go/
 
-if [ ${caddy_init} != true ]; then
+if [ -z ${caddy_init} ]; then
   read -p "Reboot? (Y/n) " -n 1 -r reply
   echo
   [[ ! ${reply} =~ ^[Nn]$ ]] && sudo reboot
