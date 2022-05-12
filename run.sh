@@ -5,6 +5,8 @@
 set -o pipefail
 IFS=$'\n\t'
 
+sudo -v
+
 name=$1
 
 root=~/homelab
