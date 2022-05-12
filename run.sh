@@ -2,7 +2,7 @@
 
 [ -z $1 ] && echo "Please provide a name." && exit
 
-set -uo pipefail
+set -o pipefail
 IFS=$'\n\t'
 
 name=$1
