@@ -1,5 +1,11 @@
 #!/bin/bash
 
+mkdir ~/.ssh/
+chmod 700 ~/.ssh/
+echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFPbjkzm8d73AQxOZ/CqmYXRydfMXgYxOEIsPHa6rDDO' | tee -a ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/authorized_keys
+
+# sshd config
 sudo sed -i "s|^#.*\(PermitRootLogin\).*|\1 no|" /etc/ssh/sshd_config
 sudo sed -i "s|^#.*\(PermitEmptyPasswords\).*|\1 no|" /etc/ssh/sshd_config
 sudo sed -i "s|^#.*\(PasswordAuthentication\).*|\1 no|" /etc/ssh/sshd_config

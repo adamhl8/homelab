@@ -1,5 +1,7 @@
 #!/bin/bash
 
+mkdir ~/caddy/
+
 # Caddyfile
 tee ~/caddy/Caddyfile << EOF
 import /home/adam/caddy/auth.caddy

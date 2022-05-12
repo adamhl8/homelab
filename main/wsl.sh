@@ -3,13 +3,15 @@
 steps=1
 
 step1() {
-  source ${common}/update_system.sh
   source ${common}/common.sh
   source ${modules}/git_aliases.sh
-  source ${modules}/git_scripts.sh
+  cp ${modules}/bin/* ~/bin/
 
   ln -s /mnt/c/Users/Adam/ ~/
   mkdir ~/dev/
+
+  echo "Copy .ssh and .gnupg to desktop."
+  continue_prompt
 
   # ssh
   cp -r /mnt/c/Users/Adam/Desktop/.ssh/ ~/
@@ -32,15 +34,10 @@ step1() {
   chmod 600 ~/.gnupg/trustdb.gpg
   gpgconf --reload gpg-agent
 
-  sudo apt install git -y
   git config --global user.name 'Adam Langbert'
   git config --global user.email 'adamhl@pm.me'
   git config --global pull.ff only
 
-  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
-  export NVM_DIR="$HOME/.nvm"
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-  nvm install node
-  nvm install-latest-npm
+  source ${modules}/bin/nvm-update
+  source ${modules}/bin/node-update
 }

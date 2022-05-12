@@ -1,5 +1,4 @@
 #!/bin/bash
 
-curl -Lo ~/snapraid/snapraid-btrfs https://raw.githubusercontent.com/automorphism88/snapraid-btrfs/master/snapraid-btrfs
-chmod 755 ~/snapraid/snapraid-btrfs
+source ${modules}/bin/snapraid-btrfs-update
 ~/snapraid/snapraid-btrfs -c ~/snapraid/snapraid.conf ls

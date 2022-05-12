@@ -24,9 +24,3 @@ EOF
 cd ~/apps/minecraft/
 docker compose up -d
 cd ~/
-
-tee ~/bin/minecraft-stop << EOF
-#!/bin/bash
-docker exec minecraft rcon-cli stop
-EOF
-chmod 755 ~/bin/minecraft-stop

@@ -1,7 +1,6 @@
 #!/bin/bash
 
-curl -Lo ~/snapraid/snapraid-btrfs-runner.py https://raw.githubusercontent.com/fmoledina/snapraid-btrfs-runner/master/snapraid-btrfs-runner.py
-chmod 755 ~/snapraid/snapraid-btrfs-runner.py
+source ${modules}/bin/snapraid-btrfs-runner-update
 
 read -p "SMTP Password: " smtp_password
 tee ~/snapraid/snapraid-btrfs-runner.conf << EOF

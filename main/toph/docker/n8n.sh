@@ -31,6 +31,4 @@ read -p "Waiting for n8n to start..." -t 5
 echo
 
 # Configure git in container
-docker exec -it n8n apk add openssh
-docker exec -it -u node n8n git config --global user.name 'Adam Langbert'
-docker exec -it -u node n8n git config --global user.email 'adamhl@pm.me'
+source ${modules}/bin/n8n-git

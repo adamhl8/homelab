@@ -1,4 +1,4 @@
-#!/bin/bash
+#/bin/bash
 
 cat << EOF
 Manual backup:
@@ -7,9 +7,6 @@ Manual backup:
   - Sonarr
   - Radarr
 EOF
-
-tee ~/bin/backup << EOF
-#/bin/bash
 
 mkdir ~/backup/
 
@@ -36,5 +33,3 @@ cp -r ~/apps/webtop/data/ ~/backup/webtop/
 
 # compress backup
 tar -vczf backup.tar.gz backup/ &>> backup.log
-EOF
-chmod 755 ~/bin/backup

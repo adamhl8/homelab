@@ -1,0 +1,30 @@
+#!/bin/bash
+
+echo "Checking for Docker container updates..."
+for d in ~/apps/*/; do
+  compose=${d}docker-compose.yml
+  
+  if [ -f "$compose" ]; then
+    cd $d
+    
+    image_name=$(grep -o "image: .*" docker-compose.yml | sed 's|image: ||')
+    old_id=$(docker compose images -q | sed 1q)
+
+    echo "Checking for updates for ${image_name}..."
+    docker compose pull -q
+
+    new_id=$(docker images ${image_name} -q --no-trunc | sed 1q | cut -d ":" -f2)
+
+    if [ "$old_id" != "$new_id" ]; then
+      echo "Updating ${image_name}..."
+      docker compose up -d --force-recreate
+      echo "Updated ${image_name}"
+    else
+      echo "${image_name} is up to date."
+    fi
+  fi
+done
+
+read -p "Cleanup Docker? (docker system prune -a --volumes -f) [Y/n] " -n 1 -r reply
+echo
+[[ ! ${reply} =~ ^[Nn]$ ]] && docker system prune -a --volumes -f

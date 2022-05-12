@@ -3,7 +3,7 @@
 mkdir ~/apps/reaction-light/
 
 cp -r ~/backup/reaction-light/data/ ~/apps/reaction-light/
-cp -r ~/backup/reaction-light/config.ini ~/apps/reaction-light/
+cp ~/backup/reaction-light/config.ini ~/apps/reaction-light/
 
 tee ~/apps/reaction-light/docker-compose.yml << EOF
 version: "3"

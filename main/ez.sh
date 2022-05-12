@@ -1,34 +1,26 @@
 #!/bin/bash
 
 step1() {
-
-source ${common}/update_system.sh
-sudo sed -i "s|Prompt=.*|Prompt=normal|" /etc/update-manager/release-upgrades
+  source ${common}/common.sh
+  sudo sed -i "s|Prompt=.*|Prompt=normal|" /etc/update-manager/release-upgrades
 }
 
 step2() {
-
-sudo do-release-upgrade
+  sudo do-release-upgrade
 }
 
 step3() {
+  source ${common}/ssh.sh
 
-source ${common}/common.sh
-source ${common}/add_ssh_key.sh
-source ${common}/ssh_perms.sh
+  sudo iptables -I INPUT 6 -m state --state NEW -p tcp --dport 443 -j ACCEPT
+  sudo netfilter-persistent save
 
-sudo iptables -I INPUT 6 -m state --state NEW -p tcp --dport 443 -j ACCEPT
-sudo netfilter-persistent save
+  echo "Add Ingress Rule."
+  continue_prompt
 
-echo "Add Ingress Rule"
-continue_prompt
+  source ${common}/tailscale.sh
+  sudo tailscale up
 
-# Tailscale
-source ${common}/tailscale.sh
-sudo tailscale up
-
-# Caddy
-source ${common}/caddy.sh
-source ${modules}/caddyfiles.sh
-source ${common}/caddy_service.sh
+  source ${modules}/caddyfiles.sh
+  source ${common}/caddy.sh
 }

@@ -7,10 +7,11 @@ docker=${modules}/docker
 
 step1() {
   source ${common}/debian_sid.sh
-  source ${common}/update_system.sh
   source ${common}/common.sh
-  source ${common}/add_ssh_key.sh
-  source ${common}/ssh_perms.sh
+  source ${common}/ssh.sh
+  cp ${bin}/docker-container-update ~/bin/
+  cp ${bin}/caddy-update ~/bin/
+  cp ${modules}/bin/* ~/bin/
 
   sudo sed -i "s|127\.0\.1\.1.*|127.0.1.1       toph|" /etc/hosts
   mkdir ~/apps/
@@ -30,14 +31,12 @@ step2() {
   source ${storage}/restic.sh
   source ${storage}/msmtp.sh
 
-  source ${modules}/backup.sh
   source ${common}/docker.sh
 }
 
 step3() {
-  source ${common}/caddy.sh
   source ${modules}/caddyfiles.sh
-  source ${common}/caddy_service.sh
+  source ${common}/caddy.sh
 
   # Set user
   read -p "Waiting for caddy to start..." -t 5

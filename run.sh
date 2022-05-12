@@ -8,6 +8,7 @@ IFS=$'\n\t'
 name=$1
 
 root=~/homelab
+bin=${root}/bin
 common=${root}/common
 main=${root}/main
 modules=${main}/${name}
