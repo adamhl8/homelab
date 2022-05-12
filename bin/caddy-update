@@ -19,5 +19,5 @@ sudo rm -rf ~/go/
 if [ ${caddy_init} != true ]; then
   read -p "Reboot? (Y/n) " -n 1 -r reply
   echo
-  if [[ ! ${reply} =~ ^[Nn]$ ]] && sudo reboot
+  [[ ! ${reply} =~ ^[Nn]$ ]] && sudo reboot
 fi
