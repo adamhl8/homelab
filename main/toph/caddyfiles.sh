@@ -29,21 +29,6 @@ tee ~/caddy/auth.caddy << EOF
       
       ui {
         links {
-          "Plex" https://plex.adamhl.dev
-          "Vaultwarden" https://vault.adamhl.dev
-          "Syncthing" https://sync.adamhl.dev
-          "File Browser" https://files.adamhl.dev
-          "n8n" https://n8n.adamhl.dev
-          "Uptime Kuma" https://utk.adamhl.dev
-          "dashdot" https://dashdot.adamhl.dev
-          "XBackBone" https://share.adamhl.dev
-          "wg-access-server" https://wg.adamhl.dev
-          "webtop" https://webtop.adamhl.dev
-          "SearXNG" https://search.adamhl.dev
-          "Sonarr" https://sonarr.adamhl.dev
-          "Radarr" https://radarr.adamhl.dev
-          "qBittorrent" https://qb.adamhl.dev
-          "Scrutiny" https://scrutiny.adamhl.dev
           "Portal Settings" /settings icon "las la-cog"
         }
       }
@@ -63,11 +48,10 @@ EOF
 ~/caddy/caddy fmt -overwrite ~/caddy/auth.caddy
 
 # adamhl.dev
-read -p "utkauth_token: " utkauth_token
 tee ~/caddy/adamhl.dev.caddy << EOF
 plex.adamhl.dev {
-  @utkauth header Utkauth ${utkauth_token}
-  handle @utkauth {
+  @private_ip remote_ip private_ranges
+  handle @private_ip {
     reverse_proxy localhost:32400
   }
 
@@ -80,8 +64,8 @@ vault.adamhl.dev {
 }
 
 sync.adamhl.dev {
-  @utkauth header Utkauth ${utkauth_token}
-  handle @utkauth {
+  @private_ip remote_ip private_ranges
+  handle @private_ip {
     reverse_proxy localhost:8001
   }
 
@@ -90,8 +74,8 @@ sync.adamhl.dev {
 }
 
 files.adamhl.dev {
-  @utkauth header Utkauth ${utkauth_token}
-  handle @utkauth {
+  @private_ip remote_ip private_ranges
+  handle @private_ip {
     reverse_proxy localhost:8002
   }
 
@@ -100,8 +84,8 @@ files.adamhl.dev {
 }
 
 n8n.adamhl.dev {
-  @utkauth header Utkauth ${utkauth_token}
-  handle @utkauth {
+  @private_ip remote_ip private_ranges
+  handle @private_ip {
     reverse_proxy localhost:8003
   }
 
@@ -119,8 +103,8 @@ utk.adamhl.dev {
 }
 
 dashdot.adamhl.dev {
-  @utkauth header Utkauth ${utkauth_token}
-  handle @utkauth {
+  @private_ip remote_ip private_ranges
+  handle @private_ip {
     reverse_proxy localhost:8005
   }
 
@@ -129,8 +113,8 @@ dashdot.adamhl.dev {
 }
 
 share.adamhl.dev {
-  @utkauth header Utkauth ${utkauth_token}
-  handle @utkauth {
+  @private_ip remote_ip private_ranges
+  handle @private_ip {
     reverse_proxy localhost:8006
   }
 
@@ -144,28 +128,30 @@ share.adamhl.dev {
 }
 
 wg.adamhl.dev {
-  @utkauth header Utkauth ${utkauth_token}
-  handle @utkauth {
+  @private_ip remote_ip private_ranges
+  handle @private_ip {
     reverse_proxy localhost:8007
   }
+
 
   authorize with admin_policy
   reverse_proxy localhost:8007
 }
 
 webtop.adamhl.dev {
-  @utkauth header Utkauth ${utkauth_token}
-  handle @utkauth {
+  @private_ip remote_ip private_ranges
+  handle @private_ip {
     reverse_proxy localhost:8008
   }
+
 
   authorize with admin_policy
   reverse_proxy localhost:8008
 }
 
 search.adamhl.dev {
-  @utkauth header Utkauth ${utkauth_token}
-  handle @utkauth {
+  @private_ip remote_ip private_ranges
+  handle @private_ip {
     reverse_proxy localhost:8009
   }
 
@@ -174,8 +160,8 @@ search.adamhl.dev {
 }
 
 sonarr.adamhl.dev {
-  @utkauth header Utkauth ${utkauth_token}
-  handle @utkauth {
+  @private_ip remote_ip private_ranges
+  handle @private_ip {
     reverse_proxy localhost:8010
   }
 
@@ -184,8 +170,8 @@ sonarr.adamhl.dev {
 }
 
 radarr.adamhl.dev {
-  @utkauth header Utkauth ${utkauth_token}
-  handle @utkauth {
+  @private_ip remote_ip private_ranges
+  handle @private_ip {
     reverse_proxy localhost:8011
   }
 
@@ -194,16 +180,8 @@ radarr.adamhl.dev {
 }
 
 qb.adamhl.dev {
-  log {
-    output file /home/adam/caddy.log
-  }
-  @utkauth header Utkauth ${utkauth_token}
-  handle @utkauth {
-    reverse_proxy localhost:8012
-  }
-
-  @allow remote_ip private_ranges
-  handle @allow {
+  @private_ip remote_ip private_ranges
+  handle @private_ip {
     reverse_proxy localhost:8012
   }
 
@@ -212,8 +190,8 @@ qb.adamhl.dev {
 }
 
 scrutiny.adamhl.dev {
-  @utkauth header Utkauth ${utkauth_token}
-  handle @utkauth {
+  @private_ip remote_ip private_ranges
+  handle @private_ip {
     reverse_proxy localhost:8014
   }
 
@@ -222,8 +200,8 @@ scrutiny.adamhl.dev {
 }
 
 homarr.adamhl.dev {
-  @utkauth header Utkauth ${utkauth_token}
-  handle @utkauth {
+  @private_ip remote_ip private_ranges
+  handle @private_ip {
     reverse_proxy localhost:8015
   }
 
