@@ -35,7 +35,7 @@ tee ~/caddy/auth.caddy << EOF
           "File Browser" https://files.adamhl.dev
           "n8n" https://n8n.adamhl.dev
           "Uptime Kuma" https://utk.adamhl.dev
-          "Ward" https://ward.adamhl.dev
+          "dashdot" https://dashdot.adamhl.dev
           "XBackBone" https://share.adamhl.dev
           "wg-access-server" https://wg.adamhl.dev
           "webtop" https://webtop.adamhl.dev
@@ -118,7 +118,7 @@ utk.adamhl.dev {
   reverse_proxy zuko.lan:8004
 }
 
-ward.adamhl.dev {
+dashdot.adamhl.dev {
   @utkauth header Utkauth ${utkauth_token}
   handle @utkauth {
     reverse_proxy localhost:8005

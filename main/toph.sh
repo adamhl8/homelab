@@ -56,7 +56,7 @@ step3() {
   source ${docker}/syncthing.sh
   source ${docker}/filebrowser.sh
   source ${docker}/n8n.sh
-  source ${docker}/ward.sh
+  source ${docker}/dashdot.sh
   source ${docker}/xbackbone.sh
   source ${docker}/wg-access-server.sh
   source ${docker}/webtop.sh
