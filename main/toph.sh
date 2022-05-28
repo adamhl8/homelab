@@ -66,6 +66,7 @@ step3() {
   source ${docker}/qbittorrent.sh
   source ${docker}/minecraft.sh
   source ${docker}/scrutiny.sh
+  source ${docker}/homarr.sh
 
   source ${common}/tailscale.sh
   echo 'net.ipv4.ip_forward = 1' | sudo tee -a /etc/sysctl.conf

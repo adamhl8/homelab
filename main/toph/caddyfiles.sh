@@ -194,8 +194,16 @@ radarr.adamhl.dev {
 }
 
 qb.adamhl.dev {
+  log {
+    output file /home/adam/caddy.log
+  }
   @utkauth header Utkauth ${utkauth_token}
   handle @utkauth {
+    reverse_proxy localhost:8012
+  }
+
+  @allow remote_ip private_ranges
+  handle @allow {
     reverse_proxy localhost:8012
   }
 
@@ -211,6 +219,16 @@ scrutiny.adamhl.dev {
 
   authorize with admin_policy
   reverse_proxy localhost:8014
+}
+
+homarr.adamhl.dev {
+  @utkauth header Utkauth ${utkauth_token}
+  handle @utkauth {
+    reverse_proxy localhost:8015
+  }
+
+  authorize with admin_policy
+  reverse_proxy localhost:8015
 }
 EOF
 ~/caddy/caddy fmt -overwrite ~/caddy/adamhl.dev.caddy
