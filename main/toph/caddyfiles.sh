@@ -43,6 +43,7 @@ tee ~/caddy/auth.caddy << EOF
           "Sonarr" https://sonarr.adamhl.dev
           "Radarr" https://radarr.adamhl.dev
           "qBittorrent" https://qb.adamhl.dev
+          "Scrutiny" https://scrutiny.adamhl.dev
           "Portal Settings" /settings icon "las la-cog"
         }
       }
@@ -200,6 +201,16 @@ qb.adamhl.dev {
 
   authorize with admin_policy
   reverse_proxy localhost:8012
+}
+
+scrutiny.adamhl.dev {
+  @utkauth header Utkauth ${utkauth_token}
+  handle @utkauth {
+    reverse_proxy localhost:8014
+  }
+
+  authorize with admin_policy
+  reverse_proxy localhost:8014
 }
 EOF
 ~/caddy/caddy fmt -overwrite ~/caddy/adamhl.dev.caddy
