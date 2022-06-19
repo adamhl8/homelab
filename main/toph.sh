@@ -73,5 +73,5 @@ step3() {
   echo 'net.ipv6.conf.all.forwarding = 1' | sudo tee -a /etc/sysctl.conf
   sudo sysctl -p /etc/sysctl.conf
 
-  sudo tailscale up --advertise-exit-node --advertise-routes=192.168.0.0/24,192.168.1.0/24
+  sudo tailscale up --advertise-exit-node --advertise-routes=10.8.8.0/24
 }

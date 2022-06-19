@@ -27,6 +27,15 @@ echo "Cleaning up..."
 echo "Checking integrity..."
 ~/restic/restic check
 
+export RESTIC_REPOSITORY=rest:http://adam:Dy6bsgp2vnXgEB4yWSrUQwM4@home-nas.zlangbert.github.beta.tailscale.net:8000/adam
+
+echo "Starting restic backup..."
+~/restic/restic backup /mnt/storage -vv --exclude /mnt/storage/.snapshots/
+echo "Cleaning up..."
+~/restic/restic forget --prune --keep-within 1m
+echo "Checking integrity..."
+~/restic/restic check
+
 sed -i '\|unchanged.*|d' ~/restic/restic.log
 ) || ~/msmtp/restic-log
 
