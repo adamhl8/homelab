@@ -60,7 +60,7 @@ sudo tee /etc/systemd/system/snapraid-btrfs-runner.timer << EOF
 Description=Run snapraid-btrfs-runner every night
 
 [Timer]
-OnCalendar=*-*-* 03:00:00
+OnCalendar=*-*-* 08:00:00
 
 [Install]
 WantedBy=timers.target

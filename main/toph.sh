@@ -64,7 +64,7 @@ step3() {
   source ${docker}/sonarr.sh
   source ${docker}/radarr.sh
   source ${docker}/qbittorrent.sh
-  source ${docker}/minecraft.sh
+  source ${docker}/homeassistant.sh
   source ${docker}/scrutiny.sh
   source ${docker}/homarr.sh
 

@@ -189,6 +189,16 @@ qb.adamhl.dev {
   reverse_proxy localhost:8012
 }
 
+ha.adamhl.dev {
+  @private_ip remote_ip private_ranges
+  handle @private_ip {
+    reverse_proxy localhost:8013
+  }
+
+  authorize with admin_policy
+  reverse_proxy localhost:8013
+}
+
 scrutiny.adamhl.dev {
   @private_ip remote_ip private_ranges
   handle @private_ip {

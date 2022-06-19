@@ -10,6 +10,7 @@ for d in ~/apps/*/; do
     image_name=$(grep -o "image: .*" docker-compose.yml | sed 's|image: ||')
     old_id=$(docker compose images -q | sed 1q)
 
+    echo
     echo "Checking for updates for ${image_name}..."
     docker compose pull -q
 
