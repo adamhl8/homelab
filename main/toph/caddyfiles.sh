@@ -59,6 +59,24 @@ plex.adamhl.dev {
   reverse_proxy localhost:32400
 }
 
+unifi.adamhl.dev {
+  @private_ip remote_ip private_ranges
+  handle @private_ip {
+    reverse_proxy localhost:8443 {
+      transport http {
+        tls_insecure_skip_verify
+      }
+    }
+  }
+
+  authorize with admin_policy
+  reverse_proxy localhost:8443 {
+    transport http {
+      tls_insecure_skip_verify
+    }
+  }
+}
+
 vault.adamhl.dev {
   reverse_proxy localhost:8000
 }
@@ -217,6 +235,16 @@ homarr.adamhl.dev {
 
   authorize with admin_policy
   reverse_proxy localhost:8015
+}
+
+z2m.adamhl.dev {
+  @private_ip remote_ip private_ranges
+  handle @private_ip {
+    reverse_proxy localhost:8016
+  }
+
+  authorize with admin_policy
+  reverse_proxy localhost:8016
 }
 EOF
 ~/caddy/caddy fmt -overwrite ~/caddy/adamhl.dev.caddy
