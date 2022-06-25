@@ -2,14 +2,14 @@
 
 mkdir ~/apps/qbittorrent/
 
-read -p "ProtonVPN WireGuard Key (qbittorrent): " proton_wg_key
+source ~/secrets
 tee ~/apps/qbittorrent/wg0.conf << EOF
 [Interface]
 # Key for qbittorrent
 # NetShield = 0
 # Moderate NAT = off
 # VPN Accelerator = on
-PrivateKey = ${proton_wg_key}
+PrivateKey = ${qbittorrent_wireguard_key}
 Address = 10.2.0.2/32
 DNS = 10.2.0.1
 
@@ -33,20 +33,21 @@ services:
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
     ports:
-      - 8012:8080
+      - 8008:8080
     volumes:
       - ./data/:/config/
       - ./wg0.conf:/config/wireguard/wg0.conf
       - /mnt/storage/Media/:/Media/
     environment:
       - VPN_ENABLED=true
-      - VPN_LAN_NETWORK=192.168.1.0/24
+      - VPN_LAN_NETWORK=10.8.8.0/24
       - VPN_CONF=wg0
       - VPN_IP_CHECK_DELAY=5
       - PRIVOXY_ENABLED=false
       - FLOOD_AUTH=false
       - PUID=1000
       - PGID=1000
+      - TZ=America/Chicago
 EOF
 
 cd ~/apps/qbittorrent/

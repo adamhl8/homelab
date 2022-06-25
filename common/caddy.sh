@@ -1,35 +1,32 @@
 #!/bin/bash
 
-echo 'export PATH=$PATH:$HOME/caddy/' | tee -a ~/.profile
-echo 'export PATH=$PATH:/usr/local/go/bin' | tee -a ~/.profile
-source ~/.profile
+source ~/secrets
+tee ~/caddy/docker-compose.yml << EOF
+version: "3"
 
-caddy_init=true
-source ${bin}/caddy-update
-
-# Caddy service
-sudo tee /etc/systemd/system/caddy.service << EOF
-[Unit]
-Description=Caddy
-After=network.target network-online.target
-Requires=network-online.target
-
-[Service]
-Type=notify
-User=${USER}
-ExecStart=/home/${USER}/caddy/caddy run --environ --config /home/${USER}/caddy/Caddyfile
-ExecReload=/home/${USER}/caddy/caddy reload --config /home/${USER}/caddy/Caddyfile
-TimeoutStopSec=5s
-LimitNOFILE=1048576
-LimitNPROC=512
-PrivateTmp=true
-ProtectSystem=full
-AmbientCapabilities=CAP_NET_BIND_SERVICE
-
-[Install]
-WantedBy=multi-user.target
+services:
+  caddy:
+    build: .
+    container_name: caddy
+    restart: always
+    network_mode: host
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./data/:/data/
+      - ./config/:/config/
+    environment:
+      - AWS_ACCESS_KEY_ID=AKIAT5NKIWDOTLLLZ34R
+      - AWS_SECRET_ACCESS_KEY=${aws_secret_access_key}
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
 EOF
 
-sudo systemctl daemon-reload
-sudo systemctl enable caddy
-sudo systemctl start caddy
+cd ~/caddy/
+docker compose up -d
+cd ~/
+
+read -p "Waiting for Caddy to start..." -t 3
+echo
+docker exec caddy caddy fmt -overwrite /etc/caddy/Caddyfile
+docker restart caddy

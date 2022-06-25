@@ -2,7 +2,7 @@
 
 source ${modules}/bin/snapraid-btrfs-runner-update
 
-read -p "SMTP Password: " smtp_password
+source ~/secrets
 tee ~/snapraid/snapraid-btrfs-runner.conf << EOF
 [snapraid-btrfs]
 executable = /home/adam/snapraid/snapraid-btrfs

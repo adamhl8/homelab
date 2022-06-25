@@ -17,6 +17,10 @@ services:
     ports:
       - 1883:1883
       - 9001:9001
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
 
   zigbee2mqtt:
     image: koenkk/zigbee2mqtt
@@ -25,11 +29,13 @@ services:
     devices:
       - /dev/ttyUSB0:/dev/ttyUSB0
     ports:
-      - 8016:8080
+      - 8012:8080
     volumes:
       - ./data/:/app/data/
       - /run/udev:/run/udev:ro
     environment:
+      - PUID=1000
+      - PGID=1000
       - TZ=America/Chicago
 EOF
 

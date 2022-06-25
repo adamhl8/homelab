@@ -12,14 +12,15 @@ services:
     restart: always
     network_mode: host
     devices:
-      - /dev/dri/:/dev/dri/
+      - /dev/dri/
     volumes:
       - ./data/:/config/
       - /mnt/storage/Media/:/Media/
     environment:
+      - VERSION=latest
       - PUID=1000
       - PGID=1000
-      - VERSION=latest
+      - TZ=America/Chicago
 EOF
 
 cd ~/apps/plex/

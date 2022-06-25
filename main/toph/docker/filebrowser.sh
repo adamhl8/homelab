@@ -19,6 +19,9 @@ services:
     environment:
       - FB_ROOT=/Storage/
       - FB_NOAUTH=true
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
 EOF
 
 cd ~/apps/filebrowser/

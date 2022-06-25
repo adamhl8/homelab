@@ -18,6 +18,9 @@ services:
       - DASHDOT_ENABLE_CPU_TEMPS=true
       - DASHDOT_NETWORK_WIDGET_MIN_WIDTH=1200
       - DASHDOT_OVERRIDE_OS=Debian sid
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
 EOF
 
 cd ~/apps/dashdot/

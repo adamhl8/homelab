@@ -14,6 +14,10 @@ services:
     network_mode: host
     volumes:
       - ./data/:/config/
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
 EOF
 
 cd ~/apps/homeassistant/
@@ -25,7 +29,7 @@ echo
 
 sudo tee -a ~/apps/homeassistant/data/configuration.yaml << EOF
 http:
-  server_port: 8013
+  server_port: 8009
   use_x_forwarded_for: true
   trusted_proxies:
     - 127.0.0.1

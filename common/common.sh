@@ -11,5 +11,4 @@ cd ~/
 echo "alias l='LC_COLLATE=C ls -ahlF'" | tee -a ~/.bash_aliases
 
 mkdir ~/bin/
-cp ${bin}/system-update ~/bin/
-cp ${bin}/x ~/bin/
+cp ${bin}/* ~/bin/

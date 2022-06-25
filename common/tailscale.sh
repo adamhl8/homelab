@@ -1,9 +1,28 @@
 #!/bin/bash
 
-os_name=$(cat /etc/os-release | grep ^ID= | sed "s|^ID=||")
-release=$(lsb_release -cs)
+mkdir ~/apps/tailscale/
 
-curl -fsSL https://pkgs.tailscale.com/stable/${os_name}/${release}.noarmor.gpg | sudo gpg --dearmor -o /usr/share/keyrings/tailscale-archive-keyring.gpg
-curl -fsSL https://pkgs.tailscale.com/stable/${os_name}/${release}.tailscale-keyring.list | sudo tee /etc/apt/sources.list.d/tailscale.list
-sudo apt update
-sudo apt install tailscale
+tee ~/apps/tailscale/docker-compose.yml << EOF
+version: "3"
+
+services:
+  tailscale:
+    image: tailscale/tailscale
+    container_name: tailscale
+    restart: always
+    privileged: true
+    network_mode: host
+    command: tailscaled
+    volumes:
+      - ./data/:/var/lib/
+      - /dev/net/tun:/dev/net/tun
+      - /lib/modules/:/lib/modules/
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+EOF
+
+cd ~/apps/tailscale/
+docker compose up -d
+cd ~/

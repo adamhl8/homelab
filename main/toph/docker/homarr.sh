@@ -11,12 +11,15 @@ services:
     container_name: homarr
     restart: always
     ports:
-      - 8015:7575
+      - 8011:7575
     volumes:
       - ./data/configs/:/app/data/configs/
       - ./data/icons/:/app/public/icons/
     environment:
       - BASE_URL=homarr.adamhl.dev
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
 EOF
 
 cd ~/apps/homarr/

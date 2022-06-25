@@ -20,6 +20,10 @@ services:
       - ./data/:/var/syncthing/
       - /mnt/storage/Stuff/:/Stuff/
       - /mnt/storage/Apps/:/Apps/
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
 EOF
 
 cd ~/apps/syncthing/

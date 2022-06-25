@@ -2,9 +2,6 @@
 
 mkdir ~/apps/reaction-light/
 
-cp -r ~/backup/reaction-light/data/ ~/apps/reaction-light/
-cp ~/backup/reaction-light/config.ini ~/apps/reaction-light/
-
 tee ~/apps/reaction-light/docker-compose.yml << EOF
 version: "3"
 
@@ -16,6 +13,10 @@ services:
     volumes:
       - ./data/:/bot/files/
       - ./config.ini:/bot/config.ini
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
 EOF
 
 cd ~/apps/reaction-light/

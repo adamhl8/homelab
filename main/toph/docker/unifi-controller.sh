@@ -7,7 +7,7 @@ version: "3"
 
 services:
   unifi-controller:
-    image: linuxserver/unifi-controller
+    image: lscr.io/linuxserver/unifi-controller
     container_name: unifi-controller
     restart: always
     network_mode: host
@@ -16,6 +16,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
+      - TZ=America/Chicago
 EOF
 
 cd ~/apps/unifi-controller/

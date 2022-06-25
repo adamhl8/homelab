@@ -22,11 +22,15 @@ services:
       - /dev/sdd
       - /dev/nvme0
     ports:
-      - 8014:8080
+      - 8010:8080
     volumes:
       - ./data/:/opt/scrutiny/config/
       - ./influxdb/:/opt/scrutiny/influxdb/
       - /run/udev:/run/udev:ro
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
 EOF
 
 cd ~/apps/scrutiny/

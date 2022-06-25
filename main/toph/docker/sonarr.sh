@@ -11,13 +11,14 @@ services:
     container_name: sonarr
     restart: always
     ports:
-      - 8010:8989
+      - 8006:8989
     volumes:
       - ./data/:/config/
       - /mnt/storage/Media/:/Media/
     environment:
       - PUID=1000
       - PGID=1000
+      - TZ=America/Chicago
 EOF
 
 cd ~/apps/sonarr/

@@ -11,13 +11,14 @@ services:
     container_name: radarr
     restart: always
     ports:
-      - 8011:7878
+      - 8007:7878
     volumes:
       - ./data/:/config/
       - /mnt/storage/Media/:/Media/
     environment:
       - PUID=1000
       - PGID=1000
+      - TZ=America/Chicago
 EOF
 
 cd ~/apps/radarr/

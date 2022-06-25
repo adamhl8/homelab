@@ -5,7 +5,7 @@ sudo apt install msmtp -y
 sudo apt install apparmor-utils -y
 sudo aa-disable /etc/apparmor.d/usr.bin.msmtp
 
-read -p "SMTP Password: " smtp_password
+source ~/secrets
 tee ~/msmtp/msmtp.conf << EOF
 defaults
 account adamhl.dev

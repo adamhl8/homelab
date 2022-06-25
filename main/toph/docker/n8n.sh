@@ -2,8 +2,6 @@
 
 mkdir ~/apps/n8n/
 
-cp -r ~/backup/n8n/data/ ~/apps/n8n/
-
 tee ~/apps/n8n/docker-compose.yml << EOF
 version: "3"
 
@@ -21,6 +19,9 @@ services:
     environment:
       - WEBHOOK_URL=https://n8n.adamhl.dev
       - N8N_USER_MANAGEMENT_DISABLED=true
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
 EOF
 
 cd ~/apps/n8n/
