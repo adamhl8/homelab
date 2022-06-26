@@ -1,7 +1,15 @@
 #!/bin/bash
 
+steps=3
+
 step1() {
   source ${common}/common.sh
+  cp ${modules}/bin/* ~/bin/
+
+  mkdir ~/apps/
+
+  source ${common}/docker.sh
+
   sudo sed -i "s|Prompt=.*|Prompt=normal|" /etc/update-manager/release-upgrades
 }
 
@@ -19,8 +27,8 @@ step3() {
   continue_prompt
 
   source ${common}/tailscale.sh
-  sudo tailscale up
+  docker exec tailscale tailscale up
 
-  source ${modules}/caddyfiles.sh
-  source ${common}/caddy.sh
+  source ${modules}/caddyfile.sh
+  source ${modules}/caddy.sh
 }

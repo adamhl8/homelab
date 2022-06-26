@@ -14,6 +14,10 @@ services:
       - 8004:3001
     volumes:
       - ./data/:/app/data/
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
 EOF
 
 cd ~/apps/uptime-kuma/

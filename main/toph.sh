@@ -35,7 +35,7 @@ step2() {
 step3() {
   source ${modules}/caddyfile.sh
   source ${modules}/ez.sh
-  source ${common}/caddy.sh
+  source ${modules}/caddy.sh
 
   source ${docker}/discord-app-bot.sh
   source ${docker}/reaction-light.sh

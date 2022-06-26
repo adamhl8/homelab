@@ -5,7 +5,7 @@ mkdir ~/ez/
 tee -a ~/caddy/Caddyfile << EOF
 
 :8100 {
-  root * /home/adam/ez/
+  root * /ez/
   file_server
 }
 EOF
