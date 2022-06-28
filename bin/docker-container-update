@@ -7,22 +7,25 @@ for d in ~/apps/*/; do
   if [ -f "$compose" ]; then
     cd $d
     
-    image_name=$(grep -o "image: .*" docker-compose.yml | sed 's|image: ||')
-    old_id=$(docker compose images -q | sed 1q)
+    readarray -t image_names < <(grep -o "image: .*" docker-compose.yml | sed 's|image: ||')
+    for image_name in ${image_names[@]}; do
+      no_tag=$(echo ${image_name} | cut -d ":" -f1)
+      old_id=$(docker compose images | grep ${no_tag} | awk '{ print $4 }')
 
-    echo
-    echo "Checking for updates for ${image_name}..."
-    docker compose pull -q
+      echo
+      echo "Checking for updates for ${image_name}..."
+      docker compose pull -q
 
-    new_id=$(docker images ${image_name} -q --no-trunc | sed 1q | cut -d ":" -f2)
+      new_id=$(docker images ${image_name} | sed -n 2p | awk '{ print $3 }')
 
-    if [ "$old_id" != "$new_id" ]; then
-      echo "Updating ${image_name}..."
-      docker compose up -d --force-recreate
-      echo "Updated ${image_name}"
-    else
-      echo "${image_name} is up to date."
-    fi
+      if [ "$old_id" != "$new_id" ]; then
+        echo "Updating ${image_name}..."
+        docker compose up -d --force-recreate
+        echo "Updated ${image_name}"
+      else
+        echo "${image_name} is up to date."
+      fi
+    done
   fi
 done
 
