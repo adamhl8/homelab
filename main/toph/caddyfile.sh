@@ -93,5 +93,10 @@ tee ~/caddy/Caddyfile << EOF
   handle @z2m {
     reverse_proxy localhost:8012
   }
+
+  @kavita host kavita.adamhl.dev
+  handle @kavita {
+    reverse_proxy localhost:8013
+  }
 }
 EOF

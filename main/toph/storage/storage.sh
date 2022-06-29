@@ -19,6 +19,6 @@ sudo mount -a
 # Cleanup
 sudo btrfs subvolume delete /mnt/disk*/.snapshots/*/snapshot
 sudo rm -rf /mnt/disk*/.snapshots/
-sudo chown -R adam:adam /mnt/*
-find /mnt/* -type d -exec sudo chmod 755 {} \;
-find /mnt/* -type f -exec sudo chmod 644 {} \;
+sudo chown -R adam:adam /mnt/disk*
+find /mnt/disk* -type d -exec sudo chmod 755 {} \;
+find /mnt/disk* -type f -exec sudo chmod 644 {} \;
