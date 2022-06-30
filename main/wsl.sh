@@ -40,4 +40,6 @@ step1() {
 
   source ${modules}/bin/nvm-update
   source ${modules}/bin/node-update
+
+  source ${commom}/docker.sh
 }
