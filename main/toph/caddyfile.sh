@@ -22,8 +22,8 @@ tee ~/caddy/Caddyfile << EOF
     }
   }
 
-  @cupsd host cupsd.adamhl.dev
-  handle @cupsd {
+  @cups host cups.adamhl.dev
+  handle @cups {
     reverse_proxy localhost:631 {
       header_up Host 127.0.0.1
     }
