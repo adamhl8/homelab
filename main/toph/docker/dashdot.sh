@@ -11,12 +11,16 @@ services:
     container_name: dashdot
     restart: always
     privileged: true
-    network_mode: host
+    ports:
+      - 8005:3001
+    volumes:
+      - /:/mnt/host:ro
     environment:
-      - DASHDOT_WIDGET_LIST=os,cpu,ram,network
-      - DASHDOT_PORT=8005
+      - DASHDOT_ACCEPT_OOKLA_EULA=true
       - DASHDOT_ENABLE_CPU_TEMPS=true
-      - DASHDOT_NETWORK_WIDGET_MIN_WIDTH=1200
+      - DASHDOT_ENABLE_STORAGE_SPLIT_VIEW=true
+      - DASHDOT_ALWAYS_SHOW_PERCENTAGES=true
+      - DASHDOT_NETWORK_LABEL_LIST=type,speed_up,speed_down,interface_speed,public_ip
       - DASHDOT_OVERRIDE_OS=Debian sid
       - PUID=1000
       - PGID=1000
