@@ -19,6 +19,7 @@ services:
       - DASHDOT_ACCEPT_OOKLA_EULA=true
       - DASHDOT_ENABLE_CPU_TEMPS=true
       - DASHDOT_ENABLE_STORAGE_SPLIT_VIEW=true
+      - DASHDOT_FS_VIRTUAL_MOUNTS=mergerfs
       - DASHDOT_ALWAYS_SHOW_PERCENTAGES=true
       - DASHDOT_NETWORK_LABEL_LIST=type,speed_up,speed_down,interface_speed,public_ip
       - DASHDOT_OVERRIDE_OS=Debian sid
