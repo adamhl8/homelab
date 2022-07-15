@@ -57,6 +57,7 @@ step3() {
   source ${docker}/zigbee2mqtt.sh
   source ${docker}/kavita.sh
   source ${docker}/cyberchef.sh
+  source ${docker}/jellyfin.sh
 
   echo 'net.ipv4.ip_forward = 1' | sudo tee -a /etc/sysctl.conf
   echo 'net.ipv6.conf.all.forwarding = 1' | sudo tee -a /etc/sysctl.conf

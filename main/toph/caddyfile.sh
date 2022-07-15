@@ -8,11 +8,6 @@ tee ~/caddy/Caddyfile << EOF
 }
 
 *.adamhl.dev {
-  @plex host plex.adamhl.dev
-  handle @plex {
-    reverse_proxy localhost:32400
-  }
-
   @unifi host unifi.adamhl.dev
   handle @unifi {
     reverse_proxy localhost:8443 {
@@ -102,6 +97,16 @@ tee ~/caddy/Caddyfile << EOF
   @cyberchef host cyberchef.adamhl.dev
   handle @cyberchef {
     reverse_proxy localhost:8014
+  }
+
+  @jellyfin host jellyfin.adamhl.dev
+  handle @jellyfin {
+    reverse_proxy localhost:8015
+  }
+
+  @plex host plex.adamhl.dev
+  handle @plex {
+    reverse_proxy localhost:8016
   }
 }
 EOF

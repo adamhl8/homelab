@@ -10,9 +10,11 @@ services:
     image: lscr.io/linuxserver/plex
     container_name: plex
     restart: always
-    network_mode: host
     devices:
       - /dev/dri/
+    ports:
+      - 8016:32400
+      - 32410-32414:32410-32414/udp
     volumes:
       - ./data/:/config/
       - /mnt/storage/Media/:/Media/
