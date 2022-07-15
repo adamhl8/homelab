@@ -98,5 +98,10 @@ tee ~/caddy/Caddyfile << EOF
   handle @kavita {
     reverse_proxy localhost:8013
   }
+
+  @cyberchef host cyberchef.adamhl.dev
+  handle @cyberchef {
+    reverse_proxy localhost:8014
+  }
 }
 EOF
