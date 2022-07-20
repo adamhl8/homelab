@@ -15,6 +15,7 @@ services:
     volumes:
       - ./data/configs/:/app/data/configs/
       - ./data/icons/:/app/public/icons/
+      - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - BASE_URL=homarr.adamhl.dev
       - PUID=1000
