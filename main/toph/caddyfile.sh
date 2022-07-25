@@ -93,7 +93,7 @@ tee ~/caddy/Caddyfile << EOF
 
   @vault host vault.adamhl.dev
   handle @vault {
-    
+
     @private_ip remote_ip private_ranges
     handle @private_ip {
       reverse_proxy localhost:8000
@@ -110,7 +110,7 @@ tee ~/caddy/Caddyfile << EOF
 
   @sync host sync.adamhl.dev
   handle @sync {
-    
+
     @private_ip remote_ip private_ranges
     handle @private_ip {
       reverse_proxy localhost:8001
@@ -127,7 +127,7 @@ tee ~/caddy/Caddyfile << EOF
 
   @files host files.adamhl.dev
   handle @files {
-    
+
     @private_ip remote_ip private_ranges
     handle @private_ip {
       reverse_proxy localhost:8002
@@ -144,7 +144,7 @@ tee ~/caddy/Caddyfile << EOF
 
   @n8n host n8n.adamhl.dev
   handle @n8n {
-    
+
     @private_ip remote_ip private_ranges
     handle @private_ip {
       reverse_proxy localhost:8003
@@ -169,7 +169,7 @@ tee ~/caddy/Caddyfile << EOF
 
     @tailscale remote_ip 100.93.24.12 100.126.163.49
     handle @tailscale {
-      reverse_proxy localhost:8004
+      reverse_proxy zuko.lan:8004
     }
 
     authorize with admin_policy
@@ -178,7 +178,7 @@ tee ~/caddy/Caddyfile << EOF
 
   @dashdot host dashdot.adamhl.dev
   handle @dashdot {
-    
+
     @private_ip remote_ip private_ranges
     handle @private_ip {
       reverse_proxy localhost:8005
@@ -195,7 +195,7 @@ tee ~/caddy/Caddyfile << EOF
 
   @sonarr host sonarr.adamhl.dev
   handle @sonarr {
-    
+
     @private_ip remote_ip private_ranges
     handle @private_ip {
       reverse_proxy localhost:8006
@@ -217,7 +217,7 @@ tee ~/caddy/Caddyfile << EOF
     handle @private_ip {
       reverse_proxy localhost:8007
     }
-    
+
     @tailscale remote_ip 100.93.24.12 100.126.163.49
     handle @tailscale {
       reverse_proxy localhost:8007
@@ -246,7 +246,7 @@ tee ~/caddy/Caddyfile << EOF
 
   @ha host ha.adamhl.dev
   handle @ha {
-    
+
     @private_ip remote_ip private_ranges
     handle @private_ip {
       reverse_proxy localhost:8009
@@ -263,7 +263,7 @@ tee ~/caddy/Caddyfile << EOF
 
   @scrutiny host scrutiny.adamhl.dev
   handle @scrutiny {
-    
+
     @private_ip remote_ip private_ranges
     handle @private_ip {
       reverse_proxy localhost:8010
@@ -280,7 +280,7 @@ tee ~/caddy/Caddyfile << EOF
 
   @homarr host homarr.adamhl.dev
   handle @homarr {
-    
+
     @private_ip remote_ip private_ranges
     handle @private_ip {
       reverse_proxy localhost:8011
@@ -348,7 +348,7 @@ tee ~/caddy/Caddyfile << EOF
 
   @jellyfin host jellyfin.adamhl.dev
   handle @jellyfin {
-    
+
     @private_ip remote_ip private_ranges
     handle @private_ip {
       reverse_proxy localhost:8015
