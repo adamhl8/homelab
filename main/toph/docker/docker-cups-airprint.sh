@@ -11,8 +11,9 @@ services:
     container_name: docker-cups-airprint
     restart: always
     network_mode: host
-    devices:
-      - /dev/bus/usb/
+    privileged: true
+    volumes:
+      - /dev/bus/usb/:/dev/bus/usb/
     environment:
       - PUID=1000
       - PGID=1000

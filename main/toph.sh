@@ -35,8 +35,10 @@ step2() {
 step3() {
   source ${modules}/caddyfile.sh
   source ${modules}/ez.sh
+  source ${modules}/caddy-security.sh
   source ${modules}/caddy.sh
 
+  source ${docker}/ddns-route53.sh
   source ${docker}/eyir.sh
   source ${docker}/discord-app-bot.sh
   source ${docker}/reaction-light.sh
@@ -58,6 +60,7 @@ step3() {
   source ${docker}/kavita.sh
   source ${docker}/cyberchef.sh
   source ${docker}/jellyfin.sh
+  source ${docker}/webtop.sh
 
   echo 'net.ipv4.ip_forward = 1' | sudo tee -a /etc/sysctl.conf
   echo 'net.ipv6.conf.all.forwarding = 1' | sudo tee -a /etc/sysctl.conf
