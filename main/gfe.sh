@@ -36,4 +36,6 @@ step1() {
 
   source ${modules}/bin/nvm-update
   source ${modules}/bin/node-update
+
+  curl -Lo ~/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-osx-amd64
 }
