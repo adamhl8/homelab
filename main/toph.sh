@@ -48,7 +48,6 @@ step3() {
   source ${docker}/vaultwarden.sh
   source ${docker}/syncthing.sh
   source ${docker}/filebrowser.sh
-  source ${docker}/n8n.sh
   source ${docker}/dashdot.sh
   source ${docker}/sonarr.sh
   source ${docker}/radarr.sh

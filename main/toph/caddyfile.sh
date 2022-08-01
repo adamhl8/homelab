@@ -142,20 +142,8 @@ tee ~/caddy/Caddyfile << EOF
     reverse_proxy localhost:8002
   }
 
-  @n8n host n8n.adamhl.dev
-  handle @n8n {
-
-    @private_ip remote_ip private_ranges
-    handle @private_ip {
-      reverse_proxy localhost:8003
-    }
-
-    @tailscale remote_ip 100.93.24.12 100.126.163.49
-    handle @tailscale {
-      reverse_proxy localhost:8003
-    }
-
-    authorize with admin_policy
+  @eyir host eyir.adamhl.dev
+  handle @eyir {
     reverse_proxy localhost:8003
   }
 
