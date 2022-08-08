@@ -51,7 +51,7 @@ tee ~/caddy/Caddyfile << EOF
       }
     }
 
-    @tailscale remote_ip 100.93.24.12 100.126.163.49
+    @tailscale remote_ip 100.98.187.6 100.126.163.49
     handle @tailscale {
       reverse_proxy localhost:8443 {
         transport http {
@@ -78,7 +78,7 @@ tee ~/caddy/Caddyfile << EOF
       }
     }
 
-    @tailscale remote_ip 100.93.24.12 100.126.163.49
+    @tailscale remote_ip 100.98.187.6 100.126.163.49
     handle @tailscale {
       reverse_proxy localhost:631 {
         header_up Host 127.0.0.1
@@ -99,7 +99,7 @@ tee ~/caddy/Caddyfile << EOF
       reverse_proxy localhost:8000
     }
 
-    @tailscale remote_ip 100.93.24.12 100.126.163.49
+    @tailscale remote_ip 100.98.187.6 100.126.163.49
     handle @tailscale {
       reverse_proxy localhost:8000
     }
@@ -116,7 +116,7 @@ tee ~/caddy/Caddyfile << EOF
       reverse_proxy localhost:8001
     }
 
-    @tailscale remote_ip 100.93.24.12 100.126.163.49
+    @tailscale remote_ip 100.98.187.6 100.126.163.49
     handle @tailscale {
       reverse_proxy localhost:8001
     }
@@ -133,7 +133,7 @@ tee ~/caddy/Caddyfile << EOF
       reverse_proxy localhost:8002
     }
 
-    @tailscale remote_ip 100.93.24.12 100.126.163.49
+    @tailscale remote_ip 100.98.187.6 100.126.163.49
     handle @tailscale {
       reverse_proxy localhost:8002
     }
@@ -155,7 +155,7 @@ tee ~/caddy/Caddyfile << EOF
       reverse_proxy zuko.lan:8004
     }
 
-    @tailscale remote_ip 100.93.24.12 100.126.163.49
+    @tailscale remote_ip 100.98.187.6 100.126.163.49
     handle @tailscale {
       reverse_proxy zuko.lan:8004
     }
@@ -172,7 +172,7 @@ tee ~/caddy/Caddyfile << EOF
       reverse_proxy localhost:8005
     }
 
-    @tailscale remote_ip 100.93.24.12 100.126.163.49
+    @tailscale remote_ip 100.98.187.6 100.126.163.49
     handle @tailscale {
       reverse_proxy localhost:8005
     }
@@ -189,7 +189,7 @@ tee ~/caddy/Caddyfile << EOF
       reverse_proxy localhost:8006
     }
 
-    @tailscale remote_ip 100.93.24.12 100.126.163.49
+    @tailscale remote_ip 100.98.187.6 100.126.163.49
     handle @tailscale {
       reverse_proxy localhost:8006
     }
@@ -206,7 +206,7 @@ tee ~/caddy/Caddyfile << EOF
       reverse_proxy localhost:8007
     }
 
-    @tailscale remote_ip 100.93.24.12 100.126.163.49
+    @tailscale remote_ip 100.98.187.6 100.126.163.49
     handle @tailscale {
       reverse_proxy localhost:8007
     }
@@ -223,7 +223,7 @@ tee ~/caddy/Caddyfile << EOF
       reverse_proxy localhost:8008
     }
 
-    @tailscale remote_ip 100.93.24.12 100.126.163.49
+    @tailscale remote_ip 100.98.187.6 100.126.163.49
     handle @tailscale {
       reverse_proxy localhost:8008
     }
@@ -240,7 +240,7 @@ tee ~/caddy/Caddyfile << EOF
       reverse_proxy localhost:8009
     }
 
-    @tailscale remote_ip 100.93.24.12 100.126.163.49
+    @tailscale remote_ip 100.98.187.6 100.126.163.49
     handle @tailscale {
       reverse_proxy localhost:8009
     }
@@ -257,7 +257,7 @@ tee ~/caddy/Caddyfile << EOF
       reverse_proxy localhost:8010
     }
 
-    @tailscale remote_ip 100.93.24.12 100.126.163.49
+    @tailscale remote_ip 100.98.187.6 100.126.163.49
     handle @tailscale {
       reverse_proxy localhost:8010
     }
@@ -274,7 +274,7 @@ tee ~/caddy/Caddyfile << EOF
       reverse_proxy localhost:8011
     }
 
-    @tailscale remote_ip 100.93.24.12 100.126.163.49
+    @tailscale remote_ip 100.98.187.6 100.126.163.49
     handle @tailscale {
       reverse_proxy localhost:8011
     }
@@ -291,7 +291,7 @@ tee ~/caddy/Caddyfile << EOF
       reverse_proxy localhost:8012
     }
 
-    @tailscale remote_ip 100.93.24.12 100.126.163.49
+    @tailscale remote_ip 100.98.187.6 100.126.163.49
     handle @tailscale {
       reverse_proxy localhost:8012
     }
@@ -308,7 +308,7 @@ tee ~/caddy/Caddyfile << EOF
       reverse_proxy localhost:8013
     }
 
-    @tailscale remote_ip 100.93.24.12 100.126.163.49
+    @tailscale remote_ip 100.98.187.6 100.126.163.49
     handle @tailscale {
       reverse_proxy localhost:8013
     }
@@ -325,7 +325,7 @@ tee ~/caddy/Caddyfile << EOF
       reverse_proxy localhost:8014
     }
 
-    @tailscale remote_ip 100.93.24.12 100.126.163.49
+    @tailscale remote_ip 100.98.187.6 100.126.163.49
     handle @tailscale {
       reverse_proxy localhost:8014
     }
@@ -342,7 +342,7 @@ tee ~/caddy/Caddyfile << EOF
       reverse_proxy localhost:8015
     }
 
-    @tailscale remote_ip 100.93.24.12 100.126.163.49
+    @tailscale remote_ip 100.98.187.6 100.126.163.49
     handle @tailscale {
       reverse_proxy localhost:8015
     }
@@ -359,7 +359,7 @@ tee ~/caddy/Caddyfile << EOF
       reverse_proxy localhost:8016
     }
 
-    @tailscale remote_ip 100.93.24.12 100.126.163.49
+    @tailscale remote_ip 100.98.187.6 100.126.163.49
     handle @tailscale {
       reverse_proxy localhost:8016
     }
@@ -376,7 +376,7 @@ tee ~/caddy/Caddyfile << EOF
       reverse_proxy localhost:8017
     }
 
-    @tailscale remote_ip 100.93.24.12 100.126.163.49
+    @tailscale remote_ip 100.98.187.6 100.126.163.49
     handle @tailscale {
       reverse_proxy localhost:8017
     }
