@@ -14,7 +14,7 @@ services:
     container_name: discord-app-bot
     restart: always
     volumes:
-      - ./storage.json:/app/storage.json
+      - ./data/:/app/data/
     environment:
       - BOT_TOKEN=${discord_app_bot_token}
       - CLIENT_ID=970956137157492786
