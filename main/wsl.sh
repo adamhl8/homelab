@@ -4,8 +4,8 @@ steps=1
 
 step1() {
   source ${common}/common.sh
-  source ${modules}/git_aliases.sh
-  cp ${modules}/bin/* ~/bin/
+  source ${common}/git_aliases.sh
+  cp ${common}/bin/* ~/bin/
 
   ln -s /mnt/c/Users/Adam/ ~/
   mkdir ~/dev/
@@ -41,5 +41,5 @@ step1() {
   source ${modules}/bin/nvm-update
   source ${modules}/bin/node-update
 
-  source ${commom}/docker.sh
+  source ${common}/docker.sh
 }

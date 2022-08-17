@@ -1,13 +1,45 @@
 #!/bin/bash
 
-steps=1
+# https://wiki.debian.org/KDE#Installation
+# https://community.frame.work/t/debian-11-on-the-framework-laptop/10395/4
+# https://wiki.debian.org/PipeWire#Debian_Testing.2FUnstable
+
+steps=4
 
 step1() {
+  echo 'deb http://deb.debian.org/debian/ unstable main contrib non-free' | sudo tee /etc/apt/sources.list
   source ${common}/common.sh
   source ${common}/git_aliases.sh
   cp ${common}/bin/* ~/bin/
 
   mkdir ~/dev/
+
+  sudo apt install kde-standard
+
+  echo "Re-enable WiFi/BT."
+}
+
+step2() {
+  sudo apt update && sudo apt install firmware-iwlwifi firmware-misc-nonfree
+}
+
+step3() {
+  sudo apt install wireplumber pipewire-media-session-
+  systemctl --user --now enable wireplumber.service
+
+  sudo apt install pipewire-audio-client-libraries
+  sudo cp /usr/share/doc/pipewire/examples/alsa.conf.d/99-pipewire-default.conf /etc/alsa/conf.d/
+
+  sudo apt install libspa-0.2-jack
+  sudo cp /usr/share/doc/pipewire/examples/ld.so.conf.d/pipewire-jack-*.conf /etc/ld.so.conf.d/
+
+  sudo apt install libspa-0.2-bluetooth pulseaudio-module-bluetooth-
+}
+
+step4() {
+  sudo apt install fprintd libpam-fprintd
+  fprintd-enroll -f right-index-finger
+  # sudo pam-auth-update
 
   echo "Copy .ssh and .gnupg to ~/"
   continue_prompt
@@ -37,6 +69,11 @@ step1() {
 
   source ${common}/bin/nvm-update
   source ${common}/bin/node-update
+
+  curl -fsSL https://pkgs.tailscale.com/stable/debian/sid.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null
+  curl -fsSL https://pkgs.tailscale.com/stable/debian/sid.tailscale-keyring.list | sudo tee /etc/apt/sources.list.d/tailscale.list
+  sudo apt update && sudo apt install tailscale
+  sudo tailscale up
 
   source ${common}/docker.sh
 }

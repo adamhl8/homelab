@@ -1,15 +1,10 @@
 #!/bin/bash
 
-steps=3
+steps=4
 
 step1() {
   source ${common}/common.sh
-  cp ${modules}/bin/* ~/bin/
-
   mkdir ~/apps/
-
-  source ${common}/docker.sh
-
   sudo sed -i "s|Prompt=.*|Prompt=normal|" /etc/update-manager/release-upgrades
 }
 
@@ -26,6 +21,10 @@ step3() {
   echo "Add Ingress Rule."
   continue_prompt
 
+  source ${common}/docker.sh
+}
+
+step4() {
   source ${common}/tailscale.sh
   docker exec tailscale tailscale up
 

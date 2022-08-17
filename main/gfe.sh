@@ -7,22 +7,20 @@ step1() {
   # zsh-newuser-install -f
   
   echo "PROMPT='%(?.%F{green}√.%F{red}?%?)%f %B%F{240}%1~%f%b %# '" | tee -a ~/.zshrc
+  echo "path+=('/Users/a2272858/bin/')" | tee -a ~/.zshrc
+  echo "alias l='LC_COLLATE=C ls -ahlF'" | tee -a ~/.zshrc
+  source ${modules}/git_aliases.sh
 
   mkdir ~/bin/
-  cp ${modules}/bin/* ~/bin/
+  cp ${common}/bin/* ~/bin/
 
   cd ~/bin/
   curl https://getmic.ro/r | bash
   cd ~/
 
-  echo "path+=('/Users/a2272858/bin/')" | tee -a ~/.zshrc
-
-  echo "alias l='LC_COLLATE=C ls -ahlF'" | tee -a ~/.zshrc
-  source ${modules}/git_aliases.sh
-
   mkdir ~/dev/
 
-  echo "Copy .ssh to home directory."
+  echo "Copy .ssh to ~/"
   continue_prompt
 
   # ssh
@@ -34,8 +32,8 @@ step1() {
   git config --global user.email 'adamhl@pm.me'
   git config --global pull.ff only
 
-  source ${modules}/bin/nvm-update
-  source ${modules}/bin/node-update
+  source ${common}/bin/nvm-update
+  source ${common}/bin/node-update
 
   curl -Lo ~/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-osx-amd64
   chmod 755 ~/bin/jq

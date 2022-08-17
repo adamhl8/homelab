@@ -5,7 +5,7 @@
 set -o pipefail
 IFS=$'\n\t'
 
-# sudo -v
+sudo -v
 
 name=$1
 
