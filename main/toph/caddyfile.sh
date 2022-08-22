@@ -38,6 +38,23 @@ tee ~/caddy/Caddyfile << EOF
   handle @auth {
     authenticate with authportal
   }
+
+  @plex host plex.adamhl.dev
+  handle @plex {
+
+    @private_ip remote_ip private_ranges
+    handle @private_ip {
+      reverse_proxy localhost:32400
+    }
+
+    @tailscale remote_ip 100.75.211.11 100.126.163.49
+    handle @tailscale {
+      reverse_proxy localhost:32400
+    }
+
+    authorize with admin_policy
+    reverse_proxy localhost:32400
+  }
   
   @unifi host unifi.adamhl.dev
   handle @unifi {
@@ -349,23 +366,6 @@ tee ~/caddy/Caddyfile << EOF
 
     authorize with admin_policy
     reverse_proxy localhost:8015
-  }
-
-  @plex host plex.adamhl.dev
-  handle @plex {
-
-    @private_ip remote_ip private_ranges
-    handle @private_ip {
-      reverse_proxy localhost:8016
-    }
-
-    @tailscale remote_ip 100.75.211.11 100.126.163.49
-    handle @tailscale {
-      reverse_proxy localhost:8016
-    }
-
-    authorize with admin_policy
-    reverse_proxy localhost:8016
   }
 
   @webtop host webtop.adamhl.dev
