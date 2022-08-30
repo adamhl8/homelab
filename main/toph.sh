@@ -38,28 +38,7 @@ step3() {
   source ${modules}/caddy-security.sh
   source ${modules}/caddy.sh
 
-  source ${docker}/ddns-route53.sh
-  source ${docker}/eyir.sh
-  source ${docker}/discord-app-bot.sh
-  source ${docker}/reaction-light.sh
-  source ${docker}/plex.sh
-  source ${docker}/unifi-controller.sh
-  source ${docker}/docker-cups-airprint.sh
-  source ${docker}/vaultwarden.sh
-  source ${docker}/syncthing.sh
-  source ${docker}/filebrowser.sh
-  source ${docker}/dashdot.sh
-  source ${docker}/sonarr.sh
-  source ${docker}/radarr.sh
-  source ${docker}/qbittorrent.sh
-  source ${docker}/homeassistant.sh
-  source ${docker}/scrutiny.sh
-  source ${docker}/homarr.sh
-  source ${docker}/zigbee2mqtt.sh
-  source ${docker}/kavita.sh
-  source ${docker}/cyberchef.sh
-  source ${docker}/jellyfin.sh
-  source ${docker}/webtop.sh
+  for f in ${docker}/*; do ${f}; done
 
   echo 'net.ipv4.ip_forward = 1' | sudo tee -a /etc/sysctl.conf
   echo 'net.ipv6.conf.all.forwarding = 1' | sudo tee -a /etc/sysctl.conf
