@@ -38,6 +38,10 @@ step1() {
   git config --global user.email 'adamhl@pm.me'
   git config --global pull.ff only
 
+  echo "export AWS_SDK_LOAD_CONFIG=1" | tee -a ~/.bashrc
+  echo "export AWS_PROFILE=nw-computing" | tee -a ~/.bashrc
+  echo "export DATADOG_API_KEY=ac364293fcf904470fefd9643b87263f" | tee -a ~/.bashrc
+
   source ${modules}/bin/nvm-update
   source ${modules}/bin/node-update
 
