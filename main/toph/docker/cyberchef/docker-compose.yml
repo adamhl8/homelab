@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  cyberchef:
+    image: mpepping/cyberchef
+    container_name: cyberchef
+    restart: always
+    ports:
+      - 8014:8000
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago

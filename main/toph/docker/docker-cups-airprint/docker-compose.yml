@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  docker-cups-airprint:
+    image: drpsychick/airprint-bridge
+    container_name: docker-cups-airprint
+    restart: always
+    network_mode: host
+    privileged: true
+    volumes:
+      - /dev/bus/usb/:/dev/bus/usb/
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago

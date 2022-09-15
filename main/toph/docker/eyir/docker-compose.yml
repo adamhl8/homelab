@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  eyir:
+    image: ghcr.io/adamhl8/eyir
+    container_name: eyir
+    restart: always
+    volumes:
+      - /home/adam/dev/eyir/faq/:/app/faq/
+    environment:
+      - BOT_TOKEN=${eyir_token}
+      - CLIENT_ID=320863841548238848
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+
+  filebrowser:
+    image: filebrowser/filebrowser
+    container_name: eyir-filebrowser
+    restart: always
+    ports:
+      - 8003:80
+    volumes:
+      - ./data/filebrowser.db:/database.db
+      - /home/adam/dev/eyir/faq/:/faq/
+    environment:
+      - FB_ROOT=/faq/
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago

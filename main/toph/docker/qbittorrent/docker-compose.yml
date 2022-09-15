@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  qbittorrent:
+    image: cr.hotio.dev/hotio/qbittorrent
+    container_name: qbittorrent
+    restart: always
+    cap_add:
+      - NET_ADMIN
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    ports:
+      - 8008:8080
+    volumes:
+      - ./data/config/:/config/
+      - ./data/wg0.conf:/config/wireguard/wg0.conf
+      - /mnt/storage/Media/:/Media/
+    environment:
+      - VPN_ENABLED=true
+      - VPN_LAN_NETWORK=10.8.8.0/24
+      - VPN_CONF=wg0
+      - VPN_IP_CHECK_DELAY=5
+      - PRIVOXY_ENABLED=false
+      - FLOOD_AUTH=false
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago

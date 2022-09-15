@@ -10,8 +10,9 @@ sudo -v
 name=$1
 
 root=~/homelab
-bin=${root}/bin
+secrets=${root}/secrets.env
 common=${root}/common
+bin=${common}/bin
 main=${root}/main
 modules=${main}/${name}
 

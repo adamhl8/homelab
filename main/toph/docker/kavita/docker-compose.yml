@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  kavita:
+    image: kizaing/kavita
+    container_name: kavita
+    restart: always
+    ports:
+      - 8013:5000
+    volumes:
+      - ./data/:/kavita/config/
+      - /mnt/storage/Library/:/Library/
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
