@@ -2,7 +2,6 @@
 
 mkdir ~/apps/vaultwarden/
 
-source ~/secrets
 tee ~/apps/vaultwarden/docker-compose.yml << EOF
 version: "3"
 
