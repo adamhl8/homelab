@@ -1,3 +1,5 @@
+#!/bin/bash
+
 tee -a ~/.bash_aliases << EOF
 alias gs='git status'
 alias gl='git log'
