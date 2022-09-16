@@ -20,7 +20,7 @@ for d in ~/docker/*/; do
 
       if [ "$old_id" != "$new_id" ]; then
         echo "Updating ${image_name}..."
-        sops exec-env ~/homelab/secrets.env 'docker compose up -d --force-recreate'
+        sops exec-env ~/secrets.env 'docker compose up -d --force-recreate'
         echo "Updated ${image_name}"
       else
         echo "${image_name} is up to date."

@@ -6,6 +6,3 @@ chmod 755 ~/bin/sops
 mkdir -p ~/.config/sops/age/
 echo "Copy age keys file to ~/.config/sops/age/"
 continue_prompt
-
-echo "sops exec-env ${secrets} 'docker compose up -d'" | tee ~/bin/sdc
-chmod 755 ~/bin/sdc

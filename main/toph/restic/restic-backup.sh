@@ -24,6 +24,6 @@ exit_status=$?
 
 sed -i '\|unchanged.*|d' ~/restic/restic.log
 
-[ ${exit_status} -ne 0 ] && ~/msmtp/restic-log
+[ ${exit_status} -ne 0 ] && ~/msmtp/restic-log.sh
 
 mv ~/restic/restic.log ~/restic/${timestamp}_restic.log

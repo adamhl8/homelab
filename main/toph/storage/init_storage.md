@@ -9,10 +9,10 @@ sudo gdisk /dev/sdX
 - `o`, `n` (defaults), `w`
 
 ```bash
-# Data disks
+# data disks
 sudo mkfs.btrfs -L diskX /dev/sdX1
 
-# Parity disk
+# parity disk
 sudo mkfs.ext4 -L parity1 /dev/sdX1
 ```
 

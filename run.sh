@@ -9,16 +9,11 @@ sudo -v
 
 name=$1
 
-root=~/homelab
-secrets=${root}/secrets.env
-common=${root}/common
-bin=${common}/bin
-main=${root}/main
-modules=${main}/${name}
+modules=~/homelab/main/${name}
 
-source ${common}/prompts.sh
+source ~/homelab/utils/prompts.sh
 
-source ${main}/${name}.sh
+source ~/homelab/main/${name}.sh
 
 for i in $(seq 1 ${steps}); do
 step=step${i}

@@ -13,7 +13,7 @@ services:
       - 8008:8080
     volumes:
       - ./data/config/:/config/
-      - ./data/wg0.conf:/config/wireguard/wg0.conf
+      - ./wg0.conf:/config/wireguard/wg0.conf
       - /mnt/storage/Media/:/Media/
     environment:
       - VPN_ENABLED=true

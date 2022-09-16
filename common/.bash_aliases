@@ -1,6 +1,6 @@
-#!/bin/bash
+alias l='LC_COLLATE=C ls -ahlF'
 
-tee -a ~/.bash_aliases << EOF
+# git
 alias gs='git status'
 alias gl='git log'
 alias gc='git add -A && git commit -m'
@@ -12,4 +12,3 @@ alias greset='git fetch && git reset --hard @{u}'
 alias gclean='git clean -ndffx'
 alias gcleanf='git clean -dffx'
 alias gswitch='git switch -c'
-EOF

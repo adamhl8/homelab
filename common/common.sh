@@ -1,6 +1,9 @@
 #!/bin/bash
 
-${bin}/system-update
+mkdir ~/bin/
+ln -s ~/homelab/common/bin/* ~/bin/
+
+~/bin/system-update
 
 sudo apt install git curl htop zip unzip -y
 
@@ -8,7 +11,5 @@ cd /usr/bin/
 curl https://getmic.ro/r | sudo sh
 cd ~/
 
-echo "alias l='LC_COLLATE=C ls -ahlF'" | tee -a ~/.bash_aliases
-
-mkdir ~/bin/
-cp ${bin}/* ~/bin/
+ln -s ~/homelab/common/.bash_aliases ~/
+ln -s ~/homelab/secrets.env ~/
