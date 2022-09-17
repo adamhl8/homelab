@@ -7,6 +7,7 @@ ln -s ~/homelab/common/bin/* ~/bin/
 
 sudo apt install git curl htop zip unzip -y
 
+sudo -v
 cd /usr/bin/
 curl https://getmic.ro/r | sudo sh
 cd ~/
