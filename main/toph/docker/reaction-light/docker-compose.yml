@@ -7,7 +7,7 @@ services:
     restart: always
     volumes:
       - ./data/:/bot/files/
-      - ./data/config.ini:/bot/config.ini
+      - ./config.ini:/bot/config.ini
     environment:
       - PUID=1000
       - PGID=1000
