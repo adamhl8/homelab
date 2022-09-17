@@ -1,7 +1,6 @@
 #!/bin/bash
 
-source ~/secrets
-curl -s https://api.github.com/repos/ironicbadger/docker-snapraid/actions/artifacts | grep -o -E "https://(.*)artifacts(.*)zip" | sed 1q | xargs curl -H "Authorization: token ${github_public_repo_token}" -Lo ~/snapraid.zip
+sops exec-env ~/secrets.env 'curl -s https://api.github.com/repos/ironicbadger/docker-snapraid/actions/artifacts | grep -o -E "https://(.*)artifacts(.*)zip" | sed 1q | xargs curl -H "Authorization: token ${github_public_repo_token}" -Lo ~/snapraid.zip'
 unzip ~/snapraid.zip
 rm ~/snapraid.zip
 sudo apt install ~/snapraid-from-source.deb -y
