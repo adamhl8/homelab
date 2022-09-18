@@ -8,7 +8,7 @@ services:
     network_mode: host
     volumes:
       - ./data/work/:/opt/adguardhome/work/
-      - ./data/config/:/opt/adguardhome/conf/
+      - ./AdGuardHome.yaml:/opt/adguardhome/conf/AdGuardHome.yaml
     environment:
       - PUID=1000
       - PGID=1000
