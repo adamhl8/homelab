@@ -22,7 +22,7 @@ step2() {
   for d in ~/docker/*/; do
     cd ${d}
     ${d}/init.sh
-    sdc
+    docker compose up -d 
     ${d}/fini.sh
   done
   cd ~/

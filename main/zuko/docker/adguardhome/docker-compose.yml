@@ -7,7 +7,8 @@ services:
     restart: always
     network_mode: host
     volumes:
-      - ./data/:/opt/adguardhome/conf/
+      - ./data/work/:/opt/adguardhome/work/
+      - ./data/conf/:/opt/adguardhome/conf/
     environment:
       - PUID=1000
       - PGID=1000

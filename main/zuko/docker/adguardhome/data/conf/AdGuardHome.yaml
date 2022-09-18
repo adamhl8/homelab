@@ -58,7 +58,9 @@ dns:
   enable_dnssec: false
   edns_client_subnet: false
   max_goroutines: 300
+  handle_ddr: true
   ipset: []
+  ipset_file: ""
   filtering_enabled: true
   filters_update_interval: 24
   parental_enabled: false
@@ -163,12 +165,12 @@ clients:
     dhcp: true
     hosts: true
   persistent: []
-log_compress: false
-log_localtime: false
+log_file: ""
 log_max_backups: 0
 log_max_size: 100
 log_max_age: 3
-log_file: ""
+log_compress: false
+log_localtime: false
 verbose: false
 os:
   group: ""
