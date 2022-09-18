@@ -1,6 +1,4 @@
 {
-	acme_dns route53
-
 	order authenticate before respond
 	order authorize before reverse_proxy
 
@@ -31,6 +29,14 @@
 }
 
 *.adamhl.dev {
+	tls {
+		issuer zerossl {env.ZEROSSL_API_KEY} {
+			dns route53
+			email adamhl@pm.me
+			propagation_timeout -1
+		}
+	}
+
 	@auth host auth.adamhl.dev
 	handle @auth {
 		authenticate with authportal

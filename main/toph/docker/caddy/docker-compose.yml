@@ -15,6 +15,7 @@ services:
     environment:
       - AWS_ACCESS_KEY_ID=AKIAT5NKIWDOTLLLZ34R
       - AWS_SECRET_ACCESS_KEY=${aws_secret_access_key}
+      - ZEROSSL_API_KEY=${caddy_zerossl_key}
       - PUID=1000
       - PGID=1000
       - TZ=America/Chicago
