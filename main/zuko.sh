@@ -6,6 +6,7 @@ step1() {
   echo 'deb http://deb.debian.org/debian/ unstable main' | sudo tee /etc/apt/sources.list
   ~/homelab/common/common.sh
   ~/homelab/common/ssh.sh
+  ~/homelab/common/sops.sh
 
   sudo sed -i "s|127\.0\.1\.1.*|127.0.1.1       zuko|" /etc/hosts
 
@@ -22,7 +23,7 @@ step2() {
   for d in ~/docker/*/; do
     cd ${d}
     ${d}/init.sh
-    docker compose up -d 
+    sdc
     ${d}/fini.sh
   done
   cd ~/

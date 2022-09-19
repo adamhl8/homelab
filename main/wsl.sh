@@ -34,10 +34,6 @@ step1() {
   chmod 600 ~/.gnupg/trustdb.gpg
   gpgconf --reload gpg-agent
 
-  git config --global user.name 'Adam Langbert'
-  git config --global user.email 'adamhl@pm.me'
-  git config --global pull.ff only
-
   echo "export AWS_SDK_LOAD_CONFIG=1" | tee -a ~/.bashrc
   echo "export AWS_PROFILE=nw-computing" | tee -a ~/.bashrc
   echo "export DATADOG_API_KEY=" | tee -a ~/.bashrc
