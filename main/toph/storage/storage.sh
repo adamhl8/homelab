@@ -24,7 +24,7 @@ find /mnt/disk* -type f -exec sudo chmod 644 {} \;
 
 # mergerfs
 sudo apt install fuse -y
-~/bin/mergerfs-update
+source ~/bin/mergerfs-update
 
 sudo mkdir /mnt/storage
 echo "/mnt/disk* /mnt/storage fuse.mergerfs allow_other,use_ino,cache.files=off,dropcacheonclose=true,category.create=mfs,fsname=mergerfs 0 0" | sudo tee -a /etc/fstab

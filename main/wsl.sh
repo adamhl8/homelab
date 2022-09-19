@@ -3,9 +3,9 @@
 steps=1
 
 step1() {
-  ~/homelab/common/common.sh
-  ~/homelab/common/ssh.sh
-  ~/homelab/common/sops.sh
+  source ~/homelab/common/common.sh
+  source ~/homelab/common/ssh.sh
+  source ~/homelab/common/sops.sh
   ln -s ${modules}/bin/* ~/bin/
 
   ln -s /mnt/c/Users/Adam/ ~/
@@ -28,8 +28,8 @@ step1() {
   source ~/.sdkman/bin/sdkman-init.sh
   sdk install java 18.0.2.1-open
 
-  ~/bin/nvm-update
-  ~/bin/node-update
+  source ~/bin/nvm-update
+  source ~/bin/node-update
 
-  ~/homelab/common/docker.sh
+  source ~/homelab/common/docker.sh
 }

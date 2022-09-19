@@ -4,31 +4,31 @@ steps=3
 
 step1() {
   echo 'deb http://deb.debian.org/debian/ unstable main' | sudo tee /etc/apt/sources.list
-  ~/homelab/common/common.sh
-  ~/homelab/common/ssh.sh
-  ~/homelab/common/sshd.sh
-  ~/homelab/common/sops.sh
+  source ~/homelab/common/common.sh
+  source ~/homelab/common/ssh.sh
+  source ~/homelab/common/sshd.sh
+  source ~/homelab/common/sops.sh
   ln -s ${modules}/bin/* ~/bin/
 
   sudo sed -i "s|127\.0\.1\.1.*|127.0.1.1       toph|" /etc/hosts
 }
 
 step2() {
-  ${modules}/storage/storage.sh
+  source ${modules}/storage/storage.sh
 
   ln -s ${modules}/snapraid/ ~/
-  ~/snapraid/init.sh
+  source ~/snapraid/init.sh
 
   ln -s ${modules}/restic/ ~/
-  ~/restic/init.sh
+  source ~/restic/init.sh
 
   ln -s ${modules}/msmtp/ ~/
-  ~/msmtp/init.sh
+  source ~/msmtp/init.sh
 
   ln -s ${modules}/ksmbd/ ~/
-  ~/ksmbd/init.sh
+  source ~/ksmbd/init.sh
 
-  ~/homelab/common/docker.sh
+  source ~/homelab/common/docker.sh
 }
 
 step3() {
@@ -37,9 +37,9 @@ step3() {
 
   for d in ~/docker/*/; do
     cd ${d}
-    [[ -x "${d}/init.sh" ]] && ${d}/init.sh
+    [[ -x "${d}/init.sh" ]] && source ${d}/init.sh
     sdc
-    [[ -x "${d}/fini.sh" ]] && ${d}/fini.sh
+    [[ -x "${d}/fini.sh" ]] && source ${d}/fini.sh
   done
   cd ~/
 

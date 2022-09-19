@@ -6,9 +6,9 @@ step1() {
   echo "Change password for ubuntu user in another shell: sudo -i; passwd ubuntu"
   continue_prompt
 
-  ~/homelab/common/common.sh
+  source ~/homelab/common/common.sh
   rm ~/.ssh/authorized_keys
-  ~/homelab/common/ssh.sh
+  source ~/homelab/common/ssh.sh
   
   sudo sed -i "s|Prompt=.*|Prompt=normal|" /etc/update-manager/release-upgrades
 }
@@ -18,7 +18,7 @@ step2() {
 }
 
 step3() {
-  ~/homelab/common/sshd.sh
+  source ~/homelab/common/sshd.sh
 
   sudo iptables -I INPUT 6 -m state --state NEW -p tcp --dport 443 -j ACCEPT
   sudo netfilter-persistent save
@@ -26,7 +26,7 @@ step3() {
   echo "Add Ingress Rule."
   continue_prompt
 
-  ~/homelab/common/docker.sh
+  source ~/homelab/common/docker.sh
 }
 
 step4() {
@@ -35,9 +35,9 @@ step4() {
 
   for d in ~/docker/*/; do
     cd ${d}
-    [[ -x "${d}/init.sh" ]] && ${d}/init.sh
+    [[ -x "${d}/init.sh" ]] && source ${d}/init.sh
     docker compose up -d
-    [[ -x "${d}/fini.sh" ]] && ${d}/fini.sh
+    [[ -x "${d}/fini.sh" ]] && source ${d}/fini.sh
   done
   cd ~/
 }

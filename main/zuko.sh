@@ -4,16 +4,16 @@ steps=2
 
 step1() {
   echo 'deb http://deb.debian.org/debian/ unstable main' | sudo tee /etc/apt/sources.list
-  ~/homelab/common/common.sh
-  ~/homelab/common/ssh.sh
-  ~/homelab/common/sshd.sh
+  source ~/homelab/common/common.sh
+  source ~/homelab/common/ssh.sh
+  source ~/homelab/common/sshd.sh
 
   sudo sed -i "s|127\.0\.1\.1.*|127.0.1.1       zuko|" /etc/hosts
 
   # Argon fan script
   curl https://download.argon40.com/argon1.sh | bash
   
-  ~/homelab/common/docker.sh
+  source ~/homelab/common/docker.sh
 }
 
 step2() {
@@ -22,9 +22,9 @@ step2() {
 
   for d in ~/docker/*/; do
     cd ${d}
-    [[ -x "${d}/init.sh" ]] && ${d}/init.sh
+    [[ -x "${d}/init.sh" ]] && source ${d}/init.sh
     docker compose up -d
-    [[ -x "${d}/fini.sh" ]] && ${d}/fini.sh
+    [[ -x "${d}/fini.sh" ]] && source ${d}/fini.sh
   done
   cd ~/
 

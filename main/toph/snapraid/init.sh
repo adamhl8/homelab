@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # snapraid
-~/bin/snapraid-update
+source ~/bin/snapraid-update
 
 # snapper
 sudo apt install snapper -y
@@ -13,11 +13,11 @@ sudo snapper -c disk3 create-config -t disk-snapper.conf /mnt/disk3
 snapper list-configs
 
 # snapraid-btrfs
-~/bin/snapraid-btrfs-update
+source ~/bin/snapraid-btrfs-update
 ~/snapraid/snapraid-btrfs -c ~/snapraid/snapraid.conf ls
 
 # snapraid-btrfs-runner
-~/bin/snapraid-btrfs-runner-update
+source ~/bin/snapraid-btrfs-runner-update
 sops exec-env ~/secrets.env 'envsubst < ~/snapraid/snapraid-btrfs-runner.conf | tee ~/snapraid/snapraid-btrfs-runner.conf > /dev/null'
 
 sudo ln -s ~/snapraid/snapraid-btrfs-runner.service /etc/systemd/system/
