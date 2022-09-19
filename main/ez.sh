@@ -3,7 +3,11 @@
 steps=4
 
 step1() {
+  echo "Change password for ubuntu user: sudo -i; passwd ubuntu"
+  continue_prompt
+
   ~/homelab/common/common.sh
+  rm ~/.ssh/authorized_keys
   ~/homelab/common/ssh.sh
   
   sudo sed -i "s|Prompt=.*|Prompt=normal|" /etc/update-manager/release-upgrades
