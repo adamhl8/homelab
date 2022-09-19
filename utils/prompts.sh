@@ -5,9 +5,11 @@ reboot_prompt() {
   echo
   if [[ ! ${reply} =~ ^[Nn]$ ]]; then sudo reboot; else exit; fi
 }
+export -f reboot_prompt
 
 continue_prompt() {
   read -p "Continue? (Y/n) " -n 1 -r reply
   echo
   [[ ${reply} =~ ^[Nn]$ ]] && exit
 }
+export -f continue_prompt

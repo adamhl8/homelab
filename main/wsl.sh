@@ -17,7 +17,8 @@ step1() {
   sudo ~/aws/install
   rm -rf ~/aws/
 
-  echo "AWS region: us-west-2"
+  echo "URL: https://nw-computing.awsapps.com/start#/"
+  echo "Region: us-west-2"
   aws configure sso --profile nw-computing
   echo "export AWS_SDK_LOAD_CONFIG=1" | tee -a ~/.bashrc
   echo "export AWS_PROFILE=nw-computing" | tee -a ~/.bashrc
