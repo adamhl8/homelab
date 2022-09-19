@@ -7,7 +7,6 @@ step1() {
   ~/homelab/common/common.sh
   ~/homelab/common/ssh.sh
   ~/homelab/common/sshd.sh
-  ~/homelab/common/sops.sh
 
   sudo sed -i "s|127\.0\.1\.1.*|127.0.1.1       zuko|" /etc/hosts
 
@@ -24,8 +23,8 @@ step2() {
   for d in ~/docker/*/; do
     cd ${d}
     ${d}/init.sh
-    sdc
-    ${d}/fini.sh
+    docker compose up -d
+    ${d}/fini.sh 
   done
   cd ~/
 

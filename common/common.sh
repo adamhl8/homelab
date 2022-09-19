@@ -3,6 +3,8 @@
 mkdir ~/bin/
 ln -s ~/homelab/common/bin/* ~/bin/
 
+ln -s ~/homelab/common/.bash_aliases ~/
+
 sudo apt install software-properties-common --no-install-recommends -y
 sudo add-apt-repository ppa:git-core/ppa -y
 ~/bin/system-update
@@ -16,6 +18,3 @@ sudo -v
 cd /usr/bin/
 curl https://getmic.ro/r | sudo sh
 cd ~/
-
-ln -s ~/homelab/common/.bash_aliases ~/
-ln -s ~/homelab/secrets.env ~/
