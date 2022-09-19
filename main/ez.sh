@@ -13,7 +13,10 @@ step2() {
 }
 
 step3() {
-  source ${common}/ssh.sh
+  mkdir ~/.ssh/
+  chmod 700 ~/.ssh/
+  ln -s ~/homelab/common/authorized_keys ~/.ssh/
+  source ${common}/sshd.sh
 
   sudo iptables -I INPUT 6 -m state --state NEW -p tcp --dport 443 -j ACCEPT
   sudo netfilter-persistent save

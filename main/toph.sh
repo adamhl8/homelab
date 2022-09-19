@@ -6,12 +6,11 @@ step1() {
   echo 'deb http://deb.debian.org/debian/ unstable main' | sudo tee /etc/apt/sources.list
   ~/homelab/common/common.sh
   ~/homelab/common/ssh.sh
+  ~/homelab/common/sshd.sh
   ~/homelab/common/sops.sh
   ln -s ${modules}/bin/* ~/bin/
 
   sudo sed -i "s|127\.0\.1\.1.*|127.0.1.1       toph|" /etc/hosts
-
-  echo "Copy over ssh keys: scp ~/.ssh/id_ed25519* adam@adamhl.dev:~/.ssh/"
 }
 
 step2() {

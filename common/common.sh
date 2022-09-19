@@ -3,8 +3,9 @@
 mkdir ~/bin/
 ln -s ~/homelab/common/bin/* ~/bin/
 
+sudo apt install software-properties-common --no-install-recommends -y
+sudo add-apt-repository ppa:git-core/ppa -y
 ~/bin/system-update
-
 sudo apt install git curl htop zip unzip -y
 
 git config --global user.name 'Adam Langbert'
