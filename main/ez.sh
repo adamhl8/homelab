@@ -3,8 +3,9 @@
 steps=4
 
 step1() {
-  source ${common}/common.sh
-  mkdir ~/apps/
+  ~/homelab/common/common.sh
+  ~/homelab/common/ssh.sh
+  
   sudo sed -i "s|Prompt=.*|Prompt=normal|" /etc/update-manager/release-upgrades
 }
 
@@ -13,10 +14,7 @@ step2() {
 }
 
 step3() {
-  mkdir ~/.ssh/
-  chmod 700 ~/.ssh/
-  ln -s ~/homelab/common/authorized_keys ~/.ssh/
-  source ${common}/sshd.sh
+  ~/homelab/common/sshd.sh
 
   sudo iptables -I INPUT 6 -m state --state NEW -p tcp --dport 443 -j ACCEPT
   sudo netfilter-persistent save
@@ -24,13 +22,18 @@ step3() {
   echo "Add Ingress Rule."
   continue_prompt
 
-  source ${common}/docker.sh
+  ~/homelab/common/docker.sh
 }
 
 step4() {
-  source ${common}/tailscale.sh
-  docker exec tailscale tailscale up
+  ln -s ${modules}/docker/ ~/
+  ln -s ~/homelab/common/docker/tailscale/ ~/docker/
 
-  source ${modules}/caddyfile.sh
-  source ${modules}/caddy.sh
+  for d in ~/docker/*/; do
+    cd ${d}
+    ${d}/init.sh
+    sdc
+    ${d}/fini.sh
+  done
+  cd ~/
 }
