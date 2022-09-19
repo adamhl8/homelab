@@ -3,7 +3,7 @@
 steps=4
 
 step1() {
-  echo "Change password for ubuntu user: sudo -i; passwd ubuntu"
+  echo "Change password for ubuntu user in another shell: sudo -i; passwd ubuntu"
   continue_prompt
 
   ~/homelab/common/common.sh
