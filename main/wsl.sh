@@ -24,6 +24,10 @@ step1() {
   echo "export AWS_PROFILE=nw-computing" | tee -a ~/.bashrc
   echo "export DATADOG_API_KEY=" | tee -a ~/.bashrc
 
+  curl -s "https://get.sdkman.io" | bash
+  source ~/.sdkman/bin/sdkman-init.sh
+  sdk install java 18.0.2.1-open
+
   ~/bin/nvm-update
   ~/bin/node-update
 
