@@ -1,0 +1,5 @@
+#!/bin/bash
+
+yarn build:development
+sudo rm -rf ~/Adam/Apps/-\ Chrome\ Extensions/toolkit-for-ynab/
+cp -r dist/extension/. ~/Adam/Apps/-\ Chrome\ Extensions/toolkit-for-ynab/

@@ -11,12 +11,20 @@ step1() {
   ln -s /mnt/c/Users/Adam/ ~/
   mkdir ~/dev/
 
+  curl -Lo ~/awscli.zip https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+  unzip ~/awscli.zip
+  rm ~/awscli.zip
+  sudo ~/aws/install
+  rm -rf ~/aws/
+
+  echo "AWS region: us-west-2"
+  aws configure sso --profile nw-computing
   echo "export AWS_SDK_LOAD_CONFIG=1" | tee -a ~/.bashrc
   echo "export AWS_PROFILE=nw-computing" | tee -a ~/.bashrc
   echo "export DATADOG_API_KEY=" | tee -a ~/.bashrc
 
-  source ${modules}/bin/nvm-update
-  source ${modules}/bin/node-update
+  ~/bin/nvm-update
+  ~/bin/node-update
 
-  source ${common}/docker.sh
+  ~/homelab/common/docker.sh
 }
