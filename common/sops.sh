@@ -9,4 +9,5 @@ ln -s ~/homelab/secrets.env ~/
 
 mkdir -p ~/.config/sops/age/
 echo "Copy age keys file to ~/.config/sops/age/"
+chmod 600 ~/.config/sops/age/keys.txt
 continue_prompt
