@@ -35,9 +35,9 @@ step4() {
 
   for d in ~/docker/*/; do
     cd ${d}
-    ${d}/init.sh
-    sdc
-    ${d}/fini.sh
+    [[ -x "${d}/init.sh" ]] && ${d}/init.sh
+    docker compose up -d
+    [[ -x "${d}/fini.sh" ]] && ${d}/fini.sh
   done
   cd ~/
 }
