@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -a
+source <(sops -d ~/secrets.env)
+set +a

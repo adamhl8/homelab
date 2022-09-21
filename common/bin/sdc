@@ -1,3 +1,4 @@
 #!/bin/bash
 
-sops exec-env ~/secrets.env "docker compose up -d ${@}"
+docker_flags=${@}
+sops exec-env ~/secrets.env "docker compose up -d ${docker_flags}"

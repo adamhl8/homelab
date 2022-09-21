@@ -1,5 +1,7 @@
 #!/bin/bash
 
+[[ "$(type -P sops)" ]] source sops-source
+
 echo "Checking for Docker container updates..."
 for d in ~/docker/*/; do
   compose=${d}docker-compose.yml
@@ -20,7 +22,7 @@ for d in ~/docker/*/; do
 
       if [ "$old_id" != "$new_id" ]; then
         echo "Updating ${image_name}..."
-        [[ "$(type -P sops)" ]] && sdc --force-recreate --build || docker compose up -d --force-recreate --build
+        docker compose up -d --force-recreate --build
         echo "Updated ${image_name}"
       else
         echo "${image_name} is up to date."
