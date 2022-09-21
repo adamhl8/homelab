@@ -6,6 +6,8 @@ timestamp=$(date +%F_%T)
 exec &>>~/restic/restic.log
 set -e
 
+source sops-source
+
 export RESTIC_REPOSITORY=b2:toph-storage:/
 export B2_ACCOUNT_ID=00420518bb341580000000001
 export B2_ACCOUNT_KEY=${backblaze_application_key}
