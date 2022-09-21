@@ -1,6 +1,6 @@
 #!/bin/bash
 
-[[ "$(type -P sops)" ]] source sops-source
+[[ "$(type -P sops)" ]] && source sops-source
 
 echo "Checking for Docker container updates..."
 for d in ~/docker/*/; do
