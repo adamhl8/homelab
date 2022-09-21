@@ -1,8 +1,6 @@
 #!/bin/bash
 
-mkdir ~/bin/
-ln -s ~/homelab/common/bin/* ~/bin/
-
+ln -s ~/homelab/common/bin/ ~/
 ln -s ~/homelab/common/.bash_aliases ~/
 
 sudo apt install software-properties-common --no-install-recommends -y
