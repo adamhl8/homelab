@@ -37,5 +37,8 @@ step2() {
   source ~/bin/nvm-update
   source ~/bin/node-update
 
+  npm install -g pnpm
+
   source ~/homelab/common/docker.sh
+  sops exec-env ~/secrets.env 'echo $github_ghcr_token | docker login ghcr.io -u adamhl8 --password-stdin'
 }
