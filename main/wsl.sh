@@ -1,8 +1,13 @@
 #!/bin/bash
 
-steps=1
+steps=2
 
 step1() {
+  sudo cp ${modules}/wsl.conf
+  echo Restart WSL (wsl --shutdown)
+}
+
+step2() {
   ln -s /mnt/c/Users/Adam/ ~/
 
   source ~/homelab/common/common.sh
