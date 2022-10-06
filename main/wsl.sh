@@ -38,6 +38,9 @@ step2() {
   source ~/bin/node-update
 
   npm install -g pnpm
+  pnpm setup
+  pnpm add -g npm-check-updates
+  pnpm config set enable-pre-post-scripts=true
 
   source ~/homelab/common/docker.sh
   sops exec-env ~/secrets.env 'echo $github_ghcr_token | docker login ghcr.io -u adamhl8 --password-stdin'
