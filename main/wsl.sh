@@ -3,7 +3,7 @@
 steps=2
 
 step1() {
-  sudo cp ${modules}/wsl.conf
+  sudo cp ${modules}/wsl.conf /etc/
   echo Restart WSL (wsl --shutdown)
 }
 
