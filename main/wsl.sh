@@ -3,6 +3,8 @@
 steps=1
 
 step1() {
+  ln -s /mnt/c/Users/Adam/ ~/
+
   source ~/homelab/common/common.sh
   source ~/homelab/common/ssh.sh
   source ~/homelab/common/sops.sh
