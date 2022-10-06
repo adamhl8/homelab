@@ -15,7 +15,6 @@ step2() {
   source ~/homelab/common/sops.sh
   ln -s ${modules}/bin/* ~/bin/
 
-  ln -s /mnt/c/Users/Adam/ ~/
   mkdir ~/dev/
 
   curl -Lo ~/awscli.zip https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
