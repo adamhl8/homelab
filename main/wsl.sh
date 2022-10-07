@@ -1,6 +1,6 @@
 #!/bin/bash
 
-steps=2
+steps=3
 
 step1() {
   sudo cp ${modules}/wsl.conf /etc/
@@ -39,6 +39,9 @@ step2() {
 
   npm install -g pnpm
   pnpm setup
+}
+
+step3() {
   pnpm config set enable-pre-post-scripts=true
   pnpm add -g npm-check-updates
   pnpm login
