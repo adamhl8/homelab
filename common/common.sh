@@ -20,3 +20,8 @@ sudo -v
 cd /usr/bin/
 curl https://getmic.ro/r | sudo sh
 cd ~/
+
+arch="amd64"
+[[ "$(arch)" = "aarch64" ]] && arch="arm64"
+curl -s https://api.github.com/repos/mikefarah/yq/releases/latest | grep -o -E "https://(.*)yq_linux_${arch}" | sed 1q | xargs curl -Lo ~/bin/yq
+chmod 755 ~/bin/yq
