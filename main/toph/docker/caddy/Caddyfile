@@ -28,6 +28,10 @@
 	}
 }
 
+adamhl.dev {
+	respond "Hey there :)"
+}
+
 *.adamhl.dev {
 	tls {
 		issuer zerossl {env.ZEROSSL_API_KEY} {
