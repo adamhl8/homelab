@@ -1,6 +1,6 @@
 #!/bin/bash
 
-steps=3
+steps=4
 
 step1() {
   sudo cp ${modules}/wsl.conf /etc/
@@ -47,5 +47,9 @@ step3() {
   pnpm login
   
   source ~/homelab/common/docker.sh
+  echo "Restart WSL (wsl --shutdown)"
+}
+
+step4() {
   sops exec-env ~/secrets.env 'echo $github_ghcr_token | docker login ghcr.io -u adamhl8 --password-stdin'
 }
