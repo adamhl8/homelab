@@ -1,18 +1,24 @@
 #!/bin/bash
 
+set -euom pipefail
+IFS=$'\n\t'
+
 source sops-source
 
 # Helper functions
 
 update() {
-  name="${1}"
-  current="${2}"
-  latest="${3}"
-  docker_flags="${4}"
+  name="${1:-}"
+  current="${2:-}"
+  latest="${3:-}"
+  docker_flags=("-d" "--force-recreate")
+  [ -n "${4}" ] && docker_flags+=("${@: 4}")
+
 
   if [ "${current}" !=  "${latest}" ]; then
     echo "Updating ${name}..."
-    docker compose up -d --force-recreate "${docker_flags}"
+    if [ -n "${docker_flags}" ]; then docker compose up -d --force-recreate "${docker_flags}"
+    else docker compose up -d --force-recreate
     echo "Updated ${name}"
   else
     echo "${name} is up to date."
@@ -38,15 +44,14 @@ for d in ~/docker/*/; do
   name=$(basename "${d}")
   pluginName="${name}p"
 
-  [ "$(type -t "${pluginName}")" = "function" ] && echo "Running ${name} plugin..." && "${pluginName}" "${name}" && continue
+  [ "$(type -t "${pluginName}")" = "function" ] && echo -e "\nRunning ${name} plugin..." && "${pluginName}" "${name}" && continue
 
   readarray -t image_names < <(yq ".services.*.image" < docker-compose.yml)
   for image_name in "${image_names[@]}"; do
     no_tag=$(echo "${image_name}" | cut -d ":" -f1)
-    old_id=$(docker compose images | grep "${no_tag}" | awk '{ print $4 }')
+    old_id=$(docker compose images | grep "${no_tag}" || [ $? == 1 ] | awk '{ print $4 }')
 
-    echo
-    echo "Checking for updates for ${image_name}..."
+    echo -e "\nChecking for updates for ${image_name}..."
     docker compose pull -q
 
     new_id=$(docker images ${image_name} | sed -n 2p | awk '{ print $3 }')
