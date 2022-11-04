@@ -32,6 +32,13 @@ adamhl.dev {
 	respond "Hey there :)"
 }
 
+cosmerecollection.com {
+	reverse_proxy /api* localhost:8050
+
+	root * /cosmerecollection.com/
+	file_server
+}
+
 *.adamhl.dev {
 	tls {
 		issuer zerossl {env.ZEROSSL_API_KEY} {
@@ -371,14 +378,6 @@ adamhl.dev {
 
 		authorize with admin_policy
 		reverse_proxy localhost:8017
-	}
-
-	@cosmerecollection.com host cosmerecollection.com
-	handle @webtop {
-		reverse_proxy /api* localhost:8050
-
-		root * /cosmerecollection.com/
-		file_server
 	}
 }
 
