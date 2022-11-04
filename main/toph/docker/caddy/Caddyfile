@@ -372,6 +372,14 @@ adamhl.dev {
 		authorize with admin_policy
 		reverse_proxy localhost:8017
 	}
+
+	@cosmerecollection.com host cosmerecollection.com
+	handle @webtop {
+		reverse_proxy /api* localhost:8050
+
+		root * /cosmerecollection.com/
+		file_server
+	}
 }
 
 :8100 {

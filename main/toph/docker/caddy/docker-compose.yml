@@ -10,6 +10,7 @@ services:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - ./users.json:/etc/caddy/users.json
       - /home/adam/ez/:/ez/
+      - /home/adam/cosmerecollection.com/client/:/cosmerecollection.com/
       - ./data/:/data/
       - ./config/:/config/
     environment:
