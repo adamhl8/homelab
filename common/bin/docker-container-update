@@ -48,18 +48,20 @@ for d in ~/docker/*/; do
     continue
   fi
 
+  echo -e "\n==== ${name} ===="
+
   readarray -t image_names < <(yq ".services.*.image" < docker-compose.yml)
   for image_name in "${image_names[@]}"; do
     no_tag=$(echo "${image_name}" | cut -d ":" -f1)
-    old_id=$(docker compose images | grep "${no_tag}" || [ $? == 1 ]) # Split over two lines to handle when grep exits with status 1
-    old_id=$(echo "${old_id}" | awk '{ print $4 }')
+    old_id=$(docker compose images | grep "${no_tag}" || [ $? == 1 ]) # Split old_id over two lines to handle when grep exits with status 1
+    old_id=$(echo "${old_id}" | sed -n 1p |  awk '{ print $4 }')
 
-    echo -e "\nChecking for updates for ${image_name}..."
+    echo "Checking for updates for ${image_name}..."
     docker compose pull -q
 
     new_id=$(docker images ${image_name} | sed -n 2p | awk '{ print $3 }')
     
-    update "${name}" "${old_id}" "${new_id}"
+    update "${image_name}" "${old_id}" "${new_id}"
   done
 done
 
