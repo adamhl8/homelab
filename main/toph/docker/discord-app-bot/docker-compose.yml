@@ -9,7 +9,7 @@ services:
       - ./data/:/app/data/
     environment:
       - BOT_TOKEN=${discord_app_bot_token}
-      - CLIENT_ID=970956137157492786
+      - APPLICATION_ID=970956137157492786
       - PUID=1000
       - PGID=1000
       - TZ=America/Chicago
