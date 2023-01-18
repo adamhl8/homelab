@@ -32,7 +32,7 @@ dns:
   refuse_any: true
   upstream_dns:
     - tls://1dot1dot1dot1.cloudflare-dns.com
-    - '[/lan/]10.8.8.1'
+    - "[/lan/]10.8.8.1"
   upstream_dns_file: ""
   bootstrap_dns:
     - 1.1.1.1
@@ -118,6 +118,8 @@ dns:
   private_networks: []
   use_private_ptr_resolvers: true
   local_ptr_upstreams: []
+  serve_http3: false
+  use_http3_upstreams: false
 tls:
   enabled: false
   server_name: ""
@@ -128,11 +130,11 @@ tls:
   port_dnscrypt: 0
   dnscrypt_config_file: ""
   allow_unencrypted_doh: false
-  strict_sni_check: false
   certificate_chain: ""
   private_key: ""
   certificate_path: ""
   private_key_path: ""
+  strict_sni_check: false
 filters:
   - enabled: true
     url: https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt
