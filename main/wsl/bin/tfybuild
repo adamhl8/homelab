@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env fish
 
 yarn build:development
 sudo rm -rf ~/Adam/Apps/-\ Chrome\ Extensions/toolkit-for-ynab/
