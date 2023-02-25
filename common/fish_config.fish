@@ -3,7 +3,7 @@ set -g fish_greeting
 set -gx PNPM_HOME ~/.local/share/pnpm
 
 # PATH
-set -l paths ~/bin/ $PNPM_HOME
+set -l paths ~/bin/ ~/.local/bin/ $PNPM_HOME
 for path in $paths
   if not contains $path $fish_user_paths
     set -Ua fish_user_paths $path
