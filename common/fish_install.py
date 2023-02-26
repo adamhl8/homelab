@@ -21,4 +21,3 @@ if X('grep -q fish /etc/shells', check=False)[1] != 0:
 
 X(f'chsh -s {fish_path}')
 print(f'Set {fish_path} as default shell')
-print('Open fish and run next step.')
