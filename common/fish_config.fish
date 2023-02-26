@@ -27,5 +27,3 @@ abbr --add greset 'git fetch && git reset --hard @{u}'
 abbr --add gclean 'git clean -ndffx'
 abbr --add gcleanf 'git clean -dffx'
 abbr --add gswitch 'git switch -c'
-
-l
