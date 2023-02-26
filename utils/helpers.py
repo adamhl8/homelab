@@ -21,7 +21,8 @@ def add_user(user: str='adam'):
   X(f'cp -f {COMMON}/authorized_keys {user_home}/.ssh/')
   X(f'chmod 600 {user_home}/.ssh/authorized_keys')
   X(f'chown {user}:{user} {user_home}/.ssh/authorized_keys')
-
-  X(f'cp -a {HOMELAB_ROOT}/ {user_home}/')
-  X(f'chown -R {user}:{user} {HOMELAB_ROOT}/')
+  
   X(f'touch {HOMELAB_ROOT}/step1')
+  X(f'cp -a {HOMELAB_ROOT}/ {user_home}/')
+  X(f'chown -R {user}:{user} {user_home}/homelab')
+  
