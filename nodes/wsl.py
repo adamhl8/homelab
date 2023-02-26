@@ -18,7 +18,7 @@ def step3():
   import common.ssh
   import common.node
 
-def step4();
+def step4():
   X('pnpm config set enable-pre-post-scripts=true')
   X('pnpm add -g npm-check-updates')
   X('pnpm login')
