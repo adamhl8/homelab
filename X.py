@@ -56,4 +56,4 @@ def X(command: str, check: bool=True, pipefail=True) -> str:
     for status in pipestatus:
       if status != 0: raise ChildProcessError(f'Pipefail {pipestatus}')
 
-  return (output, returncode)
+  return (output.strip(), returncode)
