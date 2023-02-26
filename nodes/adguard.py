@@ -25,4 +25,4 @@ def step5():
   X('cd ~/; tar -vxzf ~/adguard.tar.gz')
   X('rm ~/adguard.tar.gz')
   X(f'ln -s {MODULES}/AdGuardHome.yaml ~/AdGuardHome/')
-  X('~/AdGuardHome/AdGuardHome -s install')
+  X('sudo ~/AdGuardHome/AdGuardHome -s install')
