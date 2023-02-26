@@ -17,11 +17,13 @@ def step3():
   import common.sops
   import common.ssh
   import common.node
+
+def step4();
   X('pnpm config set enable-pre-post-scripts=true')
   X('pnpm add -g npm-check-updates')
   X('pnpm login')
 
   import common.docker
 
-def step4():
+def step5():
   X(f'''sops -d --extract "['github_ghcr_token']" {HOMELAB_ROOT}/secrets.yaml | docker login ghcr.io -u adamhl8 --password-stdin''')
