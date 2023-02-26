@@ -17,7 +17,6 @@ def X(command: str, check: bool=True, pipefail=True) -> str:
   # ⽌ = U+2F4C
   if isFish: command = f'{command}; echo ⽌FISH_PIPESTATUS: $pipestatus;'
 
-  done = False
   returncode = None
   pipestatus = ''
   output = ''
@@ -32,14 +31,14 @@ def X(command: str, check: bool=True, pipefail=True) -> str:
     stderr=subprocess.STDOUT,
   ) as process:
     while (out := process.stdout.read(1)) or process.poll() is None:
-      if not done: done = out.startswith('⽌')
-      if not done:
+      if out.startswith('⽌'): pipestatus = 'done'
+      if not pipestatus:
         print(out, end='', flush=True)
         output += out
       else: pipestatus += out
     returncode = process.wait()
 
-  pipestatus = pipestatus.split(': ')[1]
+  if pipestatus: pipestatus = pipestatus.split(': ')[1]
 
   if check and returncode != 0: raise ChildProcessError(returncode)
   if pipefail and isFish and pipestatus:
