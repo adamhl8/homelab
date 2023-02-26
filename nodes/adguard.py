@@ -11,7 +11,6 @@ def step2():
 
 def step3():
   import common.fish_setup
-  X("echo 'deb http://deb.debian.org/debian/ unstable main' | sudo tee /etc/apt/sources.list")
   import common.common
 
 def step4():
