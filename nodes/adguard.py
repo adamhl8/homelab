@@ -6,6 +6,7 @@ def step1():
   helpers.add_user()
 
 def step2():
+  X('sudo rm -rf /root/homelab/')
   import common.fish_install
 
 def step3():
