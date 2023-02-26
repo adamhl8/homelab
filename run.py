@@ -16,6 +16,7 @@ MODULES = HOMELAB_ROOT/'nodes'/f'{name}'
 def main():
   node = importlib.import_module(f'nodes.{name}')
   steps = inspect.getmembers(node, inspect.isfunction)
+  steps = [t for t in steps if inspect.getmodule(t[1]) == node]
 
   X('sudo -v')
 

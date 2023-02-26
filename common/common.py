@@ -7,7 +7,7 @@ X(f'ln -s {COMMON}/bin/ ~/')
 X('~/bin/system-update')
 X('sudo apt install git curl htop zip unzip -y')
 
-X("'git config --global user.name 'Adam Langbert'")
+X("git config --global user.name 'Adam Langbert'")
 X("git config --global user.email 'adamhl@pm.me'")
 X('git config --global pull.ff only')
 
