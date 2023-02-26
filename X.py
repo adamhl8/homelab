@@ -14,30 +14,35 @@ def X(command: str, check: bool=True, pipefail=True) -> str:
 
   print(f'Executing: {command}')
 
-  if isFish: command = f'{command}; echo FISH_PIPESTATUS: $pipestatus;'
+  # ⽌ = U+2F4C
+  if isFish: command = f'{command}; echo ⽌FISH_PIPESTATUS: $pipestatus;'
 
+  done = False
   returncode = None
-  pipestatus = None
-  output = ""
+  pipestatus = ''
+  output = ''
 
   with subprocess.Popen(
     command,
     shell=True,
     executable=shell_path,
     text=True,
+    bufsize=1,
     stdout=subprocess.PIPE,
-    stderr=subprocess.STDOUT
+    stderr=subprocess.STDOUT,
   ) as process:
-    for line in process.stdout:
-      done = line.startswith('FISH_PIPESTATUS')
+    while (out := process.stdout.read(1)) or process.poll() is None:
+      if not done: done = out.startswith('⽌')
       if not done:
-        print(line, end='')
-        output += line
-      else: pipestatus = line.split(': ')[1]
+        print(out, end='', flush=True)
+        output += out
+      else: pipestatus += out
     returncode = process.wait()
 
+  pipestatus = pipestatus.split(': ')[1]
+
   if check and returncode != 0: raise ChildProcessError(returncode)
-  if pipefail and isFish:
+  if pipefail and isFish and pipestatus:
     # get pipestatus as list: '0 1 0' -> [0, 1, 0]
     pipestatus = [int(x) for x in pipestatus.split()]
     for status in pipestatus:
