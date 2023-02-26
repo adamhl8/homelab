@@ -1,3 +1,0 @@
-ezaks.freemyip.com {
-	reverse_proxy 100.124.4.7:8100
-}

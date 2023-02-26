@@ -1,24 +1,19 @@
 bind_host: 0.0.0.0
 bind_port: 80
-beta_bind_port: 0
 users:
   - name: adam
-    password: $2a$10$U99V.NrZbK8E5cdfWGZR4.drtn1NtcylGfW6CCF6mCBJTZuADsi/O
+    password: $2a$10$yesupk25bv.tszVwnYQAduSZWPTBka1zsDBLmKQCOIXiGQ4AGqDQK
 auth_attempts: 5
 block_auth_min: 15
 http_proxy: ""
 language: ""
+theme: auto
 debug_pprof: false
 web_session_ttl: 720
 dns:
   bind_hosts:
     - 0.0.0.0
   port: 53
-  statistics_interval: 1
-  querylog_enabled: true
-  querylog_file_enabled: true
-  querylog_interval: 24h
-  querylog_size_memory: 1000
   anonymize_client_ip: false
   protection_enabled: true
   blocking_mode: default
@@ -72,52 +67,54 @@ dns:
   cache_time: 30
   rewrites:
     - domain: auth.adamhl.dev
-      answer: 10.8.8.2
+      answer: 10.8.8.3
     - domain: plex.adamhl.dev
-      answer: 10.8.8.2
+      answer: 10.8.8.3
     - domain: unifi.adamhl.dev
-      answer: 10.8.8.2
+      answer: 10.8.8.3
     - domain: cups.adamhl.dev
-      answer: 10.8.8.2
+      answer: 10.8.8.3
     - domain: vault.adamhl.dev
-      answer: 10.8.8.2
+      answer: 10.8.8.3
     - domain: sync.adamhl.dev
-      answer: 10.8.8.2
+      answer: 10.8.8.3
     - domain: files.adamhl.dev
-      answer: 10.8.8.2
+      answer: 10.8.8.3
     - domain: eyir.adamhl.dev
-      answer: 10.8.8.2
+      answer: 10.8.8.3
     - domain: utk.adamhl.dev
-      answer: 10.8.8.2
+      answer: 10.8.8.3
     - domain: dashdot.adamhl.dev
-      answer: 10.8.8.2
+      answer: 10.8.8.3
     - domain: sonarr.adamhl.dev
-      answer: 10.8.8.2
+      answer: 10.8.8.3
     - domain: radarr.adamhl.dev
-      answer: 10.8.8.2
+      answer: 10.8.8.3
     - domain: qb.adamhl.dev
-      answer: 10.8.8.2
+      answer: 10.8.8.3
     - domain: ha.adamhl.dev
-      answer: 10.8.8.2
+      answer: 10.8.8.3
     - domain: scrutiny.adamhl.dev
-      answer: 10.8.8.2
+      answer: 10.8.8.3
     - domain: homarr.adamhl.dev
-      answer: 10.8.8.2
+      answer: 10.8.8.3
     - domain: z2m.adamhl.dev
-      answer: 10.8.8.2
+      answer: 10.8.8.3
     - domain: kavita.adamhl.dev
-      answer: 10.8.8.2
+      answer: 10.8.8.3
     - domain: cyberchef.adamhl.dev
-      answer: 10.8.8.2
+      answer: 10.8.8.3
     - domain: jellyfin.adamhl.dev
-      answer: 10.8.8.2
+      answer: 10.8.8.3
     - domain: webtop.adamhl.dev
-      answer: 10.8.8.2
+      answer: 10.8.8.3
   blocked_services: []
   upstream_timeout: 10s
   private_networks: []
   use_private_ptr_resolvers: true
   local_ptr_upstreams: []
+  use_dns64: false
+  dns64_prefixes: []
   serve_http3: false
   use_http3_upstreams: false
 tls:
@@ -135,9 +132,19 @@ tls:
   certificate_path: ""
   private_key_path: ""
   strict_sni_check: false
+querylog:
+  enabled: true
+  file_enabled: true
+  interval: 168h
+  size_memory: 1000
+  ignored: []
+statistics:
+  enabled: true
+  interval: 1
+  ignored: []
 filters:
   - enabled: true
-    url: https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.txt
     name: AdGuard DNS filter
     id: 1
 whitelist_filters: []
@@ -178,4 +185,4 @@ os:
   group: ""
   user: ""
   rlimit_nofile: 0
-schema_version: 14
+schema_version: 16

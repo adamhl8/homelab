@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from shutil import which
 from X import X
 import sys
 import importlib
@@ -18,7 +19,7 @@ def main():
   steps = inspect.getmembers(node, inspect.isfunction)
   steps = [t for t in steps if inspect.getmodule(t[1]) == node]
 
-  X('sudo -v')
+  if which('sudo'): X('sudo -v')
 
   for step in steps:
     current_step, step_fn = step
@@ -35,7 +36,7 @@ def main():
       print(f'Finished running {name}.')
       for file in HOMELAB_ROOT.glob('step*'): file.unlink()
     
-    prompts.reboot()
+    if not prompts.reboot(): sys.exit(0)
 
 if __name__ == '__main__':
   main()

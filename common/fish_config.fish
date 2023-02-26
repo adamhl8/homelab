@@ -1,5 +1,6 @@
 # variables
 set -g fish_greeting
+set -gx EDITOR micro
 set -gx PNPM_HOME ~/.local/share/pnpm
 
 # PATH

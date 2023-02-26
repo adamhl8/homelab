@@ -46,11 +46,12 @@ def X(command: str, check: bool=True, pipefail=True) -> str:
       else: pipestatus += out
     returncode = process.wait()
 
+  # Get $pipestatus from FISH_PIPESTATUS: $pipestatus
   if pipestatus: pipestatus = pipestatus.split(': ')[1]
 
   if check and returncode != 0: raise ChildProcessError(returncode)
   if pipefail and isFish and pipestatus:
-    # Get pipestatus as list: '0 1 0' -> [0, 1, 0]
+    # Get pipestatus as list of ints: '0 1 0' -> [0, 1, 0]
     pipestatus = [int(x) for x in pipestatus.split()]
     for status in pipestatus:
       if status != 0: raise ChildProcessError(f'Pipefail {pipestatus}')

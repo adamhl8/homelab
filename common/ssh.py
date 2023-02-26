@@ -2,9 +2,9 @@ from X import X
 from run import HOMELAB_ROOT, COMMON
 import utils.helpers as helpers
 
-X('mkdir ~/.ssh/')
+X('mkdir -p ~/.ssh/')
 X('chmod 700 ~/.ssh/')
-X(f'ln -s {COMMON}/authorized_keys ~/.ssh/')
+X(f'ln -f -s {COMMON}/authorized_keys ~/.ssh/')
 
 X(f"""sops -d --extract "['ssh']['$hostname']['pri']" {HOMELAB_ROOT}/secrets.yaml >~/.ssh/id_ed25519""")
 X(f"""sops -d --extract "['ssh']['$hostname']['pub']" {HOMELAB_ROOT}/secrets.yaml >~/.ssh/id_ed25519.pub""")
