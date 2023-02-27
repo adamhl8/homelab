@@ -1,17 +1,8 @@
-Include /etc/ssh/sshd_config.d/*.conf
-
-PermitRootLogin no
-PasswordAuthentication no
-KbdInteractiveAuthentication no
-PermitEmptyPasswords no
-MaxAuthTries 3
-ClientAliveInterval 600
-UsePAM yes
-X11Forwarding yes
-PrintMotd no
-
-# Allow client to pass locale environment variables
-AcceptEnv LANG LC_*
-
-# override default of no subsystems
-Subsystem	sftp	/usr/lib/openssh/sftp-server
+challengeresponseauthentication no
+clientaliveinterval 600
+kbdinteractiveauthentication no
+maxauthtries 3
+passwordauthentication no
+permitemptypasswords no
+permitrootlogin no
+printmotd no
