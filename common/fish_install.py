@@ -1,7 +1,8 @@
 from X import X
 from shutil import which
+import utils.helpers as helpers
 
-os_name = X('cat /etc/os-release | grep ^ID= | sed "s|^ID=||"')[0]
+os_name = helpers.get_os_name()
 
 if os_name == 'debian':
   X('''echo 'deb http://download.opensuse.org/repositories/shells:/fish:/release:/3/Debian_11/ /' | sudo tee /etc/apt/sources.list.d/shells:fish:release:3.list''')

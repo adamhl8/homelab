@@ -7,6 +7,14 @@ def get_arch():
   if platform.machine() == 'aarch64': arch = 'arm64'
   return arch
 
+def get_os_name():
+  return X('cat /etc/os-release | grep ^ID= | sed "s|^ID=||"')[0]
+
+def setup_pnpm():
+  X('pnpm config set enable-pre-post-scripts=true')
+  X('pnpm add -g npm-check-updates')
+  X('pnpm login')
+
 def add_user(user: str='adam'):
   user_home=f'/home/{user}'
 

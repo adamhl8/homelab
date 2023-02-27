@@ -12,7 +12,7 @@ isFish = shell_name == 'fish'
 
 # If check=True (default), an error will be thrown on non-zero exit status.
 # If pipefail=True (default), an error will be thrown on non-zero exit status of any command in a pipeline (only applies if using fish shell).
-def X(command: str, check: bool=True, pipefail=True) -> str:
+def X(command: str, check: bool=True, pipefail=True) -> (str, int):
 
   print(f'Executing: {command}')
 

@@ -1,24 +1,6 @@
 #!/bin/bash
 
-steps=3
-
-step1() {
-  echo 'deb http://deb.debian.org/debian/ unstable main' | sudo tee /etc/apt/sources.list
-  source ~/homelab/common/common.sh
-  source ~/homelab/common/ssh.sh
-  source ~/homelab/common/sshd.sh
-  source ~/homelab/common/sops.sh
-  ln -s ${modules}/bin/* ~/bin/
-
-  sudo sed -i "s|127\.0\.1\.1.*|127.0.1.1       toph|" /etc/hosts
-}
-
 step2() {
-  source ${modules}/storage/storage.sh
-
-  ln -s ${modules}/snapraid/ ~/
-  source ~/snapraid/init.sh
-
   ln -s ${modules}/restic/ ~/
   source ~/restic/init.sh
 
@@ -27,8 +9,6 @@ step2() {
 
   ln -s ${modules}/ksmbd/ ~/
   source ~/ksmbd/init.sh
-
-  source ~/homelab/common/docker.sh
 }
 
 step3() {
