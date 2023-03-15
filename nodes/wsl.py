@@ -1,28 +1,38 @@
-from X import X
+from shellrunner import X
+
 from run import HOMELAB_ROOT, MODULES
-import utils.helpers as helpers
+from utils import helpers
+
 
 def step1():
-  import common.fish_install
-  X(f'sudo cp {MODULES}/wsl.conf /etc/')
+    import common.fish_install
+
+    X(f"sudo cp {MODULES}/wsl.conf /etc/")
+
 
 def step2():
-  import common.fish_setup
-  import common.common
-  X('ln -s /mnt/c/Users/Adam/ ~/')
-  X(f'ln -s {MODULES}/bin/* ~/bin/')
-  X('mkdir ~/dev/')
+    import common.common
+    import common.fish_setup
+
+    X("ln -s /mnt/c/Users/Adam/ ~/")
+    X(f"ln -s {MODULES}/bin/* ~/bin/")
+    X("mkdir ~/dev/")
+
 
 def step3():
-  import common.age
-  import common.sops
-  import common.ssh
-  import common.node
+    import common.age
+    import common.node
+    import common.sops
+    import common.ssh
+
 
 def step4():
-  helpers.setup_pnpm()
+    helpers.setup_pnpm()
 
-  import common.docker
+    import common.docker
+
 
 def step5():
-  X(f'''sops -d --extract "['github_ghcr_token']" {HOMELAB_ROOT}/secrets.yaml | docker login ghcr.io -u adamhl8 --password-stdin''')
+    X(
+        f"""sops -d --extract "['github_ghcr_token']" {HOMELAB_ROOT}/secrets.yaml | docker login ghcr.io -u adamhl8 --password-stdin""",
+    )

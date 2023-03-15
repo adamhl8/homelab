@@ -1,12 +1,10 @@
 #!/usr/bin/env fish
 
-curl -s https://api.github.com/repos/ironicbadger/docker-snapraid/actions/artifacts |\
-string match -r "https://.*artifacts.*zip" | sed 1q |\
-xargs curl -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $(sops -d --extract "['github_public_repo_token']" ~/secrets.yaml)" -H "X-GitHub-Api-Version: 2022-11-28" -Lo ~/snapraid.zip
-
-unzip ~/snapraid.zip
-rm ~/snapraid.zip
-sudo apt install ~/snapraid-from-source.deb -y
-rm ~/snapraid-from-source.deb
-sudo apt-mark hold snapraid
-snapraid --version
+mkdir ~/tmp/
+cd ~/tmp/
+git clone https://github.com/ironicbadger/docker-snapraid.git
+cd ~/tmp/docker-snapraid/
+~/tmp/docker-snapraid/build.sh
+dpkg-deb -x ~/tmp/docker-snapraid/build/snapraid-from-source.deb ~/tmp/
+mv -f ~/tmp/usr/local/bin/snapraid ~/bin/
+rm -rf ~/tmp/

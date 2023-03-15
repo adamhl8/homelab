@@ -1,2 +1,8 @@
 common/bin/*
 __pycache__
+__pypackages__
+.pytest_cache
+.ruff_cahce
+.pdm.toml
+build
+dist
