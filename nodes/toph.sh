@@ -1,9 +1,6 @@
 #!/bin/bash
 
 step2() {
-  ln -s ${modules}/restic/ ~/
-  source ~/restic/init.sh
-
   ln -s ${modules}/msmtp/ ~/
   source ~/msmtp/init.sh
 

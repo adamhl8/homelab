@@ -1,8 +1,22 @@
+from typing import NamedTuple
+
 from shellrunner import X
 
-from run import HOMELAB_ROOT, NODE
+from nodes.sid.restic.init import main as restic
+from nodes.sid.snapraid.init import main as snapraid
+from nodes.sid.storage.init import main as storage
+from run import HOMELAB_ROOT
 from utils import helpers
-from utils.modules import common
+from utils.modules import ModuleFunction, common
+
+
+class Sid(NamedTuple):
+    storage: ModuleFunction = storage
+    snapraid: ModuleFunction = snapraid
+    restic: ModuleFunction = restic
+
+
+sid = Sid()
 
 
 def step1():
@@ -15,24 +29,22 @@ def step2():
     X("echo 'deb http://deb.debian.org/debian/ unstable main' | sudo tee /etc/apt/sources.list")
     common.shared()
 
-    X(f"ln -s {NODE}/bin/* ~/bin/")
-    # sudo sed -i "s|127\.0\.1\.1.*|127.0.1.1       sid|" /etc/hosts
-
 
 def step3():
     common.age()
-    common.docker()
-    common.node()
     common.sops()
     common.ssh()
     common.sshd()
+    common.node()
+    common.docker()
 
 
 def step4():
     helpers.setup_pnpm()
 
-    import nodes.sid.snapraid.init
-    import nodes.sid.storage.init
+    sid.storage()
+    sid.snapraid()
+    sid.restic()
 
 
 def step5():

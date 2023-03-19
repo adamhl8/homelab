@@ -16,7 +16,6 @@ def step2():
     common.shared()
 
     X("ln -s /mnt/c/Users/Adam/ ~/")
-    X(f"ln -s {NODE}/bin/* ~/bin/")
     X("mkdir ~/dev/")
 
 
@@ -26,16 +25,12 @@ def step3():
     common.ssh()
     common.pdm()
     common.node()
+    common.docker()
 
 
 def step4():
     helpers.setup_pnpm()
     X("pnpm add -g pyright")
-
-    common.docker()
-
-
-def step5():
     X(
         f"""sops -d --extract "['github_ghcr_token']" {HOMELAB_ROOT}/secrets.yaml | docker login ghcr.io -u adamhl8 --password-stdin""",
     )

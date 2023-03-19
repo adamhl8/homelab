@@ -1,13 +1,17 @@
 def main():
     from shellrunner import X
 
-    from run import COMMON, HOMELAB_ROOT
+    from run import COMMON, HOMELAB_ROOT, NODE
     from utils import helpers
 
     X(f"ln -s {COMMON}/bin/ ~/")
+    if (NODE / "bin").is_dir():
+        X(f"ln -s {NODE}/bin/* ~/bin/")
 
     X("~/bin/system-update")
     X("sudo apt install git curl htop zip unzip -y")
+
+    X(r'sudo sed -i "s|127\.0\.1\.1.*|127.0.1.1       $hostname.lan $hostname|" /etc/hosts')
 
     X(f"ln -s {COMMON}/configs/.gitconfig ~/")
 

@@ -23,7 +23,6 @@ format = {cmd = "black ."}
 typeCheckingMode = "strict"
 exclude = ["__pypackages__/3.10/lib"]
 extraPaths = ["__pypackages__/3.10/lib"]
-reportUnusedImport = "none"
 
 [tool.black]
 line-length = 120

@@ -1,6 +1,0 @@
-#!/usr/bin/env fish
-
-curl -s https://api.github.com/repos/trapexit/mergerfs/releases/latest | string match -r "https://.*mergerfs.*debian-bullseye_amd64.deb" | sed 1q | xargs curl -Lo ~/mergerfs.deb
-sudo apt install ~/mergerfs.deb -y
-rm ~/mergerfs.deb
-mergerfs --version
