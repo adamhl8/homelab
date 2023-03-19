@@ -1,36 +1,37 @@
 from shellrunner import X
 
-from run import HOMELAB_ROOT, MODULES
+from run import HOMELAB_ROOT, NODE
 from utils import helpers
+from utils.modules import common
 
 
 def step1():
-    import common.fish_install
+    common.fish_install()
 
-    X(f"sudo ls -s {MODULES}/wsl.conf /etc/")
+    X(f"sudo ls -s {NODE}/wsl.conf /etc/")
 
 
 def step2():
-    import common.common
-    import common.fish_setup
+    common.fish_setup()
+    common.shared()
 
     X("ln -s /mnt/c/Users/Adam/ ~/")
-    X(f"ln -s {MODULES}/bin/* ~/bin/")
+    X(f"ln -s {NODE}/bin/* ~/bin/")
     X("mkdir ~/dev/")
 
 
 def step3():
-    import common.age
-    import common.node
-    import common.pdm
-    import common.sops
-    import common.ssh
+    common.age()
+    common.sops()
+    common.ssh()
+    common.pdm()
+    common.node()
 
 
 def step4():
     helpers.setup_pnpm()
 
-    import common.docker
+    common.docker()
 
 
 def step5():

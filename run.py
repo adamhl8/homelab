@@ -14,7 +14,7 @@ name = sys.argv[1]
 
 HOMELAB_ROOT = Path(sys.argv[0]).parent.resolve(strict=True)
 COMMON = HOMELAB_ROOT / "common"
-MODULES = HOMELAB_ROOT / "nodes" / f"{name}"
+NODE = HOMELAB_ROOT / "nodes" / f"{name}"
 
 
 def main():

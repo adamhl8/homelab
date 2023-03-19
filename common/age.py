@@ -1,9 +1,8 @@
-from shellrunner import X
-
-from utils import helpers
-
-
 def main():
+    from shellrunner import X
+
+    from utils import helpers
+
     X(f'curl -Lo ~/age.tar.gz "https://dl.filippo.io/age/latest?for=linux/{helpers.get_arch()}"')
     X(["cd ~/", "tar -vxzf ~/age.tar.gz"])
     X("mv ~/age/age* ~/bin/")

@@ -1,8 +1,8 @@
 from shellrunner import X
 
-from run import MODULES
+from run import NODE
 
-X(f"ln -s {MODULES}/snapraid/ ~/")
+X(f"ln -s {NODE}/snapraid/ ~/")
 
 # snapraid
 X("~/bin/snapraid-update")

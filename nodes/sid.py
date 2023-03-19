@@ -1,30 +1,31 @@
 from shellrunner import X
 
-from run import HOMELAB_ROOT, MODULES
+from run import HOMELAB_ROOT, NODE
 from utils import helpers
+from utils.modules import common
 
 
 def step1():
-    import common.fish_install
+    common.fish_install()
 
 
 def step2():
-    import common.fish_setup
+    common.fish_setup()
 
     X("echo 'deb http://deb.debian.org/debian/ unstable main' | sudo tee /etc/apt/sources.list")
-    import common.common
+    common.shared()
 
-    X(f"ln -s {MODULES}/bin/* ~/bin/")
+    X(f"ln -s {NODE}/bin/* ~/bin/")
     # sudo sed -i "s|127\.0\.1\.1.*|127.0.1.1       sid|" /etc/hosts
 
 
 def step3():
-    import common.age
-    import common.docker
-    import common.node
-    import common.sops
-    import common.ssh
-    import common.sshd
+    common.age()
+    common.docker()
+    common.node()
+    common.sops()
+    common.ssh()
+    common.sshd()
 
 
 def step4():

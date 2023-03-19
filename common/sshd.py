@@ -1,6 +1,7 @@
-from shellrunner import X
+def main():
+    from shellrunner import X
 
-from run import COMMON
+    from run import COMMON
 
-X(f"sudo ln -f -s {COMMON}/configs/sshd_config /etc/ssh/")
-X("sudo systemctl restart ssh")
+    X(f"sudo ln -f -s {COMMON}/configs/sshd_config /etc/ssh/")
+    X("sudo systemctl restart ssh")
