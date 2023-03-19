@@ -30,6 +30,7 @@ def step3():
 
 def step4():
     helpers.setup_pnpm()
+    X("pnpm add -g pyright")
 
     common.docker()
 
