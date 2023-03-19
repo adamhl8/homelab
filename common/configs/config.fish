@@ -11,9 +11,6 @@ for path in $paths
   end
 end
 
-# PYTHONPATH
-set -gx PYTHONPATH ~/pythonm/ $PYTHONPATH
-
 # aliases
 function l --wraps='LC_COLLATE=C ls -ahlF' --description 'alias l LC_COLLATE=C ls -ahlF'
   LC_COLLATE=C ls -ahlF $argv

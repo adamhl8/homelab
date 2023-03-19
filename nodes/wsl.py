@@ -7,7 +7,7 @@ from utils import helpers
 def step1():
     import common.fish_install
 
-    X(f"sudo cp {MODULES}/wsl.conf /etc/")
+    X(f"sudo ls -s {MODULES}/wsl.conf /etc/")
 
 
 def step2():
@@ -22,6 +22,7 @@ def step2():
 def step3():
     import common.age
     import common.node
+    import common.pdm
     import common.sops
     import common.ssh
 

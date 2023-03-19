@@ -32,7 +32,7 @@ def add_user(user: str = "adam"):
     X(f"mkdir -p {user_home}/.ssh/")
     X(f"chmod 700 {user_home}/.ssh/")
     X(f"chown {user}:{user} {user_home}/.ssh/")
-    X(f"cp -f {COMMON}/authorized_keys {user_home}/.ssh/")
+    X(f"cp -f {COMMON}/configs/authorized_keys {user_home}/.ssh/")
     X(f"chmod 600 {user_home}/.ssh/authorized_keys")
     X(f"chown {user}:{user} {user_home}/.ssh/authorized_keys")
 

@@ -23,7 +23,7 @@ X("sudo apt update")
 X("sudo apt install fish -y")
 
 fish_path = which("fish")
-if X("grep -q fish /etc/shells", check=False)[1] != 0:
+if X("grep -q fish /etc/shells", check=False).status[0] != 0:
     X(f"echo {fish_path} | sudo tee -a /etc/shells > /dev/null")
     print(f"Added {fish_path} to /etc/shells")
 

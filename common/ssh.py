@@ -1,7 +1,6 @@
 from shellrunner import X
 
 from run import COMMON, HOMELAB_ROOT
-from utils import helpers
 
 X("mkdir -p ~/.ssh/")
 X("chmod 700 ~/.ssh/")
@@ -11,7 +10,3 @@ X(f"""sops -d --extract "['$hostname']['pri']" {HOMELAB_ROOT}/ssh.yaml >~/.ssh/i
 X(f"""sops -d --extract "['$hostname']['pub']" {HOMELAB_ROOT}/ssh.yaml >~/.ssh/id_ed25519.pub""")
 X("chmod 600 ~/.ssh/id_ed25519")
 X("chmod 644 ~/.ssh/id_ed25519.pub")
-
-X("git config --global commit.gpgsign true")
-X("git config --global gpg.format ssh")
-X('git config --global user.signingkey "~/.ssh/id_ed25519.pub"')
