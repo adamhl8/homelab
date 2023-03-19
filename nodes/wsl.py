@@ -8,7 +8,7 @@ from utils.modules import common
 def step1():
     common.fish_install()
 
-    X(f"sudo ls -s {NODE}/wsl.conf /etc/")
+    X(f"sudo ln -s {NODE}/wsl.conf /etc/")
 
 
 def step2():

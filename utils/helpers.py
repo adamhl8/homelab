@@ -12,7 +12,7 @@ def get_arch():
 
 
 def get_os_name():
-    return X('cat /etc/os-release | grep ^ID= | sed "s|^ID=||"')[0]
+    return X('cat /etc/os-release | grep ^ID= | sed "s|^ID=||"').out.strip()
 
 
 def setup_pnpm():

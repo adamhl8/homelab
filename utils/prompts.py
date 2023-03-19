@@ -8,7 +8,7 @@ def reboot():
     if response.lower() == "y":
         if which("wsl.exe"):
             print("WSL detected. Shutting down...")
-            X("powershell.exe -Command wsl --shutdown")
+            X("wsl.exe --shutdown")
         else:
             X("sudo reboot")
     return False
