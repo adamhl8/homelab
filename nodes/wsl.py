@@ -31,6 +31,4 @@ def step3():
 def step4():
     helpers.setup_pnpm()
     X("pnpm add -g pyright")
-    X(
-        f"""sops -d --extract "['github_ghcr_token']" {HOMELAB_ROOT}/secrets.yaml | docker login ghcr.io -u adamhl8 --password-stdin""",
-    )
+    helpers.docker_login()

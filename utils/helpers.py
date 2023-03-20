@@ -12,13 +12,19 @@ def get_arch():
 
 
 def get_os_name():
-    return X('cat /etc/os-release | grep ^ID= | sed "s|^ID=||"').out.strip()
+    return X('cat /etc/os-release | grep ^ID= | sed "s|^ID=||"').out
 
 
 def setup_pnpm():
     X("pnpm config set enable-pre-post-scripts=true")
     X("pnpm add -g npm-check-updates")
     X("pnpm login")
+
+
+def docker_login():
+    X(
+        """sops -d --extract "['github_ghcr_token']" ~/secrets.yaml | docker login ghcr.io -u adamhl8 --password-stdin""",
+    )
 
 
 def add_user(user: str = "adam"):

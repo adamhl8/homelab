@@ -1,28 +1,28 @@
-#!/bin/bash
+from shellrunner import X, ShellCommandError
 
-timestamp=$(date +%F_%T)
+timestamp = X(r"date +%F_%T")
 
-(
-exec &>>~/restic/restic.log
-set -e
+backblaze_application_key = X("""sops -d --extract "['backblaze_application_key']" ~/secrets.yaml""").out
+restic_password = X("""sops -d --extract "['restic_password']" ~/secrets.yaml""").out
 
-source sops-source
+try:
+  output = X([
+      "set -gx RESTIC_REPOSITORY 'b2:toph-storage:/'",
+      "set -gx B2_ACCOUNT_ID '00420518bb341580000000001'",
+      f"set -gx B2_ACCOUNT_KEY '{backblaze_application_key}'",
+      f"set -gx RESTIC_PASSWORD '{restic_password}'",
+      "set -gx RESTIC_COMPRESSION 'max'",
+      "set -gx RESTIC_PACK_SIZE '100'",
 
-export RESTIC_REPOSITORY=b2:toph-storage:/
-export B2_ACCOUNT_ID=00420518bb341580000000001
-export B2_ACCOUNT_KEY=${backblaze_application_key}
-export RESTIC_PASSWORD=${restic_password}
-export RESTIC_COMPRESSION=max
-export RESTIC_PACK_SIZE=100
-
-echo "Starting restic backup..."
-~/restic/restic backup /mnt/storage -vv --exclude-file ~/restic/excludes
-echo "Cleaning up..."
-~/restic/restic forget --prune --keep-within 1m
-echo "Checking integrity..."
-~/restic/restic check
-)
-exit_status=$?
+      "echo 'Starting restic backup...'",
+      "~/restic/restic backup /mnt/storage -vv --exclude-file ~/restic/excludes",
+      "echo 'Cleaning up...'",
+      "~/restic/restic forget --prune --keep-within 1m",
+      "echo 'Checking integrity...'",
+      "~/restic/restic check",
+  ]).out
+except ShellCommandError as e:
+  
 
 sed -i '\|unchanged.*|d' ~/restic/restic.log
 
