@@ -1,6 +1,6 @@
 from shellrunner import X
 
-from run import HOMELAB_ROOT, NODE
+from run import NODE
 from utils import helpers
 from utils.modules import common
 

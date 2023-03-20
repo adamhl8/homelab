@@ -95,7 +95,7 @@ dependencies = [
 
 [[package]]
 name = "python-shellrunner"
-version = "0.1.0"
+version = "0.3.0"
 requires_python = ">=3.10"
 summary = "Write safe shell scripts in Python."
 
@@ -113,7 +113,7 @@ summary = "A lil' TOML parser"
 
 [metadata]
 lock_version = "4.1"
-content_hash = "sha256:cfaa193140188160d5c1cc742d0f25a8ebd930e2dd0d823ff6b642e28f6ebb58"
+content_hash = "sha256:4019a50dee8f4c0d4172f02b2a92a484c873855029dc632d2e05b6c1584ef2a6"
 
 [metadata.files]
 "attrs 22.2.0" = [
@@ -187,9 +187,9 @@ content_hash = "sha256:cfaa193140188160d5c1cc742d0f25a8ebd930e2dd0d823ff6b642e28
     {url = "https://files.pythonhosted.org/packages/b2/68/5321b5793bd506961bd40bdbdd0674e7de4fb873ee7cab33dd27283ad513/pytest-7.2.2-py3-none-any.whl", hash = "sha256:130328f552dcfac0b1cec75c12e3f005619dc5f874f0a06e8ff7263f0ee6225e"},
     {url = "https://files.pythonhosted.org/packages/b9/29/311895d9cd3f003dd58e8fdea36dd895ba2da5c0c90601836f7de79f76fe/pytest-7.2.2.tar.gz", hash = "sha256:c99ab0c73aceb050f68929bc93af19ab6db0558791c6a0715723abe9d0ade9d4"},
 ]
-"python-shellrunner 0.1.0" = [
-    {url = "https://files.pythonhosted.org/packages/5e/fc/dce7757d929d8c7abc04ec25738f9173c4aae6334e56a0bd27d93bfc919b/python_shellrunner-0.1.0.tar.gz", hash = "sha256:9075d923c5fb312dc72e28bbdb3fa9ee7239de1061d4842b5ed60391556b6dd1"},
-    {url = "https://files.pythonhosted.org/packages/d9/61/a7a88a02763422aae8b4777c47c389ec289b49b10a720716bbee956af6ef/python_shellrunner-0.1.0-py3-none-any.whl", hash = "sha256:961a1b5baf756dc35befa0c1c08e06c13e23c25ff8851496aa4c07fb29c7c2cb"},
+"python-shellrunner 0.3.0" = [
+    {url = "https://files.pythonhosted.org/packages/f0/fe/67fb968f0af16bddcc35137145531918bce64e8650557462acb5dd54990a/python_shellrunner-0.3.0-py3-none-any.whl", hash = "sha256:9b2ead1585b34210a48836c28d349b952f8220ba619ce03818fb930cec92dd1a"},
+    {url = "https://files.pythonhosted.org/packages/f5/16/370e43d3221ad13171098c2af62fc3e154c2bc5d9dea2fb40d4eb92cd25d/python_shellrunner-0.3.0.tar.gz", hash = "sha256:e51eb39c2be20b9287b23998dd9a5e0fa8016ea5a671cd3cfe2df0e5d66bc222"},
 ]
 "ruff 0.0.257" = [
     {url = "https://files.pythonhosted.org/packages/03/fa/c50057dc525c9c4f9babc2f22838645e53034f2802c7204c669b620ab0dd/ruff-0.0.257.tar.gz", hash = "sha256:fedfd06a37ddc17449203c3e38fc83fb68de7f20b5daa0ee4e60d3599b38bab0"},

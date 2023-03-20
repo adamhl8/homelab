@@ -1,7 +1,7 @@
 def main():
     from shutil import which
 
-    from shellrunner import X
+    from shellrunner import ShellCommandError, X
 
     from utils import helpers
 
@@ -24,7 +24,9 @@ def main():
     X("sudo apt install fish -y")
 
     fish_path = which("fish")
-    if X("grep -q fish /etc/shells", check=False).status[0] != 0:
+    try:
+        X("grep -q fish /etc/shells")
+    except ShellCommandError:
         X(f"echo {fish_path} | sudo tee -a /etc/shells > /dev/null")
         print(f"Added {fish_path} to /etc/shells")
 
