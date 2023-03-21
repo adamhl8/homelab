@@ -15,7 +15,7 @@ from common.sshd import main as sshd
 ModuleFunction = Callable[..., None]
 
 
-class Modules(NamedTuple):
+class CommonModules(NamedTuple):
     age: ModuleFunction = age
     docker: ModuleFunction = docker
     fish_install: ModuleFunction = fish_install
@@ -28,4 +28,4 @@ class Modules(NamedTuple):
     sshd: ModuleFunction = sshd
 
 
-common = Modules()
+common = CommonModules()

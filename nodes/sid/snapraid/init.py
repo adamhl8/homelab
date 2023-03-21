@@ -5,7 +5,7 @@ def main():
 
     # snapraid
     X("mkdir -p ~/snapraid/")
-    X("~/bin/snapraid-update")
+    X("~/bin/snapraid-update.py")
     X(f"ln -s {NODE}/snapraid/snapraid.conf ~/snapraid/")
 
     # snapper
@@ -18,11 +18,11 @@ def main():
     X("snapper list-configs")
 
     # snapraid-btrfs
-    X("~/bin/snapraid-btrfs-update")
+    X("~/bin/snapraid-btrfs-update.py")
     X("~/snapraid/snapraid-btrfs -c ~/snapraid/snapraid.conf ls")
 
     # snapraid-btrfs-runner
-    X("~/bin/snapraid-btrfs-runner-update")
+    X("~/bin/snapraid-btrfs-runner-update.py")
     X(f"ln -s {NODE}/snapraid/snapraid-btrfs-runner.conf ~/snapraid/")
     X(
         "sops exec-env ~/secrets.yaml 'envsubst < ~/snapraid/snapraid-btrfs-runner.conf | tee ~/snapraid/snapraid-btrfs-runner.conf > /dev/null'",

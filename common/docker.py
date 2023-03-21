@@ -1,7 +1,7 @@
 def main():
     from shellrunner import X
 
-    from utils import helpers
+    from lib import helpers
 
     os_name = helpers.get_os_name()
 

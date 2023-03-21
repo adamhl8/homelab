@@ -8,7 +8,7 @@ from shutil import which
 
 from shellrunner import X
 
-from utils import prompts
+from lib import prompts
 
 name = sys.argv[1]
 

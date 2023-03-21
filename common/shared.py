@@ -1,8 +1,8 @@
 def main():
     from shellrunner import X
 
+    from lib import helpers
     from run import COMMON, HOMELAB_ROOT, NODE
-    from utils import helpers
 
     X(f"ln -s {COMMON}/bin/ ~/")
     if (NODE / "bin").is_dir():
