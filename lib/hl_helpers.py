@@ -25,12 +25,6 @@ def setup_pnpm():
     X("pnpm login")
 
 
-def docker_login():
-    X(
-        """sops -d --extract "['github_ghcr_token']" ~/secrets.yaml | docker login ghcr.io -u adamhl8 --password-stdin""",
-    )
-
-
 def send_email(*, from_addr: str, to_addr: str, subject: str, body: str):
     import smtplib
     import ssl

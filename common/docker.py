@@ -1,6 +1,7 @@
-def main():
-    from shellrunner import X
+from shellrunner import X
 
+
+def main():
     from lib import hl_helpers
 
     os_name = hl_helpers.get_os_name()
@@ -16,3 +17,9 @@ def main():
     X("sudo apt update")
     X("sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y")
     X("sudo usermod -aG docker $USER")
+
+
+def login():
+    X(
+        """sops -d --extract "['github_ghcr_token']" ~/secrets.yaml | docker login ghcr.io -u adamhl8 --password-stdin""",
+    )

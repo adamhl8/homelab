@@ -32,4 +32,4 @@ def step3():
 def step4():
     helpers.setup_pnpm()
     X("pnpm add -g pyright")
-    helpers.docker_login()
+    common.docker.login()
