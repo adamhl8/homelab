@@ -1,9 +1,9 @@
 def main():
     from shellrunner import X
 
-    from lib import helpers
+    from lib import hl_helpers
 
-    os_name = helpers.get_os_name()
+    os_name = hl_helpers.get_os_name()
 
     X("sudo apt install ca-certificates curl gnupg lsb-release -y")
     X("sudo mkdir -p /etc/apt/keyrings")

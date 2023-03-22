@@ -1,34 +1,29 @@
 from shellrunner import X
 
-from lib import helpers
+from lib import hl_helpers
 from run import NODE
 from utils.modules import common
 
 
 def step1():
-    helpers.add_user()
-
-
-def step2():
-    X("sudo rm -rf /root/homelab/")
     common.fish_install()
 
 
-def step3():
+def step2():
     common.fish_setup()
     common.shared()
 
 
-def step4():
+def step3():
     common.age()
     common.sops()
     common.ssh()
     common.sshd()
 
 
-def step5():
+def step4():
     X(
-        f"curl -Lo ~/adguard.tar.gz https://github.com/AdguardTeam/AdGuardHome/releases/latest/download/AdGuardHome_linux_{helpers.get_arch()}.tar.gz",
+        f"curl -Lo ~/adguard.tar.gz https://github.com/AdguardTeam/AdGuardHome/releases/latest/download/AdGuardHome_linux_{hl_helpers.get_arch()}.tar.gz",
     )
     X(["cd ~/", "tar -vxzf ~/adguard.tar.gz"])
     X("rm ~/adguard.tar.gz")

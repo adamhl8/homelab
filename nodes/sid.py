@@ -2,7 +2,7 @@ from typing import NamedTuple
 
 from shellrunner import X
 
-from lib import helpers
+from lib import hl_helpers
 from nodes.sid.restic.init import main as restic
 from nodes.sid.snapraid.init import main as snapraid
 from nodes.sid.storage.init import main as storage
@@ -39,7 +39,7 @@ def step3():
 
 
 def step4():
-    helpers.setup_pnpm()
+    hl_helpers.setup_pnpm()
 
     sid.storage()
     sid.snapraid()
@@ -51,4 +51,4 @@ def step5():
 
 
 def step6():
-    helpers.docker_login()
+    hl_helpers.docker_login()

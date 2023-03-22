@@ -1,14 +1,15 @@
+import hl_helpers as helpers
 from shellrunner import X
 
-from lib import helpers
-from run import NODE
-from utils.modules import common
+from common._modules import common
+
+wsl = helpers.get_homelab_root() / "nodes/wsl"
 
 
 def step1():
     common.fish_install()
 
-    X(f"sudo ln -s {NODE}/wsl.conf /etc/")
+    X(f"sudo ln -s {wsl}/wsl.conf /etc/")
 
 
 def step2():

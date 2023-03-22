@@ -1,7 +1,7 @@
 def main():
     from shellrunner import X
 
-    from lib import helpers
+    from lib import hl_helpers
     from run import COMMON, HOMELAB_ROOT, NODE
 
     X(f"ln -s {COMMON}/bin/ ~/")
@@ -30,5 +30,5 @@ def main():
         ],
     )
 
-    X(f"curl -Lo ~/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_{helpers.get_arch()}")
+    X(f"curl -Lo ~/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_{hl_helpers.get_arch()}")
     X("chmod 755 ~/bin/yq")

@@ -3,9 +3,9 @@ def main():
 
     from shellrunner import ShellCommandError, X
 
-    from lib import helpers
+    from lib import hl_helpers
 
-    os_name = helpers.get_os_name()
+    os_name = hl_helpers.get_os_name()
 
     if os_name == "debian":
         X(

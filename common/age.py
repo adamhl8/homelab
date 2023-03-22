@@ -1,9 +1,9 @@
 def main():
     from shellrunner import X
 
-    from lib import helpers
+    from lib import hl_helpers
 
-    X(f'curl -Lo ~/age.tar.gz "https://dl.filippo.io/age/latest?for=linux/{helpers.get_arch()}"')
+    X(f'curl -Lo ~/age.tar.gz "https://dl.filippo.io/age/latest?for=linux/{hl_helpers.get_arch()}"')
     X(["cd ~/", "tar -vxzf ~/age.tar.gz"])
     X("mv ~/age/age* ~/bin/")
     X("chmod 755 ~/bin/age*")

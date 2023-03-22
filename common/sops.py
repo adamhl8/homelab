@@ -1,11 +1,11 @@
 def main():
     from shellrunner import X
 
-    from lib import helpers
+    from lib import hl_helpers
     from run import HOMELAB_ROOT
 
     X(
-        f'curl -s https://api.github.com/repos/mozilla/sops/releases/latest | string match -r "https://.*/download/.*sops.*linux.{helpers.get_arch()}" | sed 1q | xargs curl -Lo ~/bin/sops',
+        f'curl -s https://api.github.com/repos/mozilla/sops/releases/latest | string match -r "https://.*/download/.*sops.*linux.{hl_helpers.get_arch()}" | sed 1q | xargs curl -Lo ~/bin/sops',
     )
     X("chmod 755 ~/bin/sops")
     X(f"ln -s {HOMELAB_ROOT}/secrets.yaml ~/")

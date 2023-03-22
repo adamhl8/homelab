@@ -10,7 +10,6 @@ dependencies = [
 dev = [
     "black>=23.1.0",
     "ruff>=0.0.257",
-    "pytest>=7.2.2",
 ]
 
 [tool.pdm.scripts]
@@ -22,7 +21,7 @@ format = {cmd = "black ."}
 [tool.pyright]
 typeCheckingMode = "strict"
 exclude = ["__pypackages__/3.10/lib"]
-extraPaths = ["__pypackages__/3.10/lib"]
+extraPaths = ["__pypackages__/3.10/lib", "lib"]
 
 [tool.black]
 line-length = 120
