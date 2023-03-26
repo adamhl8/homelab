@@ -23,6 +23,11 @@ def step3():
 
 
 def step4():
+    X("sudo mkdir -p /etc/systemd/resolved.conf.d/")
+    X(f"ln -s {paths.nodes.adguard}/adguardhome.conf /etc/systemd/resolved.conf.d/")
+    X("sudo ln -s -f /run/systemd/resolve/resolv.conf /etc/resolv.conf")
+    X("sudo systemctl reload-or-restart systemd-resolved")
+
     X(
         f"curl -Lo ~/adguard.tar.gz https://github.com/AdguardTeam/AdGuardHome/releases/latest/download/AdGuardHome_linux_{helpers.get_arch()}.tar.gz",
     )
