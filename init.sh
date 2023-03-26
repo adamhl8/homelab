@@ -20,6 +20,7 @@ if [ "$(id -u)" -eq 0 ]; then
 
   cp -a "${homelab_root}/" "${user_home}/"
   chown -R "${username}:${username}" "${user_home}/homelab"
+  rm -rf "${homelab_root}/"
 
   echo "Login as the new user and run init.sh again."
   exit
