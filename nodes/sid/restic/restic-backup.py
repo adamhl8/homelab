@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import hl_helpers as helpers
 from shellrunner import ShellCommandError, X
 
 timestamp = X(r"date +%F_%T")
@@ -25,7 +26,7 @@ try:
             "~/restic/restic forget --prune --keep-within 1m",
             "echo 'Checking integrity...'",
             "~/restic/restic check",
-        ]
+        ],
     ).out
 except ShellCommandError as e:
     restic_output = e.out
@@ -36,10 +37,11 @@ except ShellCommandError as e:
 X(r"sed -i '\|unchanged.*|d' ~/restic/restic.log")
 
 if backup_failed:
-    X("~/msmtp/restic-log.py")
+    helpers.send_email(
+        from_addr="sid-restic@adamhl.dev",
+        to_addr="adamhl@pm.me",
+        subject="[restic-backup] ERROR",
+        body=restic_output,
+    )
 
 X(f"mv ~/restic/restic.log ~/restic/{timestamp}_restic.log")
-
-    message["From"] = "sid-restic@adamhl.dev"
-    message["To"] = "adamhl@pm.me"
-    message["Subject"] = "[restic-backup] ERROR"

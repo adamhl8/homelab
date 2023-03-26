@@ -31,5 +31,5 @@ sudo apt install python3 python3-pip python3-venv python-is-python3 -y
 pip install -U python-shellrunner
 
 pth_file="$(python -c "import sysconfig; print(sysconfig.get_path('purelib'))")/homelab_lib.pth"
-echo "${homelab_root}/lib/" | sudo tee "${pth_file}" >/dev/null
+echo "${homelab_root}/lib/" | sudo tee "${pth_file}" > /dev/null
 echo "Added homelab/lib/ to python search path."

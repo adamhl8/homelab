@@ -1,45 +1,47 @@
 from typing import NamedTuple
 
+from hl_helpers import homelab_paths as paths
 from shellrunner import X
 
-from lib import hl_helpers
 from nodes.sid.restic.init import main as restic
 from nodes.sid.snapraid.init import main as snapraid
 from nodes.sid.storage.init import main as storage
-from utils.modules import ModuleFunction, common
+from shared._modules import shared
 
 
 class Sid(NamedTuple):
-    storage: ModuleFunction = storage
-    snapraid: ModuleFunction = snapraid
-    restic: ModuleFunction = restic
+    storage = storage
+    snapraid = snapraid
+    restic = restic
 
 
 sid = Sid()
 
 
 def step1():
-    common.fish_install()
+    shared.fish_install()
 
 
 def step2():
-    common.fish_setup()
+    shared.fish_setup()
 
     X("echo 'deb http://deb.debian.org/debian/ unstable main' | sudo tee /etc/apt/sources.list")
-    common.shared()
+    shared.common()
+
+    X(f"ln -s {paths.nodes.sid}/bin/* ~/bin/")
 
 
 def step3():
-    common.age()
-    common.sops()
-    common.ssh()
-    common.sshd()
-    common.node()
-    common.docker()
+    shared.age()
+    shared.sops()
+    shared.ssh()
+    shared.sshd()
+    shared.node()
+    shared.docker()
 
 
 def step4():
-    hl_helpers.setup_pnpm()
+    shared.node.setup_pnpm()
 
     sid.storage()
     sid.snapraid()
@@ -51,4 +53,4 @@ def step5():
 
 
 def step6():
-    hl_helpers.docker_login()
+    shared.docker.login()

@@ -1,10 +1,39 @@
+from pathlib import Path
+from typing import NamedTuple
+
 from shellrunner import X
 
+homelab_root = Path(__file__).parent.parent.resolve(strict=True)
 
-def get_homelab_root():
-    from pathlib import Path
 
-    return Path(__file__).parent.parent.resolve(strict=True)
+class Configs(NamedTuple):
+    configs_dir = homelab_root / "shared/configs"
+    git_config = configs_dir / ".gitconfig"
+    authorized_keys = configs_dir / "authorized_keys"
+    fish_config = configs_dir / "config.fish"
+    sshd_config = configs_dir / "sshd_config"
+
+
+class Nodes(NamedTuple):
+    nodes_dir = homelab_root / "nodes"
+    adguard = nodes_dir / "adguard"
+    pi = nodes_dir / "pi"
+    sid = nodes_dir / "sid"
+    wsl = nodes_dir / "wsl"
+
+
+class HomelabPaths(NamedTuple):
+    root = homelab_root
+    shared = homelab_root / "shared"
+    shared_bin = shared / "bin"
+    age_key = homelab_root / "key.age"
+    secrets_yaml = homelab_root / "secrets.yaml"
+    ssh_yaml = homelab_root / "ssh.yaml"
+    configs = Configs()
+    nodes = Nodes()
+
+
+homelab_paths = HomelabPaths()
 
 
 def get_arch():
@@ -17,12 +46,6 @@ def get_arch():
 
 def get_os_name():
     return X('cat /etc/os-release | grep ^ID= | sed "s|^ID=||"').out
-
-
-def setup_pnpm():
-    X("pnpm config set enable-pre-post-scripts=true")
-    X("pnpm add -g npm-check-updates")
-    X("pnpm login")
 
 
 def send_email(*, from_addr: str, to_addr: str, subject: str, body: str):

@@ -1,31 +1,32 @@
+import hl_helpers as helpers
 from shellrunner import X
 
-from lib import hl_helpers
-from run import NODE
-from utils.modules import common
+from shared._modules import shared
+
+paths = helpers.homelab_paths
 
 
 def step1():
-    common.fish_install()
+    shared.fish_install()
 
 
 def step2():
-    common.fish_setup()
-    common.shared()
+    shared.fish_setup()
+    shared.common()
 
 
 def step3():
-    common.age()
-    common.sops()
-    common.ssh()
-    common.sshd()
+    shared.age()
+    shared.sops()
+    shared.ssh()
+    shared.sshd()
 
 
 def step4():
     X(
-        f"curl -Lo ~/adguard.tar.gz https://github.com/AdguardTeam/AdGuardHome/releases/latest/download/AdGuardHome_linux_{hl_helpers.get_arch()}.tar.gz",
+        f"curl -Lo ~/adguard.tar.gz https://github.com/AdguardTeam/AdGuardHome/releases/latest/download/AdGuardHome_linux_{helpers.get_arch()}.tar.gz",
     )
     X(["cd ~/", "tar -vxzf ~/adguard.tar.gz"])
     X("rm ~/adguard.tar.gz")
-    X(f"ln -s {NODE}/AdGuardHome.yaml ~/AdGuardHome/")
+    X(f"ln -s {paths.nodes.adguard}/AdGuardHome.yaml ~/AdGuardHome/")
     X("sudo ~/AdGuardHome/AdGuardHome -s install")

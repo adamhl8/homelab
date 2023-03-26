@@ -1,35 +1,34 @@
-import hl_helpers as helpers
+from hl_helpers import homelab_paths as paths
 from shellrunner import X
 
-from common._modules import common
-
-wsl = helpers.get_homelab_root() / "nodes/wsl"
+from shared._modules import shared
 
 
 def step1():
-    common.fish_install()
+    shared.fish_install()
 
-    X(f"sudo ln -s {wsl}/wsl.conf /etc/")
+    X(f"sudo ln -s {paths.nodes.wsl}/wsl.conf /etc/")
 
 
 def step2():
-    common.fish_setup()
-    common.shared()
+    shared.fish_setup()
+    shared.common()
 
+    X(f"ln -s {paths.nodes.wsl}/bin/* ~/bin/")
     X("ln -s /mnt/c/Users/Adam/ ~/")
     X("mkdir ~/dev/")
 
 
 def step3():
-    common.age()
-    common.sops()
-    common.ssh()
-    common.pdm()
-    common.node()
-    common.docker()
+    shared.age()
+    shared.sops()
+    shared.ssh()
+    shared.pdm()
+    shared.node()
+    shared.docker()
 
 
 def step4():
-    helpers.setup_pnpm()
+    shared.node.setup_pnpm()
     X("pnpm add -g pyright")
-    common.docker.login()
+    shared.docker.login()

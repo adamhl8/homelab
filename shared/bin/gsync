@@ -1,0 +1,4 @@
+#!/bin/bash
+
+originBranch=$(git remote show origin | awk '/HEAD branch/ {print $NF}')
+git pull --rebase && git fetch origin $originBranch && git rebase origin/$originBranch

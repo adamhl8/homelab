@@ -1,14 +1,14 @@
 #!/usr/bin/env fish
 
-set -l HOMELAB_ROOT (realpath (status dirname)/..)
+set -l homelab_root (realpath (status dirname)/..)
 
-find $HOMELAB_ROOT -type f -exec chmod 644 {} \;
+find $homelab_root -type f -exec chmod 644 {} \;
 
-find $HOMELAB_ROOT -type f -name "*.sh" -exec chmod 755 {} \;
-find $HOMELAB_ROOT -type f -name "*.fish" -exec chmod 755 {} \;
-find $HOMELAB_ROOT -type d -name "bin"  -exec chmod -R 755 {} \;
+find $homelab_root -type f -name "*.sh" -exec chmod 755 {} \;
+find $homelab_root -type f -name "*.fish" -exec chmod 755 {} \;
+find $homelab_root -type d -name "bin"  -exec chmod -R 755 {} \;
 
-find $HOMELAB_ROOT/common/configs/ -type f -exec chmod 644 {} \;
-find $HOMELAB_ROOT/common/configs/ -type f -name "authorized_keys" -exec chmod 600 {} \;
+find $homelab_root/shared/configs/ -type f -exec chmod 644 {} \;
+find $homelab_root/shared/configs/ -type f -name "authorized_keys" -exec chmod 600 {} \;
 
-chmod 755 $HOMELAB_ROOT/run.py
+chmod 755 $homelab_root/run.py

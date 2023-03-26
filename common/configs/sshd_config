@@ -1,8 +1,0 @@
-challengeresponseauthentication no
-clientaliveinterval 600
-kbdinteractiveauthentication no
-maxauthtries 3
-passwordauthentication no
-permitemptypasswords no
-permitrootlogin no
-printmotd no

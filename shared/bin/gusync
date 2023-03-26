@@ -1,0 +1,4 @@
+#!/bin/bash
+
+upstreamBranch=$(git remote show upstream | awk '/HEAD branch/ {print $NF}')
+git pull --rebase && git fetch upstream $upstreamBranch && git rebase upstream/$upstreamBranch

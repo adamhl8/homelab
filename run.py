@@ -19,23 +19,23 @@ def main():
     if which("sudo"):
         X("sudo -v")
 
-    homelab_root = helpers.get_homelab_root()
+    paths = helpers.homelab_paths
 
     for step in steps:
         current_step, step_fn = step
 
-        if (homelab_root / current_step).is_file():
+        if (paths.root / current_step).is_file():
             continue
 
         print(f"Running {name} {current_step}...")
         step_fn()
 
-        (homelab_root / current_step).touch()
+        (paths.root / current_step).touch()
         print(f"{name} {current_step} complete.")
 
         if step == steps[-1]:
             print(f"Finished running {name}.")
-            for file in homelab_root.glob("step*"):
+            for file in paths.root.glob("step*"):
                 file.unlink()
 
         if not prompts.reboot():

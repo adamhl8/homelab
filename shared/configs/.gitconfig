@@ -1,0 +1,10 @@
+[user]
+	name = Adam Langbert
+	email = adamhl@pm.me
+	signingkey = ~/.ssh/id_ed25519.pub
+[pull]
+	ff = only
+[commit]
+	gpgsign = true
+[gpg]
+	format = ssh

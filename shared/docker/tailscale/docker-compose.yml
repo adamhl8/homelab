@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  tailscale:
+    image: tailscale/tailscale
+    container_name: tailscale
+    restart: always
+    privileged: true
+    network_mode: host
+    command: tailscaled
+    volumes:
+      - ./data/:/var/lib/
+      - /dev/net/tun:/dev/net/tun
+      - /lib/modules/:/lib/modules/
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
