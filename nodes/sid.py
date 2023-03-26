@@ -1,21 +1,8 @@
-from typing import NamedTuple
-
 from hl_helpers import homelab_paths as paths
 from shellrunner import X
 
-from nodes.sid.restic.init import main as restic
-from nodes.sid.snapraid.init import main as snapraid
-from nodes.sid.storage.init import main as storage
+from nodes.sid._modules import sid
 from shared._modules import shared
-
-
-class Sid(NamedTuple):
-    storage = storage
-    snapraid = snapraid
-    restic = restic
-
-
-sid = Sid()
 
 
 def step1():
