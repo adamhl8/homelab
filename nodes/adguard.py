@@ -30,7 +30,7 @@ def step4():
     X("rm ~/adguard.tar.gz")
     X(f"ln -s {paths.nodes.adguard}/AdGuardHome.yaml ~/AdGuardHome/")
 
-    X(f"sudo ln -s -f {paths.nodes.adguard}/resolved.conf /etc/systemd/resolved.conf")
-    X("sudo systemctl reload-or-restart systemd-resolved")
+    X("sudo systemctl disable systemd-resolved.service")
+    X("sudo service systemd-resolved stop")
 
     X("sudo ~/AdGuardHome/AdGuardHome -s install")
