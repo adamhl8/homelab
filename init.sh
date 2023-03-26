@@ -30,7 +30,9 @@ fi
 sudo apt update && sudo apt upgrade -y
 sudo apt install curl -y
 sudo apt install python3 python3-pip python3-venv python-is-python3 -y
-pip install -U python-shellrunner
+if [ "${HOSTNAME}" = sid ]; then pip install --break-system-packages -U python-shellrunner
+else pip install -U python-shellrunner
+fi
 
 pth_file="$(python -c "import sysconfig; print(sysconfig.get_path('purelib'))")/homelab_lib.pth"
 echo "${homelab_root}/lib/" | sudo tee "${pth_file}" > /dev/null
