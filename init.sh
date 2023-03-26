@@ -14,7 +14,7 @@ if [ "$(id -u)" -eq 0 ]; then
   mkdir -p "${user_home}/.ssh/"
   chmod 700 "${user_home}/.ssh/"
   chown "${username}:${username}" "${user_home}/.ssh/"
-  cp -f "${homelab_root}/common/configs/authorized_keys" "${user_home}/.ssh/"
+  cp -f "${homelab_root}/shared/configs/authorized_keys" "${user_home}/.ssh/"
   chmod 600 "${user_home}/.ssh/authorized_keys"
   chown "${username}:${username}" "${user_home}/.ssh/authorized_keys"
 
