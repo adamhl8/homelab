@@ -26,7 +26,8 @@ if [ "$(id -u)" -eq 0 ]; then
   exit
 fi
 
-sudo apt update
+[ "${HOSTNAME}" = sid ] && echo 'deb http://deb.debian.org/debian/ unstable main' | sudo tee /etc/apt/sources.list
+sudo apt update && sudo apt upgrade -y
 sudo apt install curl -y
 sudo apt install python3 python3-pip python3-venv python-is-python3 -y
 pip install -U python-shellrunner

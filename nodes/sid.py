@@ -13,8 +13,6 @@ def step1():
 
 def step2():
     shared.fish_setup()
-
-    X("echo 'deb http://deb.debian.org/debian/ unstable main' | sudo tee /etc/apt/sources.list")
     shared.common()
 
     X(f"ln -s {paths.nodes.sid}/bin/* ~/bin/")
