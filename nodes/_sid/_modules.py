@@ -1,9 +1,9 @@
 from typing import NamedTuple
 
-import nodes.sid.ksmbd.init as ksmbd
-import nodes.sid.restic.init as restic
-import nodes.sid.snapraid.init as snapraid
-import nodes.sid.storage.init as storage
+import nodes._sid.ksmbd.init as ksmbd
+import nodes._sid.restic.init as restic
+import nodes._sid.snapraid.init as snapraid
+import nodes._sid.storage.init as storage
 
 
 class Ksmbd:

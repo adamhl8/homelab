@@ -16,10 +16,10 @@ class Configs(NamedTuple):
 
 class Nodes(NamedTuple):
     nodes_dir = homelab_root / "nodes"
-    adguard = nodes_dir / "adguard"
-    pi = nodes_dir / "pi"
-    sid = nodes_dir / "sid"
-    wsl = nodes_dir / "wsl"
+    adguard = nodes_dir / "_adguard"
+    pi = nodes_dir / "_pi"
+    sid = nodes_dir / "_sid"
+    wsl = nodes_dir / "_wsl"
 
 
 class HomelabPaths(NamedTuple):

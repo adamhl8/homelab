@@ -1,7 +1,7 @@
 import hl_helpers as helpers
 from shellrunner import X
 
-from nodes._sid_modules import sid
+from nodes._sid._modules import sid
 from shared._modules import shared
 
 paths = helpers.homelab_paths
