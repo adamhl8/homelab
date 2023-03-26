@@ -6,15 +6,22 @@ def main():
 
     os_name = helpers.get_os_name()
 
+    X("sudo mkdir -p /etc/apt/keyrings")
+
     if os_name == "debian":
         X(
-            """echo 'deb http://download.opensuse.org/repositories/shells:/fish:/release:/3/Debian_11/ /' | sudo tee /etc/apt/sources.list.d/shells:fish:release:3.list""",
+            "curl -fsSL 'https://download.opensuse.org/repositories/shells:fish:release:3/Debian_11/Release.key' | sudo gpg --dearmor -o /etc/apt/keyrings/fish.gpg",
         )
         X(
-            """curl -fsSL https://download.opensuse.org/repositories/shells:fish:release:3/Debian_11/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/shells_fish_release_3.gpg > /dev/null""",
+            "echo 'deb [signed-by=/etc/apt/keyrings/fish.gpg] http://download.opensuse.org/repositories/shells:/fish:/release:/3/Debian_11/ /' | sudo tee /etc/apt/sources.list.d/fish.list > /dev/null",
         )
     elif os_name == "ubuntu":
-        X("sudo apt-add-repository ppa:fish-shell/release-3")
+        X(
+            "curl -fsSL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x59fda1ce1b84b3fad89366c027557f056dc33ca5' | sudo gpg --dearmor -o /etc/apt/keyrings/fish.gpg",
+        )
+        X(
+            'echo "deb [signed-by=/etc/apt/keyrings/fish.gpg] https://ppa.launchpadcontent.net/fish-shell/release-3/ubuntu $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/fish.list > /dev/null',
+        )
     else:
         message = f"Could not match OS: {os_name}"
         raise RuntimeError(message)
