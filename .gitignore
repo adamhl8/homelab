@@ -1,4 +1,5 @@
 shared/bin/*
+.env
 __pycache__
 __pypackages__
 .pytest_cache

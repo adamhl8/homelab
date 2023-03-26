@@ -1,8 +1,10 @@
-from hl_helpers import homelab_paths as paths
+import hl_helpers as helpers
 from shellrunner import X
 
 from nodes.sid._modules import sid
 from shared._modules import shared
+
+paths = helpers.homelab_paths
 
 
 def step1():
@@ -28,16 +30,15 @@ def step3():
 
 
 def step4():
+    shared.docker.login()
     shared.node.setup_pnpm()
 
     sid.storage()
     sid.snapraid()
     sid.restic()
+    sid.ksmbd()
 
 
 def step5():
-    pass
-
-
-def step6():
-    shared.docker.login()
+    X(f"ln -s {paths.nodes.sid}/docker/ ~/")
+    helpers.start_all_docker_containers()

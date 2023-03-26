@@ -64,3 +64,22 @@ def send_email(*, from_addr: str, to_addr: str, subject: str, body: str):
     client.login("AKIAT5NKIWDOTLLLZ34R", X("""sops -d --extract "['smtp_password']" ~/secrets.yaml""").out)
     client.send_message(message)
     client.quit()
+
+
+def generate_docker_env(keys: list[str], file_str: str):
+    output = ""
+    for key in keys:
+        secret = X(f"""sops -d --extract "['{key}']" ~/secrets.yaml""", show_output=False, show_commands=False).out
+        output += f"{key}={secret}\n"
+    (Path(file_str).parent.resolve(strict=True) / ".env").write_text(output)
+
+
+def start_all_docker_containers():
+    for d in (Path.home() / "docker").glob("*"):
+        if (d / "init.py").is_file():
+            X(f"python {d / 'init.py'}")
+
+        X([f"cd {d}", "docker compose up -d"])
+
+        if (d / "fini.py").is_file():
+            X(f"python {d / 'fini.py'}")

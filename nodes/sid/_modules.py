@@ -1,8 +1,14 @@
 from typing import NamedTuple
 
+import nodes.sid.ksmbd.init as ksmbd
 import nodes.sid.restic.init as restic
 import nodes.sid.snapraid.init as snapraid
 import nodes.sid.storage.init as storage
+
+
+class Ksmbd:
+    def __call__(self):
+        ksmbd.main()
 
 
 class Restic:
@@ -21,6 +27,7 @@ class Storage:
 
 
 class SidModules(NamedTuple):
+    ksmbd = Ksmbd()
     restic = Restic()
     snapraid = Snapraid()
     storage = Storage()
