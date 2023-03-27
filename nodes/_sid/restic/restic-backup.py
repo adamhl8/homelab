@@ -1,4 +1,5 @@
 import os
+import re
 from pathlib import Path
 
 import hl_helpers as helpers
@@ -8,8 +9,11 @@ os.environ["SHELLRUNNER_SHELL"] = "fish"
 
 timestamp = X(r"date +%F_%T").out
 
-backblaze_application_key = X("""sops -d --extract "['backblaze_application_key']" ~/secrets.yaml""").out
-restic_password = X("""sops -d --extract "['restic_password']" ~/secrets.yaml""").out
+backblaze_application_key = X(
+    """sops -d --extract "['backblaze_application_key']" ~/secrets.yaml""",
+    show_output=False,
+).out
+restic_password = X("""sops -d --extract "['restic_password']" ~/secrets.yaml""", show_output=False).out
 
 restic_output = ""
 backup_failed = False
@@ -35,9 +39,8 @@ except ShellCommandError as e:
     restic_output = e.out
     backup_failed = True
 
+restic_output = re.sub("unchanged.*\n", "", restic_output)
 (Path.home() / "restic/restic.log").write_text(restic_output)
-
-X(r"sed -i '\|unchanged.*|d' ~/restic/restic.log")
 
 if backup_failed:
     helpers.send_email(
