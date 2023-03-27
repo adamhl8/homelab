@@ -1,7 +1,10 @@
+import os
 from pathlib import Path
 
 import hl_helpers as helpers
 from shellrunner import ShellCommandError, X
+
+os.environ["SHELLRUNNER_SHELL"] = "fish"
 
 timestamp = X(r"date +%F_%T")
 
