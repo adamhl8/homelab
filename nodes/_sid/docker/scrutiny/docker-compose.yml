@@ -9,11 +9,11 @@ services:
       - SYS_RAWIO
       - SYS_ADMIN
     devices:
-      - /dev/sda
       - /dev/sdb
       - /dev/sdc
       - /dev/sdd
-      - /dev/nvme0
+      - /dev/sde
+      - /dev/sda
     ports:
       - 8010:8080
     volumes:

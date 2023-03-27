@@ -3,7 +3,7 @@ def main():
     from shellrunner import X
 
     X("sudo apt install ksmbd-tools -y")
-    X("sudo mkdir /etc/ksmbd")
+    X("sudo mkdir -p /etc/ksmbd")
     X("sudo ksmbd.adduser -a adam")
     X(f"sudo ln -s {paths.nodes.sid}/ksmbd/smb.conf /etc/ksmbd/")
     X("sudo systemctl daemon-reload")
