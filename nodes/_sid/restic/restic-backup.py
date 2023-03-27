@@ -6,7 +6,7 @@ from shellrunner import ShellCommandError, X
 
 os.environ["SHELLRUNNER_SHELL"] = "fish"
 
-timestamp = X(r"date +%F_%T")
+timestamp = X(r"date +%F_%T").out
 
 backblaze_application_key = X("""sops -d --extract "['backblaze_application_key']" ~/secrets.yaml""").out
 restic_password = X("""sops -d --extract "['restic_password']" ~/secrets.yaml""").out
