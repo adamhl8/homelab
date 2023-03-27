@@ -34,11 +34,7 @@ adamhl.dev {
 
 *.adamhl.dev {
 	tls {
-		issuer zerossl {env.ZEROSSL_API_KEY} {
-			dns route53
-			email adamhl@pm.me
-			propagation_timeout -1
-		}
+		dns route53
 	}
 
 	@auth host auth.adamhl.dev
