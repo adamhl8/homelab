@@ -74,7 +74,7 @@ summary = "A lil' TOML parser"
 
 [metadata]
 lock_version = "4.1"
-content_hash = "sha256:13daae4c6a16e1ed07a6f114c02806f0413763e837406b8eeedbd9d409cab106"
+content_hash = "sha256:2bbd5a629338232a95c5d1267baf977a00ccea886af164864ccf319b8171eb13"
 
 [metadata.files]
 "black 23.3.0" = [
