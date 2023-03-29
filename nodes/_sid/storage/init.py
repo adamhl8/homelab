@@ -10,11 +10,9 @@ def main():
     X("sudo mkdir /mnt/parity1/")
     X("sudo mkdir /mnt/storage/")
 
-    X("sudo mkdir /etc/fstab.d/")
-    X(f"sudo ln -s {paths.nodes.sid}/storage/mergerfs.fstab /etc/fstab.d/")
-
+    X(f"cat {paths.nodes.sid}/storage/mergerfs.fstab | sudo tee -a /etc/fstab > /dev/null")
     X("sudo systemctl daemon-reload")
-    X("sudo mount --fstab /etc/fstab.d/mergerfs.fstab -a")
+    X("sudo mount -a")
 
     # cleanup
     X("sudo btrfs subvolume delete /mnt/disk*/.snapshots/*/snapshot")
