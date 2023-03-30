@@ -18,6 +18,7 @@ class Nodes(NamedTuple):
     nodes_dir = homelab_root / "nodes"
     adguard = nodes_dir / "_adguard"
     pi = nodes_dir / "_pi"
+    pve = nodes_dir / "_pve"
     sid = nodes_dir / "_sid"
     wsl = nodes_dir / "_wsl"
 
