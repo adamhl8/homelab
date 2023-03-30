@@ -2,13 +2,18 @@
 set -g fish_greeting
 set -gx EDITOR micro
 set -gx PNPM_HOME ~/.local/share/pnpm
+set -gx PYENV_ROOT ~/.pyenv
 
 # PATH
-set -l paths ~/bin/ ~/.local/bin/ $PNPM_HOME
+set -l paths ~/bin/ ~/.local/bin/ $PNPM_HOME $PYENV_ROOT/bin
 for path in $paths
   if not contains $path $fish_user_paths
     set -Ua fish_user_paths $path
   end
+end
+
+if type -q pyenv
+  pyenv init - | source
 end
 
 # aliases
