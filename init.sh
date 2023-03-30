@@ -2,6 +2,9 @@
 
 homelab_root="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
+# install sudo for pve
+[ "$(id -u)" -eq 0 ] && apt install sudo -y
+
 if [ "$(id -u)" -eq 0 ] && [ "${HOSTNAME}" != "pve" ]; then
   read -p "Running as root. Enter a name for the new non-root user: " username
   user_home="/home/${username}"
