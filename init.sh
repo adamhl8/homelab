@@ -2,7 +2,7 @@
 
 homelab_root="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
-if [ "$(id -u)" -eq 0 ]; then
+if [ "$(id -u)" -eq 0 ] && [ "${HOSTNAME}" != "pve" ]; then
   read -p "Running as root. Enter a name for the new non-root user: " username
   user_home="/home/${username}"
 
@@ -26,11 +26,11 @@ if [ "$(id -u)" -eq 0 ]; then
   exit
 fi
 
-[ "${HOSTNAME}" = sid ] && echo 'deb http://deb.debian.org/debian/ unstable main' | sudo tee /etc/apt/sources.list
+[ "${HOSTNAME}" = "sid" ] && echo 'deb http://deb.debian.org/debian/ unstable main' | sudo tee /etc/apt/sources.list
 sudo apt update && sudo apt upgrade -y
 sudo apt install curl -y
 sudo apt install python3 python3-pip python3-venv python-is-python3 -y
-if [ "${HOSTNAME}" = sid ]; then pip install --break-system-packages -U python-shellrunner
+if [ "${HOSTNAME}" = "sid" ]; then pip install --break-system-packages -U python-shellrunner
 else pip install -U python-shellrunner
 fi
 
