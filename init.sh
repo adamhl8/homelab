@@ -1,4 +1,6 @@
 #!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
 
 homelab_root="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
