@@ -15,7 +15,7 @@ shared="${init}/shared"
 [ "${HOSTNAME}" = "adguard" ] && source "${init}/adguard.sh"
 [ "${HOSTNAME}" = "pve" ] && source "${init}/pve.sh"
 [ "${HOSTNAME}" = "sid" ] && source "${init}/sid.sh"
-type -q wsl.exe && source "${init}/wsl.sh"
+command -v wsl.exe > /dev/null && source "${init}/wsl.sh"
 
 sudo apt update && sudo apt upgrade -y
 sudo apt install curl -y
