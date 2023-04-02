@@ -76,7 +76,7 @@ def generate_docker_env(keys: list[str], file_str: str):
 
 
 def start_all_docker_containers():
-    for d in (Path.home() / "docker").glob("*"):
+    for d in sorted((Path.home() / "docker").glob("*")):
         if (d / "init.py").is_file():
             X(f"python {d / 'init.py'}")
 
@@ -84,3 +84,16 @@ def start_all_docker_containers():
 
         if (d / "fini.py").is_file():
             X(f"python {d / 'fini.py'}")
+
+
+def warn(message: str):
+    print(f"{PColors.WARNING}{message}{PColors.ENDC}")
+
+
+class PColors:
+    HEADER = "\033[95m"
+    OKBLUE = "\033[94m"
+    OKGREEN = "\033[92m"
+    WARNING = "\033[93m"
+    FAIL = "\033[91m"
+    ENDC = "\033[0m"
