@@ -1,4 +1,10 @@
 #!/bin/bash
+
+if ! (return 0 2>/dev/null); then
+  echo "This script must be sourced."
+  exit 1
+fi
+
 set -euo pipefail
 IFS=$'\n\t'
 
@@ -20,6 +26,7 @@ command -v pyenv > /dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 pyenv install 3.10
 pyenv global 3.10
+pip install --upgrade pip
 pip install -U python-shellrunner
 
 pth_file="$(python -c "import sysconfig; print(sysconfig.get_path('purelib'))")/homelab_lib.pth"
