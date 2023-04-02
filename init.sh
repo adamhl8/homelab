@@ -3,38 +3,23 @@ set -euo pipefail
 IFS=$'\n\t'
 
 homelab_root="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+init="${homelab_root}/init"
+shared="${init}/shared"
 
-# install sudo for pve
-[ "$(id -u)" -eq 0 ] && apt install sudo -y
+[ "${HOSTNAME}" = "adguard" ] && source "${init}/adguard.sh"
+[ "${HOSTNAME}" = "pve" ] && source "${init}/pve.sh"
+[ "${HOSTNAME}" = "sid" ] && source "${init}/sid.sh"
+[ "${HOSTNAME}" = "wsl" ] && source "${init}/wsl.sh"
 
-if [ "$(id -u)" -eq 0 ] && [ "${HOSTNAME}" != "pve" ]; then
-  read -p "Running as root. Enter a name for the new non-root user: " username
-  user_home="/home/${username}"
-
-  apt install sudo -y
-
-  adduser "${username}"
-  usermod -aG sudo "${username}"
-
-  mkdir -p "${user_home}/.ssh/"
-  chmod 700 "${user_home}/.ssh/"
-  chown "${username}:${username}" "${user_home}/.ssh/"
-  cp -f "${homelab_root}/shared/configs/authorized_keys" "${user_home}/.ssh/"
-  chmod 600 "${user_home}/.ssh/authorized_keys"
-  chown "${username}:${username}" "${user_home}/.ssh/authorized_keys"
-
-  cp -a "${homelab_root}/" "${user_home}/"
-  chown -R "${username}:${username}" "${user_home}/homelab"
-  rm -rf "${homelab_root}/"
-
-  echo "Login as the new user and run init.sh again."
-  exit
-fi
-
-[ "${HOSTNAME}" = "sid" ] && echo 'deb http://deb.debian.org/debian/ unstable main' | sudo tee /etc/apt/sources.list
 sudo apt update && sudo apt upgrade -y
 sudo apt install curl -y
-sudo apt install python3 python3-pip python3-venv python-is-python3 -y
+sudo apt install build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev curl libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+curl https://pyenv.run | bash
+export PYENV_ROOT="~/.pyenv"
+command -v pyenv > /dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+pyenv install 3.10
+pyenv global 3.10
 if [ "${HOSTNAME}" = "sid" ]; then pip install --break-system-packages -U python-shellrunner
 else pip install -U python-shellrunner
 fi

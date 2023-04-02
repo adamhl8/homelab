@@ -4,6 +4,7 @@ def main():
     import hl_helpers as helpers
     from shellrunner import ShellCommandError, X
 
+    paths = helpers.homelab_paths
     os_name = helpers.get_os_name()
 
     X("sudo mkdir -p /etc/apt/keyrings")
@@ -38,3 +39,5 @@ def main():
 
     X(f"chsh -s {fish_path}")
     print(f"Set {fish_path} as default shell")
+
+    X(f"ln -f -s {paths.configs.fish_config} ~/.config/fish/")

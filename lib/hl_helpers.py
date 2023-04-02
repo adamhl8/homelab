@@ -91,9 +91,9 @@ def warn(message: str):
 
 
 class PColors:
-    HEADER = "\033[95m"
-    OKBLUE = "\033[94m"
-    OKGREEN = "\033[92m"
-    WARNING = "\033[93m"
-    FAIL = "\033[91m"
-    ENDC = "\033[0m"
+    HEADER = r"\033[95m"
+    OKBLUE = r"\033[94m"
+    OKGREEN = r"\033[92m"
+    WARNING = r"\033[93m"
+    FAIL = r"\033[91m"
+    ENDC = r"\033[0m"
