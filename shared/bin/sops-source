@@ -1,7 +1,0 @@
-#!/bin/bash
-
-if [[ "$(type -P sops)" ]]; then
-  set -a
-  source <(sops -d ~/secrets.env)
-  set +a
-fi
