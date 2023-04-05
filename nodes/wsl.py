@@ -25,6 +25,7 @@ def step3():
     shared.ssh()
     shared.pdm()
     shared.node()
+    shared.sdkman()
     shared.docker()
 
 
