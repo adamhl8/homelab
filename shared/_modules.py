@@ -1,6 +1,6 @@
 from typing import NamedTuple
 
-from shared import age, common, docker, fish_install, fish_setup, node, pdm, sops, ssh, sshd
+from shared import age, common, docker, fish_install, fish_setup, node, pdm, sdkman, sops, ssh, sshd
 
 
 class Age:
@@ -44,6 +44,11 @@ class Pdm:
         pdm.main()
 
 
+class Sdkman:
+    def __call__(self):
+        sdkman.main()
+
+
 class Sops:
     def __call__(self):
         sops.main()
@@ -67,6 +72,7 @@ class SharedModules(NamedTuple):
     fish_setup = FishSetup()
     node = Node()
     pdm = Pdm()
+    sdkman = Sdkman()
     sops = Sops()
     ssh = Ssh()
     sshd = Sshd()
