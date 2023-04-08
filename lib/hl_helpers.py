@@ -71,7 +71,7 @@ def generate_docker_env(keys: list[str], file_str: str):
     output = ""
     for key in keys:
         secret = X(f"""sops -d --extract "['{key}']" ~/secrets.yaml""", show_output=False, show_commands=False).out
-        output += f"{key}={secret}\n"
+        output += f"{key}='{secret}'\n"
     (Path(file_str).parent.resolve(strict=True) / ".env").write_text(output)
 
 
