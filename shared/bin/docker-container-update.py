@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import re
 from pathlib import Path
 
 from hl_helpers import warn
@@ -44,12 +43,15 @@ def main():
         image_names = X(f"yq '.services.*.image' < {compose}", show_commands=False, show_output=False).out.splitlines()
         for full_image_name in image_names:
             image_name = full_image_name.split(":")[0]  # remove tag
-            images = X(f"docker compose --project-directory {d} images", show_commands=False, show_output=False).out
-            match = re.search(f"{image_name}.*", images)
-            if match is None:
+            images = X(
+                f"docker compose --project-directory {d} images | grep ' {image_name} ' || [ $status -eq 1 ]",
+                show_commands=False,
+                show_output=False,
+            ).out
+            if not images:
                 warn(f'Could not get "{image_name}" from "docker compose images" output')
                 continue
-            old_id = match.group().split()[2]
+            old_id = images.split()[3]
 
             print(f"Checking for updates for {image_name}...")
             X(f"docker compose --project-directory {d} pull -q", show_commands=False, show_output=False)
