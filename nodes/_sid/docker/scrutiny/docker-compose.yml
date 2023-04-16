@@ -1,26 +1,43 @@
 version: "3"
 
 services:
-  scrutiny:
-    image: ghcr.io/analogj/scrutiny:master-omnibus
-    container_name: scrutiny
+  influxdb:
+    image: influxdb:2.2
+    container_name: scrutiny-influxdb
     restart: always
-    cap_add:
-      - SYS_RAWIO
-      - SYS_ADMIN
-    devices:
-      - /dev/sdb
-      - /dev/sdc
-      - /dev/sdd
-      - /dev/sde
-      - /dev/sda
     ports:
-      - 8010:8080
+      - 8086:8086
     volumes:
-      - ./data/:/opt/scrutiny/config/
-      - ./influxdb/:/opt/scrutiny/influxdb/
-      - /run/udev:/run/udev:ro
+      - ./influxdb/:/var/lib/influxdb2
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=America/Chicago
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8086/health"]
+      interval: 5s
+      timeout: 10s
+      retries: 20
+
+  scrutiny:
+    image: ghcr.io/analogj/scrutiny:master-web
+    container_name: scrutiny
+    restart: always
+    depends_on:
+      influxdb:
+        condition: service_healthy
+    ports:
+      - 8010:8080
+    volumes:
+      - ./data/:/opt/scrutiny/config/
+    environment:
+      - SCRUTINY_WEB_INFLUXDB_HOST=influxdb
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/health"]
+      interval: 5s
+      timeout: 10s
+      retries: 20
+      start_period: 10s
