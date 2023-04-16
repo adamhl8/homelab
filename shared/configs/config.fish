@@ -6,7 +6,7 @@ set -gx PYENV_ROOT ~/.pyenv
 # sdkman
 set -gx SDKMAN_DIR ~/.sdkman
 set -g sdkman_prefix $SDKMAN_DIR
-test -e $sdkman_prefix/bin/sdkman-init.sh && fenv "source $sdkman_prefix/bin/sdkman-init.sh"
+test -e $sdkman_prefix/bin/sdkman-init.sh && type -q fenv && fenv "source $sdkman_prefix/bin/sdkman-init.sh"
 
 # PATH
 set -l paths ~/bin/ ~/.local/bin/ $PNPM_HOME $PYENV_ROOT/bin
