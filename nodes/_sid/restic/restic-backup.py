@@ -9,6 +9,10 @@ os.environ["SHELLRUNNER_SHELL"] = "fish"
 
 timestamp = X(r"date +%F_%T").out
 
+backblaze_application_key_id = X(
+    """sops -d --extract "['backblaze_application_key_id']" ~/secrets.yaml""",
+    show_output=False,
+).out
 backblaze_application_key = X(
     """sops -d --extract "['backblaze_application_key']" ~/secrets.yaml""",
     show_output=False,
@@ -21,9 +25,10 @@ backup_failed = False
 try:
     restic_output = X(
         [
-            "set -gx RESTIC_REPOSITORY 'b2:toph-storage:/'",
-            "set -gx B2_ACCOUNT_ID '00420518bb341580000000001'",
-            f"set -gx B2_ACCOUNT_KEY '{backblaze_application_key}'",
+            "set -gx RESTIC_REPOSITORY 's3:s3.us-west-004.backblazeb2.com/sid-storage'",
+            "set -gx AWS_DEFAULT_REGION 'us-west-004'",
+            f"set -gx AWS_ACCESS_KEY_ID '{backblaze_application_key_id}'",
+            f"set -gx AWS_SECRET_ACCESS_KEY '{backblaze_application_key}'",
             f"set -gx RESTIC_PASSWORD '{restic_password}'",
             "set -gx RESTIC_COMPRESSION 'max'",
             "set -gx RESTIC_PACK_SIZE '100'",
