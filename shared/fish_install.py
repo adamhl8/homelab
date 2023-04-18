@@ -1,36 +1,59 @@
-def main():
-    from shutil import which
+from shutil import which
 
-    import hl_helpers as helpers
-    from shellrunner import ShellCommandError, X
+import hl_helpers as helpers
+from shellrunner import ShellCommandError, X
 
-    paths = helpers.homelab_paths
-    os_name = helpers.get_os_name()
+paths = helpers.homelab_paths
 
-    X("sudo mkdir -p /etc/apt/keyrings")
+os = helpers.get_os()
 
-    if os_name == "debian":
+
+def install_fish():
+    X("mkdir -p ~/.config/fish/")
+    X("mkdir -p ~/.config/fish/conf.d/")
+    X(f"ln -f -s {paths.configs.fish_config} ~/.config/fish/")
+
+    if os == "linux":
+        X("sudo mkdir -p /etc/apt/keyrings")
+
+        gpg_key = "https://download.opensuse.org/repositories/shells:fish:release:3/Debian_11/Release.key"
+        source = "http://download.opensuse.org/repositories/shells:/fish:/release:/3/Debian_11/ /"
+
+        distro = helpers.get_distro()
+        if distro == "ubuntu":
+            gpg_key = "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x59fda1ce1b84b3fad89366c027557f056dc33ca5"
+            source = "https://ppa.launchpadcontent.net/fish-shell/release-3/ubuntu $(lsb_release -cs) main"
+
         X(
-            "curl -fsSL 'https://download.opensuse.org/repositories/shells:fish:release:3/Debian_11/Release.key' | sudo gpg --dearmor -o /etc/apt/keyrings/fish.gpg",
+            f"curl -fsSL '{gpg_key}' | sudo gpg --dearmor -o /etc/apt/keyrings/fish.gpg",
         )
         X(
-            "echo 'deb [signed-by=/etc/apt/keyrings/fish.gpg] http://download.opensuse.org/repositories/shells:/fish:/release:/3/Debian_11/ /' | sudo tee /etc/apt/sources.list.d/fish.list > /dev/null",
+            f'echo "deb [signed-by=/etc/apt/keyrings/fish.gpg] {source}" | sudo tee /etc/apt/sources.list.d/fish.list > /dev/null',
         )
-    elif os_name == "ubuntu":
-        X(
-            "curl -fsSL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x59fda1ce1b84b3fad89366c027557f056dc33ca5' | sudo gpg --dearmor -o /etc/apt/keyrings/fish.gpg",
-        )
-        X(
-            'echo "deb [signed-by=/etc/apt/keyrings/fish.gpg] https://ppa.launchpadcontent.net/fish-shell/release-3/ubuntu $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/fish.list > /dev/null',
-        )
-    else:
-        message = f"Could not match OS: {os_name}"
+
+        X("sudo apt update")
+        X("sudo apt install fish -y")
+    elif os == "macos":
+        X("brew install fish")
+        X("fish -c '/opt/homebrew/bin/brew shellenv >~/.config/fish/conf.d/homebrew.fish'")
+
+
+def get_fish_path():
+    fish_path = None
+    if os == "linux":
+        fish_path = which("fish")
+    elif os == "macos":
+        fish_path = "/opt/homebrew/bin/fish"
+
+    if fish_path is None:
+        message = "Failed to resolve fish path."
         raise RuntimeError(message)
 
-    X("sudo apt update")
-    X("sudo apt install fish -y")
+    return fish_path
 
-    fish_path = which("fish")
+
+def change_default_shell():
+    fish_path = get_fish_path()
     try:
         X("grep -q fish /etc/shells")
     except ShellCommandError:
@@ -40,5 +63,7 @@ def main():
     X(f"chsh -s {fish_path}")
     print(f"Set {fish_path} as default shell")
 
-    X("mkdir -p ~/.config/fish/")
-    X(f"ln -f -s {paths.configs.fish_config} ~/.config/fish/")
+
+def main():
+    install_fish()
+    change_default_shell()

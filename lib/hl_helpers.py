@@ -1,7 +1,8 @@
+import platform
 from pathlib import Path
 from typing import NamedTuple
 
-from shellrunner import X
+from shellrunner import ShellCommandError, X
 
 homelab_root = Path(__file__).parent.parent.resolve(strict=True)
 
@@ -20,7 +21,7 @@ class Nodes(NamedTuple):
     pi = nodes_dir / "_pi"
     pve = nodes_dir / "_pve"
     sid = nodes_dir / "_sid"
-    wsl = nodes_dir / "_wsl"
+    macbook = nodes_dir / "_macbook"
 
 
 class HomelabPaths(NamedTuple):
@@ -38,15 +39,31 @@ homelab_paths = HomelabPaths()
 
 
 def get_arch():
-    import platform
-
-    if platform.machine() == "aarch64":
+    arch = platform.machine().lower()
+    if arch == "amd64":
+        return "amd64"
+    if arch == "aarch64" or arch == "arm64":
         return "arm64"
-    return "amd64"
+    message = f"Failed to resolve an expected arch. Got '{arch}'."
+    raise RuntimeError(message)
 
 
-def get_os_name():
-    return X('cat /etc/os-release | grep ^ID= | sed "s|^ID=||"').out
+def get_os():
+    os = platform.system().lower()
+    if os == "linux":
+        return "linux"
+    if os == "darwin":
+        return "macos"
+    message = f"Failed to resolve an expected OS. Got '{os}'."
+    raise RuntimeError(message)
+
+
+def get_distro():
+    try:
+        return X('cat /etc/os-release | grep ^ID= | sed "s|^ID=||"').out
+    except ShellCommandError as e:
+        message = f"Failed to resolve distro. Got '{e.out}'."
+        raise RuntimeError(message) from e
 
 
 def send_email(*, from_addr: str, to_addr: str, subject: str, body: str):

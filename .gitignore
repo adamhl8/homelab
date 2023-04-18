@@ -1,10 +1,10 @@
 shared/bin/*
+.DS_Store
 .env
 __pycache__
 __pypackages__
 .pytest_cache
 .ruff_cache
-.pdm.toml
 .pdm-python
 build
 dist

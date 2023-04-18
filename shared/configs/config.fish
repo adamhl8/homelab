@@ -1,24 +1,18 @@
 # variables
 set -g fish_greeting
 set -gx EDITOR micro
-set -gx PNPM_HOME ~/.local/share/pnpm
 set -gx PYENV_ROOT ~/.pyenv
-# sdkman
-set -gx SDKMAN_DIR ~/.sdkman
-set -g sdkman_prefix $SDKMAN_DIR
-test -e $sdkman_prefix/bin/sdkman-init.sh && type -q fenv && fenv "source $sdkman_prefix/bin/sdkman-init.sh"
+set -gx SOPS_AGE_KEY_FILE ~/.config/sops/age/keys.txt
 
 # PATH
-set -l paths ~/bin/ ~/.local/bin/ $PNPM_HOME $PYENV_ROOT/bin
+set -gp paths ~/bin ~/.local/bin $PYENV_ROOT/bin
 for path in $paths
-  if not contains $path $fish_user_paths
-    set -Ua fish_user_paths $path
+  if not contains $path $PATH
+    set -p PATH $path
   end
 end
 
-if type -q pyenv
-  pyenv init - | source
-end
+type -q pyenv; and pyenv init - | source
 
 # aliases
 function l --wraps='LC_COLLATE=C ls -ahlF' --description 'alias l LC_COLLATE=C ls -ahlF'
@@ -37,4 +31,3 @@ abbr --add greset 'git fetch && git reset --hard @{u}'
 abbr --add gclean 'git clean -ndffx'
 abbr --add gcleanf 'git clean -dffx'
 abbr --add gswitch 'git switch -c'
-abbr --add pdmp 'pdm publish -u __token__ -P (sops -d --extract "[\'pypi_token\']" ~/secrets.yaml)'

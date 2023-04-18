@@ -29,7 +29,6 @@ def step3():
 
 def step4():
     shared.docker.login()
-    shared.node.setup_pnpm()
 
     sid.storage()
     sid.snapraid()

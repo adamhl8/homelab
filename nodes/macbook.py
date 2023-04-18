@@ -6,17 +6,13 @@ from shared._modules import shared
 
 def step1():
     shared.fish_install()
-
-    X(f"sudo ln -s {paths.nodes.wsl}/wsl.conf /etc/")
+    X(f"ln -s {paths.nodes.macbook}/macbook.fish ~/.config/fish/conf.d/")
 
 
 def step2():
     shared.fish_setup()
     shared.common()
-
-    X(f"ln -s {paths.nodes.wsl}/bin/* ~/bin/")
-    X("ln -s /mnt/c/Users/Adam/ ~/")
-    X("mkdir ~/dev/")
+    X("mkdir -p ~/dev/")
 
 
 def step3():
@@ -26,7 +22,6 @@ def step3():
     shared.pdm()
     shared.node()
     shared.sdkman()
-    shared.docker()
 
 
 def step4():
