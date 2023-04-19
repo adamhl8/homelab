@@ -28,3 +28,6 @@ brew install --cask rectangle
 brew install --cask syncthing
 brew install --cask visual-studio-code
 brew install --cask google-chrome
+brew install --cask iina
+brew install --cask protonvpn
+brew install --cask qbittorrent
