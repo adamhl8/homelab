@@ -3,6 +3,7 @@ set -g fish_greeting
 set -gx EDITOR micro
 set -gx PYENV_ROOT ~/.pyenv
 set -gx SOPS_AGE_KEY_FILE ~/.config/sops/age/keys.txt
+set -gx CI_JOB_TOKEN (sops -d --extract "['swf_gitlab_pat']" ~/secrets.yaml)
 
 # PATH
 set -gp paths ~/bin ~/.local/bin $PYENV_ROOT/bin

@@ -10,4 +10,4 @@
 	format = ssh
 [credential "https://gitlab.create.army.mil"]
 	username = @adam.h.langbert.mil
-	helper = "!echo password=$(sops -d --extract \"['swf_gitlab_token']\" ~/secrets.yaml); true"
+	helper = "!echo password=$(sops -d --extract \"['swf_gitlab_pat']\" ~/secrets.yaml); true"
