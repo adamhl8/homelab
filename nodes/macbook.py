@@ -1,6 +1,7 @@
 from hl_helpers import homelab_paths as paths
 from shellrunner import X
 
+from nodes._macbook._modules import macbook
 from shared._modules import shared
 
 
@@ -16,6 +17,7 @@ def step2():
 
 
 def step3():
+    macbook.install_apps()
     shared.age()
     shared.sops()
     shared.ssh()

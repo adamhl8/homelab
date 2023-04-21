@@ -1,53 +1,92 @@
-from shellrunner import X
+from webbrowser import open as open_url
+
+from shellrunner import ShellCommandError, X
+
+brew_apps = [
+    "mas",
+]
+
+
+def install_brew_apps(names: list[str]):
+    for name in names:
+        X(f"brew install {name}")
+
+
+brew_casks = [
+    "google-chrome",
+    "brave-browser-beta",
+    "discord",
+    "obsidian",
+    "syncthing",
+    "tailscale",
+    "protonvpn",
+    "alt-tab",
+    "raycast",
+    "rectangle",
+    "visual-studio-code",
+    "hyper",
+    "orbstack",
+    "iina",
+    "qbittorrent",
+    "slack",
+    "zoom",
+]
+
+
+def install_brew_casks(casks: list[str]):
+    for cask in casks:
+        X(f"brew install --cask {cask}")
+
+
+app_store_app_ids = [
+    "470158793",  # Keka
+    "1565701763",  # AudioWranger
+    "6446061552",  # Signal Shifter
+    "1206020918",  # Battery Indicator
+    "1611378436",  # Pure Paste
+    "1666327168",  # Spaced
+]
+
+
+def install_app_store_apps(app_ids: list[str]):
+    for app_id in app_ids:
+        X(f"mas install {app_id}")
+
 
 def install_app_from_zip(name: str, url: str):
-    zip_path = "/Applications/{name}.zip"
-    X(f"curl -Lo {zip_path} '{url}'")
-    X(f"unzip {zip_path} -d /Applications/")
-    X(f"rm {zip_path}")
+    try:
+        zip_path = f"/Applications/{name}.zip"
+        X(f"curl -Lo {zip_path} '{url}'")
+        X(f"unzip {zip_path} -d /Applications/")
+        X(f"rm {zip_path}")
+    except ShellCommandError as e:
+        print("Failed to install app from zip.")
+        print(e.out)
+
 
 def main():
+    X("brew tap homebrew/cask-versions")
+    install_brew_apps(brew_apps)
+    install_brew_casks(brew_casks)
+    install_app_store_apps(app_store_app_ids)
 
-    # TinkerTool
-    brew install --cask alt-tab
-    brew install --cask slack
-    brew install mas
-    mas install 1206020918 # Battery Indicator
-    mas install 1565701763 # AudioWranger
-    mas install 6446061552 # Signal Shifter
-    mas install 1611378436 # Pure Paste
-    mas install 1666327168 # Spaced
-    mas install 470158793 # Keka
-    curl -Lo ~/kekahelper.zip 'https://d.keka.io/helper'
-    unzip ~/kekahelper.zip -d ~/
-    rm ~/kekahelper.zip
-    ~/KekaExternalHelper.app/Contents/MacOS/KekaExternalHelper --set-as-default
-    rm -rf ~/KekaExternalHelper.app
-
-    brew install --cask tailscale
-    brew install --cask discord
-    brew install --cask docker
-    brew tap homebrew/cask-versions
-    brew install --cask firefox-developer-edition
+    install_app_from_zip(
+        "macmousefix",
+        "https://github.com/noah-nuebling/mac-mouse-fix/releases/download/3.0.0-Beta-6/MacMouseFixApp.zip",
+    )
 
     install_app_from_zip("forklift", "https://download.binarynights.com/ForkLift/ForkLift4beta2.zip")
+    X("defaults write -g NSFileViewer -string com.binarynights.ForkLift")
+    X(
+        """defaults write com.apple.LaunchServices/com.apple.launchservices.secure LSHandlers -array-add '{LSHandlerContentType="public.folder";LSHandlerRoleAll="com.binarynights.ForkLift";}'"""
+    )
 
-    defaults write -g NSFileViewer -string com.binarynights.ForkLift;
-    defaults write com.apple.LaunchServices/com.apple.launchservices.secure LSHandlers -array-add '{LSHandlerContentType="public.folder";LSHandlerRoleAll="com.binarynights.ForkLift";}'
+    X("curl -Lo ~/kekahelper.zip 'https://d.keka.io/helper'")
+    X("unzip ~/kekahelper.zip -d ~/")
+    X("rm ~/kekahelper.zip")
+    X("~/KekaExternalHelper.app/Contents/MacOS/KekaExternalHelper --set-as-default")
+    X("rm -rf ~/KekaExternalHelper.app")
 
-    brew install --cask hyper
-
-    curl -Lo /Applications/macmousefix.zip https://github.com/noah-nuebling/mac-mouse-fix/releases/download/3.0.0-Beta-6/MacMouseFixApp.zip
-    unzip /Applications/macmousefix.zip -d /Applications/
-    rm /Applications/macmousefix.zip
-
-    brew install --cask obsidian
-    brew install --cask raycast
-    brew install --cask rectangle
-    brew install --cask syncthing
-    brew install --cask visual-studio-code
-    brew install --cask google-chrome
-    brew install --cask iina
-    brew install --cask protonvpn
-    brew install --cask qbittorrent
-    brew install --cask zoom
+    open_url("https://www.tweaking4all.com/software/macosx-software/connectmenow-v4/")
+    open_url("https://www.bresink.com/osx/0TinkerTool/download.php")
+    open_url("https://krisp.ai")
