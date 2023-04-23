@@ -10,3 +10,7 @@ def main():
     X(f"""sops -d --extract "['$hostname']['pub']" {paths.ssh_yaml} >~/.ssh/id_ed25519.pub""")
     X("chmod 600 ~/.ssh/id_ed25519")
     X("chmod 644 ~/.ssh/id_ed25519.pub")
+
+
+if __name__ == "__main__":
+    main()

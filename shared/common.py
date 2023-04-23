@@ -24,9 +24,10 @@ programs = [
     "age",
 ]
 
+
 def main():
     X(f"ln -s {paths.shared_bin} ~/")
-    X(f"ln -s {paths.configs.git_config} ~/")
+    X(f"ln -f -s {paths.configs.git_config} ~/")
 
     for program in programs:
         X(f"brew install {program}")
@@ -37,3 +38,7 @@ def main():
             "git remote set-url origin git@github.com:(git remote get-url origin | string replace 'https://github.com/' '')",
         ],
     )
+
+
+if __name__ == "__main__":
+    main()

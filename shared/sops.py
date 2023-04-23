@@ -12,3 +12,7 @@ def main():
     print("Enter key.age passphrase")
     X(f"age -o ~/.config/sops/age/keys.txt -d {paths.age_key}")
     X("chmod 600 ~/.config/sops/age/keys.txt")
+
+
+if __name__ == "__main__":
+    main()

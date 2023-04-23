@@ -11,3 +11,7 @@ def main():
             "curl -sLo ~/.config/fish/functions/sdk.fish https://raw.githubusercontent.com/deather/omf-sdk/master/functions/sdk.fish",
         ],
     )
+
+
+if __name__ == "__main__":
+    main()

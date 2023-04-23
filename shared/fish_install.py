@@ -3,6 +3,7 @@ from shellrunner import ShellCommandError, X
 
 paths = helpers.homelab_paths
 
+
 def main():
     X("mkdir -p ~/.config/fish/")
     X("mkdir -p ~/.config/fish/conf.d/")
@@ -20,3 +21,7 @@ def main():
 
     X(f"chsh -s {fish_path}")
     print(f"Set {fish_path} as default shell")
+
+
+if __name__ == "__main__":
+    main()

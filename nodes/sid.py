@@ -32,7 +32,7 @@ def step4():
     sid.storage()
     sid.snapraid()
     sid.restic()
-    sid.ksmbd()
+    sid.nfs()
 
 
 def step5():

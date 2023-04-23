@@ -31,3 +31,7 @@ def main():
     X("sudo systemctl daemon-reload")
     X("sudo systemctl enable snapraid-btrfs-runner.timer")
     X("sudo systemctl start snapraid-btrfs-runner.timer")
+
+
+if __name__ == "__main__":
+    main()

@@ -21,3 +21,7 @@ def login():
     X(
         """sops -d --extract "['github_ghcr_token']" ~/secrets.yaml | docker login ghcr.io -u adamhl8 --password-stdin""",
     )
+
+
+if __name__ == "__main__":
+    main()

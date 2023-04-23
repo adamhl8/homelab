@@ -20,3 +20,7 @@ def main():
     X("sudo chown -R adam:adam /mnt/disk*")
     X(r"find /mnt/disk* -type d -exec sudo chmod 755 {} \;")
     X(r"find /mnt/disk* -type f -exec sudo chmod 644 {} \;")
+
+
+if __name__ == "__main__":
+    main()

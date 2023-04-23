@@ -15,3 +15,7 @@ def setup_pnpm():
     X("pnpm config set enable-pre-post-scripts=true")
     X("pnpm add -g npm-check-updates")
     X("pnpm login")
+
+
+if __name__ == "__main__":
+    main()

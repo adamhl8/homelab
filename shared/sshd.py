@@ -4,3 +4,7 @@ def main():
 
     X(f"sudo ln -f -s {paths.configs.sshd_config} /etc/ssh/")
     X("sudo systemctl restart ssh")
+
+
+if __name__ == "__main__":
+    main()

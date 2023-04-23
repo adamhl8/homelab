@@ -6,3 +6,7 @@ def main():
     )
     X("fisher install IlanCosman/tide@v5")
     X("echo 2 1 4 3 1 1 1 1 1 1 y | tide configure >/dev/null")
+
+
+if __name__ == "__main__":
+    main()

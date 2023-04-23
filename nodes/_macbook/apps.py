@@ -90,3 +90,7 @@ def main():
     open_url("https://www.tweaking4all.com/software/macosx-software/connectmenow-v4/")
     open_url("https://www.bresink.com/osx/0TinkerTool/download.php")
     open_url("https://krisp.ai")
+
+
+if __name__ == "__main__":
+    main()

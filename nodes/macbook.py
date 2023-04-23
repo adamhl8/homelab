@@ -16,7 +16,6 @@ def step2():
 
 def step3():
     macbook.apps()
-    shared.age()
     shared.sops()
     shared.ssh()
     shared.pdm()

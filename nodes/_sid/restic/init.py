@@ -10,3 +10,7 @@ def main():
     )
     X("bzip2 -d ~/restic/restic.bz2")
     X("chmod 755 ~/restic/restic")
+
+
+if __name__ == "__main__":
+    main()

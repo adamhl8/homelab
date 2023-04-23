@@ -8,3 +8,7 @@ def main():
     X("sudo systemctl enable --now nfs-server")
     X(f"sudo ln -f -s {paths.nodes.sid}/nfs/exports /etc/exports")
     X("sudo exportfs -arv")
+
+
+if __name__ == "__main__":
+    main()

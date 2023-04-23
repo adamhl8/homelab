@@ -65,12 +65,14 @@ def get_distro():
         message = f"Failed to resolve distro. Got '{e.out}'."
         raise RuntimeError(message) from e
 
+
 def get_distro_version_name():
     try:
         return X('cat /etc/os-release | grep ^VERSION_CODENAME= | sed "s|^VERSION_CODENAME=||"').out
     except ShellCommandError as e:
         message = f"Failed to resolve distro version name. Got '{e.out}'."
         raise RuntimeError(message) from e
+
 
 def send_email(*, from_addr: str, to_addr: str, subject: str, body: str):
     import smtplib
