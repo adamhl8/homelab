@@ -1,11 +1,6 @@
 from typing import NamedTuple
 
-from shared import age, common, docker, fish_install, fish_setup, node, pdm, sdkman, sops, ssh, sshd
-
-
-class Age:
-    def __call__(self):
-        age.main()
+from shared import common, docker, fish_install, fish_setup, node, pdm, sdkman, sops, ssh, sshd
 
 
 class Common:
@@ -65,7 +60,6 @@ class Sshd:
 
 
 class SharedModules(NamedTuple):
-    age = Age()
     common = Common()
     docker = Docker()
     fish_install = FishInstall()

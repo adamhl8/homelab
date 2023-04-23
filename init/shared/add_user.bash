@@ -3,9 +3,7 @@ homelab_root="${homelab_root:?}"
 if [ "$(id -u)" -eq 0 ]; then
   read -r -p "Running as root. Enter a name for the new non-root user: " username
   user_home="/home/${username}"
-
-  apt install sudo -y
-
+  
   adduser "${username}"
   usermod -aG sudo "${username}"
 
@@ -21,5 +19,5 @@ if [ "$(id -u)" -eq 0 ]; then
   rm -rf "${homelab_root:?}/"
 
   echo "Login as the new user and run init.sh again."
-  exit
+  return 0
 fi

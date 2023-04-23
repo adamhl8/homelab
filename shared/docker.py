@@ -4,18 +4,16 @@ from shellrunner import X
 def main():
     import hl_helpers as helpers
 
-    os = helpers.get_os()
-
-    X("sudo apt install ca-certificates curl gnupg lsb-release -y")
-    X("sudo mkdir -p /etc/apt/keyrings")
-    X(
-        f"curl -fsSL https://download.docker.com/linux/{os}/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg",
-    )
-    X(
-        f"""echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/{os} $(lsb_release -cs | string replace bookworm bullseye) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null""",
+    X("sudo apt install ca-certificates curl gnupg -y")
+    distro = helpers.get_distro()
+    distro_version_name = helpers.get_distro_version_name().replace("bookworm", "bullseye")
+    helpers.add_apt_source(
+        name="docker",
+        gpg_url=f"https://download.docker.com/linux/{distro}/gpg",
+        source=f"https://download.docker.com/linux/{distro} {distro_version_name} stable",
     )
     X("sudo apt update")
-    X("sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y")
+    X("sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y")
     X("sudo usermod -aG docker $USER")
 
 

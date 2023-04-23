@@ -1,4 +1,3 @@
-from hl_helpers import homelab_paths as paths
 from shellrunner import X
 
 from nodes._macbook._modules import macbook
@@ -7,7 +6,6 @@ from shared._modules import shared
 
 def step1():
     shared.fish_install()
-    X(f"ln -s {paths.nodes.macbook}/macbook.fish ~/.config/fish/conf.d/")
 
 
 def step2():
@@ -17,7 +15,7 @@ def step2():
 
 
 def step3():
-    macbook.install_apps()
+    macbook.apps()
     shared.age()
     shared.sops()
     shared.ssh()

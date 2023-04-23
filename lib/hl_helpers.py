@@ -65,6 +65,12 @@ def get_distro():
         message = f"Failed to resolve distro. Got '{e.out}'."
         raise RuntimeError(message) from e
 
+def get_distro_version_name():
+    try:
+        return X('cat /etc/os-release | grep ^VERSION_CODENAME= | sed "s|^VERSION_CODENAME=||"').out
+    except ShellCommandError as e:
+        message = f"Failed to resolve distro version name. Got '{e.out}'."
+        raise RuntimeError(message) from e
 
 def send_email(*, from_addr: str, to_addr: str, subject: str, body: str):
     import smtplib
@@ -101,6 +107,15 @@ def start_all_docker_containers():
 
         if (d / "fini.py").is_file():
             X(f"python {d / 'fini.py'}")
+
+
+def add_apt_source(*, name: str, gpg_url: str, source: str, arch: str = 'arch="$(dpkg --print-architecture)" '):
+    X("sudo mkdir -p /etc/apt/keyrings")
+
+    X(f"curl -fsSL '{gpg_url}' | sudo gpg --dearmor -o /etc/apt/keyrings/{name}.gpg")
+    X(
+        f'echo "deb [{arch}signed-by=/etc/apt/keyrings/{name}.gpg] {source}" | sudo tee /etc/apt/sources.list.d/{name}.list >/dev/null',
+    )
 
 
 def warn(message: str):

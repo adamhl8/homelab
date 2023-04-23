@@ -4,17 +4,9 @@ def main():
 
     paths = helpers.homelab_paths
 
-    os = helpers.get_os()
+    X("brew install sops")
 
-    if os == "linux":
-        X(
-            f'curl -s https://api.github.com/repos/mozilla/sops/releases/latest | string match -r "https://.*/download/.*sops.*linux.{helpers.get_arch()}" | sed 1q | xargs curl -Lo ~/bin/sops',
-        )
-        X("chmod 755 ~/bin/sops")
-    elif os == "macos":
-        X("brew install sops")
-
-    X(f"ln -s {paths.secrets_yaml} ~/")
+    X(f"ln -f -s {paths.secrets_yaml} ~/")
 
     X("mkdir -p ~/.config/sops/age/")
     print("Enter key.age passphrase")

@@ -1,17 +1,37 @@
 # variables
+set -l paths ~/bin ~/.local/bin
 set -g fish_greeting
-set -gx EDITOR micro
+
 set -gx PYENV_ROOT ~/.pyenv
-set -gx SOPS_AGE_KEY_FILE ~/.config/sops/age/keys.txt
-set -gx CI_JOB_TOKEN (sops -d --extract "['swf_gitlab_pat']" ~/secrets.yaml)
+set -a paths $PYENV_ROOT/bin
+
+type -q micro; and set -gx EDITOR micro
+type -q sops; and set -gx SOPS_AGE_KEY_FILE ~/.config/sops/age/keys.txt
+
+if type -q pnpm
+  set -gx PNPM_HOME ~/.local/share/pnpm
+  set -a paths $PNPM_HOME
+end
+
+if test -e ~/.sdkman/bin/sdkman-init.sh
+  set -gx SDKMAN_DIR ~/.sdkman
+  type -q fenv; and fenv "source $SDKMAN_DIR/bin/sdkman-init.sh"
+end
+
+set -a paths (path filter -d /opt/homebrew/opt/*/libexec/gnubin; or true)
+
+if test $hostname = "adam-macbook"
+  set -gx CI_JOB_TOKEN (sops -d --extract "['swf_gitlab_pat']" ~/secrets.yaml)
+end
 
 # PATH
-set -gp paths ~/bin ~/.local/bin $PYENV_ROOT/bin
+set -l new_paths
 for path in $paths
   if not contains $path $PATH
-    set -p PATH $path
+    set -a new_paths $path
   end
 end
+set -p PATH $new_paths
 
 type -q pyenv; and pyenv init - | source
 
@@ -32,3 +52,5 @@ abbr --add greset 'git fetch && git reset --hard @{u}'
 abbr --add gclean 'git clean -ndffx'
 abbr --add gcleanf 'git clean -dffx'
 abbr --add gswitch 'git switch -c'
+
+type -q pdm; and abbr --add pdmp 'pdm publish -u __token__ -P (sops -d --extract "[\'pypi_token\']" ~/secrets.yaml)'

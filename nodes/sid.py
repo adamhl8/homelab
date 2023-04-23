@@ -19,7 +19,6 @@ def step2():
 
 
 def step3():
-    shared.age()
     shared.sops()
     shared.ssh()
     shared.sshd()

@@ -1,15 +1,15 @@
 from typing import NamedTuple
 
-from nodes._macbook import install_apps
+from nodes._macbook import apps
 
 
-class InstallApps:
+class Apps:
     def __call__(self):
-        install_apps.main()
+        apps.main()
 
 
 class MacbookModules(NamedTuple):
-    install_apps = InstallApps()
+    apps = Apps()
 
 
 macbook = MacbookModules()

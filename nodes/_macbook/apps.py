@@ -78,7 +78,7 @@ def main():
     install_app_from_zip("forklift", "https://download.binarynights.com/ForkLift/ForkLift4beta2.zip")
     X("defaults write -g NSFileViewer -string com.binarynights.ForkLift")
     X(
-        """defaults write com.apple.LaunchServices/com.apple.launchservices.secure LSHandlers -array-add '{LSHandlerContentType="public.folder";LSHandlerRoleAll="com.binarynights.ForkLift";}'"""
+        """defaults write com.apple.LaunchServices/com.apple.launchservices.secure LSHandlers -array-add '{LSHandlerContentType="public.folder";LSHandlerRoleAll="com.binarynights.ForkLift";}'""",
     )
 
     X("curl -Lo ~/kekahelper.zip 'https://d.keka.io/helper'")

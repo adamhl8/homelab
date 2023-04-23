@@ -1,0 +1,1 @@
+/mnt/storage 10.8.8.0/24(rw,insecure,sync,no_subtree_check,all_squash,anonuid=1000,anongid=1000,fsid=1) 100.64.0.0/10(rw,insecure,sync,no_subtree_check,all_squash,anonuid=1000,anongid=1000,fsid=1)

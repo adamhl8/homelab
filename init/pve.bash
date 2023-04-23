@@ -1,9 +1,7 @@
 shared="${shared:?}"
 
-apt install sudo -y
-
-# shellcheck source=./shared/pyenv_install_linux.bash
-source "${shared}/pyenv_install_linux.bash"
+# shellcheck source=./shared/pyenv_install.bash
+source "${shared}/pyenv_install.bash"
 {
   echo 'export PYENV_ROOT="$HOME/.pyenv"'
   echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"'
