@@ -18,7 +18,7 @@ if test -e ~/.sdkman/bin/sdkman-init.sh
   type -q fenv; and fenv "source $SDKMAN_DIR/bin/sdkman-init.sh"
 end
 
-set -a paths (path filter -d /opt/homebrew/opt/*/libexec/gnubin; or true)
+set -a paths (path filter -d $HOMEBREW_PREFIX/opt/*/libexec/gnubin; or true)
 
 if test $hostname = "adam-macbook"
   set -gx CI_JOB_TOKEN (sops -d --extract "['swf_gitlab_pat']" ~/secrets.yaml)
