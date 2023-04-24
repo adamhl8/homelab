@@ -5,7 +5,7 @@ from pathlib import Path
 import hl_helpers as helpers
 from shellrunner import ShellCommandError, X
 
-os.environ["SHELLRUNNER_SHELL"] = "fish"
+os.environ["SHELLRUNNER_SHELL"] = "/home/linuxbrew/.linuxbrew/bin/fish"
 
 timestamp = X(r"date +%F_%T").out
 
