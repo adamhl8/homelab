@@ -8,6 +8,8 @@ def main():
     X(f"ln -f -s {paths.nodes.sid}/snapraid/snapraid.conf ~/snapraid/")
 
     # snapper
+    X("sudo apt purge --auto-remove snapper")
+    X("sudo rm -rf /etc/snapper/")
     X("sudo apt install snapper -y")
     X("sudo mkdir -p /etc/snapper/config-templates/")
     X(f"sudo ln -f -s {paths.nodes.sid}/snapraid/disk-snapper.conf /etc/snapper/config-templates/")
