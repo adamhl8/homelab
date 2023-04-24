@@ -27,7 +27,7 @@ def step4():
     )
     X(["cd ~/", "tar -vxzf ~/adguard.tar.gz"])
     X("rm ~/adguard.tar.gz")
-    X(f"ln -s {paths.nodes.adguard}/AdGuardHome.yaml ~/AdGuardHome/")
+    X(f"ln -f -s {paths.nodes.adguard}/AdGuardHome.yaml ~/AdGuardHome/")
 
     X("sudo systemctl disable systemd-resolved.service")
     X("sudo service systemd-resolved stop")

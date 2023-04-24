@@ -26,7 +26,7 @@ programs = [
 
 
 def main():
-    X(f"ln -s {paths.shared_bin} ~/")
+    X(f"ln -f -s {paths.shared_bin} ~/")
     X(f"ln -f -s {paths.configs.git_config} ~/")
 
     for program in programs:

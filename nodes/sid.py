@@ -15,7 +15,7 @@ def step2():
     shared.fish_setup()
     shared.common()
 
-    X(f"ln -s {paths.nodes.sid}/bin/* ~/bin/")
+    X(f"ln -f -s {paths.nodes.sid}/bin/* ~/bin/")
 
 
 def step3():
@@ -36,5 +36,5 @@ def step4():
 
 
 def step5():
-    X(f"ln -s {paths.nodes.sid}/docker/ ~/")
+    X(f"ln -f -s {paths.nodes.sid}/docker/ ~/")
     helpers.start_all_docker_containers()
