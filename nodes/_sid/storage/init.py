@@ -6,11 +6,13 @@ def main():
     X("sudo apt install fuse -y")
     X("~/bin/mergerfs-update.py")
 
-    X("sudo mkdir /mnt/disk{1,2,3}/")
-    X("sudo mkdir /mnt/parity1/")
-    X("sudo mkdir /mnt/storage/")
+    X("sudo mkdir -p /mnt/disk{1,2,3}/")
+    X("sudo mkdir -p /mnt/parity1/")
+    X("sudo mkdir -p /mnt/storage/")
 
-    X(f"cat {paths.nodes.sid}/storage/mergerfs.fstab | sudo tee -a /etc/fstab > /dev/null")
+    status = X(f'grep -qxF "$(cat {paths.nodes.sid}/storage/mergerfs.fstab)" /etc/fstab', check=False).status
+    if status != 0:
+        X(f"cat {paths.nodes.sid}/storage/mergerfs.fstab | sudo tee -a /etc/fstab > /dev/null")
     X("sudo systemctl daemon-reload")
     X("sudo mount -a")
 
