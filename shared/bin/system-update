@@ -1,5 +1,7 @@
 #!/usr/bin/env fish
 
+set -l homelab_root (realpath (status dirname)/../..)
+
 set -l os_name (uname -o)
 switch $os_name
 case "GNU/Linux"
