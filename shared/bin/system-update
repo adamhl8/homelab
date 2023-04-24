@@ -42,11 +42,11 @@ if type -q sdk
 end
 
 if test "$hostname" = "sid"
-  docker-container-update.py
   mergerfs-update.py
   snapraid-btrfs-runner-update.py
   snapraid-btrfs-update.py
   snapraid-update.py
+  docker-container-update.py
 end
 
 if test "$hostname" = "adguard"
