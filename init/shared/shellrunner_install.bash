@@ -3,7 +3,7 @@ homelab_root="${homelab_root:?}"
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
-pyenv install 3.10
+pyenv install -s 3.10
 pyenv global 3.10
 pip install --upgrade pip
 pip install -U python-shellrunner
