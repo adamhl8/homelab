@@ -20,6 +20,10 @@ brew upgrade
 pyenv update
 pyenv install -s 3.10
 pip install --upgrade pip
+pip install -U python-shellrunner
+set -l pth_file "$(python -c "import sysconfig; print(sysconfig.get_path('purelib'))")/homelab_lib.pth"
+echo "$homelab_root/lib/" | sudo tee "$pth_file" >/dev/null
+echo "Added homelab/lib/ to python search path."
 
 type -q nvm; and nvm install latest; and npm install -g npm
 type -q pnpm; and pnpm add -g pnpm; and pnpm update -g
