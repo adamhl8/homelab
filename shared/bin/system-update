@@ -8,7 +8,7 @@ case "Darwin"
   set os_name "macos"
 end
 
-if test "$os_name" = "linux" and type -q apt
+if test "$os_name" = "linux"; and type -q apt
   sudo apt update
   sudo apt full-upgrade -y
   sudo apt autoremove -y
