@@ -15,6 +15,7 @@ end
 
 if test -e ~/.sdkman/bin/sdkman-init.sh
   set -gx SDKMAN_DIR ~/.sdkman
+  set -g sdkman_prefix $SDKMAN_DIR
   type -q fenv; and fenv "source $SDKMAN_DIR/bin/sdkman-init.sh"
 end
 

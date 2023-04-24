@@ -1,5 +1,50 @@
 #!/usr/bin/env fish
 
-sudo apt update
-sudo apt full-upgrade -y
-sudo apt autoremove -y
+set -l os_name (uname -o)
+switch $os_name
+case "GNU/Linux"
+  set os_name "linux"
+case "Darwin"
+  set os_name "macos"
+end
+
+if test "$os_name" = "linux" and type -q apt
+  sudo apt update
+  sudo apt full-upgrade -y
+  sudo apt autoremove -y
+end
+
+brew update -f
+brew upgrade
+
+pyenv update
+pyenv install -s 3.10
+pip install --upgrade pip
+
+type -q nvm; and nvm install latest; and npm install -g npm
+type -q pnpm; and pnpm add -g pnpm; and pnpm update -g
+
+fisher update
+
+if type -q sdk
+  sdk selfupdate
+  sdk update
+  curl -sLo ~/.config/fish/functions/fenv.main.fish https://raw.githubusercontent.com/oh-my-fish/plugin-foreign-env/master/functions/fenv.main.fish
+  curl -sLo ~/.config/fish/functions/fenv.fish https://raw.githubusercontent.com/oh-my-fish/plugin-foreign-env/master/functions/fenv.fish
+  curl -sLo ~/.config/fish/completions/sdk.fish https://raw.githubusercontent.com/deather/omf-sdk/master/completions/sdk.fish
+  curl -sLo ~/.config/fish/functions/sdk.fish https://raw.githubusercontent.com/deather/omf-sdk/master/functions/sdk.fish
+end
+
+if test "$hostname" = "sid"
+  docker-container-update.py
+  mergerfs-update.py
+  snapraid-btrfs-runner-update.py
+  snapraid-btrfs-update.py
+  snapraid-update.py
+end
+
+if test "$hostname" = "adguard"
+  ~/AdGuardHome/AdGuardHome --update
+end
+
+echo "System updated. Make sure to reboot."

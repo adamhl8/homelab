@@ -18,7 +18,7 @@ def step3():
     macbook.apps()
     shared.sops()
     shared.ssh()
-    shared.pdm()
+    X("brew install pdm")
     shared.node()
     shared.sdkman()
 
