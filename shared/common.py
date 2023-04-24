@@ -35,7 +35,7 @@ def main():
     X(
         [
             f"cd {paths.root}",
-            "git remote set-url origin git@github.com:(git remote get-url origin | string replace 'https://github.com/' '')",
+            "git remote set-url origin git@github.com:adamhl8/homelab.git",
         ],
     )
 
