@@ -1,3 +1,4 @@
+from hl_helpers import homelab_paths as paths
 from shellrunner import X
 
 from nodes._macbook._modules import macbook
@@ -11,6 +12,7 @@ def step1():
 def step2():
     shared.fish_setup()
     shared.common()
+    X(f"ln -f -s {paths.configs.hyper_config} ~/.hyper.js")
     X("mkdir -p ~/dev/")
 
 

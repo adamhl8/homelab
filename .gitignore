@@ -2,7 +2,7 @@ shared/bin/*
 .DS_Store
 .env
 __pycache__
-__pypackages__
+.venv
 .pytest_cache
 .ruff_cache
 .pdm-python

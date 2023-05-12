@@ -32,8 +32,8 @@ fi
 
 # shellcheck source=./init/adguard.bash
 [ "${hostname}" = "adguard" ] && source "${init}/adguard.bash" && return 0
-# shellcheck source=./init/macbook.bash
 
+# shellcheck source=./init/macbook.bash
 [ "${hostname}" = "adam-macbook" ] && source "${init}/macbook.bash" && return 0
 
 # shellcheck source=./init/pve.bash

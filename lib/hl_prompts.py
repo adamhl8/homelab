@@ -1,16 +1,11 @@
-from shutil import which
-
 from shellrunner import X
 
 
 def reboot():
     response = input("Reboot? (y/N) ")
     if response.lower() == "y":
-        if which("wsl.exe"):
-            print("WSL detected. Shutting down...")
-            X("wsl.exe --shutdown")
-        else:
-            X("sudo reboot")
+        X("sudo reboot")
+        return True
     return False
 
 

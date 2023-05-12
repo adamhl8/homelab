@@ -12,16 +12,17 @@ class Configs(NamedTuple):
     git_config = configs_dir / ".gitconfig"
     authorized_keys = configs_dir / "authorized_keys"
     fish_config = configs_dir / "config.fish"
+    hyper_config = configs_dir / "hyper.js"
     sshd_config = configs_dir / "sshd_config"
 
 
 class Nodes(NamedTuple):
     nodes_dir = homelab_root / "nodes"
     adguard = nodes_dir / "_adguard"
+    macbook = nodes_dir / "_macbook"
     pi = nodes_dir / "_pi"
     pve = nodes_dir / "_pve"
     sid = nodes_dir / "_sid"
-    macbook = nodes_dir / "_macbook"
 
 
 class HomelabPaths(NamedTuple):
@@ -85,9 +86,14 @@ def send_email(*, from_addr: str, to_addr: str, subject: str, body: str):
     message["Subject"] = subject
     message.set_content(body)
 
+    aws_access_key_id = X("""sops -d --extract "['aws_access_key_id']" ~/secrets.yaml""", show_output=False).out
+    smtp_password = X("""sops -d --extract "['smtp_password']" ~/secrets.yaml""", show_output=False).out
+
     client = smtplib.SMTP(host="email-smtp.us-east-1.amazonaws.com", port=587)
-    client.starttls(context=ssl.create_default_context())
-    client.login("AKIAT5NKIWDOTLLLZ34R", X("""sops -d --extract "['smtp_password']" ~/secrets.yaml""").out)
+    ctx = ssl.create_default_context()
+    ctx.verify_mode = ssl.CERT_REQUIRED
+    client.starttls(context=ctx)
+    client.login(aws_access_key_id, smtp_password)
     client.send_message(message)
     client.quit()
 

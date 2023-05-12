@@ -9,7 +9,7 @@ dependencies = [
 [tool.pdm.dev-dependencies]
 dev = [
     "black>=23.3.0",
-    "ruff>=0.0.261",
+    "ruff>=0.0.263",
 ]
 
 [tool.pdm.scripts]
@@ -20,8 +20,7 @@ format = {cmd = "black ."}
 
 [tool.pyright]
 typeCheckingMode = "strict"
-exclude = ["__pypackages__/3.10/lib"]
-extraPaths = ["__pypackages__/3.10/lib", "lib"]
+extraPaths = ["lib", ".venv/lib/python3.10/site-packages"]
 
 [tool.black]
 line-length = 120
