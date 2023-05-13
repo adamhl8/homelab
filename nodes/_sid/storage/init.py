@@ -1,6 +1,6 @@
 def main():
     from hl_helpers import homelab_paths as paths
-    from shellrunner import X
+    from shellrunner import ShellCommandError, X
 
     X("sudo apt install btrfs-progs -y")
     X("sudo apt install fuse -y")
@@ -17,8 +17,17 @@ def main():
     X("sudo mount -a")
 
     # cleanup
-    X("sudo btrfs subvolume delete /mnt/disk*/.snapshots/*/snapshot")
-    X("sudo rm -rf /mnt/disk*/.snapshots/")
+    try:
+        X("sudo btrfs subvolume delete /mnt/disk*/.snapshots/*/snapshot")
+    except ShellCommandError as e:
+        if "No matches for wildcard" not in e.out:
+            raise
+    try:
+        X("sudo rm -rf /mnt/disk*/.snapshots/")
+    except ShellCommandError as e:
+        if "No matches for wildcard" not in e.out:
+            raise
+
     X("sudo chown -R adam:adam /mnt/disk*")
     X(r"find /mnt/disk* -type d -exec sudo chmod 755 {} \;")
     X(r"find /mnt/disk* -type f -exec sudo chmod 644 {} \;")
