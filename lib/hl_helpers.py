@@ -109,7 +109,7 @@ def generate_docker_env(keys: list[str], file_str: str):
 def substitute_vars(file_path: str, var_names: list[str]):
     for var_name in var_names:
         X(
-            f"""cat {file_path} | string replace '${{var_name}}' (sops -d --extract "['{var_name}']" ~/secrets.yaml) | tee {file_path} >/dev/null""",
+            f"""cat {file_path} | string replace '${{{var_name}}}' (sops -d --extract "['{var_name}']" ~/secrets.yaml) | tee {file_path} >/dev/null""",
         )
 
 
