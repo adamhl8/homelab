@@ -12,7 +12,7 @@ def main():
 
     status = X(f'grep -qxF "$(cat {paths.nodes.sid}/storage/mergerfs.fstab)" /etc/fstab', check=False).status
     if status != 0:
-        X(f"cat {paths.nodes.sid}/storage/mergerfs.fstab | sudo tee -a /etc/fstab > /dev/null")
+        X(f"cat {paths.nodes.sid}/storage/mergerfs.fstab | sudo tee -a /etc/fstab >/dev/null")
     X("sudo systemctl daemon-reload")
     X("sudo mount -a")
 

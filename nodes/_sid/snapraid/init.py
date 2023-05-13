@@ -1,6 +1,8 @@
 def main():
-    from hl_helpers import homelab_paths as paths
+    import hl_helpers as helpers
     from shellrunner import X
+
+    paths = helpers.homelab_paths
 
     # snapraid
     X("mkdir -p ~/snapraid/")
@@ -25,9 +27,7 @@ def main():
     # snapraid-btrfs-runner
     X("~/bin/snapraid-btrfs-runner-update.py")
     X(f"ln -f -s {paths.nodes.sid}/snapraid/snapraid-btrfs-runner.conf ~/snapraid/")
-    X(
-        "sops exec-env ~/secrets.yaml 'envsubst < ~/snapraid/snapraid-btrfs-runner.conf | tee ~/snapraid/snapraid-btrfs-runner.conf > /dev/null'",
-    )
+    helpers.substitute_vars("~/snapraid/snapraid-btrfs-runner.conf", ["aws_access_key_id", "smtp_password"])
     X(f"sudo ln -f -s {paths.nodes.sid}/snapraid/snapraid-btrfs-runner.service /etc/systemd/system/")
     X(f"sudo ln -f -s {paths.nodes.sid}/snapraid/snapraid-btrfs-runner.timer /etc/systemd/system/")
     X("sudo systemctl daemon-reload")

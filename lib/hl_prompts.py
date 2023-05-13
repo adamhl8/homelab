@@ -2,7 +2,7 @@ from shellrunner import X
 
 
 def reboot():
-    response = input("Reboot? (y/N) ")
+    response = input("Reboot? [y/N] ")
     if response.lower() == "y":
         X("sudo reboot")
         return True
@@ -10,5 +10,5 @@ def reboot():
 
 
 def continuep():
-    response = input("Continue? (Y/n) ")
+    response = input("Continue? [Y/n] ")
     return response.lower() != "n"

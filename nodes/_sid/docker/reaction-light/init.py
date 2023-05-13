@@ -1,5 +1,3 @@
-from shellrunner import X
+import hl_helpers as helpers
 
-X(
-    "sops exec-env ~/secrets.yaml 'envsubst < ~/docker/reaction-light/config.ini | tee ~/docker/reaction-light/config.ini > /dev/null'",
-)
+helpers.substitute_vars("~/docker/reaction-light/config.ini", ["reaction_light_token"])

@@ -15,7 +15,7 @@ services:
       - TRASH_AUTO_DELETE_DAYS=30
       - SMTP_HOST=email-smtp.us-east-1.amazonaws.com
       - SMTP_FROM=vaultwarden@adamhl.dev
-      - SMTP_USERNAME=AKIAT5NKIWDOTLLLZ34R
+      - SMTP_USERNAME=${aws_access_key_id}
       - SMTP_PASSWORD=${smtp_password}
       - IP_HEADER=X-Forwarded-For
       - PUID=1000

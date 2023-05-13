@@ -54,7 +54,6 @@ abbr --add gclean 'git clean -ndffx'
 abbr --add gcleanf 'git clean -dffx'
 abbr --add gswitch 'git switch -c'
 
-type -q pdm
 if type -q pdm
   abbr --add pdmp 'pdm publish -u __token__ -P (sops -d --extract "[\'pypi_token\']" ~/secrets.yaml)'
   abbr --add pdma 'eval (pdm venv activate)'

@@ -44,6 +44,8 @@ if type -q nvm
   nvm install latest
   warn "Running npm install -g npm..."
   npm install -g npm
+  warn "Running npm update -g..."
+  npm update -g
 end
 
 if type -q pnpm

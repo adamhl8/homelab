@@ -4,6 +4,7 @@ from shellrunner import ShellCommandError, X
 
 brew_apps = [
     "mas",
+    "pdm",
 ]
 
 
@@ -17,6 +18,8 @@ brew_casks = [
     "brave-browser-beta",
     "discord",
     "obsidian",
+    "microsoft-office",
+    "mochi",
     "syncthing",
     "tailscale",
     "protonvpn",
