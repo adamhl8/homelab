@@ -78,7 +78,7 @@ def main():
         "https://github.com/noah-nuebling/mac-mouse-fix/releases/download/3.0.0-Beta-6/MacMouseFixApp.zip",
     )
 
-    install_app_from_zip("forklift", "https://download.binarynights.com/ForkLift/ForkLift4beta2.zip")
+    install_app_from_zip("forklift", "https://download.binarynights.com/ForkLift/ForkLift4beta3.zip")
     X("defaults write -g NSFileViewer -string com.binarynights.ForkLift")
     X(
         """defaults write com.apple.LaunchServices/com.apple.launchservices.secure LSHandlers -array-add '{LSHandlerContentType="public.folder";LSHandlerRoleAll="com.binarynights.ForkLift";}'""",
