@@ -24,6 +24,7 @@ brew_casks = [
     "tailscale",
     "protonvpn",
     "alt-tab",
+    "flameshot"
     "raycast",
     "visual-studio-code",
     "hyper",
