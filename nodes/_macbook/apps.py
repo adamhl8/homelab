@@ -25,7 +25,6 @@ brew_casks = [
     "protonvpn",
     "alt-tab",
     "raycast",
-    "rectangle",
     "visual-studio-code",
     "hyper",
     "orbstack",
