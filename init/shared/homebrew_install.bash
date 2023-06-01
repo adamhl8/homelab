@@ -10,3 +10,5 @@ else
   echo "Failed to match brew binary."
   return 0
 fi
+
+brew install python@3.11
