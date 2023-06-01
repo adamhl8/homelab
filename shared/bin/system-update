@@ -29,6 +29,10 @@ warn "Running brew update..."
 brew update -f
 warn "Running brew upgrade..."
 brew upgrade
+warn "Running brew autoremove..."
+brew autoremove
+warn "Running brew cleanup --prune=all -s..."
+brew cleanup --prune=all -s
 
 warn "pip install --upgrade pip..."
 pip install --upgrade pip
