@@ -2,8 +2,8 @@
 set -l paths ~/bin ~/.local/bin
 set -g fish_greeting
 
-set -gx PYENV_ROOT ~/.pyenv
-set -a paths $PYENV_ROOT/bin
+set -a paths $HOME/.rye/shims
+set -a paths (brew --prefix python)/libexec/bin
 
 type -q micro; and set -gx EDITOR micro
 type -q sops; and set -gx SOPS_AGE_KEY_FILE ~/.config/sops/age/keys.txt
@@ -23,6 +23,8 @@ set -a paths (path filter -d $HOMEBREW_PREFIX/opt/*/libexec/gnubin; or true)
 
 if test $hostname = "adam-macbook"
   type -q sops; and set -gx CI_JOB_TOKEN (sops -d --extract "['swf_gitlab_pat']" ~/secrets.yaml)
+  find ~ -type f -iname ".DS_Store" -exec rm -f {} \; &> /dev/null &
+  find ~ -type f -iname ".localized" -exec rm -f {} \; &> /dev/null &
 end
 
 # PATH
@@ -33,8 +35,6 @@ for path in $paths
   end
 end
 set -p PATH $new_paths
-
-type -q pyenv; and pyenv init - | source
 
 # aliases
 function l --wraps='LC_COLLATE=C ls -ahlF' --description 'alias l LC_COLLATE=C ls -ahlF'

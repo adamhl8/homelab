@@ -4,7 +4,6 @@ from shellrunner import ShellCommandError, X
 
 brew_apps = [
     "mas",
-    "pdm",
 ]
 
 

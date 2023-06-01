@@ -30,10 +30,9 @@ brew update -f
 warn "Running brew upgrade..."
 brew upgrade
 
-warn "Running pyenv update..."
-test -e $PYENV_ROOT/plugins/pyenv-update; and pyenv update
-pyenv install -s 3.10
+warn "pip install --upgrade pip..."
 pip install --upgrade pip
+warn "pip install -U python-shellrunner..."
 pip install -U python-shellrunner
 set -l pth_file "$(python -c "import sysconfig; print(sysconfig.get_path('purelib'))")/homelab_lib.pth"
 echo "$homelab_root/lib/" | sudo tee "$pth_file" >/dev/null
