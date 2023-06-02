@@ -14,7 +14,7 @@ def install_brew_apps(names: list[str]):
 
 brew_casks = [
     "google-chrome",
-    "brave-browser-beta",
+    "arc",
     "discord",
     "obsidian",
     "microsoft-office",
