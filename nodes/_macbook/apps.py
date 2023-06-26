@@ -18,7 +18,7 @@ brew_casks = [
     "discord",
     "obsidian",
     "microsoft-office",
-    "mochi",
+    "anki",
     "syncthing",
     "tailscale",
     "protonvpn",
