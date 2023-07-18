@@ -9,7 +9,7 @@ services:
     ports:
       - 8008:80
     volumes:
-      - ./data/:/etc/ntfy/
+      - ./data/ntfy/:/etc/ntfy/
       - ./data/cache/:/var/cache/ntfy/
     environment:
       - PUID=1000
