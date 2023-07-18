@@ -169,6 +169,17 @@ adamhl.dev {
 		reverse_proxy localhost:8007
 	}
 
+	@ntfy host ntfy.adamhl.dev
+	handle @ntfy {
+		@authorized_ips remote_ip private_ranges 100.85.253.103 100.126.163.49
+		handle @authorized_ips {
+			reverse_proxy localhost:8008
+		}
+
+		authorize with admin_policy
+		reverse_proxy localhost:8008
+	}
+
 	@scrutiny host scrutiny.adamhl.dev
 	handle @scrutiny {
 		@authorized_ips remote_ip private_ranges 100.85.253.103 100.126.163.49
