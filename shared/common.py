@@ -20,6 +20,7 @@ programs = [
     "git",
     "htop",
     "micro",
+    "fd",
     "jq",
     "yq",
     "age",

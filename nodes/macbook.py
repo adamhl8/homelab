@@ -12,6 +12,7 @@ def step1():
 def step2():
     shared.fish_setup()
     shared.common()
+    X(f"ln -f -s {paths.nodes.macbook}/bin/* ~/bin/")
     X("mkdir -p ~/dev/")
 
 
