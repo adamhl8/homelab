@@ -34,8 +34,8 @@ brew autoremove
 warn "Running brew cleanup --prune=all -s..."
 brew cleanup --prune=all -s
 
-warn "pip install --upgrade pip..."
-pip install --upgrade pip
+warn "pip install -U pip..."
+pip install -U pip
 warn "pip install -U python-shellrunner..."
 pip install -U python-shellrunner
 set -l pth_file "$(python -c "import sysconfig; print(sysconfig.get_path('purelib'))")/homelab_lib.pth"

@@ -1,6 +1,6 @@
 from typing import NamedTuple
 
-from shared import common, docker, fish_install, fish_setup, node, sdkman, sops, ssh, sshd
+from shared import common, docker, fish_install, fish_setup, node, rye, sdkman, sops, ssh, sshd
 
 
 class Common:
@@ -33,6 +33,10 @@ class Node:
     def __init__(self):
         self.setup_pnpm = node.setup_pnpm
 
+class Rye:
+    def __call__(self):
+        rye.main()
+
 
 class Sdkman:
     def __call__(self):
@@ -60,6 +64,7 @@ class SharedModules(NamedTuple):
     fish_install = FishInstall()
     fish_setup = FishSetup()
     node = Node()
+    rye = Rye()
     sdkman = Sdkman()
     sops = Sops()
     ssh = Ssh()
