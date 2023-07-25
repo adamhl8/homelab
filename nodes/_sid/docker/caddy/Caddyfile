@@ -44,7 +44,7 @@ adamhl.dev {
 
 	@plex host plex.adamhl.dev
 	handle @plex {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109
+		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109 100.66.186.7
 		handle @authorized_ips {
 			reverse_proxy localhost:32400
 		}
@@ -55,7 +55,7 @@ adamhl.dev {
 
 	@unifi host unifi.adamhl.dev
 	handle @unifi {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109
+		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109 100.66.186.7
 		handle @authorized_ips {
 			reverse_proxy localhost:8443 {
 				transport http {
@@ -74,7 +74,7 @@ adamhl.dev {
 
 	@cups host cups.adamhl.dev
 	handle @cups {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109
+		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109 100.66.186.7
 		handle @authorized_ips {
 			reverse_proxy localhost:631 {
 				header_up Host 127.0.0.1
@@ -89,7 +89,7 @@ adamhl.dev {
 
 	@vault host vault.adamhl.dev
 	handle @vault {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109
+		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109 100.66.186.7
 		handle @authorized_ips {
 			reverse_proxy localhost:8000
 		}
@@ -100,7 +100,7 @@ adamhl.dev {
 
 	@sync host sync.adamhl.dev
 	handle @sync {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109
+		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109 100.66.186.7
 		handle @authorized_ips {
 			reverse_proxy localhost:8001
 		}
@@ -111,7 +111,7 @@ adamhl.dev {
 
 	@files host files.adamhl.dev
 	handle @files {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109
+		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109 100.66.186.7
 		handle @authorized_ips {
 			reverse_proxy localhost:8002
 		}
@@ -127,7 +127,7 @@ adamhl.dev {
 
 	@utk host utk.adamhl.dev
 	handle @utk {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109
+		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109 100.66.186.7
 		handle @authorized_ips {
 			reverse_proxy zuko.lan:8004
 		}
@@ -138,7 +138,7 @@ adamhl.dev {
 
 	@dashdot host dashdot.adamhl.dev
 	handle @dashdot {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109
+		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109 100.66.186.7
 		handle @authorized_ips {
 			reverse_proxy localhost:8005
 		}
@@ -149,7 +149,7 @@ adamhl.dev {
 
 	@sonarr host sonarr.adamhl.dev
 	handle @sonarr {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109
+		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109 100.66.186.7
 		handle @authorized_ips {
 			reverse_proxy localhost:8006
 		}
@@ -160,7 +160,7 @@ adamhl.dev {
 
 	@radarr host radarr.adamhl.dev
 	handle @radarr {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109
+		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109 100.66.186.7
 		handle @authorized_ips {
 			reverse_proxy localhost:8007
 		}
@@ -171,7 +171,7 @@ adamhl.dev {
 
 	@ntfy host ntfy.adamhl.dev
 	handle @ntfy {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109
+		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109 100.66.186.7
 		handle @authorized_ips {
 			reverse_proxy localhost:8008
 		}
@@ -182,7 +182,7 @@ adamhl.dev {
 
 	@scrutiny host scrutiny.adamhl.dev
 	handle @scrutiny {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109
+		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109 100.66.186.7
 		handle @authorized_ips {
 			reverse_proxy localhost:8010
 		}
@@ -193,7 +193,7 @@ adamhl.dev {
 
 	@homarr host homarr.adamhl.dev
 	handle @homarr {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109
+		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109 100.66.186.7
 		handle @authorized_ips {
 			reverse_proxy localhost:8011
 		}
@@ -204,7 +204,7 @@ adamhl.dev {
 
 	@kavita host kavita.adamhl.dev
 	handle @kavita {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109
+		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109 100.66.186.7
 		handle @authorized_ips {
 			reverse_proxy localhost:8013
 		}
@@ -215,7 +215,7 @@ adamhl.dev {
 
 	@cyberchef host cyberchef.adamhl.dev
 	handle @cyberchef {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109
+		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109 100.66.186.7
 		handle @authorized_ips {
 			reverse_proxy localhost:8014
 		}
@@ -226,7 +226,7 @@ adamhl.dev {
 
 	@jellyfin host jellyfin.adamhl.dev
 	handle @jellyfin {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109
+		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109 100.66.186.7
 		handle @authorized_ips {
 			reverse_proxy localhost:8015
 		}
