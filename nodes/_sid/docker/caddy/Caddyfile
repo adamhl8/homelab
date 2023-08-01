@@ -180,6 +180,17 @@ adamhl.dev {
 		reverse_proxy localhost:8008
 	}
 
+	@linkding host linkding.adamhl.dev
+	handle @linkding {
+		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109 100.66.186.7
+		handle @authorized_ips {
+			reverse_proxy localhost:8009
+		}
+
+		authorize with admin_policy
+		reverse_proxy localhost:8009
+	}
+
 	@scrutiny host scrutiny.adamhl.dev
 	handle @scrutiny {
 		@authorized_ips remote_ip private_ranges 100.85.253.103 100.107.184.109 100.66.186.7
