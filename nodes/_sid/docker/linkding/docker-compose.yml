@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  linkding:
+    image: sissbruecker/linkding
+    container_name: linkding
+    restart: always
+    ports:
+      - 8009:9090
+    volumes:
+      - ./data/:/etc/linkding/data/
+    environment:
+      - LD_SUPERUSER_NAME=adam
+      - LD_SUPERUSER_PASSWORD=pass
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
