@@ -3,6 +3,7 @@
 rm -rf ~/.android
 rm -rf ~/.cache
 rm -rf ~/.cups
+rm -rf ~/.embedded-postgres-go
 rm -rf ~/.gradle
 rm -rf ~/.hawtjni
 rm -rf ~/.lesshst

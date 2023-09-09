@@ -13,3 +13,10 @@
 [credential "https://gitlab.create.army.mil"]
 	username = @adam.h.langbert.mil
 	helper = "!echo password=$(sops -d --extract \"['swf_gitlab_pat']\" ~/secrets.yaml); true"
+[includeIf "hasconfig:remote.*.url:https://gitlab.create.army.mil/**"]
+	path = .gitconfig-swf
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
