@@ -7,9 +7,11 @@ services:
     restart: always
     volumes:
       - /home/adam/dev/eyir/faq/:/app/faq/
+      - ./data/:/app/prisma/db/
     environment:
       - BOT_TOKEN=${eyir_token}
-      - CLIENT_ID=320863841548238848
+      - APPLICATION_ID=320863841548238848
+      - DATABASE_URL=file:db/prod.db
       - PUID=1000
       - PGID=1000
       - TZ=America/Chicago
