@@ -7,12 +7,15 @@ services:
     restart: always
     ports:
       - 8015:8096
+      - 7359:7359/udp
     devices:
       - /dev/dri/
     volumes:
       - ./data/:/config/
+      - /mnt/storage/Media/:/Media/
       - /mnt/storage/Other/Z/Z/:/Z/
     environment:
+      - JELLYFIN_PublishedServerUrl=https://jellyfin.adamhl.dev
       - PUID=1000
       - PGID=1000
       - TZ=America/Chicago
