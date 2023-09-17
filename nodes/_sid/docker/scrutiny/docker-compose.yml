@@ -8,7 +8,7 @@ services:
     ports:
       - 8086:8086
     volumes:
-      - ./influxdb/:/var/lib/influxdb2
+      - ./data/influxdb/:/var/lib/influxdb2
     environment:
       - PUID=1000
       - PGID=1000
