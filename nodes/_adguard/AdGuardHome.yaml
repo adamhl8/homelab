@@ -1,5 +1,9 @@
-bind_host: 0.0.0.0
-bind_port: 80
+http:
+  pprof:
+    port: 6060
+    enabled: false
+  address: 0.0.0.0:80
+  session_ttl: 720h
 users:
   - name: adam
     password: $2a$10$yesupk25bv.tszVwnYQAduSZWPTBka1zsDBLmKQCOIXiGQ4AGqDQK
@@ -8,21 +12,11 @@ block_auth_min: 15
 http_proxy: ""
 language: ""
 theme: auto
-debug_pprof: false
-web_session_ttl: 720
 dns:
   bind_hosts:
     - 0.0.0.0
   port: 53
   anonymize_client_ip: false
-  protection_enabled: true
-  blocking_mode: default
-  blocking_ipv4: ""
-  blocking_ipv6: ""
-  blocked_response_ttl: 10
-  protection_disabled_until: null
-  parental_block_host: family-block.dns.adguard.com
-  safebrowsing_block_host: standard-block.dns.adguard.com
   ratelimit: 20
   ratelimit_whitelist: []
   refuse_any: true
@@ -33,6 +27,7 @@ dns:
   bootstrap_dns:
     - 1.1.1.1
     - 1.0.0.1
+  fallback_dns: []
   all_servers: true
   fastest_addr: false
   fastest_timeout: 1s
@@ -61,66 +56,6 @@ dns:
   ipset: []
   ipset_file: ""
   bootstrap_prefer_ipv6: false
-  filtering_enabled: true
-  filters_update_interval: 24
-  parental_enabled: false
-  safebrowsing_enabled: false
-  safebrowsing_cache_size: 1048576
-  safesearch_cache_size: 1048576
-  parental_cache_size: 1048576
-  cache_time: 30
-  safe_search:
-    enabled: false
-    bing: true
-    duckduckgo: true
-    google: true
-    pixabay: true
-    yandex: true
-    youtube: true
-  rewrites:
-    - domain: auth.adamhl.dev
-      answer: 10.8.8.3
-    - domain: plex.adamhl.dev
-      answer: 10.8.8.3
-    - domain: unifi.adamhl.dev
-      answer: 10.8.8.3
-    - domain: cups.adamhl.dev
-      answer: 10.8.8.3
-    - domain: vault.adamhl.dev
-      answer: 10.8.8.3
-    - domain: sync.adamhl.dev
-      answer: 10.8.8.3
-    - domain: files.adamhl.dev
-      answer: 10.8.8.3
-    - domain: eyir.adamhl.dev
-      answer: 10.8.8.3
-    - domain: utk.adamhl.dev
-      answer: 10.8.8.3
-    - domain: dashdot.adamhl.dev
-      answer: 10.8.8.3
-    - domain: sonarr.adamhl.dev
-      answer: 10.8.8.3
-    - domain: radarr.adamhl.dev
-      answer: 10.8.8.3
-    - domain: qb.adamhl.dev
-      answer: 10.8.8.3
-    - domain: ha.adamhl.dev
-      answer: 10.8.8.3
-    - domain: scrutiny.adamhl.dev
-      answer: 10.8.8.3
-    - domain: homarr.adamhl.dev
-      answer: 10.8.8.3
-    - domain: z2m.adamhl.dev
-      answer: 10.8.8.3
-    - domain: kavita.adamhl.dev
-      answer: 10.8.8.3
-    - domain: cyberchef.adamhl.dev
-      answer: 10.8.8.3
-    - domain: jellyfin.adamhl.dev
-      answer: 10.8.8.3
-    - domain: webtop.adamhl.dev
-      answer: 10.8.8.3
-  blocked_services: []
   upstream_timeout: 10s
   private_networks: []
   use_private_ptr_resolvers: true
@@ -178,6 +113,82 @@ dhcp:
     lease_duration: 86400
     ra_slaac_only: false
     ra_allow_slaac: false
+filtering:
+  blocking_ipv4: ""
+  blocking_ipv6: ""
+  blocked_services:
+    schedule:
+      time_zone: Local
+    ids: []
+  protection_disabled_until: null
+  safe_search:
+    enabled: false
+    bing: true
+    duckduckgo: true
+    google: true
+    pixabay: true
+    yandex: true
+    youtube: true
+  blocking_mode: default
+  parental_block_host: family-block.dns.adguard.com
+  safebrowsing_block_host: standard-block.dns.adguard.com
+  rewrites:
+    - domain: auth.adamhl.dev
+      answer: 10.8.8.3
+    - domain: plex.adamhl.dev
+      answer: 10.8.8.3
+    - domain: unifi.adamhl.dev
+      answer: 10.8.8.3
+    - domain: cups.adamhl.dev
+      answer: 10.8.8.3
+    - domain: vault.adamhl.dev
+      answer: 10.8.8.3
+    - domain: sync.adamhl.dev
+      answer: 10.8.8.3
+    - domain: files.adamhl.dev
+      answer: 10.8.8.3
+    - domain: eyir.adamhl.dev
+      answer: 10.8.8.3
+    - domain: utk.adamhl.dev
+      answer: 10.8.8.3
+    - domain: dashdot.adamhl.dev
+      answer: 10.8.8.3
+    - domain: sonarr.adamhl.dev
+      answer: 10.8.8.3
+    - domain: radarr.adamhl.dev
+      answer: 10.8.8.3
+    - domain: qb.adamhl.dev
+      answer: 10.8.8.3
+    - domain: ha.adamhl.dev
+      answer: 10.8.8.3
+    - domain: scrutiny.adamhl.dev
+      answer: 10.8.8.3
+    - domain: homarr.adamhl.dev
+      answer: 10.8.8.3
+    - domain: z2m.adamhl.dev
+      answer: 10.8.8.3
+    - domain: kavita.adamhl.dev
+      answer: 10.8.8.3
+    - domain: cyberchef.adamhl.dev
+      answer: 10.8.8.3
+    - domain: jellyfin.adamhl.dev
+      answer: 10.8.8.3
+    - domain: webtop.adamhl.dev
+      answer: 10.8.8.3
+    - domain: ntfy.adamhl.dev
+      answer: 10.8.8.3
+    - domain: linkwarden.adamhl.dev
+      answer: 10.8.8.3
+  safebrowsing_cache_size: 1048576
+  safesearch_cache_size: 1048576
+  parental_cache_size: 1048576
+  cache_time: 30
+  filters_update_interval: 24
+  blocked_response_ttl: 10
+  filtering_enabled: true
+  parental_enabled: false
+  safebrowsing_enabled: false
+  protection_enabled: true
 clients:
   runtime_sources:
     whois: true
@@ -186,15 +197,16 @@ clients:
     dhcp: true
     hosts: true
   persistent: []
-log_file: ""
-log_max_backups: 0
-log_max_size: 100
-log_max_age: 3
-log_compress: false
-log_localtime: false
-verbose: false
+log:
+  file: ""
+  max_backups: 0
+  max_size: 100
+  max_age: 3
+  compress: false
+  local_time: false
+  verbose: false
 os:
   group: ""
   user: ""
   rlimit_nofile: 0
-schema_version: 20
+schema_version: 27

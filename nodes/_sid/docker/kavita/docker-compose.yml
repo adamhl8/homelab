@@ -6,7 +6,7 @@ services:
     container_name: kavita
     restart: always
     ports:
-      - 8013:5000
+      - 8012:5000
     volumes:
       - ./data/:/kavita/config/
       - /mnt/storage/Library/:/Library/
