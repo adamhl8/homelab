@@ -32,6 +32,7 @@ class HomelabPaths(NamedTuple):
     age_key = homelab_root / "key.age"
     secrets_yaml = homelab_root / "secrets.yaml"
     ssh_yaml = homelab_root / "ssh.yaml"
+    caddyfile = Nodes.sid / "docker/caddy/Caddyfile"
     configs = Configs()
     nodes = Nodes()
 
@@ -43,7 +44,7 @@ def get_arch():
     arch = platform.machine().lower()
     if arch == "amd64":
         return "amd64"
-    if arch == "aarch64" or arch == "arm64":
+    if arch in ["aarch64", "arm64"]:
         return "arm64"
     message = f"Failed to resolve an expected arch. Got '{arch}'."
     raise RuntimeError(message)

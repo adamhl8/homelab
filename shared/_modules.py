@@ -33,6 +33,7 @@ class Node:
     def __init__(self):
         self.setup_pnpm = node.setup_pnpm
 
+
 class Rye:
     def __call__(self):
         rye.main()
