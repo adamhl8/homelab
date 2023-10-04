@@ -21,8 +21,10 @@ programs = [
     "htop",
     "micro",
     "fd",
+    "fclones",
     "jq",
     "yq",
+    "xq",
     "age",
 ]
 
