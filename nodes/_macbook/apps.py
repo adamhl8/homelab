@@ -23,6 +23,7 @@ brew_casks = [
     "tailscale",
     "protonvpn",
     "alt-tab",
+    "linearmouse",
     "flameshot",
     "raycast",
     "cursor",
@@ -112,16 +113,6 @@ def main():
         'curl -s https://api.github.com/repos/Marginal/QLVideo/releases/latest | string match -r "https://.*/download/.*QLVideo.*dmg" | sed 1q',
     ).out
     install_app_from_dmg("QuickLook Video", quicklook_video_url)
-
-    # Mac Mouse Fix
-    mac_mouse_fix_url = X(
-        'curl -s https://api.github.com/repos/noah-nuebling/mac-mouse-fix/releases | string match -r "https://.*/download/.*MacMouseFixApp.*zip" | sed 1q',
-        check=False,
-    ).out
-    install_app_from_zip(
-        "macmousefix",
-        mac_mouse_fix_url,
-    )
 
     # Forklift
     X("defaults write -g NSFileViewer -string com.binarynights.ForkLift")
