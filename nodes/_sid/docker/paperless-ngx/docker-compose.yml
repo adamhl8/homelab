@@ -30,6 +30,7 @@ services:
       - ./export:/usr/src/paperless/export
       - ./consume:/usr/src/paperless/consume
     environment:
+      PAPERLESS_SECRET_KEY: ${paperless_secret_key}
       PAPERLESS_URL: https://paperless.adamhl.dev
       PAPERLESS_TIME_ZONE: America/Chicago
       PAPERLESS_OCR_LANGUAGE: eng
