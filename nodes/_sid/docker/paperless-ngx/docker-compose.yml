@@ -9,10 +9,21 @@ services:
     volumes:
       - redisdata:/data
 
+  db:
+    image: docker.io/library/postgres:15
+    restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: paperless
+      POSTGRES_USER: paperless
+      POSTGRES_PASSWORD: paperless
+
   webserver:
     image: ghcr.io/paperless-ngx/paperless-ngx:latest
     restart: always
     depends_on:
+      - db
       - broker
       - gotenberg
       - tika
@@ -35,6 +46,7 @@ services:
       PAPERLESS_TIME_ZONE: America/Chicago
       PAPERLESS_OCR_LANGUAGE: eng
       PAPERLESS_REDIS: redis://broker:6379
+      PAPERLESS_DBHOST: db
       PAPERLESS_TIKA_ENABLED: 1
       PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://gotenberg:3000
       PAPERLESS_TIKA_ENDPOINT: http://tika:9998
@@ -53,4 +65,5 @@ services:
 
 volumes:
   data:
+  pgdata:
   redisdata:
