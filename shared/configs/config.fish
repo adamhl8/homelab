@@ -3,7 +3,7 @@ set -l paths ~/bin ~/.local/bin
 set -g fish_greeting
 
 set -a paths $HOME/.rye/shims
-set -a paths (brew --prefix python)/libexec/bin
+set -a paths (brew --prefix python@3.12)/libexec/bin
 
 type -q micro; and set -gx EDITOR micro
 type -q sops; and set -gx SOPS_AGE_KEY_FILE ~/.config/sops/age/keys.txt
