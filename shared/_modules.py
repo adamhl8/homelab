@@ -1,6 +1,6 @@
 from typing import NamedTuple
 
-from shared import common, docker, fish_install, fish_setup, node, rye, sdkman, sops, ssh, sshd
+from shared import common, docker, fish_install, fish_setup, node, sdkman, sops, ssh, sshd
 
 
 class Common:

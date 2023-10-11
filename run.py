@@ -3,6 +3,7 @@
 import importlib
 import inspect
 import sys
+from pathlib import Path
 from shutil import which
 
 import hl_helpers as helpers
@@ -11,6 +12,15 @@ from shellrunner import X
 
 
 def main():
+    paths = helpers.homelab_paths
+    cwd = Path.cwd().resolve(strict=True)
+
+    if paths.root in cwd.parents or paths.root == cwd:
+        print(
+            "Do not run this script from the homelab directory, or else the local python (venv) install will be used.",
+        )
+        return
+
     name = sys.argv[1]
     node = importlib.import_module(f"nodes.{name}")
     steps = inspect.getmembers(node, inspect.isfunction)
@@ -18,8 +28,6 @@ def main():
 
     if which("sudo"):
         X("sudo -v")
-
-    paths = helpers.homelab_paths
 
     for step in steps:
         current_step, step_fn = step

@@ -1,6 +1,6 @@
 homelab_root="${homelab_root:?}"
 
-rye install python-shellrunner
+rye install -f python-shellrunner
 python_shellrunner_pth_file="$(python -c "import sysconfig; print(sysconfig.get_path('purelib'))")/python-shellrunner.pth"
 echo "${HOME}/.rye/tools/python-shellrunner/lib/python3.12/site-packages" | sudo tee "${python_shellrunner_pth_file}" >/dev/null
 echo "Added python-shellrunner to python search path."

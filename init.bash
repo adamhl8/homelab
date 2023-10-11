@@ -9,6 +9,12 @@ set -euo pipefail
 IFS=$'\n\t'
 
 homelab_root="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+
+if [[ "$(pwd)" == "${homelab_root}"* ]]; then
+  echo "Do not run this script from the homelab directory, or else the local python (venv) install will be used."
+  return 0
+fi
+
 init="${homelab_root}/init"
 shared="${init}/shared"
 hostname="${HOSTNAME:-$(hostname)}"
