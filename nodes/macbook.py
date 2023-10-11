@@ -21,7 +21,6 @@ def step3():
     X(f"ln -f -s {paths.configs.hyper_config} ~/.hyper.js")
     shared.sops()
     shared.ssh()
-    shared.rye()
     shared.node()
     shared.sdkman()
 

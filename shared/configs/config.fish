@@ -3,7 +3,6 @@ set -l paths ~/bin ~/.local/bin
 set -g fish_greeting
 
 set -a paths $HOME/.rye/shims
-set -a paths (brew --prefix python@3.12)/libexec/bin
 
 type -q micro; and set -gx EDITOR micro
 type -q sops; and set -gx SOPS_AGE_KEY_FILE ~/.config/sops/age/keys.txt
@@ -51,8 +50,3 @@ abbr --add greset 'git fetch && git reset --hard @{u}'
 abbr --add gclean 'git clean -ndffx'
 abbr --add gcleanf 'git clean -dffx'
 abbr --add gswitch 'git switch -c'
-
-if type -q pdm
-  abbr --add pdmp 'pdm publish -u __token__ -P (sops -d --extract "[\'pypi_token\']" ~/secrets.yaml)'
-  abbr --add pdma 'eval (pdm venv activate)'
-end

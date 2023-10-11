@@ -34,11 +34,6 @@ class Node:
         self.setup_pnpm = node.setup_pnpm
 
 
-class Rye:
-    def __call__(self):
-        rye.main()
-
-
 class Sdkman:
     def __call__(self):
         sdkman.main()
@@ -65,7 +60,6 @@ class SharedModules(NamedTuple):
     fish_install = FishInstall()
     fish_setup = FishSetup()
     node = Node()
-    rye = Rye()
     sdkman = Sdkman()
     sops = Sops()
     ssh = Ssh()
