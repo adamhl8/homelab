@@ -1,4 +1,6 @@
-from shellrunner import ShellCommandError, X
+import webbrowser
+
+from shellrunner import X
 
 brew_apps = [
     "mas",
@@ -39,7 +41,7 @@ brew_casks = [
 
 def install_brew_casks(casks: list[str]):
     for cask in casks:
-        X(f"brew install --cask {cask}")
+        X(f"brew install --cask {cask} -f")
 
 
 app_store_app_ids = [
@@ -57,45 +59,20 @@ def install_app_store_apps(app_ids: list[str]):
 
 
 def install_app_from_zip(name: str, url: str):
-    try:
-        zip_path = f"/Applications/{name}.zip"
-        X(f"curl -Lo '{zip_path}' '{url}'")
-        X(f"unzip '{zip_path}' -d /Applications/")
-        X(f"rm '{zip_path}'")
-    except ShellCommandError as e:
-        print("Failed to install app from zip.")
-        print(e.out)
+    zip_path = f"/Applications/{name}.zip"
+    X(f"curl -Lo '{zip_path}' '{url}'")
+    X(f"unzip '{zip_path}' -d /Applications/")
+    X(f"rm '{zip_path}'")
 
 
 def install_app_from_dmg(name: str, url: str):
-    try:
-        dmg_path = f"/Applications/{name}.dmg"
-        volume_path = f"/Volumes/{name}"
-        X(f"curl -Lo '{dmg_path}' '{url}'")
-        X(f"hdiutil attach '{dmg_path}' -mountpoint '{volume_path}' -quiet")
-        X(f"cp -r '{volume_path}'/*.app /Applications/")
-        X(f"hdiutil unmount '{volume_path}'")
-        X(f"rm '{dmg_path}'")
-    except ShellCommandError as e:
-        print("Failed to install app from dmg.")
-        print(e.out)
-
-
-def get_tinker_tool():
-    form_html = X(
-        "curl -s 'https://www.bresink.com/osx/0TinkerTool/download.php' | xq -n -q 'form'",
-    ).out
-    download_link = X(f"echo '{form_html}' | xq -q 'form' -a 'action'").out
-    key1 = X(f"echo '{form_html}' | xq -q '#key1' -a 'value'").out
-    key2 = X(f"echo '{form_html}' | xq -q '#key2' -a 'value'").out
-    key3 = X(f"echo '{form_html}' | xq -q '#key3' -a 'value'").out
-
-    request_data = f"Download=Download&key1={key1}&key2={key2}&key3={key3}"
-    response = X(f"curl -s '{download_link}' --compressed -X POST --data-raw '{request_data}'").out
-    download_path = X(f"echo '{response}' | xq -q 'a' -a 'href' | grep PHPSESSID").out
-    full_download_url = f"https://www.bresink.com/{download_path}"
-
-    install_app_from_dmg("TinkerTool", full_download_url)
+    dmg_path = f"/Applications/{name}.dmg"
+    volume_path = f"/Volumes/{name}"
+    X(f"curl -Lo '{dmg_path}' '{url}'")
+    X(f"hdiutil attach '{dmg_path}' -mountpoint '{volume_path}' -quiet")
+    X(f"cp -r '{volume_path}'/*.app /Applications/")
+    X(f"hdiutil unmount '{volume_path}'")
+    X(f"rm '{dmg_path}'")
 
 
 def main():
@@ -106,7 +83,7 @@ def main():
 
     install_app_from_dmg("ConnectMeNow4", "https://www.tweaking4all.com/downloads/ConnectMeNow4-v4-macOS-arm64.dmg")
     install_app_from_dmg("Bartender 5", "https://www.macbartender.com/B2/updates/B5Latest/Bartender%205.dmg")
-    get_tinker_tool()
+    webbrowser.open('https://www.bresink.com/osx/0TinkerTool/download.php')
 
     # QuickLook Video
     quicklook_video_url = X(
