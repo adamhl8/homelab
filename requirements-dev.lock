@@ -9,17 +9,15 @@
 -e file:.
 black==23.9.1
 certifi==2023.7.22
-charset-normalizer==3.2.0
+charset-normalizer==3.3.0
 click==8.1.7
 idna==3.4
 mypy-extensions==1.0.0
-packaging==23.1
+packaging==23.2
 pathspec==0.11.2
-platformdirs==3.10.0
+platformdirs==3.11.0
 psutil==5.9.5
-python-shellrunner==0.3.2
+python-shellrunner==0.3.3
 requests==2.31.0
-ruff==0.0.290
-tomli==2.0.1
-typing-extensions==4.7.1
-urllib3==2.0.4
+ruff==0.0.292
+urllib3==2.0.6

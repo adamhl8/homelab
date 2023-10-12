@@ -3,7 +3,7 @@ name = "homelab"
 version = "0.1.0"
 requires-python = ">=3.12"
 dependencies = [
-    "python-shellrunner>=0.3.2",
+    "python-shellrunner>=0.3.3",
     "requests>=2.31.0",
 ]
 
@@ -11,7 +11,7 @@ dependencies = [
 managed = true
 dev-dependencies = [
     "black>=23.9.1",
-    "ruff>=0.0.290",
+    "ruff>=0.0.292",
 ]
 
 [tool.rye.scripts]
@@ -20,20 +20,17 @@ dev-dependencies = [
 lint = { chain = ["lint:pyright", "lint:ruff"] }
 format = "black ."
 
-[tool.hatch.metadata]
-allow-direct-references = true
-
 [tool.pyright]
 typeCheckingMode = "strict"
-extraPaths = ["lib", ".venv/lib/python3.10/site-packages"]
+extraPaths = ["lib", ".venv/lib/python3.12/site-packages"]
 
 [tool.black]
 line-length = 120
-target-version = ["py310"]
+target-version = ["py312"]
 
 [tool.ruff]
 line-length = 120
-target-version = "py310"
+target-version = "py312"
 select = ["E", "F", "W", "I", "N", "UP", "BLE", "FBT", "B", "A", "COM", "C4", "T10", "EM", "EXE", "ISC", "ICN", "G",
 "INP", "PIE", "PYI", "PT", "Q", "RSE", "RET", "SLF", "SIM", "TID", "TCH", "ARG", "PTH", "ERA", "PL", "PLC", "PLE",
 "PLR", "PLW", "TRY", "RUF"]
@@ -42,3 +39,6 @@ ignore = ["E501", "INP001"]
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[tool.hatch.metadata]
+allow-direct-references = true
