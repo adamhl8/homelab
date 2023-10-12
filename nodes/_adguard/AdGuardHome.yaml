@@ -10,7 +10,7 @@ users:
 auth_attempts: 5
 block_auth_min: 15
 http_proxy: ""
-language: ""
+language: en
 theme: auto
 dns:
   bind_hosts:
@@ -135,11 +135,7 @@ filtering:
   rewrites:
     - domain: auth.adamhl.dev
       answer: 10.8.8.3
-    - domain: plex.adamhl.dev
-      answer: 10.8.8.3
     - domain: unifi.adamhl.dev
-      answer: 10.8.8.3
-    - domain: cups.adamhl.dev
       answer: 10.8.8.3
     - domain: vault.adamhl.dev
       answer: 10.8.8.3
@@ -149,7 +145,7 @@ filtering:
       answer: 10.8.8.3
     - domain: eyir.adamhl.dev
       answer: 10.8.8.3
-    - domain: utk.adamhl.dev
+    - domain: jellyfin.adamhl.dev
       answer: 10.8.8.3
     - domain: dashdot.adamhl.dev
       answer: 10.8.8.3
@@ -157,27 +153,19 @@ filtering:
       answer: 10.8.8.3
     - domain: radarr.adamhl.dev
       answer: 10.8.8.3
-    - domain: qb.adamhl.dev
+    - domain: ntfy.adamhl.dev
       answer: 10.8.8.3
-    - domain: ha.adamhl.dev
+    - domain: cyberchef.adamhl.dev
       answer: 10.8.8.3
     - domain: scrutiny.adamhl.dev
       answer: 10.8.8.3
     - domain: homarr.adamhl.dev
       answer: 10.8.8.3
-    - domain: z2m.adamhl.dev
-      answer: 10.8.8.3
     - domain: kavita.adamhl.dev
       answer: 10.8.8.3
-    - domain: cyberchef.adamhl.dev
+    - domain: paperless.adamhl.dev
       answer: 10.8.8.3
-    - domain: jellyfin.adamhl.dev
-      answer: 10.8.8.3
-    - domain: webtop.adamhl.dev
-      answer: 10.8.8.3
-    - domain: ntfy.adamhl.dev
-      answer: 10.8.8.3
-    - domain: linkwarden.adamhl.dev
+    - domain: ha.adamhl.dev
       answer: 10.8.8.3
   safebrowsing_cache_size: 1048576
   safesearch_cache_size: 1048576
