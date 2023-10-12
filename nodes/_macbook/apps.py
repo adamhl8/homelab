@@ -83,7 +83,7 @@ def main():
 
     install_app_from_dmg("ConnectMeNow4", "https://www.tweaking4all.com/downloads/ConnectMeNow4-v4-macOS-arm64.dmg")
     install_app_from_dmg("Bartender 5", "https://www.macbartender.com/B2/updates/B5Latest/Bartender%205.dmg")
-    webbrowser.open('https://www.bresink.com/osx/0TinkerTool/download.php')
+    webbrowser.open("https://www.bresink.com/osx/0TinkerTool/download.php")
 
     # QuickLook Video
     quicklook_video_url = X(

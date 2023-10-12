@@ -8,8 +8,8 @@ def main():
     X("echo 2 1 2 3 1 1 1 1 1 1 1 y | tide configure >/dev/null")
     X("set -l ind (contains -i -- kubectl $tide_right_prompt_items); and set -e tide_right_prompt_items[$ind]")
 
-
     X("rye self completion -s fish >~/.config/fish/completions/rye.fish")
+
 
 if __name__ == "__main__":
     main()

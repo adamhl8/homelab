@@ -38,9 +38,9 @@ warn "rye self update..."
 rye self update
 warn "rye self completion -s fish >~/.config/fish/completions/rye.fish..."
 rye self completion -s fish >~/.config/fish/completions/rye.fish
-warn "rye toolchain fetch 3.12"
+warn "rye toolchain fetch 3.12..."
 rye toolchain fetch 3.12
-warn "rye install -f python-shellrunner"
+warn "rye install -f python-shellrunner..."
 rye install -f python-shellrunner
 
 set -l python_shellrunner_pth_file "$(python -c "import sysconfig; print(sysconfig.get_path('purelib'))")/python-shellrunner.pth"
