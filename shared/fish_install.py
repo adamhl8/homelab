@@ -9,7 +9,7 @@ def main():
     X(f"ln -f -s {paths.configs.fish_config} ~/.config/fish/")
 
     X("brew install fish")
-    X('fish -c "$HOMEBREW_PREFIX/bin/brew shellenv >~/.config/fish/conf.d/homebrew.fish"')
+    X("$HOMEBREW_PREFIX/bin/brew shellenv fish >~/.config/fish/conf.d/homebrew.fish")
 
     fish_path = "$HOMEBREW_PREFIX/bin/fish"
     try:
