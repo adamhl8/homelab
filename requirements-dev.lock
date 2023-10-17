@@ -7,7 +7,7 @@
 #   all-features: false
 
 -e file:.
-black==23.9.1
+black==23.10.0
 certifi==2023.7.22
 charset-normalizer==3.3.0
 click==8.1.7
@@ -16,8 +16,8 @@ mypy-extensions==1.0.0
 packaging==23.2
 pathspec==0.11.2
 platformdirs==3.11.0
-psutil==5.9.5
-python-shellrunner==0.3.3
+psutil==5.9.6
+python-shellrunner==0.3.4
 requests==2.31.0
-ruff==0.0.292
-urllib3==2.0.6
+ruff==0.1.0
+urllib3==2.0.7

@@ -10,5 +10,5 @@ services:
     environment:
       - WATCHTOWER_CLEANUP=true
       - WATCHTOWER_REMOVE_VOLUMES=true
-      - WATCHTOWER_NOTIFICATION_URL=ntfy://@https://ntfy.adamhl.dev/share
+      - WATCHTOWER_NOTIFICATION_URL=ntfy://@ntfy.adamhl.dev/watchtower
       - TZ=America/Chicago

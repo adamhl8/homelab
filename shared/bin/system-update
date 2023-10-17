@@ -8,6 +8,11 @@ end
 
 set -l homelab_root (realpath (status dirname)/../..)
 
+if string match -q "$homelab_root*" (pwd)
+  echo "Do not run this script from the homelab directory, or else the local python (venv) install will be used."
+  return 1
+end
+
 set -l os_name (uname -o)
 switch $os_name
 case "GNU/Linux"

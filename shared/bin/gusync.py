@@ -11,7 +11,7 @@ def main():
     ).out
     X("git pull --rebase", show_commands=False)
     X(f"git fetch upstream {upstream_branch}", show_commands=False)
-    X(f"git rebase upstream/{upstream_branch}", show_commands=False)
+    X(f"git rebase upstream/{upstream_branch}", show_commands=False, check=False)
 
 
 if __name__ == "__main__":
