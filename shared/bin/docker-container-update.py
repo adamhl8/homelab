@@ -1,73 +1,42 @@
 #!/usr/bin/env python
 
-from pathlib import Path
-
-from hl_helpers import warn
 from shellrunner import X
 
 
-def update(service_dir: Path, current: str, latest: str, docker_flags: str = ""):
-    name = service_dir.name
-    docker_flags = f"-d --force-recreate {docker_flags}"
-    if current != latest:
-        print(f"Updating {name}...")
-        X(f"docker compose --project-directory {service_dir} up {docker_flags}", show_commands=False, show_output=False)
-        print(f"Updated {name}")
-    else:
-        print(f"{name} is up to date.")
+def get_running_containers() -> list[tuple[str, str]]:
+    containers = X("docker ps --format '{{.ID}}::{{.Image}}'", show_commands=False, show_output=False).out.splitlines()
+    return [tuple(container.split("::")) for container in containers]
 
 
-def caddy(service_dir: Path):
-    current = X("docker exec caddy caddy version", show_commands=False, show_output=False).out.split()[0]
-    latest = X(
-        "curl -s https://api.github.com/repos/caddyserver/caddy/releases/latest | yq '.tag_name'",
-        show_commands=False,
-        show_output=False,
-    ).out
-    update(service_dir, current, latest, "--build")
+def update_container(container_id: str, image: str, latest_tag: str) -> None:
+    X(f"docker pull {image}:{latest_tag}", show_commands=False, show_output=False)
+    X(f"docker stop {container_id}", show_commands=False, show_output=False)
+    X(f"docker rm {container_id}", show_commands=False, show_output=False)
+    X(f"docker run -d --name {container_id} {image}:{latest_tag}", show_commands=False, show_output=False)
 
 
-def main():
-    for d in sorted((Path.home() / "docker").glob("*")):
-        name = d.name
-        compose = d / "docker-compose.yml"
-        if not compose.is_file():
-            warn(f'Could not find docker-compose.yml for "{name}"')
-            continue
+def main() -> None:
+    updated_containers: list[tuple[str, str, str]] = []
+    for container_id, image in get_running_containers():
+        print("========")
+        try:
+            image_id = X(f"docker inspect {container_id}" + " --format '{{.Image}}'").out
+            image_digest = X(f"docker image inspect {image_id}" + " --format '{{.RepoDigests}}'").out
+            remote_digest = X(f"./regctl image digest {image}").out
+            if remote_digest in image_digest:
+                print("WOO!!!")
+        except:
+            pass
+        # X(f"docker inspect {container_id}" + """ --format '{{ index .Config.Labels "com.docker.compose.service" }}'""")
+        # X(f"docker inspect {container_id}" + """ --format '{{ index .Config.Labels "com.docker.compose.project.config_files" }}'""")
+        # X(f"docker inspect {container_id}" + """ --format '{{ index .Config.Labels "com.docker.compose.project.working_dir" }}'""")
+        # X(f"docker inspect {container_id}" + """ --format '{{ index .Config.Labels "com.docker.compose.project.environment_file" }}'""")
+        # X(f"docker inspect {container_id}" + """ --format='{{.Config.Image}}'""")
+        print("========")
 
-        print(f"\n==== {name} ====")
-        if name == "caddy":
-            caddy(d)
-            continue
-
-        image_names = X(f"yq '.services.*.image' < {compose}", show_commands=False, show_output=False).out.splitlines()
-        for full_image_name in image_names:
-            image_name = full_image_name.split(":")[0]  # remove tag
-            images = X(
-                f"docker compose --project-directory {d} images | grep ' {image_name} ' || [ $status -eq 1 ]",
-                show_commands=False,
-                show_output=False,
-            ).out
-            if not images:
-                warn(f'Could not get "{image_name}" from "docker compose images" output')
-                continue
-            old_id = images.split()[3]
-
-            print(f"Checking for updates for {image_name}...")
-            X(f"docker compose --project-directory {d} pull -q", show_commands=False, show_output=False)
-
-            images = X(f"docker images {full_image_name}", show_commands=False, show_output=False).out.splitlines()
-            if len(images) <= 1:
-                warn(f'Could not get "{image_name}" from "docker images" output')
-                continue
-            new_id = images[1].split()[2]
-
-            update(d, old_id, new_id)
-
-    response = input("Cleanup Docker? (docker system prune -a --volumes -f) [Y/n] ")
-    if response.lower() != "n":
-        X("docker system prune -a --volumes -f")
-
+    # print("\nUpdated containers:")
+    # for container_id, image, tag in updated_containers:
+    #     print(f"{container_id}: {image}:{tag}")
 
 if __name__ == "__main__":
     main()
