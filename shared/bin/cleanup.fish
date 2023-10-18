@@ -1,1 +1,0 @@
-/Users/adam/homelab/nodes/_macbook/bin/cleanup.fish
