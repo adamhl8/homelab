@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 
+from hl_helpers import get_latest_github_release
 from shellrunner import X
 
-X(
-    'curl -s https://api.github.com/repos/trapexit/mergerfs/releases/latest | string match -r "https://.*/download/.*mergerfs.*debian-bullseye_amd64.deb" | sed 1q | xargs curl -Lo ~/mergerfs.deb',
-)
+get_latest_github_release("trapexit/mergerfs", r"mergerfs.*debian-bookwork_amd64\.deb", "~/mergerfs.deb")
 X("sudo apt install ~/mergerfs.deb -y")
 X("rm ~/mergerfs.deb")
 X("mergerfs --version")

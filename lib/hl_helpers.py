@@ -1,4 +1,5 @@
 import platform
+import re
 from pathlib import Path
 from typing import NamedTuple
 
@@ -75,6 +76,16 @@ def get_distro_version_name():
     except ShellCommandError as e:
         message = f"Failed to resolve distro version name. Got '{e.out}'."
         raise RuntimeError(message) from e
+
+
+def get_latest_github_release(repo: str, file_pattern: str, out_path: str):
+    latest = X(f"curl -s https://api.github.com/repos/{repo}/releases/latest", show_output=False).out
+    match = re.search(rf"https://.*/download/.*{file_pattern}", latest)
+    if match is None:
+        message = f"Failed to find match for pattern: {file_pattern}"
+        raise RuntimeError(message)
+    download_url = match.group(0)
+    X(f"curl -Lo {out_path} {download_url}")
 
 
 def send_email(*, from_addr: str, to_addr: str, subject: str, body: str):
