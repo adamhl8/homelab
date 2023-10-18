@@ -3,8 +3,8 @@ def main():
     from shellrunner import X
 
     X("sudo rm -f /etc/ssh/ssh_host_*")
-    X('ssh-keygen -t rsa -b 4096 -f /etc/ssh/ssh_host_rsa_key -N ""')
-    X('ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -N ""')
+    X('sudo ssh-keygen -t rsa -b 4096 -f /etc/ssh/ssh_host_rsa_key -N ""')
+    X('sudo ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -N ""')
 
     X("awk '$5 >= 3071' /etc/ssh/moduli | sudo tee /etc/ssh/moduli.safe")
 
