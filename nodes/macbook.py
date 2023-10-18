@@ -15,6 +15,20 @@ def step2():
     X(f"ln -f -s {paths.nodes.macbook}/bin/* ~/bin/")
     X("mkdir -p ~/dev/")
 
+    X(
+        "curl -Lo ~/JetBrainsMono.zip 'https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip'",
+    )
+    X("unzip -o -q ~/JetBrainsMono.zip -d ~/JetBrainsMono")
+    X("cp ~/JetBrainsMono/JetBrainsMonoNerdFont-* ~/Library/Fonts/")
+    X("rm -rf ~/JetBrainsMono*")
+
+    X(
+        "curl -Lo ~/AtkinsonHyperlegible.zip 'https://brailleinstitute.org/wp-content/uploads/atkinson-hyperlegible-font/Atkinson-Hyperlegible-Font-Print-and-Web-2020-0514.zip'",
+    )
+    X("unzip -o -q ~/AtkinsonHyperlegible.zip -d ~/AtkinsonHyperlegible")
+    X("cp ~/AtkinsonHyperlegible/**/Atkinson-Hyperlegible-*.ttf ~/Library/Fonts/")
+    X("rm -rf ~/AtkinsonHyperlegible*")
+
 
 def step3():
     macbook.apps()
