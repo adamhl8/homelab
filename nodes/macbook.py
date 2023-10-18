@@ -18,7 +18,7 @@ def step2():
 
 def step3():
     macbook.apps()
-    X(f"ln -f -s {paths.configs.hyper_config} ~/.hyper.js")
+    X(f"ln -f -s {paths.configs.wezterm_config} ~/.wezterm.lua")
     shared.sops()
     shared.ssh()
     shared.node()

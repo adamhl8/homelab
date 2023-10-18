@@ -10,9 +10,10 @@ homelab_root = Path(__file__).parent.parent.resolve(strict=True)
 class Configs(NamedTuple):
     configs_dir = homelab_root / "shared/configs"
     git_config = configs_dir / ".gitconfig"
+    wezterm_config = configs_dir / ".wezterm.lua"
     authorized_keys = configs_dir / "authorized_keys"
     fish_config = configs_dir / "config.fish"
-    hyper_config = configs_dir / "hyper.js"
+    micro_bindings = configs_dir / "micro_bindings.json"
     sshd_config = configs_dir / "sshd_config"
 
 
