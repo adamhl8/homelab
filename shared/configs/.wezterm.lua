@@ -46,6 +46,9 @@ config.mouse_wheel_scrolls_tabs = false
 config.show_new_tab_button_in_tab_bar = false
 config.show_tab_index_in_tab_bar = false
 
+config.initial_cols = 125
+config.initial_rows = 30
+
 config.window_frame = {
   font_size = 14,
   active_titlebar_bg = titlebar,

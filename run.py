@@ -3,22 +3,16 @@
 import importlib
 import inspect
 import sys
-from pathlib import Path
 from shutil import which
 
-import hl_helpers as helpers
 import hl_prompts as prompts
+from hl_helpers import homelab_paths as paths
+from hl_helpers import is_cwd_in_homelab_dir
 from shellrunner import X
 
 
 def main():
-    paths = helpers.homelab_paths
-    cwd = Path.cwd().resolve(strict=True)
-
-    if paths.root in cwd.parents or paths.root == cwd:
-        print(
-            "Do not run this script from the homelab directory, or else the local python (venv) install will be used.",
-        )
+    if is_cwd_in_homelab_dir():
         return
 
     name = sys.argv[1]

@@ -42,6 +42,17 @@ class HomelabPaths(NamedTuple):
 homelab_paths = HomelabPaths()
 
 
+def is_cwd_in_homelab_dir():
+    cwd = Path.cwd().resolve(strict=True)
+
+    if homelab_paths.root in cwd.parents or homelab_paths.root == cwd:
+        print(
+            "Do not run this script from the homelab directory, or else the local python (venv) install will be used.",
+        )
+        return True
+    return False
+
+
 def get_arch():
     arch = platform.machine().lower()
     if arch == "amd64":
@@ -147,13 +158,16 @@ def add_apt_source(*, name: str, gpg_url: str, source: str, arch: str = 'arch="$
 
 
 def warn(message: str):
-    print(f"{PColors.WARNING}{message}{PColors.ENDC}")
+    print(f"{Colors.YELLOW}{message}{Colors.RESET}")
 
 
-class PColors:
-    HEADER = "\033[95m"
-    OKBLUE = "\033[94m"
-    OKGREEN = "\033[92m"
-    WARNING = "\033[93m"
-    FAIL = "\033[91m"
-    ENDC = "\033[0m"
+class Colors:
+    BLACK = "\033[90m"
+    RED = "\033[91m"
+    GREEN = "\033[92m"
+    YELLOW = "\033[93m"
+    BLUE = "\033[94m"
+    MAGENTA = "\033[95m"
+    CYAN = "\033[96m"
+    WHITE = "\033[97m"
+    RESET = "\033[0m"

@@ -38,5 +38,6 @@ def main() -> None:
     # for container_id, image, tag in updated_containers:
     #     print(f"{container_id}: {image}:{tag}")
 
+
 if __name__ == "__main__":
     main()

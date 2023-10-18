@@ -32,7 +32,7 @@ brew_casks = [
     "flameshot",
     "raycast",
     "cursor",
-    "hyper",
+    "wezterm",
     "orbstack",
     "utm",
     "iina",
@@ -53,6 +53,7 @@ app_store_app_ids = [
     "6446061552",  # Signal Shifter
     "1611378436",  # Pure Paste
     "1558360383",  # Menu Bar Calendar
+    "1545870783",  # System Color Picker
 ]
 
 
@@ -116,7 +117,7 @@ def main():
 
     # Keka
     X("curl -Lo ~/kekahelper.zip 'https://d.keka.io/helper'")
-    X("unzip ~/kekahelper.zip -d ~/")
+    X("unzip -o -q ~/kekahelper.zip -d ~/")
     X("rm ~/kekahelper.zip")
     X("~/KekaExternalHelper.app/Contents/MacOS/KekaExternalHelper --set-as-default")
     X("rm -rf ~/KekaExternalHelper.app")
