@@ -5,4 +5,4 @@ Description=snapraid-btrfs-runner
 Type=oneshot
 User=adam
 ExecStart=/home/adam/.rye/shims/python /home/adam/snapraid/snapraid-btrfs-runner.py -c /home/adam/snapraid/snapraid-btrfs-runner.conf
-ExecStartPost=/home/adam/.rye/shims/python /home/adam/restic/restic-backup.py
+ExecStartPost=/home/adam/.rye/shims/python /home/adam/restic/restic_backup.py

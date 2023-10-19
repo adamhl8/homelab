@@ -1,9 +1,8 @@
-import hl_helpers as helpers
+from hl_helpers import get_arch
+from hl_helpers import homelab_paths as paths
 from shellrunner import X
 
 from shared._modules import shared
-
-paths = helpers.homelab_paths
 
 
 def step1():
@@ -23,7 +22,7 @@ def step3():
 
 def step4():
     X(
-        f"curl -Lo ~/adguard.tar.gz https://github.com/AdguardTeam/AdGuardHome/releases/latest/download/AdGuardHome_linux_{helpers.get_arch()}.tar.gz",
+        f"curl -Lo ~/adguard.tar.gz https://github.com/AdguardTeam/AdGuardHome/releases/latest/download/AdGuardHome_linux_{get_arch()}.tar.gz",
     )
     X(["cd ~/", "tar -vxzf ~/adguard.tar.gz"])
     X("rm ~/adguard.tar.gz")

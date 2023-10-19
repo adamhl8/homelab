@@ -1,5 +1,6 @@
 import platform
 import re
+import socket
 from pathlib import Path
 from typing import NamedTuple
 
@@ -87,6 +88,10 @@ def get_distro_version_name():
     except ShellCommandError as e:
         message = f"Failed to resolve distro version name. Got '{e.out}'."
         raise RuntimeError(message) from e
+
+
+def get_hostname():
+    return socket.gethostname()
 
 
 def get_latest_github_release(repo: str, file_pattern: str, out_path: str):

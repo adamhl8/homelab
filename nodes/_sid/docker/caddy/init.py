@@ -1,4 +1,10 @@
-import hl_helpers as helpers
+from hl_helpers import generate_docker_env, substitute_vars
 
-helpers.generate_docker_env(["aws_access_key_id", "aws_secret_access_key"], __file__)
-helpers.substitute_vars("~/docker/caddy/users.json", ["caddy_security_2fa_secret"])
+
+def main():
+    generate_docker_env(["aws_access_key_id", "aws_secret_access_key"], __file__)
+    substitute_vars("~/docker/caddy/users.json", ["caddy_security_2fa_secret"])
+
+
+if __name__ == "__main__":
+    main()

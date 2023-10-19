@@ -1,3 +1,9 @@
-import hl_helpers as helpers
+from hl_helpers import generate_docker_env
 
-helpers.generate_docker_env(["vaultwarden_admin_token", "aws_access_key_id", "smtp_password"], __file__)
+
+def main():
+    generate_docker_env(["vaultwarden_admin_token", "aws_access_key_id", "smtp_password"], __file__)
+
+
+if __name__ == "__main__":
+    main()

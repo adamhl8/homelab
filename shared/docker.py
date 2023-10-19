@@ -1,13 +1,12 @@
+from hl_helpers import add_apt_source, get_distro, get_distro_version_name
 from shellrunner import X
 
 
 def main():
-    import hl_helpers as helpers
-
     X("sudo apt install ca-certificates curl gnupg -y")
-    distro = helpers.get_distro()
-    distro_version_name = helpers.get_distro_version_name().replace("bookworm", "bullseye")
-    helpers.add_apt_source(
+    distro = get_distro()
+    distro_version_name = get_distro_version_name().replace("bookworm", "bullseye")
+    add_apt_source(
         name="docker",
         gpg_url=f"https://download.docker.com/linux/{distro}/gpg",
         source=f"https://download.docker.com/linux/{distro} {distro_version_name} stable",

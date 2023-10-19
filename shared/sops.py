@@ -1,9 +1,8 @@
+from hl_helpers import homelab_paths as paths
+from shellrunner import X
+
+
 def main():
-    import hl_helpers as helpers
-    from shellrunner import X
-
-    paths = helpers.homelab_paths
-
     X("brew install sops")
 
     X(f"ln -f -s {paths.secrets_yaml} ~/")

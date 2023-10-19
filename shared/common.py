@@ -1,7 +1,5 @@
-import hl_helpers as helpers
+from hl_helpers import homelab_paths as paths
 from shellrunner import X
-
-paths = helpers.homelab_paths
 
 programs = [
     "bash",

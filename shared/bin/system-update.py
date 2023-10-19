@@ -3,7 +3,7 @@
 import sys
 from shutil import which
 
-from hl_helpers import get_os, is_cwd_in_homelab_dir, warn
+from hl_helpers import get_hostname, get_os, is_cwd_in_homelab_dir, warn
 from hl_helpers import homelab_paths as paths
 from shellrunner import X
 
@@ -17,7 +17,7 @@ def main():
         return
 
     os_name = get_os()
-    hostname = X("echo $hostname", show_output=False, show_commands=False).out
+    hostname = get_hostname()
 
     X("sudo -v")
 
