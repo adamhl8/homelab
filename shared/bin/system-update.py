@@ -29,7 +29,7 @@ def main():
         X("sudo apt autoremove -y")
 
     X("brew update -f")
-    X("brew upgrade")
+    X("brew upgrade -g")
     X("brew autoremove")
     X("brew cleanup --prune=all -s")
 

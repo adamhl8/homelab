@@ -97,6 +97,7 @@ def get_latest_github_release(repo: str, file_pattern: str, out_path: str):
         raise RuntimeError(message)
     download_url = match.group(0)
     X(f"curl -Lo {out_path} {download_url}")
+    return Path(out_path).expanduser().resolve(strict=True).as_uri()
 
 
 def send_email(*, from_addr: str, to_addr: str, subject: str, body: str):

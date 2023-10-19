@@ -2,11 +2,14 @@ import webbrowser
 from pathlib import Path
 from urllib.parse import urlparse
 
-from hl_helpers import get_latest_github_release
 from shellrunner import X
 
 brew_apps = [
     "mas",
+    "go",
+    "gopls",
+    "delve",
+    "staticcheck",
 ]
 
 
@@ -36,9 +39,12 @@ brew_casks = [
     "orbstack",
     "utm",
     "iina",
+    "qlvideo",
     "qbittorrent",
     "slack",
     "zoom",
+    "font-jetbrains-mono-nerd-font",
+    "font-atkinson-hyperlegible",
 ]
 
 
@@ -97,6 +103,7 @@ def install_app_from_dmg(uri: str):
 
 def main():
     X("brew tap homebrew/cask-versions")
+    X("brew tap homebrew/cask-fonts")
     install_brew_apps(brew_apps)
     install_brew_casks(brew_casks)
     install_app_store_apps(app_store_app_ids)
@@ -105,10 +112,6 @@ def main():
     install_app_from_dmg("https://www.macbartender.com/B2/updates/B5Latest/Bartender%205.dmg")
     webbrowser.open("https://www.bresink.com/osx/0TinkerTool/download.php")
 
-    # QuickLook Video
-    get_latest_github_release("Marginal/QLVideo", r"QLVideo.*dmg", "~/QLVideo.dmg")
-    install_app_from_dmg(Path("~/QLVideo.dmg").expanduser().resolve(strict=True).as_uri())
-
     # Forklift
     X("defaults write -g NSFileViewer -string com.binarynights.ForkLift")
     X(
@@ -116,11 +119,9 @@ def main():
     )
 
     # Keka
-    X("curl -Lo ~/kekahelper.zip 'https://d.keka.io/helper'")
-    X("unzip -o -q ~/kekahelper.zip -d ~/")
-    X("rm ~/kekahelper.zip")
-    X("~/KekaExternalHelper.app/Contents/MacOS/KekaExternalHelper --set-as-default")
-    X("rm -rf ~/KekaExternalHelper.app")
+    install_app_from_zip("https://d.keka.io/helper")
+    X("/Applications/KekaExternalHelper.app/Contents/MacOS/KekaExternalHelper --set-as-default")
+    X("rm -rf /Applications/KekaExternalHelper.app")
 
 
 if __name__ == "__main__":
