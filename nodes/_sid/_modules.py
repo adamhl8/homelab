@@ -7,22 +7,22 @@ import nodes._sid.storage.init as storage
 
 
 class Restic:
-    def __call__(self):
+    def __call__(self) -> None:
         restic.main()
 
 
 class Smb:
-    def __call__(self):
+    def __call__(self) -> None:
         smb.main()
 
 
 class Snapraid:
-    def __call__(self):
+    def __call__(self) -> None:
         snapraid.main()
 
 
 class Storage:
-    def __call__(self):
+    def __call__(self) -> None:
         storage.main()
 
 

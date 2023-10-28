@@ -11,7 +11,7 @@ from hl_helpers import is_cwd_in_homelab_dir
 from shellrunner import X
 
 
-def main():
+def main() -> None:
     if is_cwd_in_homelab_dir():
         return
 

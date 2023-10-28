@@ -12,7 +12,7 @@ sys.path.append(f"{paths.root}")
 from shared.fish_setup import install_rye_completions  # noqa: E402
 
 
-def main():
+def main() -> None:
     if is_cwd_in_homelab_dir():
         return
 
@@ -21,7 +21,7 @@ def main():
 
     X("sudo -v")
 
-    X(f"homelab_root='{paths.root}' {paths.root / 'init/shared/shellrunner.bash'}", shell="bash")
+    X(f"homelab_root='{paths.root}' {paths.root / 'init/shared/shellrunner.bash'}", shell="bash")  # noqa: S604
 
     if os_name == "linux" and which("apt"):
         X("sudo apt update")
@@ -70,7 +70,7 @@ def main():
         snapraid_btrfs_runner_update()
         snapraid_btrfs_update()
         snapraid_update()
-        # X("docker-container-update.py")
+        # X("docker-container-update.py")  # noqa: ERA001
 
     if hostname == "adguard":
         X("~/AdGuardHome/AdGuardHome --update")

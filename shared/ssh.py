@@ -3,7 +3,7 @@ from hl_helpers import homelab_paths as paths
 from shellrunner import X
 
 
-def main():
+def main() -> None:
     X("mkdir -p ~/.ssh/")
     X("chmod 700 ~/.ssh/")
     X(f"ln -f -s {paths.configs.authorized_keys} ~/.ssh/")

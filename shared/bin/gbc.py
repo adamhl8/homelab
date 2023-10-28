@@ -3,13 +3,10 @@
 from shellrunner import X
 
 
-def main():
+def main() -> None:
     X("git fetch -p", show_commands=False)
-    gone_list: list[str] = []
     branches = X("git branch -vv", show_commands=False, show_output=False).out.splitlines()
-    for line in branches:
-        if ": gone" in line:
-            gone_list.append(line)
+    gone_list = [line for line in branches if ": gone" in line]
 
     branch_list: list[str] = []
     for branch in gone_list:

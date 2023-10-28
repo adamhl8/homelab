@@ -27,7 +27,7 @@ programs = [
 ]
 
 
-def main():
+def main() -> None:
     X(f"ln -f -s {paths.shared_bin} ~/")
     X(f"ln -f -s {paths.configs.git_config} ~/")
 

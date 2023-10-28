@@ -1,7 +1,7 @@
 from shellrunner import X
 
 
-def reboot():
+def reboot() -> bool:
     response = input("Reboot? [y/N] ")
     if response.lower() == "y":
         X("sudo reboot")
@@ -9,6 +9,6 @@ def reboot():
     return False
 
 
-def continuep():
+def continuep() -> bool:
     response = input("Continue? [Y/n] ")
     return response.lower() != "n"

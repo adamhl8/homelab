@@ -4,7 +4,7 @@ from hl_helpers import warn
 from shellrunner import ShellCommandError, X
 
 
-def main():
+def main() -> None:
     url = X("git remote get-url origin", show_commands=False, show_output=False).out
     repo = url.split(":")[1].removesuffix(".git")
     parent_repo = X(

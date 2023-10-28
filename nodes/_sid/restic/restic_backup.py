@@ -6,18 +6,16 @@ from hl_helpers import send_email
 from shellrunner import ShellCommandError, X
 
 
-def main():
+def main() -> None:
     os.environ["SHELLRUNNER_SHELL"] = "/home/linuxbrew/.linuxbrew/bin/fish"
 
     timestamp = X(r"date +%F_%T").out
 
     backblaze_application_key_id = X(
-        """sops -d --extract "['backblaze_application_key_id']" ~/secrets.yaml""",
-        show_output=False,
+        """sops -d --extract "['backblaze_application_key_id']" ~/secrets.yaml""", show_output=False
     ).out
     backblaze_application_key = X(
-        """sops -d --extract "['backblaze_application_key']" ~/secrets.yaml""",
-        show_output=False,
+        """sops -d --extract "['backblaze_application_key']" ~/secrets.yaml""", show_output=False
     ).out
     restic_password = X("""sops -d --extract "['restic_password']" ~/secrets.yaml""", show_output=False).out
 
@@ -40,7 +38,7 @@ def main():
                 "~/restic/restic forget --prune --keep-within 1m",
                 "echo 'Checking integrity...'",
                 "~/restic/restic check",
-            ],
+            ]
         ).out
     except ShellCommandError as e:
         restic_output = e.out

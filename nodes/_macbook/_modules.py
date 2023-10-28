@@ -4,7 +4,7 @@ from nodes._macbook import apps
 
 
 class Apps:
-    def __call__(self):
+    def __call__(self) -> None:
         apps.main()
 
 

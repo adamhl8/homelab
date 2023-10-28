@@ -4,53 +4,53 @@ from shared import common, docker, fish_install, fish_setup, node, sdkman, sops,
 
 
 class Common:
-    def __call__(self):
+    def __call__(self) -> None:
         common.main()
 
 
 class Docker:
-    def __call__(self):
+    def __call__(self) -> None:
         docker.main()
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.login = docker.login
 
 
 class FishInstall:
-    def __call__(self):
+    def __call__(self) -> None:
         fish_install.main()
 
 
 class FishSetup:
-    def __call__(self):
+    def __call__(self) -> None:
         fish_setup.main()
 
 
 class Node:
-    def __call__(self):
+    def __call__(self) -> None:
         node.main()
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.setup_pnpm = node.setup_pnpm
 
 
 class Sdkman:
-    def __call__(self):
+    def __call__(self) -> None:
         sdkman.main()
 
 
 class Sops:
-    def __call__(self):
+    def __call__(self) -> None:
         sops.main()
 
 
 class Ssh:
-    def __call__(self):
+    def __call__(self) -> None:
         ssh.main()
 
 
 class Sshd:
-    def __call__(self):
+    def __call__(self) -> None:
         sshd.main()
 
 

@@ -6,18 +6,18 @@ from nodes._sid._modules import sid
 from shared._modules import shared
 
 
-def step1():
+def step1() -> None:
     shared.fish_install()
 
 
-def step2():
+def step2() -> None:
     shared.fish_setup()
     shared.common()
 
     X(f"ln -f -s {paths.nodes.sid}/bin/* ~/bin/")
 
 
-def step3():
+def step3() -> None:
     shared.sops()
     shared.ssh()
     shared.sshd()
@@ -25,7 +25,7 @@ def step3():
     shared.docker()
 
 
-def step4():
+def step4() -> None:
     shared.docker.login()
 
     sid.storage()
@@ -34,6 +34,6 @@ def step4():
     sid.smb()
 
 
-def step5():
+def step5() -> None:
     X(f"ln -f -s {paths.nodes.sid}/docker/ ~/")
     start_all_docker_containers()

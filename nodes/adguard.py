@@ -5,24 +5,24 @@ from shellrunner import X
 from shared._modules import shared
 
 
-def step1():
+def step1() -> None:
     shared.fish_install()
 
 
-def step2():
+def step2() -> None:
     shared.fish_setup()
     shared.common()
 
 
-def step3():
+def step3() -> None:
     shared.sops()
     shared.ssh()
     shared.sshd()
 
 
-def step4():
+def step4() -> None:
     X(
-        f"curl -Lo ~/adguard.tar.gz https://github.com/AdguardTeam/AdGuardHome/releases/latest/download/AdGuardHome_linux_{get_arch()}.tar.gz",
+        f"curl -Lo ~/adguard.tar.gz https://github.com/AdguardTeam/AdGuardHome/releases/latest/download/AdGuardHome_linux_{get_arch()}.tar.gz"
     )
     X(["cd ~/", "tar -vxzf ~/adguard.tar.gz"])
     X("rm ~/adguard.tar.gz")

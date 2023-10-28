@@ -2,7 +2,7 @@ import platform
 import re
 import socket
 from pathlib import Path
-from typing import NamedTuple
+from typing import Literal, NamedTuple
 
 from shellrunner import ShellCommandError, X
 
@@ -43,18 +43,18 @@ class HomelabPaths(NamedTuple):
 homelab_paths = HomelabPaths()
 
 
-def is_cwd_in_homelab_dir():
+def is_cwd_in_homelab_dir() -> bool:
     cwd = Path.cwd().resolve(strict=True)
 
     if homelab_paths.root in cwd.parents or homelab_paths.root == cwd:
         print(
-            "Do not run this script from the homelab directory, or else the local python (venv) install will be used.",
+            "Do not run this script from the homelab directory, or else the local python (venv) install will be used."
         )
         return True
     return False
 
 
-def get_arch():
+def get_arch() -> Literal["amd64", "arm64"]:
     arch = platform.machine().lower()
     if arch == "amd64":
         return "amd64"
@@ -64,7 +64,7 @@ def get_arch():
     raise RuntimeError(message)
 
 
-def get_os():
+def get_os() -> Literal["linux", "macos"]:
     os = platform.system().lower()
     if os == "linux":
         return "linux"
@@ -74,7 +74,7 @@ def get_os():
     raise RuntimeError(message)
 
 
-def get_distro():
+def get_distro() -> str:
     try:
         return X('cat /etc/os-release | grep ^ID= | sed "s|^ID=||"').out
     except ShellCommandError as e:
@@ -82,7 +82,7 @@ def get_distro():
         raise RuntimeError(message) from e
 
 
-def get_distro_version_name():
+def get_distro_version_name() -> str:
     try:
         return X('cat /etc/os-release | grep ^VERSION_CODENAME= | sed "s|^VERSION_CODENAME=||"').out
     except ShellCommandError as e:
@@ -90,11 +90,11 @@ def get_distro_version_name():
         raise RuntimeError(message) from e
 
 
-def get_hostname():
+def get_hostname() -> str:
     return socket.gethostname()
 
 
-def get_latest_github_release(repo: str, file_pattern: str, out_path: str):
+def get_latest_github_release(repo: str, file_pattern: str, out_path: str) -> str:
     latest = X(f"curl -s https://api.github.com/repos/{repo}/releases/latest", show_output=False).out
     match = re.search(rf"https://.*/download/.*{file_pattern}", latest)
     if match is None:
@@ -105,7 +105,7 @@ def get_latest_github_release(repo: str, file_pattern: str, out_path: str):
     return Path(out_path).expanduser().resolve(strict=True).as_uri()
 
 
-def send_email(*, from_addr: str, to_addr: str, subject: str, body: str):
+def send_email(*, from_addr: str, to_addr: str, subject: str, body: str) -> None:
     import smtplib
     import ssl
     from email.message import EmailMessage
@@ -128,7 +128,7 @@ def send_email(*, from_addr: str, to_addr: str, subject: str, body: str):
     client.quit()
 
 
-def generate_docker_env(keys: list[str], file_str: str):
+def generate_docker_env(keys: list[str], file_str: str) -> None:
     output = ""
     for key in keys:
         secret = X(f"""sops -d --extract "['{key}']" ~/secrets.yaml""", show_output=False, show_commands=False).out
@@ -136,14 +136,14 @@ def generate_docker_env(keys: list[str], file_str: str):
     (Path(file_str).parent.resolve(strict=True) / ".env").write_text(output)
 
 
-def substitute_vars(file_path: str, var_names: list[str]):
+def substitute_vars(file_path: str, var_names: list[str]) -> None:
     for var_name in var_names:
         X(
-            f"""cat {file_path} | string replace '${{{var_name}}}' (sops -d --extract "['{var_name}']" ~/secrets.yaml) | tee {file_path} >/dev/null""",
+            f"""cat {file_path} | string replace '${{{var_name}}}' (sops -d --extract "['{var_name}']" ~/secrets.yaml) | tee {file_path} >/dev/null"""  # noqa: E501
         )
 
 
-def start_all_docker_containers():
+def start_all_docker_containers() -> None:
     for d in sorted((Path.home() / "docker").glob("*")):
         if (d / "init.py").is_file():
             X(f"python {d / 'init.py'}")
@@ -154,16 +154,16 @@ def start_all_docker_containers():
             X(f"python {d / 'fini.py'}")
 
 
-def add_apt_source(*, name: str, gpg_url: str, source: str, arch: str = 'arch="$(dpkg --print-architecture)" '):
+def add_apt_source(*, name: str, gpg_url: str, source: str, arch: str = 'arch="$(dpkg --print-architecture)" ') -> None:
     X("sudo mkdir -p /etc/apt/keyrings")
 
     X(f"curl -fsSL '{gpg_url}' | sudo gpg --dearmor -o /etc/apt/keyrings/{name}.gpg")
     X(
-        f'echo "deb [{arch}signed-by=/etc/apt/keyrings/{name}.gpg] {source}" | sudo tee /etc/apt/sources.list.d/{name}.list >/dev/null',
+        f'echo "deb [{arch}signed-by=/etc/apt/keyrings/{name}.gpg] {source}" | sudo tee /etc/apt/sources.list.d/{name}.list >/dev/null'  # noqa: E501
     )
 
 
-def warn(message: str):
+def warn(message: str) -> None:
     print(f"{Colors.YELLOW}{message}{Colors.RESET}")
 
 

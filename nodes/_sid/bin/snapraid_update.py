@@ -3,7 +3,7 @@
 from shellrunner import X
 
 
-def main():
+def main() -> None:
     X("mkdir ~/tmp/")
     X(["cd ~/tmp/", "git clone https://github.com/ironicbadger/docker-snapraid.git"])
     X(["cd ~/tmp/docker-snapraid/", "~/tmp/docker-snapraid/build.sh"], show_output=False)

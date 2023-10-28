@@ -2,7 +2,7 @@ from hl_helpers import homelab_paths as paths
 from shellrunner import ShellCommandError, X
 
 
-def main():
+def main() -> None:
     X("mkdir -p ~/.config/fish/conf.d/")
     X(f"ln -f -s {paths.configs.fish_config} ~/.config/fish/")
 

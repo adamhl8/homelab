@@ -3,7 +3,7 @@ from hl_helpers import homelab_paths as paths
 from shellrunner import X
 
 
-def main():
+def main() -> None:
     X("sudo find /etc/ssh/ -type f -name 'ssh_host_*' -delete")
     X('sudo ssh-keygen -t rsa -b 4096 -f /etc/ssh/ssh_host_rsa_key -N ""')
     X('sudo ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -N ""')

@@ -3,7 +3,7 @@ from hl_helpers import homelab_paths as paths
 from shellrunner import X
 
 
-def main():
+def main() -> None:
     X("mkdir -p ~/restic/")
     X(f"ln -f -s {paths.nodes.sid}/restic/excludes ~/restic/")
     X(f"ln -f -s {paths.nodes.sid}/restic/restic_backup.py ~/restic/")

@@ -13,7 +13,7 @@ brew_apps = [
 ]
 
 
-def install_brew_apps(names: list[str]):
+def install_brew_apps(names: list[str]) -> None:
     for name in names:
         X(f"brew install {name}")
 
@@ -48,7 +48,7 @@ brew_casks = [
 ]
 
 
-def install_brew_casks(casks: list[str]):
+def install_brew_casks(casks: list[str]) -> None:
     for cask in casks:
         X(f"brew install --cask {cask} -f")
 
@@ -63,12 +63,12 @@ app_store_app_ids = [
 ]
 
 
-def install_app_store_apps(app_ids: list[str]):
+def install_app_store_apps(app_ids: list[str]) -> None:
     for app_id in app_ids:
         X(f"mas install {app_id}")
 
 
-def get_file_from_uri(uri: str):
+def get_file_from_uri(uri: str) -> Path | str:
     parsed_uri = urlparse(uri)
 
     if parsed_uri.scheme in ["http", "https"]:
@@ -85,13 +85,13 @@ def get_file_from_uri(uri: str):
     return path
 
 
-def install_app_from_zip(uri: str):
+def install_app_from_zip(uri: str) -> None:
     zip_path = get_file_from_uri(uri)
     X(f"unzip -o -q '{zip_path}' -d /Applications/")
     X(f"rm '{zip_path}'")
 
 
-def install_app_from_dmg(uri: str):
+def install_app_from_dmg(uri: str) -> None:
     dmg_path = get_file_from_uri(uri)
     volume_path = "/Volumes/tmp_hl_volume"
 
@@ -101,7 +101,7 @@ def install_app_from_dmg(uri: str):
     X(f"rm '{dmg_path}'")
 
 
-def main():
+def main() -> None:
     X("brew tap homebrew/cask-versions")
     X("brew tap homebrew/cask-fonts")
     install_brew_apps(brew_apps)
@@ -115,7 +115,7 @@ def main():
     # Forklift
     X("defaults write -g NSFileViewer -string com.binarynights.ForkLift")
     X(
-        """defaults write com.apple.LaunchServices/com.apple.launchservices.secure LSHandlers -array-add '{LSHandlerContentType="public.folder";LSHandlerRoleAll="com.binarynights.ForkLift";}'""",
+        """defaults write com.apple.LaunchServices/com.apple.launchservices.secure LSHandlers -array-add '{LSHandlerContentType="public.folder";LSHandlerRoleAll="com.binarynights.ForkLift";}'"""  # noqa: E501
     )
 
     # Keka

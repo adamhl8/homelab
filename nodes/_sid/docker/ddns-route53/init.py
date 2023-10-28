@@ -1,7 +1,7 @@
 from hl_helpers import generate_docker_env
 
 
-def main():
+def main() -> None:
     generate_docker_env(["aws_access_key_id", "aws_secret_access_key"], __file__)
 
 

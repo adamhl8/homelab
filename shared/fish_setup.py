@@ -1,9 +1,9 @@
 from shellrunner import X
 
 
-def main():
+def main() -> None:
     X(
-        "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher",
+        "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher",  # noqa: E501
     )
 
     X("fisher install IlanCosman/tide")
@@ -14,7 +14,7 @@ def main():
     install_rye_completions()
 
 
-def install_rye_completions():
+def install_rye_completions() -> None:
     X("rye self completion -s fish >~/.config/fish/completions/rye.fish")
 
 

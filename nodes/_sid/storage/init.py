@@ -2,7 +2,7 @@ from hl_helpers import homelab_paths as paths
 from shellrunner import ShellCommandError, X
 
 
-def main():
+def main() -> None:
     X("sudo apt install btrfs-progs -y")
     X("sudo apt install fuse -y")
     X("~/bin/mergerfs-update.py")

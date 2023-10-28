@@ -3,9 +3,9 @@
 from shellrunner import X
 
 
-def main():
+def main() -> None:
     X(
-        "curl -Lo ~/snapraid/snapraid-btrfs-runner.py https://raw.githubusercontent.com/fmoledina/snapraid-btrfs-runner/master/snapraid-btrfs-runner.py",
+        "curl -Lo ~/snapraid/snapraid-btrfs-runner.py https://raw.githubusercontent.com/fmoledina/snapraid-btrfs-runner/master/snapraid-btrfs-runner.py"
     )
 
 

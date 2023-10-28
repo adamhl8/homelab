@@ -3,7 +3,7 @@ from hl_helpers import substitute_vars
 from shellrunner import X
 
 
-def main():
+def main() -> None:
     # snapraid
     X("mkdir -p ~/snapraid/")
     X("~/bin/snapraid-update.py")

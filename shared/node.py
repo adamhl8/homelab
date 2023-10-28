@@ -1,7 +1,7 @@
 from shellrunner import X
 
 
-def main():
+def main() -> None:
     X("fisher install jorgebucaran/nvm.fish")
 
     X("set -U nvm_default_version latest")
@@ -10,7 +10,7 @@ def main():
     X(["nvm install latest", "npm install -g npm"])
 
 
-def setup_pnpm():
+def setup_pnpm() -> None:
     X("mkdir -p $PNPM_HOME")
     X("pnpm config set enable-pre-post-scripts=true")
     X("pnpm add -g npm-check-updates")

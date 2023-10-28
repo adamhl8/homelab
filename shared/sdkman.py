@@ -1,12 +1,12 @@
 from shellrunner import X
 
 
-def main():
+def main() -> None:
     X("curl -s 'https://get.sdkman.io?rcupdate=false' | bash")
     sdkman_fish()
 
 
-def sdkman_fish():
+def sdkman_fish() -> None:
     print("Installing fenv and omf-sdk...")
     X(
         [

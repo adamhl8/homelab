@@ -10,33 +10,39 @@ dependencies = [
 [tool.rye]
 managed = true
 dev-dependencies = [
-    "black>=23.10.0",
-    "ruff>=0.1.0",
+    "ruff>=0.1.3",
 ]
 
 [tool.rye.scripts]
 "lint:pyright" = "pyright ."
 "lint:ruff" = "ruff check ."
 lint = { chain = ["lint:pyright", "lint:ruff"] }
-format = "black ."
+format = "ruff format ."
 
 [tool.pyright]
 typeCheckingMode = "strict"
 extraPaths = ["lib"]
 
-[tool.black]
-line-length = 120
-target-version = ["py312"]
-include = ".*\\.py$"
-exclude = ".venv"
-
 [tool.ruff]
 line-length = 120
-target-version = "py312"
-select = ["E", "F", "W", "I", "N", "UP", "BLE", "FBT", "B", "A", "COM", "C4", "T10", "EM", "EXE", "ISC", "ICN", "G",
-"INP", "PIE", "PYI", "PT", "Q", "RSE", "RET", "SLF", "SIM", "TID", "TCH", "ARG", "PTH", "ERA", "PL", "PLC", "PLE",
-"PLR", "PLW", "TRY", "RUF"]
-ignore = ["E501", "INP001"]
+output-format = "grouped"
+respect-gitignore = false
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+"D100",
+"D101",
+"D103",
+"D203",
+"D213",
+"ANN101",
+"T201",
+"INP001",
+# ruff format conflicts
+"COM812",
+"ISC001"
+]
 
 [build-system]
 requires = ["hatchling"]

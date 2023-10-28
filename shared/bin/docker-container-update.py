@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# ruff: noqa
+
 from shellrunner import X
 
 
