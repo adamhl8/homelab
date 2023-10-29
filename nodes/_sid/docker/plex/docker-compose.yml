@@ -1,13 +1,11 @@
 version: "3"
 
 services:
-  jellyfin:
-    image: lscr.io/linuxserver/jellyfin
-    container_name: jellyfin
+  plex:
+    image: lscr.io/linuxserver/plex
+    container_name: plex
     restart: always
-    ports:
-      - 8004:8096
-      - 7359:7359/udp
+    network_mode: host
     devices:
       - /dev/dri/
     volumes:
@@ -15,7 +13,7 @@ services:
       - /mnt/storage/Media/:/Media/
       - /mnt/storage/Other/Z/Z/:/Z/
     environment:
-      - JELLYFIN_PublishedServerUrl=https://jellyfin.adamhl.dev
+      - VERSION=latest
       - PUID=1000
       - PGID=1000
       - TZ=America/Chicago

@@ -34,14 +34,15 @@ ignore = [
 "D100",
 "D101",
 "D103",
-"D203",
-"D213",
 "ANN101",
 "T201",
 "INP001",
+# ruff conflicts
+"D203",
+"D213",
 # ruff format conflicts
 "COM812",
-"ISC001"
+"ISC001",
 ]
 
 [build-system]

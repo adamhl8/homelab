@@ -42,6 +42,17 @@ adamhl.dev {
 		authenticate with authportal
 	}
 
+	@plex host plex.adamhl.dev
+	handle @plex {
+		@authorized_ips remote_ip private_ranges 100.85.253.103 100.101.117.30 100.66.186.7
+		handle @authorized_ips {
+			reverse_proxy localhost:32400
+		}
+
+		authorize with admin_policy
+		reverse_proxy localhost:32400
+	}
+
 	@unifi host unifi.adamhl.dev
 	handle @unifi {
 		@authorized_ips remote_ip private_ranges 100.85.253.103 100.101.117.30 100.66.186.7
@@ -97,17 +108,6 @@ adamhl.dev {
 	@eyir host eyir.adamhl.dev
 	handle @eyir {
 		reverse_proxy localhost:8003
-	}
-
-	@jellyfin host jellyfin.adamhl.dev
-	handle @jellyfin {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.101.117.30 100.66.186.7
-		handle @authorized_ips {
-			reverse_proxy localhost:8004
-		}
-
-		authorize with admin_policy
-		reverse_proxy localhost:8004
 	}
 
 	@dashdot host dashdot.adamhl.dev
