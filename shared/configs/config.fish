@@ -7,6 +7,11 @@ set -a paths $HOME/.rye/shims
 type -q micro; and set -gx EDITOR micro
 type -q sops; and set -gx SOPS_AGE_KEY_FILE ~/.config/sops/age/keys.txt
 
+if test -e ~/.bun/bin/bun
+  set -gx BUN_INSTALL ~/.bun
+  set -a paths $BUN_INSTALL/bin
+end
+
 if type -q pnpm
   set -gx PNPM_HOME ~/.local/share/pnpm
   set -a paths $PNPM_HOME
