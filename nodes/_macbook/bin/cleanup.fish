@@ -20,8 +20,10 @@ rm -rf ~/.yarnrc
 rm -rf ~/Movies
 rm -rf ~/Music
 rm -rf ~/.bash_history
+rm -rf ~/.viminfo
 rm -rf ~/.zsh_history
 
+echo "Finding .DS_Store files..."
 set ds_store (fd -ui -tf '^\.DS_Store$' ~)
 if test -n "$ds_store"
   printf '%s\n' $ds_store
@@ -30,6 +32,7 @@ if test -n "$ds_store"
   and rm -f $ds_store
 end
 
+echo "Finding .localized files..."
 set localized (fd -ui -tf '^\.localized$' ~)
 if test -n "$localized"
   printf '%s\n' $localized
@@ -38,6 +41,7 @@ if test -n "$localized"
   and rm -f $localized
 end
 
+echo "Finding ._ files..."
 set dotu (fd -ui -tf '^\._' ~)
 if test -n "$dotu"
   printf '%s\n' $dotu

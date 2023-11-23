@@ -94,15 +94,18 @@ def get_hostname() -> str:
     return socket.gethostname()
 
 
-def get_latest_github_release(repo: str, file_pattern: str, out_path: str) -> str:
-    latest = X(f"curl -s https://api.github.com/repos/{repo}/releases/latest", show_output=False).out
-    match = re.search(rf"https://.*/download/.*{file_pattern}", latest)
+def get_latest_github_release(
+    repo: str, file_pattern: str, out_path: str, *, search_all_releases: bool = False
+) -> Path:
+    latest = "/latest" if not search_all_releases else ""
+    releases = X(f"curl -s https://api.github.com/repos/{repo}/releases{latest}", show_output=False).out
+    match = re.search(rf"https://.*/download/.*{file_pattern}", releases)
     if match is None:
         message = f"Failed to find match for pattern: {file_pattern}"
         raise RuntimeError(message)
     download_url = match.group(0)
     X(f"curl -Lo {out_path} {download_url}")
-    return Path(out_path).expanduser().resolve(strict=True).as_uri()
+    return Path(out_path).expanduser().resolve(strict=True)
 
 
 def send_email(*, from_addr: str, to_addr: str, subject: str, body: str) -> None:
