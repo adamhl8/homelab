@@ -121,7 +121,7 @@ if __name__ == "__main__":
 
     directory = Path(args.directory).resolve()
     out_dir = Path(args.out_dir).resolve()
-    duration_cutoff = args.duration
+    duration_cutoff = int(getattr(args, "duration", 0))
 
     if args.command == "prune":
         prune(directory, out_dir, duration_cutoff)
