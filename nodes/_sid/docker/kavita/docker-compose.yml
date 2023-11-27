@@ -9,7 +9,7 @@ services:
       - 8012:5000
     volumes:
       - ./data/:/kavita/config/
-      - /mnt/storage/Library/:/Library/
+      - /mnt/storage/Stuff/Library/:/Library/
     environment:
       - PUID=1000
       - PGID=1000
