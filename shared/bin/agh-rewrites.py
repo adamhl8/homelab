@@ -12,7 +12,7 @@ from shellrunner import X
 
 def main() -> None:
     os.environ["SHELLRUNNER_SHOW_OUTPUT"] = "False"
-    os.environ["SHELLRUNNER_SHOW_COMMANDS"] = "False"
+    os.environ["SHELLRUNNER_SHOW_COMMAND"] = "False"
 
     base_url = "http://adguard.lan/control/rewrite/"
     list_endpoint = f"{base_url}list"

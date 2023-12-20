@@ -6,15 +6,15 @@ from shellrunner import X
 
 
 def get_running_containers() -> list[tuple[str, str]]:
-    containers = X("docker ps --format '{{.ID}}::{{.Image}}'", show_commands=False, show_output=False).out.splitlines()
+    containers = X("docker ps --format '{{.ID}}::{{.Image}}'", show_command=False, show_output=False).out.splitlines()
     return [tuple(container.split("::")) for container in containers]
 
 
 def update_container(container_id: str, image: str, latest_tag: str) -> None:
-    X(f"docker pull {image}:{latest_tag}", show_commands=False, show_output=False)
-    X(f"docker stop {container_id}", show_commands=False, show_output=False)
-    X(f"docker rm {container_id}", show_commands=False, show_output=False)
-    X(f"docker run -d --name {container_id} {image}:{latest_tag}", show_commands=False, show_output=False)
+    X(f"docker pull {image}:{latest_tag}", show_command=False, show_output=False)
+    X(f"docker stop {container_id}", show_command=False, show_output=False)
+    X(f"docker rm {container_id}", show_command=False, show_output=False)
+    X(f"docker run -d --name {container_id} {image}:{latest_tag}", show_command=False, show_output=False)
 
 
 def main() -> None:

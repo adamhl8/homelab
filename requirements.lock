@@ -8,4 +8,4 @@
 
 -e file:.
 psutil==5.9.6
-python-shellrunner==0.3.5
+shellrunner==0.4.1
