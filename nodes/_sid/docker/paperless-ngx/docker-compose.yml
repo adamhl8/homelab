@@ -1,4 +1,4 @@
-version: "3.4"
+version: "3"
 
 name: paperless
 
@@ -41,8 +41,11 @@ services:
       - ./export:/usr/src/paperless/export
       - ./consume:/usr/src/paperless/consume
     environment:
+      USERMAP_UID: 1000
+      USERMAP_GID: 1000
       PAPERLESS_FILENAME_FORMAT: "{created_year}{created_month}{created_day} {title}"
       PAPERLESS_OCR_USER_ARGS: '{"continue_on_soft_render_error": true}'
+      PAPERLESS_OCR_SKIP_ARCHIVE_FILE: always
       PAPERLESS_CONSUMER_DELETE_DUPLICATES: true
       PAPERLESS_CONSUMER_RECURSIVE: true
       PAPERLESS_SECRET_KEY: ${paperless_secret_key}
@@ -56,7 +59,7 @@ services:
       PAPERLESS_TIKA_ENDPOINT: http://tika:9998
 
   gotenberg:
-    image: docker.io/gotenberg/gotenberg:7.8
+    image: docker.io/gotenberg/gotenberg:7.10
     restart: always
     command:
       - "gotenberg"
