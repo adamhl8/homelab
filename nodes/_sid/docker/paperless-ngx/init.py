@@ -14,3 +14,7 @@ def main() -> None:
     X(
         f"docker compose run --rm -e DJANGO_SUPERUSER_PASSWORD='{homelab_password}' webserver createsuperuser --noinput --username 'adam' --email 'adamhl@pm.me'",  # noqa: E501
     )
+
+
+if __name__ == "__main__":
+    main()
