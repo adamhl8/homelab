@@ -166,10 +166,6 @@ def add_apt_source(*, name: str, gpg_url: str, source: str, arch: str = 'arch="$
     )
 
 
-def warn(message: str) -> None:
-    print(f"{Colors.YELLOW}{message}{Colors.RESET}")
-
-
 class Colors:
     BLACK = "\033[90m"
     RED = "\033[91m"
@@ -180,3 +176,39 @@ class Colors:
     CYAN = "\033[96m"
     WHITE = "\033[97m"
     RESET = "\033[0m"
+
+
+class Color:
+    @staticmethod
+    def error(message: str) -> str:
+        return f"{Colors.RED}{message}{Colors.RESET}"
+
+    @staticmethod
+    def warn(message: str) -> str:
+        return f"{Colors.YELLOW}{message}{Colors.RESET}"
+
+    @staticmethod
+    def info(message: str) -> str:
+        return f"{Colors.BLUE}{message}{Colors.RESET}"
+
+    @staticmethod
+    def success(message: str) -> str:
+        return f"{Colors.GREEN}{message}{Colors.RESET}"
+
+
+class Log:
+    @staticmethod
+    def error(message: str) -> None:
+        print(Color.error(message))
+
+    @staticmethod
+    def warn(message: str) -> None:
+        print(Color.warn(message))
+
+    @staticmethod
+    def info(message: str) -> None:
+        print(Color.info(message))
+
+    @staticmethod
+    def success(message: str) -> None:
+        print(Color.success(message))
