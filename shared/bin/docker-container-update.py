@@ -66,7 +66,7 @@ def main() -> None:
         Log.info(f"\n== {compose_file_path} ==")
         for container in containers:
             status = "Up to date" if container.is_up_to_date else Color.success("Update found")
-            print(f"{Color.info(container.service_name)}[{container.image_name}]: {status}")
+            print(f"{Color.warn(container.service_name)}[{container.image_name}]: {status}")
 
         for container in containers:
             if not container.is_up_to_date:
