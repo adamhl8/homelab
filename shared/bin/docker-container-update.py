@@ -15,8 +15,6 @@ from hl_helpers import Color, Log
 os.environ["SHELLRUNNER_SHOW_OUTPUT"] = "False"
 os.environ["SHELLRUNNER_SHOW_COMMAND"] = "False"
 
-type ComposeContainersDict = defaultdict[Path, list[ContainerDetails]]
-
 
 class ContainerDetails(NamedTuple):
     image_name: str
@@ -63,7 +61,7 @@ def get_container_details(container_id: str, image: str) -> ContainerDetails | N
 
 
 def build_compose_files_to_containers(running_containers: list[tuple[str, str]]):
-    compose_files_to_containers: ComposeContainersDict = defaultdict(list)
+    compose_files_to_containers: defaultdict[Path, list[ContainerDetails]] = defaultdict(list)
     for container_id, image in running_containers:
         container_details = get_container_details(container_id, image)
         if container_details is None:
@@ -114,8 +112,8 @@ def main() -> None:
     compose_files_to_containers = build_compose_files_to_containers(running_containers)
 
     for compose_file_path, containers in compose_files_to_containers.items():
+        Log.notice(f"\n== {compose_file_path} ==")
         for container in containers:
-            Log.notice(f"\n== {compose_file_path} ==")
             print_container_update_details(container)
         for container in containers:
             update_container(container)
