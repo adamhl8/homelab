@@ -192,6 +192,10 @@ class Color:
         return f"{Colors.BLUE}{message}{Colors.RESET}"
 
     @staticmethod
+    def notice(message: str) -> str:
+        return f"{Colors.MAGENTA}{message}{Colors.RESET}"
+
+    @staticmethod
     def success(message: str) -> str:
         return f"{Colors.GREEN}{message}{Colors.RESET}"
 
@@ -208,6 +212,10 @@ class Log:
     @staticmethod
     def info(message: str) -> None:
         print(Color.info(message))
+
+    @staticmethod
+    def notice(message: str) -> None:
+        print(Color.notice(message))
 
     @staticmethod
     def success(message: str) -> None:

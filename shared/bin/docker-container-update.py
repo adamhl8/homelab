@@ -15,6 +15,8 @@ from hl_helpers import Color, Log
 os.environ["SHELLRUNNER_SHOW_OUTPUT"] = "False"
 os.environ["SHELLRUNNER_SHOW_COMMAND"] = "False"
 
+type ComposeContainersDict = defaultdict[Path, list[ContainerDetails]]
+
 
 class ContainerDetails(NamedTuple):
     image_name: str
@@ -60,49 +62,63 @@ def get_container_details(container_id: str, image: str) -> ContainerDetails | N
         Log.error(e.out)
 
 
-def main() -> None:
-    Log.info("Getting details for running containers...")
-    compose_files_to_containers: defaultdict[Path, list[ContainerDetails]] = defaultdict(list)
-    for container_id, image in get_running_containers():
+def build_compose_files_to_containers(running_containers: list[tuple[str, str]]):
+    compose_files_to_containers: ComposeContainersDict = defaultdict(list)
+    for container_id, image in running_containers:
         container_details = get_container_details(container_id, image)
         if container_details is None:
             continue
 
         compose_files_to_containers[container_details.compose_file_path].append(container_details)
 
+    return compose_files_to_containers
+
+
+def print_container_update_details(container: ContainerDetails):
+    status = ""
+    if container.build:
+        status = Color.warn("Build")
+    elif container.is_up_to_date:
+        status = "Up to date"
+    else:
+        status = Color.success("Update found")
+
+    print(f"{Color.warn(container.service_name)}[{container.image_name}]: {status}")
+
+
+def update_container(container: ContainerDetails):
+    compose_file_dir = container.compose_file_path.parent
+    if container.build:
+        Log.info(f"Building {container.service_name}[{container.image_name}]...")
+        X(
+            [
+                f"cd {compose_file_dir}",
+                f"docker compose -f {container.compose_file_path} build --no-cache --pull {container.service_name}",
+                f"docker compose -f {container.compose_file_path} up -d {container.service_name}",
+            ]
+        )
+    if not container.is_up_to_date:
+        Log.info(f"Updating {container.service_name}[{container.image_name}]...")
+        X(
+            [
+                f"cd {compose_file_dir}",
+                f"docker pull {container.image_name}",
+                f"docker compose -f {container.compose_file_path} up -d {container.service_name}",
+            ]
+        )
+
+
+def main() -> None:
+    Log.info("Getting details for running containers...")
+    running_containers = get_running_containers()
+    compose_files_to_containers = build_compose_files_to_containers(running_containers)
+
     for compose_file_path, containers in compose_files_to_containers.items():
-        Log.info(f"\n== {compose_file_path} ==")
         for container in containers:
-            status = ""
-            if container.is_up_to_date:
-                status = "Up to date"
-            elif container.build:
-                Color.warn("Build")
-            else:
-                Color.success("Update found")
-
-            print(f"{Color.warn(container.service_name)}[{container.image_name}]: {status}")
-
+            Log.notice(f"\n== {compose_file_path} ==")
+            print_container_update_details(container)
         for container in containers:
-            if not container.is_up_to_date:
-                Log.warn(f"Updating {container.service_name}[{container.image_name}]...")
-                compose_file_dir = compose_file_path.parent
-                if container.build:
-                    X(
-                        [
-                            f"cd {compose_file_dir}",
-                            f"docker compose -f {compose_file_path} build --no-cache --pull {container.service_name}",
-                            f"docker compose -f {compose_file_path} up -d {container.service_name}",
-                        ]
-                    )
-                else:
-                    X(
-                        [
-                            f"cd {compose_file_dir}",
-                            f"docker pull {container.image_name}",
-                            f"docker compose -f {compose_file_path} up -d {container.service_name}",
-                        ]
-                    )
+            update_container(container)
 
 
 if __name__ == "__main__":
