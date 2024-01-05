@@ -97,7 +97,7 @@ def update_container(container: ContainerDetails):
                 f"docker compose -f {container.compose_file_path} up -d {container.service_name}",
             ]
         )
-    if not container.is_up_to_date:
+    elif not container.is_up_to_date:
         Log.info(f"Updating {container.service_name}[{container.image_name}]...")
         X(
             [
