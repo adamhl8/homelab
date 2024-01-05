@@ -13,6 +13,11 @@ def step2() -> None:
     shared.fish_setup()
     shared.common()
     X(f"ln -f -s {paths.nodes.macbook}/bin/* ~/bin/")
+    X(f"ln -f -s {paths.nodes.macbook}/.gitconfig-swf ~/.gitconfig-swf")
+
+    X("mkdir -p ~/Library/KeyBindings/")
+    X(f"ln -f -s {paths.nodes.macbook}/DefaultKeyBinding.dict ~/Library/KeyBindings/DefaultKeyBinding.dict")
+
     X("mkdir -p ~/dev/")
 
 

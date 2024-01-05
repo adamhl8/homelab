@@ -27,6 +27,7 @@ set -a paths (path filter -d $HOMEBREW_PREFIX/opt/*/libexec/gnubin; or true)
 
 if test $hostname = "adam-macbook"
   type -q sops; and set -gx CI_JOB_TOKEN (sops -d --extract "['swf_gitlab_pat']" ~/secrets.yaml)
+  type -q sops; and set -gx VULCAN_PAT (sops -d --extract "['swf_vulcan_pat']" ~/secrets.yaml)
   set -a paths $HOMEBREW_PREFIX/opt/curl/bin
   set -a paths $HOMEBREW_PREFIX/opt/zip/bin
   set -a paths $HOMEBREW_PREFIX/opt/unzip/bin
