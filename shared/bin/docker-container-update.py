@@ -83,7 +83,7 @@ def print_container_update_details(container: ContainerDetails):
     else:
         status = Color.success("Update found")
 
-    print(f"{Color.warn(container.service_name)}[{container.image_name}]: {status}")
+    print(f"{Color.info(container.service_name)}[{container.image_name}]: {status}")
 
 
 def update_container(container: ContainerDetails):
