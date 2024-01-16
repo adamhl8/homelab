@@ -1,16 +1,14 @@
 #!/usr/bin/env python
 
-# ruff: noqa
 
+import json
 import os
 from collections import defaultdict
-import json
-
 from pathlib import Path
 from typing import NamedTuple
-from shellrunner import X, ShellCommandError
 
 from hl_helpers import Color, Log
+from shellrunner import ShellCommandError, X
 
 os.environ["SHELLRUNNER_SHOW_OUTPUT"] = "False"
 os.environ["SHELLRUNNER_SHOW_COMMAND"] = "False"
@@ -24,7 +22,7 @@ class ContainerDetails(NamedTuple):
     is_up_to_date: bool
 
 
-def get_running_containers() -> list[tuple[str, str]]:
+def get_running_containers() -> list[tuple[str, ...]]:
     containers = X(
         "docker ps --format '{{.ID}}::{{.Image}}'",
     ).out.splitlines()
@@ -39,7 +37,7 @@ def get_container_details(container_id: str, image: str) -> ContainerDetails | N
         ).out
         compose_file = X(
             f"docker inspect {container_id}"
-            + """ --format '{{ index .Config.Labels "com.docker.compose.project.config_files" }}'"""
+            """ --format '{{ index .Config.Labels "com.docker.compose.project.config_files" }}'"""
         ).out
         compose_file_path = Path(compose_file).resolve(strict=True)
 
@@ -60,7 +58,9 @@ def get_container_details(container_id: str, image: str) -> ContainerDetails | N
         Log.error(e.out)
 
 
-def build_compose_files_to_containers(running_containers: list[tuple[str, str]]):
+def build_compose_files_to_containers(
+    running_containers: list[tuple[str, ...]],
+) -> defaultdict[Path, list[ContainerDetails]]:
     compose_files_to_containers: defaultdict[Path, list[ContainerDetails]] = defaultdict(list)
     for container_id, image in running_containers:
         container_details = get_container_details(container_id, image)
@@ -72,7 +72,7 @@ def build_compose_files_to_containers(running_containers: list[tuple[str, str]])
     return compose_files_to_containers
 
 
-def print_container_update_details(container: ContainerDetails):
+def print_container_update_details(container: ContainerDetails) -> None:
     status = ""
     if container.build:
         status = Color.warn("Build")
@@ -84,7 +84,7 @@ def print_container_update_details(container: ContainerDetails):
     print(f"{Color.info(container.service_name)}[{container.image_name}]: {status}")
 
 
-def update_container(container: ContainerDetails):
+def update_container(container: ContainerDetails) -> None:
     compose_file_dir = container.compose_file_path.parent
     if container.build:
         Log.info(f"Building {container.service_name}[{container.image_name}]...")

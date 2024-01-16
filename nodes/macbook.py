@@ -28,6 +28,7 @@ def step3() -> None:
     shared.ssh()
     shared.node()
     shared.sdkman()
+    X("fisher install reitzig/sdkman-for-fish")
 
 
 def step4() -> None:

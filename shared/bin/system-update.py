@@ -3,7 +3,7 @@
 import sys
 from shutil import which
 
-from hl_helpers import get_hostname, get_os, is_cwd_in_homelab_dir, warn
+from hl_helpers import Log, get_hostname, get_os, is_cwd_in_homelab_dir
 from hl_helpers import homelab_paths as paths
 from shellrunner import X
 
@@ -32,7 +32,7 @@ def main() -> None:
     if os_name == "linux":
         X("brew upgrade")
     else:
-        X("brew upgrade -g")
+        X("brew upgrade -g --no-quarantine")
     X("brew autoremove")
     X("brew cleanup --prune=all -s")
 
@@ -53,11 +53,8 @@ def main() -> None:
     X("fisher update")
 
     if which("sdk"):
-        from shared.sdkman import sdkman_fish
-
         X("sdk selfupdate")
         X("sdk update")
-        sdkman_fish()
 
     if hostname == "sid":
         from nodes._sid.bin.mergerfs_update import main as mergerfs_update
@@ -70,12 +67,12 @@ def main() -> None:
         snapraid_btrfs_runner_update()
         snapraid_btrfs_update()
         snapraid_update()
-        # X("docker-container-update.py")  # noqa: ERA001
+        X("docker-container-update.py")
 
     if hostname == "adguard":
         X("~/AdGuardHome/AdGuardHome --update")
 
-    warn("System updated. Make sure to reboot.")
+    Log.warn("System updated. Make sure to reboot.")
 
 
 if __name__ == "__main__":

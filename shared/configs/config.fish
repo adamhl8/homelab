@@ -17,16 +17,10 @@ if type -q pnpm
   set -a paths $PNPM_HOME
 end
 
-if test -e ~/.sdkman/bin/sdkman-init.sh
-  set -gx SDKMAN_DIR ~/.sdkman
-  set -g sdkman_prefix $SDKMAN_DIR
-  type -q fenv; and fenv "source $SDKMAN_DIR/bin/sdkman-init.sh"
-end
-
 set -a paths (path filter -d $HOMEBREW_PREFIX/opt/*/libexec/gnubin; or true)
 
 if test $hostname = "adam-macbook"
-  type -q sops; and set -gx CI_JOB_TOKEN (sops -d --extract "['swf_gitlab_pat']" ~/secrets.yaml)
+  type -q sops; and set -gx CI_JOB_TOKEN (sops -d --extract "['swf_vulcan_pat']" ~/secrets.yaml)
   type -q sops; and set -gx VULCAN_PAT (sops -d --extract "['swf_vulcan_pat']" ~/secrets.yaml)
   set -a paths $HOMEBREW_PREFIX/opt/curl/bin
   set -a paths $HOMEBREW_PREFIX/opt/zip/bin

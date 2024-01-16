@@ -5,8 +5,8 @@ import os
 import re
 from pathlib import Path
 
+from hl_helpers import Log
 from hl_helpers import homelab_paths as paths
-from hl_helpers import warn
 from shellrunner import X
 
 
@@ -21,10 +21,10 @@ def main() -> None:
     auth = f"adam:{X("""sops -d --extract "['homelab_password']" ~/secrets.yaml""").out}"
     headers = "Content-Type: application/json"
 
-    warn("Getting current rewrites...")
+    Log.warn("Getting current rewrites...")
     rewrites = json.loads(X(f"curl -s -u '{auth}' -X GET '{list_endpoint}'").out)
 
-    warn("Deleting current rewrites...")
+    Log.warn("Deleting current rewrites...")
     for rewrite in rewrites:
         X(f"curl -u '{auth}' -X POST -H '{headers}' -d '{json.dumps(rewrite)}' '{delete_endpoint}'")
 
@@ -33,7 +33,7 @@ def main() -> None:
 
     matches = re.findall(r"@(\w+) host ([\w\.]+)", caddyfile)
 
-    warn("Saving rewrites...")
+    Log.warn("Saving rewrites...")
     for match in matches:
         new_rewrite = {"domain": match[1], "answer": "10.8.8.3"}
         X(

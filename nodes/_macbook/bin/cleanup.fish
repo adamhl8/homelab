@@ -3,6 +3,7 @@
 rm -rf ~/.android
 rm -rf ~/.cache
 rm -rf ~/.cups
+rm -rf ~/.dbclient
 rm -rf ~/.embedded-postgres-go
 rm -rf ~/.gradle
 rm -rf ~/.hawtjni

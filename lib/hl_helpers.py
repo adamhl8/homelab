@@ -178,6 +178,9 @@ class Colors:
     RESET = "\033[0m"
 
 
+# ruff: noqa: D102
+
+
 class Color:
     @staticmethod
     def error(message: str) -> str:

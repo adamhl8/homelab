@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from hl_helpers import warn
+from hl_helpers import Log
 from shellrunner import ShellCommandError, X
 
 
@@ -23,7 +23,7 @@ def main() -> None:
                 raise
 
     else:
-        warn("No upstream found.")
+        Log.warn("No upstream found.")
 
 
 if __name__ == "__main__":
