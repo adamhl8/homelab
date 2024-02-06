@@ -5,8 +5,9 @@
 #   pre: false
 #   features: []
 #   all-features: false
+#   with-sources: false
 
 -e file:.
-psutil==5.9.7
-ruff==0.1.13
+psutil==5.9.8
+ruff==0.2.1
 shellrunner==0.4.1

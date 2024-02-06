@@ -4,7 +4,7 @@ from shellrunner import X
 
 
 def main() -> None:
-    X("mkdir ~/tmp/")
+    X("mkdir -p ~/tmp/")
     X(["cd ~/tmp/", "git clone https://github.com/ironicbadger/docker-snapraid.git"])
     X(["cd ~/tmp/docker-snapraid/", "~/tmp/docker-snapraid/build.sh"], show_output=False)
     X("dpkg-deb -x ~/tmp/docker-snapraid/build/snapraid-from-source.deb ~/tmp/")

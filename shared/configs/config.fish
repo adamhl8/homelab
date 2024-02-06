@@ -38,9 +38,16 @@ set -p PATH $new_paths
 
 set -l ind (contains -i -- kubectl $tide_right_prompt_items); and set -e tide_right_prompt_items[$ind]
 
+zoxide init fish --cmd cd | source
+set -gx fzf_fd_opts -u
+
 # aliases
 function l --wraps='LC_COLLATE=C ls -ahlF' --description 'alias l LC_COLLATE=C ls -ahlF'
   LC_COLLATE=C ls -ahlF $argv
+end
+
+function cat --wraps='bat' --description 'alias cat bat'
+  bat $argv
 end
 
 # abbreviations
@@ -88,7 +95,7 @@ set --local command_slash       \e'[47;9u' # For micro
 
 if functions --query _natural_selection
   bind $escape              '_natural_selection end-selection'
-  bind $control_r           '_natural_selection history-pager'
+  # bind $control_r           '_natural_selection history-pager'
   bind $up                  '_natural_selection up-or-search'
   bind $down                '_natural_selection down-or-search'
   bind $left                '_natural_selection backward-char'

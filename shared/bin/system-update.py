@@ -40,7 +40,7 @@ def main() -> None:
     install_rye_completions()
     X("rye toolchain fetch 3.12")
 
-    if which("nvm"):
+    if X("nvm --help", check=False, show_output=False, show_command=False).status == 0:
         X("nvm install latest")
         X("npm install -g npm")
         X("npm update -g")
