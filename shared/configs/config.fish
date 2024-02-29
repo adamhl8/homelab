@@ -38,7 +38,7 @@ set -p PATH $new_paths
 
 set -l ind (contains -i -- kubectl $tide_right_prompt_items); and set -e tide_right_prompt_items[$ind]
 
-zoxide init fish --cmd cd | source
+type -q zoxide; and zoxide init fish --cmd cd | source
 set -gx fzf_fd_opts -u
 
 # aliases

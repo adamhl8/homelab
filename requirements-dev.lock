@@ -9,5 +9,7 @@
 
 -e file:.
 psutil==5.9.8
-ruff==0.2.1
+    # via shellrunner
+ruff==0.3.0
 shellrunner==0.4.1
+    # via homelab

@@ -28,6 +28,7 @@ brew_casks = [
     "forklift",
     "anki",
     "syncthing",
+    "1password",
     "tailscale",
     "protonvpn",
     "alt-tab",
@@ -40,6 +41,7 @@ brew_casks = [
     "utm",
     "iina",
     "qlvideo",
+    "plex",
     "qbittorrent",
     "slack",
     "zoom",
@@ -60,6 +62,8 @@ app_store_app_ids = [
     "1611378436",  # Pure Paste
     "1558360383",  # Menu Bar Calendar
     "1545870783",  # System Color Picker
+    "1639917298",  # Onigiri
+    "414568915",  # Key Codes
 ]
 
 
@@ -96,7 +100,9 @@ def install_app_from_dmg(uri: str) -> None:
     volume_path = "/Volumes/tmp_hl_volume"
 
     X(f"hdiutil attach '{dmg_path}' -mountpoint '{volume_path}' -quiet")
-    X(f"cp -r '{volume_path}'/*.app /Applications/")
+    app_name = X(f"basename '{volume_path}'/*.app").out
+    X(f"rm -rf /Applications/'{app_name}'")
+    X(f"cp -r '{volume_path}'/'{app_name}' /Applications/", show_output=False)
     X(f"hdiutil unmount '{volume_path}'")
     X(f"rm '{dmg_path}'")
 

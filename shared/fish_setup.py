@@ -10,6 +10,7 @@ def main() -> None:
     X("echo 2 1 2 3 1 1 1 1 1 1 1 y | tide configure >/dev/null")
 
     X("fisher install daleeidd/natural-selection")
+    X("fisher install PatrickF1/fzf.fish")
 
     install_rye_completions()
 
