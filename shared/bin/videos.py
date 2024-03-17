@@ -101,7 +101,12 @@ if __name__ == "__main__":
 
     common_parser = argparse.ArgumentParser(add_help=False)
     common_parser.add_argument(
-        "-o", "--out-dir", type=str, help="The directory to move completed files to", required=True, nargs="?"
+        "-o",
+        "--out-dir",
+        type=str,
+        help="The directory to move completed files to",
+        required=True,
+        nargs="?",
     )
     common_parser.add_argument("directory", type=str, help="The directory containing videos", nargs="?")
 

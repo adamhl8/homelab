@@ -10,5 +10,5 @@
 -e file:.
 psutil==5.9.8
     # via shellrunner
-shellrunner==0.4.1
+shellrunner==0.4.2
     # via homelab

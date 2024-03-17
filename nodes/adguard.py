@@ -22,7 +22,7 @@ def step3() -> None:
 
 def step4() -> None:
     X(
-        f"curl -Lo ~/adguard.tar.gz https://github.com/AdguardTeam/AdGuardHome/releases/latest/download/AdGuardHome_linux_{get_arch()}.tar.gz"
+        f"curl -Lo ~/adguard.tar.gz https://github.com/AdguardTeam/AdGuardHome/releases/latest/download/AdGuardHome_linux_{get_arch()}.tar.gz",
     )
     X(["cd ~/", "tar -vxzf ~/adguard.tar.gz"])
     X("rm ~/adguard.tar.gz")

@@ -15,7 +15,7 @@ def step1() -> None:
     X("apt install smartmontools -y")
     X("mkdir -p /opt/scrutiny/bin/")
     X(
-        "curl -Lo /opt/scrutiny/bin/collector https://github.com/analogj/scrutiny/releases/latest/download/scrutiny-collector-metrics-linux-amd64"
+        "curl -Lo /opt/scrutiny/bin/collector https://github.com/analogj/scrutiny/releases/latest/download/scrutiny-collector-metrics-linux-amd64",
     )
     X("chmod +x /opt/scrutiny/bin/collector")
     X(

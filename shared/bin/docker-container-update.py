@@ -33,11 +33,11 @@ def get_container_details(container_id: str, image: str) -> ContainerDetails | N
     try:
         image_name = X(f"docker inspect {container_id}" + """ --format='{{.Config.Image}}'""").out
         service_name = X(
-            f"docker inspect {container_id}" + """ --format '{{ index .Config.Labels "com.docker.compose.service" }}'"""
+            f"docker inspect {container_id}" """ --format '{{ index .Config.Labels "com.docker.compose.service" }}'""",
         ).out
         compose_file = X(
             f"docker inspect {container_id}"
-            """ --format '{{ index .Config.Labels "com.docker.compose.project.config_files" }}'"""
+            """ --format '{{ index .Config.Labels "com.docker.compose.project.config_files" }}'""",
         ).out
         compose_file_path = Path(compose_file).resolve(strict=True)
 
@@ -93,7 +93,7 @@ def update_container(container: ContainerDetails) -> None:
                 f"cd {compose_file_dir}",
                 f"docker compose -f {container.compose_file_path} build --no-cache --pull {container.service_name}",
                 f"docker compose -f {container.compose_file_path} up -d {container.service_name}",
-            ]
+            ],
         )
     elif not container.is_up_to_date:
         Log.info(f"Updating {container.service_name}[{container.image_name}]...")
@@ -102,7 +102,7 @@ def update_container(container: ContainerDetails) -> None:
                 f"cd {compose_file_dir}",
                 f"docker pull {container.image_name}",
                 f"docker compose -f {container.compose_file_path} up -d {container.service_name}",
-            ]
+            ],
         )
 
 

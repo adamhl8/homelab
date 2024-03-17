@@ -14,7 +14,12 @@ def dircopy(directory: Path, out_dir: Path) -> None:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "-o", "--out-dir", type=str, help="Where to create the directory structure", required=True, nargs="?"
+        "-o",
+        "--out-dir",
+        type=str,
+        help="Where to create the directory structure",
+        required=True,
+        nargs="?",
     )
     parser.add_argument("directory", type=str, help="The directory structure to copy", nargs="?")
 

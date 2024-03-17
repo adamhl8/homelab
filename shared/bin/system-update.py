@@ -9,7 +9,7 @@ from shellrunner import X
 
 sys.path.append(f"{paths.root}")
 
-from shared.fish_setup import install_rye_completions  # noqa: E402
+from shared.fish_setup import install_rye_completions
 
 
 def main() -> None:

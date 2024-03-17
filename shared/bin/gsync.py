@@ -5,7 +5,9 @@ from shellrunner import X
 
 def main() -> None:
     origin_branch = X(
-        "git remote show origin | awk '/HEAD branch/ {print $NF}'", show_command=False, show_output=False
+        "git remote show origin | awk '/HEAD branch/ {print $NF}'",
+        show_command=False,
+        show_output=False,
     ).out
     X("git pull --rebase", show_command=False)
     X(f"git fetch origin {origin_branch}", show_command=False)

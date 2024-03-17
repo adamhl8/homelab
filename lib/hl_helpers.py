@@ -48,7 +48,7 @@ def is_cwd_in_homelab_dir() -> bool:
 
     if homelab_paths.root in cwd.parents or homelab_paths.root == cwd:
         print(
-            "Do not run this script from the homelab directory, or else the local python (venv) install will be used."
+            "Do not run this script from the homelab directory, or else the local python (venv) install will be used.",
         )
         return True
     return False
@@ -95,7 +95,11 @@ def get_hostname() -> str:
 
 
 def get_latest_github_release(
-    repo: str, file_pattern: str, out_path: str, *, search_all_releases: bool = False
+    repo: str,
+    file_pattern: str,
+    out_path: str,
+    *,
+    search_all_releases: bool = False,
 ) -> Path:
     latest = "/latest" if not search_all_releases else ""
     releases = X(f"curl -s https://api.github.com/repos/{repo}/releases{latest}", show_output=False).out
@@ -142,7 +146,7 @@ def generate_docker_env(keys: list[str], file_str: str) -> None:
 def substitute_vars(file_path: str, var_names: list[str]) -> None:
     for var_name in var_names:
         X(
-            f"""cat {file_path} | string replace '${{{var_name}}}' (sops -d --extract "['{var_name}']" ~/secrets.yaml) | tee {file_path} >/dev/null"""  # noqa: E501
+            f"""cat {file_path} | string replace '${{{var_name}}}' (sops -d --extract "['{var_name}']" ~/secrets.yaml) | tee {file_path} >/dev/null""",  # noqa: E501
         )
 
 
@@ -162,7 +166,7 @@ def add_apt_source(*, name: str, gpg_url: str, source: str, arch: str = 'arch="$
 
     X(f"curl -fsSL '{gpg_url}' | sudo gpg --dearmor -o /etc/apt/keyrings/{name}.gpg")
     X(
-        f'echo "deb [{arch}signed-by=/etc/apt/keyrings/{name}.gpg] {source}" | sudo tee /etc/apt/sources.list.d/{name}.list >/dev/null'  # noqa: E501
+        f'echo "deb [{arch}signed-by=/etc/apt/keyrings/{name}.gpg] {source}" | sudo tee /etc/apt/sources.list.d/{name}.list >/dev/null',  # noqa: E501
     )
 
 

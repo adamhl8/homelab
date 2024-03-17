@@ -121,7 +121,7 @@ def main() -> None:
     # Forklift
     X("defaults write -g NSFileViewer -string com.binarynights.ForkLift")
     X(
-        """defaults write com.apple.LaunchServices/com.apple.launchservices.secure LSHandlers -array-add '{LSHandlerContentType="public.folder";LSHandlerRoleAll="com.binarynights.ForkLift";}'"""  # noqa: E501
+        """defaults write com.apple.LaunchServices/com.apple.launchservices.secure LSHandlers -array-add '{LSHandlerContentType="public.folder";LSHandlerRoleAll="com.binarynights.ForkLift";}'""",  # noqa: E501
     )
 
     # Keka

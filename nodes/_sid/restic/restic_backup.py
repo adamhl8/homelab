@@ -12,10 +12,12 @@ def main() -> None:
     timestamp = X(r"date +%F_%T").out
 
     backblaze_application_key_id = X(
-        """sops -d --extract "['backblaze_application_key_id']" ~/secrets.yaml""", show_output=False
+        """sops -d --extract "['backblaze_application_key_id']" ~/secrets.yaml""",
+        show_output=False,
     ).out
     backblaze_application_key = X(
-        """sops -d --extract "['backblaze_application_key']" ~/secrets.yaml""", show_output=False
+        """sops -d --extract "['backblaze_application_key']" ~/secrets.yaml""",
+        show_output=False,
     ).out
     restic_password = X("""sops -d --extract "['restic_password']" ~/secrets.yaml""", show_output=False).out
 
@@ -38,7 +40,7 @@ def main() -> None:
                 "~/restic/restic forget --prune --keep-within 1m",
                 "echo 'Checking integrity...'",
                 "~/restic/restic check",
-            ]
+            ],
         ).out
     except ShellCommandError as e:
         restic_output = e.out
