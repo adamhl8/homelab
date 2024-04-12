@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   discord-app-bot:
     image: ghcr.io/adamhl8/discord-app-bot

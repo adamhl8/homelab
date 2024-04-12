@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   dashdot:
     image: mauricenino/dashdot

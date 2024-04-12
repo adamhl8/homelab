@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   reaction-light:
     image: ghcr.io/eibex/reaction-light

@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   eyir:
     image: ghcr.io/adamhl8/eyir
