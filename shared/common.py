@@ -44,6 +44,8 @@ def main() -> None:
         ],
     )
 
+    X("rye install shell-gpt")
+
 
 if __name__ == "__main__":
     main()

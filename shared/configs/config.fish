@@ -63,6 +63,8 @@ abbr --add gclean 'git clean -ndffx'
 abbr --add gcleanf 'git clean -dffx'
 abbr --add gswitch 'git switch -c'
 
+abbr --add --set-cursor q 'sgpt -s \'%\''
+
 # binds
 set --local escape              \e
 set --local control_r           \cR
