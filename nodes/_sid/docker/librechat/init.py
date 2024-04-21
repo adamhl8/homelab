@@ -1,4 +1,5 @@
 from hl_helpers import generate_docker_env
+from shellrunner import X
 
 
 def main() -> None:
@@ -12,6 +13,10 @@ def main() -> None:
         },
         __file__,
     )
+
+    X("mkdir -p ~/docker/librechat/images")
+    X("mkdir -p ~/docker/librechat/logs")
+    X("mkdir -p ~/docker/librechat/data-node")
 
 
 if __name__ == "__main__":
