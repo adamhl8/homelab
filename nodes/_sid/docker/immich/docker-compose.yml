@@ -7,7 +7,7 @@ services:
     ports:
       - 8014:3001
     volumes:
-      - /mnt/storage/Immich/library:/usr/src/app/upload
+      - /mnt/storage/Immich/:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
@@ -21,7 +21,7 @@ services:
     restart: always
     command: ["start.sh", "microservices"]
     volumes:
-      - /mnt/storage/Immich/library:/usr/src/app/upload
+      - /mnt/storage/Immich/:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
