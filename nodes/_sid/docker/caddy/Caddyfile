@@ -209,6 +209,17 @@ adamhl.dev {
 		reverse_proxy localhost:8013
 	}
 
+	@immich host immich.adamhl.dev
+	handle @immich {
+		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
+		handle @authorized_ips {
+			reverse_proxy localhost:8014
+		}
+
+		authorize with admin_policy
+		reverse_proxy localhost:8014
+	}
+
 	@ha host ha.adamhl.dev
 	handle @ha {
 		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
