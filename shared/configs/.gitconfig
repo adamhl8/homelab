@@ -20,8 +20,14 @@
 	helper = "!echo password=$(sops -d --extract \"['swf_gitmil_pat']\" ~/secrets.yaml); true"
 [includeIf "hasconfig:remote.*.url:https://sync.git.mil/**"]
 	path = .gitconfig-swf
-[filter "lfs"]
-	process = git-lfs filter-process
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
+[core]
+	pager = delta
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+	side-by-side = true
+[merge]
+	conflictstyle = diff3
+[diff]
+	colorMoved = default
