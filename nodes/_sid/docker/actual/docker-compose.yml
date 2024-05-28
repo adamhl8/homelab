@@ -1,0 +1,9 @@
+services:
+  actual_server:
+    image: docker.io/actualbudget/actual-server:latest
+    container_name: actual-server
+    restart: always
+    ports:
+      - 8015:5006
+    volumes:
+      - ./data:/data
