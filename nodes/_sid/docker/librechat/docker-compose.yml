@@ -11,7 +11,7 @@ services:
       - ./logs:/app/api/logs
     environment:
       ENDPOINTS: openAI
-      OPENAI_MODELS: gpt-4-turbo,gpt-3.5-turbo
+      OPENAI_MODELS: gpt-4o
       DOMAIN_CLIENT: https://librechat.adamhl.dev
       DOMAIN_SERVER: https://librechat.adamhl.dev
       MONGO_URI: mongodb://mongodb:27017/LibreChat
