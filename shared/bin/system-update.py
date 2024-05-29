@@ -21,6 +21,10 @@ def main() -> None:
 
     X("sudo -v")
 
+    X("rye self update")
+    install_rye_completions()
+    X("rye toolchain fetch 3.12")
+
     X(f"homelab_root='{paths.root}' {paths.root / 'init/shared/shellrunner.bash'}", shell="bash")  # noqa: S604
 
     if os_name == "linux" and which("apt"):
@@ -35,10 +39,6 @@ def main() -> None:
         X("brew upgrade -g --no-quarantine")
     X("brew autoremove")
     X("brew cleanup --prune=all -s")
-
-    X("rye self update")
-    install_rye_completions()
-    X("rye toolchain fetch 3.12")
 
     if X("nvm --help", check=False, show_output=False, show_command=False).status == 0:
         X("nvm install latest")
