@@ -9,5 +9,5 @@ services:
       - ./data/filebrowser.db:/database.db
       - /mnt/storage/:/Storage/
     environment:
-      - FB_ROOT=/Storage/
-      - FB_NOAUTH=true
+      FB_ROOT: /Storage/
+      FB_NOAUTH: true

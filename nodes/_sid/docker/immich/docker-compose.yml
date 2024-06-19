@@ -48,7 +48,7 @@ services:
     image: registry.hub.docker.com/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0
     restart: always
     volumes:
-      - ./postgres:/var/lib/postgresql/data
+      - ./data/postgres/:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: ${DB_DATABASE_NAME}
       POSTGRES_USER: ${DB_USERNAME}

@@ -6,6 +6,6 @@ services:
     volumes:
       - ./data/:/app/prisma/db/
     environment:
-      - BOT_TOKEN=${discord_app_bot_token}
-      - APPLICATION_ID=970956137157492786
-      - DATABASE_URL=file:db/prod.db
+      BOT_TOKEN: ${discord_app_bot_token}
+      APPLICATION_ID: 970956137157492786
+      DATABASE_URL: file:db/prod.db
