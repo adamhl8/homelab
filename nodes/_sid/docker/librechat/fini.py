@@ -10,7 +10,7 @@ def main() -> None:
     homelab_password = X("""sops -d --extract '["homelab_password"]' ~/secrets.yaml""", show_output=False).out
     print("Creating LibreChat user...")
     X(
-        f"docker exec LibreChat ash -c 'npm run create-user adamhl@pm.me Adam adam {homelab_password}'",
+        f"docker exec librechat ash -c 'npm run create-user adamhl@pm.me Adam adam {homelab_password}'",
         show_command=False,
         show_output=False,
     )
