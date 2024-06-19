@@ -10,9 +10,6 @@ services:
       - BOT_TOKEN=${eyir_token}
       - APPLICATION_ID=320863841548238848
       - DATABASE_URL=file:db/prod.db
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Chicago
 
   filebrowser:
     image: filebrowser/filebrowser
@@ -25,6 +22,3 @@ services:
       - /home/adam/dev/eyir/faq/:/faq/
     environment:
       - FB_ROOT=/faq/
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Chicago

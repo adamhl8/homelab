@@ -9,6 +9,3 @@ services:
       - BOT_TOKEN=${discord_app_bot_token}
       - APPLICATION_ID=970956137157492786
       - DATABASE_URL=file:db/prod.db
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Chicago

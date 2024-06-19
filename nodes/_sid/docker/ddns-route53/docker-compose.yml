@@ -4,7 +4,7 @@ services:
     container_name: ddns-route53-adamhl.dev
     restart: always
     environment:
-      - "SCHEDULE=*/30 * * * *"
+      - "SCHEDULE=0 * * * *"
       - DDNSR53_CREDENTIALS_ACCESSKEYID=${aws_access_key_id}
       - DDNSR53_CREDENTIALS_SECRETACCESSKEY=${aws_secret_access_key}
       - DDNSR53_ROUTE53_HOSTEDZONEID=Z0001576IKPKC1SOE3BS
@@ -14,6 +14,3 @@ services:
       - DDNSR53_ROUTE53_RECORDSSET_1_NAME=*.adamhl.dev
       - DDNSR53_ROUTE53_RECORDSSET_1_TYPE=A
       - DDNSR53_ROUTE53_RECORDSSET_1_TTL=60
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Chicago

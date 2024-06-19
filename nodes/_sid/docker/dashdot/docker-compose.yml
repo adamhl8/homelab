@@ -16,6 +16,3 @@ services:
       - DASHDOT_ALWAYS_SHOW_PERCENTAGES=true
       - DASHDOT_NETWORK_LABEL_LIST=type,speed_up,speed_down,interface_speed,public_ip
       - DASHDOT_OVERRIDE_OS=Debian sid
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Chicago

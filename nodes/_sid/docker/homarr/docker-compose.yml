@@ -12,6 +12,3 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - BASE_URL=homarr.adamhl.dev
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Chicago
