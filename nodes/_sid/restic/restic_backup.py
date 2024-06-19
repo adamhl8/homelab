@@ -2,6 +2,7 @@ import os
 import re
 from pathlib import Path
 
+from hl_helpers import homelab_paths as paths
 from hl_helpers import send_email
 from shellrunner import ShellCommandError, X
 
@@ -11,29 +12,13 @@ def main() -> None:
 
     timestamp = X(r"date +%F_%T").out
 
-    backblaze_application_key_id = X(
-        """sops -d --extract "['backblaze_application_key_id']" ~/secrets.yaml""",
-        show_output=False,
-    ).out
-    backblaze_application_key = X(
-        """sops -d --extract "['backblaze_application_key']" ~/secrets.yaml""",
-        show_output=False,
-    ).out
-    restic_password = X("""sops -d --extract "['restic_password']" ~/secrets.yaml""", show_output=False).out
-
     restic_output = ""
     backup_failed = False
 
     try:
         restic_output = X(
             [
-                "set -gx RESTIC_REPOSITORY 's3:s3.us-west-004.backblazeb2.com/sid-storage'",
-                "set -gx AWS_DEFAULT_REGION 'us-west-004'",
-                f"set -gx AWS_ACCESS_KEY_ID '{backblaze_application_key_id}'",
-                f"set -gx AWS_SECRET_ACCESS_KEY '{backblaze_application_key}'",
-                f"set -gx RESTIC_PASSWORD '{restic_password}'",
-                "set -gx RESTIC_COMPRESSION 'max'",
-                "set -gx RESTIC_PACK_SIZE '100'",
+                f"source {paths.nodes.sid}/restic/restic-env.fish",
                 "echo 'Starting restic backup...'",
                 "~/restic/restic backup /mnt/storage -vv --exclude-file ~/restic/excludes",
                 "echo 'Cleaning up...'",
