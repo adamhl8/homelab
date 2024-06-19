@@ -1,5 +1,5 @@
 services:
-  actual_server:
+  actual-server:
     image: docker.io/actualbudget/actual-server:edge
     container_name: actual-server
     restart: always

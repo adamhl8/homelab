@@ -1,6 +1,7 @@
 # variables
 set -l paths ~/bin ~/.local/bin
 set -g fish_greeting
+set -gx UID_GID (id -u):(id -g)
 
 set -a paths $HOME/.rye/shims
 

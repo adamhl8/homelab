@@ -8,7 +8,3 @@ services:
     volumes:
       - ./data/:/kavita/config/
       - /mnt/storage/Stuff/Library/:/Library/
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Chicago
