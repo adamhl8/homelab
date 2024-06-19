@@ -45,7 +45,5 @@ def main() -> None:
     X(f"mv ~/restic/restic.log ~/restic/{timestamp}_restic.log")
 
 
-main()
-
 if __name__ == "__main__":
     main()

@@ -6,9 +6,10 @@
 #   features: []
 #   all-features: false
 #   with-sources: false
+#   generate-hashes: false
 
 -e file:.
-psutil==5.9.8
+psutil==6.0.0
     # via shellrunner
 shellrunner==0.4.2
     # via homelab

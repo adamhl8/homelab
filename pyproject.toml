@@ -9,7 +9,7 @@ dependencies = [
 [tool.rye]
 managed = true
 dev-dependencies = [
-    "ruff>=0.4.4",
+    "ruff>=0.4.9",
 ]
 
 [tool.rye.scripts]
