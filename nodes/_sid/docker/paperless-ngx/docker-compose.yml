@@ -9,8 +9,8 @@ services:
     volumes:
       - ./data/:/usr/src/paperless/data/
       - /mnt/storage/Paperless/:/usr/src/paperless/media/
-      - ./export/:/usr/src/paperless/export/
       - ./consume/:/usr/src/paperless/consume/
+      - ./export/:/usr/src/paperless/export/
     environment:
       USERMAP_UID: ${UID}
       USERMAP_GID: ${GID}

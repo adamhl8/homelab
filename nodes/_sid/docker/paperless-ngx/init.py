@@ -6,6 +6,11 @@ from shellrunner import X
 
 def main() -> None:
     generate_docker_env(["paperless_secret_key"], __file__)
+
+    X("mkdir -p ~/docker/paperless-ngx/data/")
+    X("mkdir -p ~/docker/paperless-ngx/consume/")
+    X("mkdir -p ~/docker/paperless-ngx/export/")
+
     X("docker compose pull")
     X("docker compose up -d postgres")
     time.sleep(15)
