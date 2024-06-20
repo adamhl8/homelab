@@ -1,13 +1,13 @@
 services:
   immich-server:
-    image: ghcr.io/immich-app/immich-server:release
     container_name: immich-server
+    image: ghcr.io/immich-app/immich-server:release
     restart: always
     command: ["start.sh", "immich"]
     ports:
       - 8014:3001
     volumes:
-      - /mnt/storage/Immich/:/usr/src/app/upload
+      - /mnt/storage/Immich/:/usr/src/app/upload/
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
@@ -16,12 +16,12 @@ services:
       - postgres
 
   immich-microservices:
-    image: ghcr.io/immich-app/immich-server:release
     container_name: immich-microservices
+    image: ghcr.io/immich-app/immich-server:release
     restart: always
     command: ["start.sh", "microservices"]
     volumes:
-      - /mnt/storage/Immich/:/usr/src/app/upload
+      - /mnt/storage/Immich/:/usr/src/app/upload/
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
@@ -30,8 +30,8 @@ services:
       - postgres
 
   immich-machine-learning:
-    image: ghcr.io/immich-app/immich-machine-learning:release
     container_name: immich-machine-learning
+    image: ghcr.io/immich-app/immich-machine-learning:release
     restart: always
     volumes:
       - model-cache:/cache
@@ -39,16 +39,16 @@ services:
       - .env
 
   redis:
-    image: registry.hub.docker.com/library/redis:6.2-alpine@sha256:84882e87b54734154586e5f8abd4dce69fe7311315e2fc6d67c29614c8de2672
     container_name: immich-redis
+    image: registry.hub.docker.com/library/redis:6.2-alpine@sha256:84882e87b54734154586e5f8abd4dce69fe7311315e2fc6d67c29614c8de2672
     restart: always
 
   postgres:
-    image: registry.hub.docker.com/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0
     container_name: immich-postgres
+    image: registry.hub.docker.com/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0
     restart: always
     volumes:
-      - ./data/postgres/:/var/lib/postgresql/data
+      - ./postgres/:/var/lib/postgresql/data/
     environment:
       POSTGRES_DB: ${DB_DATABASE_NAME}
       POSTGRES_USER: ${DB_USERNAME}

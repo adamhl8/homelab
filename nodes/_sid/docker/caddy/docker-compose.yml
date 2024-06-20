@@ -1,15 +1,15 @@
 services:
   caddy:
-    build: .
-    image: caddy
     container_name: caddy
+    image: caddy
+    build: .
     restart: always
     network_mode: host
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - ./users.json:/etc/caddy/users.json
       - ./data/:/data/
-      - ./data/config/:/config/
+      - ./config/:/config/
     environment:
       AWS_ACCESS_KEY_ID: ${aws_access_key_id}
       AWS_SECRET_ACCESS_KEY: ${aws_secret_access_key}

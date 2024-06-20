@@ -1,12 +1,12 @@
 services:
   filebrowser:
-    image: filebrowser/filebrowser
     container_name: filebrowser
+    image: filebrowser/filebrowser
     restart: always
     ports:
       - 8002:80
     volumes:
-      - ./data/filebrowser.db:/database.db
+      - ./filebrowser.db:/database.db
       - /mnt/storage/:/Storage/
     environment:
       FB_ROOT: /Storage/

@@ -1,13 +1,13 @@
 services:
   dashdot:
-    image: mauricenino/dashdot
     container_name: dashdot
+    image: mauricenino/dashdot
     restart: always
     privileged: true
     ports:
       - 8005:3001
     volumes:
-      - /:/mnt/host:ro
+      - /:/mnt/host/:ro
     environment:
       DASHDOT_SHOW_DASH_VERSION: bottom_right
       DASHDOT_ACCEPT_OOKLA_EULA: true

@@ -1,7 +1,8 @@
 # variables
 set -l paths ~/bin ~/.local/bin
 set -g fish_greeting
-set -gx UID_GID (id -u):(id -g)
+set -gx UID (id -u)
+set -gx GID (id -g)
 
 set -a paths $HOME/.rye/shims
 
@@ -63,6 +64,9 @@ abbr --add greset 'git fetch && git reset --hard @{u}'
 abbr --add gclean 'git clean -ndffx'
 abbr --add gcleanf 'git clean -dffx'
 abbr --add gswitch 'git switch -c'
+
+abbr --add dcu 'docker compose up -d'
+abbr --add dcd 'docker compose down'
 
 abbr --add --set-cursor q 'sgpt -s \'%\''
 

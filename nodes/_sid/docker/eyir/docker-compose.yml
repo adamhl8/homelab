@@ -1,7 +1,7 @@
 services:
   eyir:
-    image: ghcr.io/adamhl8/eyir
     container_name: eyir
+    image: ghcr.io/adamhl8/eyir
     restart: always
     volumes:
       - /home/adam/dev/eyir/faq/:/app/faq/
@@ -12,13 +12,13 @@ services:
       DATABASE_URL: file:db/prod.db
 
   filebrowser:
-    image: filebrowser/filebrowser
     container_name: eyir-filebrowser
+    image: filebrowser/filebrowser
     restart: always
     ports:
       - 8003:80
     volumes:
-      - ./data/filebrowser.db:/database.db
+      - ./filebrowser.db:/database.db
       - /home/adam/dev/eyir/faq/:/faq/
     environment:
       FB_ROOT: /faq/

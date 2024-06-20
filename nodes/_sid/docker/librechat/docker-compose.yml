@@ -1,54 +1,54 @@
 services:
   librechat:
-    image: ghcr.io/danny-avila/librechat-dev
     container_name: librechat
+    image: ghcr.io/danny-avila/librechat-dev
     restart: always
-    user: ${UID_GID}
+    user: ${UID}:${GID}
     ports:
       - 8004:3080
     volumes:
-      - ./data/images/:/app/client/public/images
-      - ./data/logs/:/app/api/logs
+      - ./images/:/app/client/public/images/
+      - ./logs/:/app/api/logs/
     environment:
       ENDPOINTS: openAI
       OPENAI_MODELS: gpt-4o
       DOMAIN_CLIENT: https://librechat.adamhl.dev
       DOMAIN_SERVER: https://librechat.adamhl.dev
-      MONGO_URI: mongodb://mongodb:27017/LibreChat
-      RAG_API_URL: http://rag-api:8000
+      MONGO_URI: mongodb://mongo:27017/LibreChat
+      RAG_API_URL: http://librechat-rag-api:8000
     env_file:
       - .env
     depends_on:
-      - mongodb
-      - rag-api
+      - librechat-rag-api
+      - mongo
 
-  mongodb:
-    container_name: librechat-mongodb
-    image: mongo
-    restart: always
-    command: mongod --noauth
-    user: ${UID_GID}
-    volumes:
-      - ./data/mongodb/:/data/db
-
-  vectordb:
-    container_name: librechat-vectordb
-    image: ankane/pgvector
-    restart: always
-    volumes:
-      - ./data/vectordb/:/var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: mydatabase
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
-
-  rag-api:
+  librechat-rag-api:
     container_name: librechat-rag-api
     image: ghcr.io/danny-avila/librechat-rag-api-dev-lite
     restart: always
     environment:
-      DB_HOST: vectordb
+      DB_HOST: pgvector
     env_file:
       - .env
     depends_on:
-      - vectordb
+      - pgvector
+
+  mongo:
+    container_name: librechat-mongo
+    image: mongo
+    restart: always
+    command: mongod --noauth
+    user: ${UID}:${GID}
+    volumes:
+      - ./mongo/:/data/db/
+
+  pgvector:
+    container_name: librechat-pgvector
+    image: ankane/pgvector
+    restart: always
+    volumes:
+      - ./pgvector/:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_DB: mydatabase
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword

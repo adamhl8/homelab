@@ -14,9 +14,9 @@ def main() -> None:
         __file__,
     )
 
-    X("mkdir -p ~/docker/librechat/data/images")
-    X("mkdir -p ~/docker/librechat/data/logs")
-    X("mkdir -p ~/docker/librechat/data/mongodb")
+    X("mkdir -p ~/docker/librechat/images")
+    X("mkdir -p ~/docker/librechat/logs")
+    X("mkdir -p ~/docker/librechat/mongo")
 
 
 if __name__ == "__main__":

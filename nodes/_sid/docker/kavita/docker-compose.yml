@@ -1,7 +1,7 @@
 services:
   kavita:
-    image: kizaing/kavita
     container_name: kavita
+    image: kizaing/kavita
     restart: always
     ports:
       - 8012:5000

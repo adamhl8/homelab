@@ -1,14 +1,14 @@
 services:
   ntfy:
-    image: binwiederhier/ntfy
     container_name: ntfy
+    image: binwiederhier/ntfy
     restart: always
     command: serve
     ports:
       - 8008:80
     volumes:
-      - ./data/ntfy/:/etc/ntfy/
-      - ./data/cache/:/var/cache/ntfy/
+      - ./data/:/etc/ntfy/
+      - ./cache/:/var/cache/ntfy/
     environment:
       NTFY_BASE_URL: https://ntfy.adamhl.dev
       NTFY_BEHIND_PROXY: true
