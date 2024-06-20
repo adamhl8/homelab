@@ -1,5 +1,5 @@
 [Unit]
-Description=Run snapraid-btrfs-runner every night
+Description=Run backup every night
 
 [Timer]
 OnCalendar=*-*-* 03:00:00

@@ -20,6 +20,10 @@ def main() -> None:
     X("sudo snapper -c disk3 create-config -t disk-snapper.conf /mnt/disk3")
     X("snapper list-configs")
 
+    # sid-backup
+    X(f"sudo ln -f -s {paths.nodes.sid}/snapraid/sid-backup.service /etc/systemd/system/")
+    X(f"sudo ln -f -s {paths.nodes.sid}/snapraid/sid-backup.timer /etc/systemd/system/")
+
     # snapraid-btrfs
     X("~/bin/snapraid-btrfs-update.py")
     X("~/snapraid/snapraid-btrfs -c ~/snapraid/snapraid.conf ls")
@@ -29,10 +33,10 @@ def main() -> None:
     X(f"ln -f -s {paths.nodes.sid}/snapraid/snapraid-btrfs-runner.conf ~/snapraid/")
     substitute_vars("~/snapraid/snapraid-btrfs-runner.conf", ["aws_access_key_id", "smtp_password"])
     X(f"sudo ln -f -s {paths.nodes.sid}/snapraid/snapraid-btrfs-runner.service /etc/systemd/system/")
-    X(f"sudo ln -f -s {paths.nodes.sid}/snapraid/snapraid-btrfs-runner.timer /etc/systemd/system/")
+
     X("sudo systemctl daemon-reload")
-    X("sudo systemctl enable snapraid-btrfs-runner.timer")
-    X("sudo systemctl start snapraid-btrfs-runner.timer")
+    X("sudo systemctl enable sid-backup.timer")
+    X("sudo systemctl start sid-backup.timer")
 
 
 if __name__ == "__main__":
