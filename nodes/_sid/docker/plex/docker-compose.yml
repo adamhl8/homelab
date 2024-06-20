@@ -1,7 +1,7 @@
 services:
   plex:
-    image: lscr.io/linuxserver/plex
     container_name: plex
+    image: lscr.io/linuxserver/plex
     restart: always
     network_mode: host
     devices:
@@ -11,7 +11,7 @@ services:
       - /mnt/storage/Media/:/Media/
       - /mnt/storage/Other/Z/Z/:/Z/
     environment:
-      - VERSION=latest
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Chicago
+      VERSION: latest
+      PUID: ${UID}
+      PGID: ${GID}
+      TZ: America/Chicago
