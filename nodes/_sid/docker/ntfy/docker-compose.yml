@@ -10,14 +10,11 @@ services:
       - ./data/ntfy/:/etc/ntfy/
       - ./data/cache/:/var/cache/ntfy/
     environment:
-      - NTFY_BASE_URL=https://ntfy.adamhl.dev
-      - NTFY_BEHIND_PROXY=true
-      - NTFY_CACHE_FILE=/var/cache/ntfy/cache.db
-      - NTFY_ATTACHMENT_CACHE_DIR=/var/cache/ntfy/attachments/
-      - NTFY_ATTACHMENT_TOTAL_SIZE_LIMIT=20G
-      - NTFY_ATTACHMENT_FILE_SIZE_LIMIT=1G
-      - NTFY_VISITOR_ATTACHMENT_TOTAL_SIZE_LIMIT=5G
-      - NTFY_VISITOR_ATTACHMENT_DAILY_BANDWIDTH_LIMIT=5G
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Chicago
+      NTFY_BASE_URL: https://ntfy.adamhl.dev
+      NTFY_BEHIND_PROXY: true
+      NTFY_CACHE_FILE: /var/cache/ntfy/cache.db
+      NTFY_ATTACHMENT_CACHE_DIR: /var/cache/ntfy/attachments/
+      NTFY_ATTACHMENT_TOTAL_SIZE_LIMIT: 20G
+      NTFY_ATTACHMENT_FILE_SIZE_LIMIT: 1G
+      NTFY_VISITOR_ATTACHMENT_TOTAL_SIZE_LIMIT: 5G
+      NTFY_VISITOR_ATTACHMENT_DAILY_BANDWIDTH_LIMIT: 5G
