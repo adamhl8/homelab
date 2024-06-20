@@ -16,7 +16,7 @@ services:
       PGID: ${GID}
       TZ: America/Chicago
     depends_on:
-      - unifi-db
+      - mongo
 
   mongo:
     container_name: unifi-network-application-mongo
