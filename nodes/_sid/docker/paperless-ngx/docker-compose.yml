@@ -3,6 +3,7 @@ services:
     container_name: paperless-ngx
     image: ghcr.io/paperless-ngx/paperless-ngx:latest
     restart: always
+    user: ${UID}:${GID}
     ports:
       - 8013:8000
     volumes:
@@ -11,6 +12,8 @@ services:
       - ./export/:/usr/src/paperless/export/
       - ./consume/:/usr/src/paperless/consume/
     environment:
+      USERMAP_UID: ${UID}
+      USERMAP_GID: ${GID}
       PAPERLESS_URL: https://paperless.adamhl.dev
       PAPERLESS_SECRET_KEY: ${paperless_secret_key}
       PAPERLESS_TIME_ZONE: America/Chicago
