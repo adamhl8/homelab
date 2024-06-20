@@ -1,7 +1,7 @@
 services:
   unifi-network-application:
     container_name: unifi-network-application
-    image: lscr.io/linuxserver/unifi-network-application:latest
+    image: lscr.io/linuxserver/unifi-network-application
     restart: always
     network_mode: host
     volumes:

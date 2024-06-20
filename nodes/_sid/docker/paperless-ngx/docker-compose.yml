@@ -1,7 +1,7 @@
 services:
   paperless-ngx:
     container_name: paperless-ngx
-    image: ghcr.io/paperless-ngx/paperless-ngx:latest
+    image: ghcr.io/paperless-ngx/paperless-ngx
     restart: always
     user: ${UID}:${GID}
     ports:
@@ -60,7 +60,7 @@ services:
 
   tika:
     container_name: paperless-ngx-tika
-    image: ghcr.io/paperless-ngx/tika:latest
+    image: ghcr.io/paperless-ngx/tika
     restart: always
 
   gotenberg:
