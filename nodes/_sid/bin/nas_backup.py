@@ -3,7 +3,6 @@
 import os
 import re
 
-from hl_helpers import homelab_paths as paths
 from hl_helpers import send_email
 from shellrunner import ShellCommandError, X
 
