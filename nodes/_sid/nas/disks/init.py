@@ -5,7 +5,7 @@ from shellrunner import ShellCommandError, X
 def main() -> None:
     X("sudo apt install btrfs-progs -y")
     X("sudo apt install fuse -y")
-    X("~/bin/mergerfs-update.py")
+    X("~/bin/mergerfs_update.py")
 
     X("sudo mkdir -p /mnt/disk{1,2,3}/")
     X("sudo mkdir -p /mnt/parity1/")

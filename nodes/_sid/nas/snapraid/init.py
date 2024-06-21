@@ -5,7 +5,7 @@ from shellrunner import X
 def main() -> None:
     # snapraid
     X("mkdir -p ~/snapraid/")
-    X("~/bin/snapraid-update.py")
+    X("~/bin/snapraid_update.py")
     X(f"ln -f -s {paths.nodes.sid}/nas/snapraid/snapraid.conf ~/snapraid/")
 
     # snapper
@@ -20,11 +20,11 @@ def main() -> None:
     X("snapper list-configs")
 
     # snapraid-btrfs
-    X("~/bin/snapraid-btrfs-update.py")
+    X("~/bin/snapraid_btrfs_update.py")
     X("~/snapraid/snapraid-btrfs -c ~/snapraid/snapraid.conf ls")
 
     # snapraid-btrfs-runner
-    X("~/bin/snapraid-btrfs-runner-update.py")
+    X("~/bin/snapraid_btrfs_runner_update.py")
     X(f"ln -f -s {paths.nodes.sid}/nas/snapraid/snapraid-btrfs-runner.conf ~/snapraid/")
 
 
