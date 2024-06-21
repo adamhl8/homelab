@@ -3,4 +3,5 @@ Description=nas-backup
 
 [Service]
 Type=oneshot
+User=adam
 ExecStart=/home/linuxbrew/.linuxbrew/bin/fish -l -c 'python ~/bin/nas_backup.py &>~/logs/(date +%F_%T)_backup.log'
