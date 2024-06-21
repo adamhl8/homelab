@@ -10,10 +10,10 @@ from shellrunner import ShellCommandError, X
 
 def backup() -> None:
     print("== Starting backup... ==")
-    X("""echo (sops -d --extract "['homelab_password']" ~/secrets.yaml) | sudo -S -v""", show_output=False)
+    homelab_password = X("""sops -d --extract "['homelab_password']" ~/secrets.yaml""").out
 
     print("== Backing up docker data... ==")
-    X("sudo tar -vuf /mnt/storage/Backups/docker.tar -C ~/docker/ .")
+    X(f"echo {homelab_password} | sudo -S tar -vuf /mnt/storage/Backups/docker.tar -C ~/docker/ .")
 
     print("== Running SnapRAID tasks...")
     X("python ~/snapraid/snapraid-btrfs-runner.py -c ~/snapraid/snapraid-btrfs-runner.conf")
