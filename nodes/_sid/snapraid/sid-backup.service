@@ -1,7 +1,0 @@
-[Unit]
-Description=sid-backup
-
-[Service]
-Type=oneshot
-ExecStart=tar -vuf /mnt/storage/Backups/docker.tar -C /home/adam/docker/ .
-ExecStartPost=/usr/bin/systemctl start snapraid-btrfs-runner.service

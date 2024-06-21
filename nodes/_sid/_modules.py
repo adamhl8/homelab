@@ -1,9 +1,20 @@
 from typing import NamedTuple
 
-import nodes._sid.restic.init as restic
-import nodes._sid.smb.init as smb
-import nodes._sid.snapraid.init as snapraid
-import nodes._sid.storage.init as storage
+import nodes._sid.nas.disks.init as disks
+import nodes._sid.nas.init as nas
+import nodes._sid.nas.restic.init as restic
+import nodes._sid.nas.smb.init as smb
+import nodes._sid.nas.snapraid.init as snapraid
+
+
+class Disks:
+    def __call__(self) -> None:
+        disks.main()
+
+
+class Nas:
+    def __call__(self) -> None:
+        nas.main()
 
 
 class Restic:
@@ -21,16 +32,12 @@ class Snapraid:
         snapraid.main()
 
 
-class Storage:
-    def __call__(self) -> None:
-        storage.main()
-
-
 class SidModules(NamedTuple):
+    disks = Disks()
+    nas = Nas()
     restic = Restic()
     smb = Smb()
     snapraid = Snapraid()
-    storage = Storage()
 
 
 sid = SidModules()

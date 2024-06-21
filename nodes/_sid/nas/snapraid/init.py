@@ -1,5 +1,4 @@
 from hl_helpers import homelab_paths as paths
-from hl_helpers import substitute_vars
 from shellrunner import X
 
 
@@ -7,22 +6,18 @@ def main() -> None:
     # snapraid
     X("mkdir -p ~/snapraid/")
     X("~/bin/snapraid-update.py")
-    X(f"ln -f -s {paths.nodes.sid}/snapraid/snapraid.conf ~/snapraid/")
+    X(f"ln -f -s {paths.nodes.sid}/nas/snapraid/snapraid.conf ~/snapraid/")
 
     # snapper
     X("sudo apt purge --auto-remove snapper -y")
     X("sudo rm -rf /etc/snapper/")
     X("sudo apt install snapper -y")
     X("sudo mkdir -p /etc/snapper/config-templates/")
-    X(f"sudo ln -f -s {paths.nodes.sid}/snapraid/disk-snapper.conf /etc/snapper/config-templates/")
+    X(f"sudo ln -f -s {paths.nodes.sid}/nas/snapraid/disk-snapper.conf /etc/snapper/config-templates/")
     X("sudo snapper -c disk1 create-config -t disk-snapper.conf /mnt/disk1")
     X("sudo snapper -c disk2 create-config -t disk-snapper.conf /mnt/disk2")
     X("sudo snapper -c disk3 create-config -t disk-snapper.conf /mnt/disk3")
     X("snapper list-configs")
-
-    # sid-backup
-    X(f"sudo ln -f -s {paths.nodes.sid}/snapraid/sid-backup.service /etc/systemd/system/")
-    X(f"sudo ln -f -s {paths.nodes.sid}/snapraid/sid-backup.timer /etc/systemd/system/")
 
     # snapraid-btrfs
     X("~/bin/snapraid-btrfs-update.py")
@@ -30,13 +25,7 @@ def main() -> None:
 
     # snapraid-btrfs-runner
     X("~/bin/snapraid-btrfs-runner-update.py")
-    X(f"ln -f -s {paths.nodes.sid}/snapraid/snapraid-btrfs-runner.conf ~/snapraid/")
-    substitute_vars("~/snapraid/snapraid-btrfs-runner.conf", ["aws_access_key_id", "smtp_password"])
-    X(f"sudo ln -f -s {paths.nodes.sid}/snapraid/snapraid-btrfs-runner.service /etc/systemd/system/")
-
-    X("sudo systemctl daemon-reload")
-    X("sudo systemctl enable sid-backup.timer")
-    X("sudo systemctl start sid-backup.timer")
+    X(f"ln -f -s {paths.nodes.sid}/nas/snapraid/snapraid-btrfs-runner.conf ~/snapraid/")
 
 
 if __name__ == "__main__":

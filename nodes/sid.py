@@ -28,10 +28,11 @@ def step3() -> None:
 def step4() -> None:
     shared.docker.login()
 
-    sid.storage()
+    sid.disks()
     sid.snapraid()
     sid.restic()
     sid.smb()
+    sid.nas()
 
 
 def step5() -> None:

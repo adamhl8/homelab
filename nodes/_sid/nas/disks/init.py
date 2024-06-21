@@ -11,9 +11,9 @@ def main() -> None:
     X("sudo mkdir -p /mnt/parity1/")
     X("sudo mkdir -p /mnt/storage/")
 
-    status = X(f'grep -qxF "$(cat {paths.nodes.sid}/storage/mergerfs.fstab)" /etc/fstab', check=False).status
+    status = X(f'grep -qxF "$(cat {paths.nodes.sid}/nas/disks/mergerfs.fstab)" /etc/fstab', check=False).status
     if status != 0:
-        X(f"cat {paths.nodes.sid}/storage/mergerfs.fstab | sudo tee -a /etc/fstab >/dev/null")
+        X(f"cat {paths.nodes.sid}/nas/disks/mergerfs.fstab | sudo tee -a /etc/fstab >/dev/null")
     X("sudo systemctl daemon-reload")
     X("sudo mount -a")
 
