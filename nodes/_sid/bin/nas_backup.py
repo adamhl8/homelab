@@ -10,7 +10,7 @@ from shellrunner import ShellCommandError, X
 
 def backup() -> None:
     print("== Starting backup... ==")
-    X("""echo (sops -d --extract "['homelab_password']" ~/secrets.yaml) | sudo -S -v""")
+    X("""echo (sops -d --extract "['homelab_password']" ~/secrets.yaml) | sudo -S -v""", show_output=False)
 
     print("== Backing up docker data... ==")
     X("sudo -S tar -vuf /mnt/storage/Backups/docker.tar -C ~/docker/ .")
