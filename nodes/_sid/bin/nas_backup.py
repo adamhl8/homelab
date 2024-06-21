@@ -13,7 +13,7 @@ def backup() -> None:
     X("""echo (sops -d --extract "['homelab_password']" ~/secrets.yaml) | sudo -S -v""", show_output=False)
 
     print("== Backing up docker data... ==")
-    X("sudo -S tar -vuf /mnt/storage/Backups/docker.tar -C ~/docker/ .")
+    X("sudo tar -vuf /mnt/storage/Backups/docker.tar -C ~/docker/ .")
 
     print("== Running SnapRAID tasks...")
     X("python ~/snapraid/snapraid-btrfs-runner.py -c ~/snapraid/snapraid-btrfs-runner.conf")
