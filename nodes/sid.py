@@ -14,6 +14,7 @@ def step2() -> None:
     shared.fish_setup()
     shared.common()
 
+    X("mkdir -p ~/logs/")
     X(f"ln -f -s {paths.nodes.sid}/bin/* ~/bin/")
 
 
