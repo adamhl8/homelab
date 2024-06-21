@@ -10,7 +10,7 @@ from shellrunner import ShellCommandError, X
 
 def backup() -> None:
     print("== Starting backup... ==")
-    homelab_password = X("""sops -d --extract "['homelab_password']" ~/secrets.yaml""").out
+    homelab_password = X("""sops -d --extract "['homelab_password']" ~/secrets.yaml""", show_output=False).out
 
     print("== Backing up docker data... ==")
     X(f"echo {homelab_password} | sudo -S tar -vuf /mnt/storage/Backups/docker.tar -C ~/docker/ .")
@@ -21,7 +21,7 @@ def backup() -> None:
     restic_output = X(
         [
             "echo '== Starting restic backup... =='",
-            f"source {paths.nodes.sid}/restic/restic-env.fish",
+            "source ~/bin/restic-env.fish",
             "~/restic/restic backup /mnt/storage --ignore-inode -vv --exclude-file ~/restic/excludes",
             "echo '== Cleaning up... =='",
             "~/restic/restic forget --prune --keep-within 1m",
