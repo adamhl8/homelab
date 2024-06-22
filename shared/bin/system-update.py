@@ -12,6 +12,13 @@ sys.path.append(f"{paths.root}")
 from shared.fish_setup import install_rye_completions
 
 
+def uninstall_old_node_versions() -> None:
+    versions = X("nvm list", show_output=False).out.splitlines()
+    old_versions = [version.strip() for version in versions if "latest" not in version]
+    for version in old_versions:
+        X(f"nvm uninstall {version}", show_command=False)
+
+
 def main() -> None:
     if is_cwd_in_homelab_dir():
         return
@@ -42,6 +49,7 @@ def main() -> None:
 
     if X("nvm --help", check=False, show_output=False, show_command=False).status == 0:
         X("nvm install latest")
+        uninstall_old_node_versions()
         X("npm install -g npm")
         X("npm update -g")
 
