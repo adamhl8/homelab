@@ -13,11 +13,13 @@ def backup() -> None:
 
     print("== Backing up docker data... ==")
     print("= Creating snapshot of docker data... =")
-    X("mkdir -p ~/docker_snapshot")
-    X(f"echo {homelab_password} | sudo -S -p '' rsync -a --delete ~/docker/ ~/docker_snapshot/")
+    X(f"echo {homelab_password} | sudo -S -p '' rsync -v -a --delete ~/docker/ ~/docker_snapshot/", show_output=False)
 
     print("= Creating tarball of docker snapshot... =")
-    X(f"echo {homelab_password} | sudo -S -p '' tar -vuf /mnt/storage/Backups/docker.tar -C ~/docker_snapshot/ .")
+    X(
+        f"echo {homelab_password} | sudo -S -p '' tar -vcf /mnt/storage/Backups/docker.tar -C ~/docker_snapshot/ .",
+        show_output=False,
+    )
     X(f"echo {homelab_password} | sudo -S -p '' rm -rf ~/docker_snapshot/")
 
     print("== Running SnapRAID tasks... ==")
