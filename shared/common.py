@@ -6,6 +6,7 @@ programs = [
     "coreutils",
     "diffutils",
     "findutils",
+    "rsync",
     "grep",
     "gnu-sed",
     "gawk",

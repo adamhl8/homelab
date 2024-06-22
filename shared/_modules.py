@@ -1,6 +1,6 @@
 from typing import NamedTuple
 
-from shared import common, docker, fish_install, fish_setup, node, sdkman, sops, ssh, sshd
+from shared import common, docker, fish_install, fish_setup, node, sdkman, sops, ssh, sshd, sudoers
 
 
 class Common:
@@ -54,6 +54,11 @@ class Sshd:
         sshd.main()
 
 
+class Sudoers:
+    def __call__(self) -> None:
+        sudoers.main()
+
+
 class SharedModules(NamedTuple):
     common = Common()
     docker = Docker()
@@ -64,6 +69,7 @@ class SharedModules(NamedTuple):
     sops = Sops()
     ssh = Ssh()
     sshd = Sshd()
+    sudoers = Sudoers()
 
 
 shared = SharedModules()

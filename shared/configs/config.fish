@@ -1,5 +1,5 @@
 # variables
-set -l paths ~/bin ~/.local/bin
+set -l paths ~/bin ~/.local/bin /usr/local/sbin /usr/sbin /sbin
 set -g fish_greeting
 set -gx UID (id -u)
 set -gx GID (id -g)

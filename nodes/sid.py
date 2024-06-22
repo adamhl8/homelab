@@ -12,6 +12,7 @@ def step1() -> None:
 
 def step2() -> None:
     shared.fish_setup()
+    shared.sudoers()
     shared.common()
 
     X("mkdir -p ~/logs/")

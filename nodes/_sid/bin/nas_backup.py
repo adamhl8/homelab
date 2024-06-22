@@ -12,19 +12,25 @@ def backup() -> None:
     homelab_password = X("""sops -d --extract "['homelab_password']" ~/secrets.yaml""", show_output=False).out
 
     print("== Backing up docker data... ==")
-    X(f"echo {homelab_password} | sudo -S tar -vuf /mnt/storage/Backups/docker.tar -C ~/docker/ .")
+    print("= Creating snapshot of docker data... =")
+    X("mkdir -p ~/docker_snapshot")
+    X(f"echo {homelab_password} | sudo -S -p '' rsync -a --delete ~/docker/ ~/docker_snapshot/")
 
-    print("== Running SnapRAID tasks...")
+    print("= Creating tarball of docker snapshot... =")
+    X(f"echo {homelab_password} | sudo -S -p '' tar -vuf /mnt/storage/Backups/docker.tar -C ~/docker_snapshot/ .")
+    X(f"echo {homelab_password} | sudo -S -p '' rm -rf ~/docker_snapshot/")
+
+    print("== Running SnapRAID tasks... ==")
     X("python ~/snapraid/snapraid-btrfs-runner.py -c ~/snapraid/snapraid-btrfs-runner.conf")
 
     restic_output = X(
         [
-            "echo '== Starting restic backup... =='",
+            "echo '= Starting restic backup... ='",
             "source ~/bin/restic-env.fish",
             "~/restic/restic backup /mnt/storage --ignore-inode -vv --exclude-file ~/restic/excludes",
-            "echo '== Cleaning up... =='",
+            "echo '= Cleaning up... ='",
             "~/restic/restic forget --prune --keep-within 1m",
-            "echo '== Checking integrity... =='",
+            "echo '= Checking integrity... ='",
             "~/restic/restic check",
         ],
         show_output=False,
