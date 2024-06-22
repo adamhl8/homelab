@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import re
 import sys
 from shutil import which
 
@@ -14,7 +15,11 @@ from shared.fish_setup import install_rye_completions
 
 def uninstall_old_node_versions() -> None:
     versions = X("nvm list", show_output=False).out.splitlines()
-    old_versions = [version.strip() for version in versions if "latest" not in version]
+    old_versions: list[str] = []
+    for version in versions:
+        match = re.search(r"(v.+)\s", version)
+        if match and "latest" not in version:
+            old_versions.append(match.group(1))
     for version in old_versions:
         X(f"nvm uninstall {version}", show_command=False)
 

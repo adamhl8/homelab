@@ -4,9 +4,6 @@ from shellrunner import X
 def main() -> None:
     X("fisher install jorgebucaran/nvm.fish")
 
-    X("set -U nvm_default_version latest")
-    X("set -U nvm_default_packages pnpm yarn")
-
     X(["nvm install latest", "npm install -g npm"])
 
 

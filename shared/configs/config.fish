@@ -9,6 +9,11 @@ set -a paths $HOME/.rye/shims
 type -q micro; and set -gx EDITOR micro
 type -q sops; and set -gx SOPS_AGE_KEY_FILE ~/.config/sops/age/keys.txt
 
+if type -q nvm
+  nvm -s use latest
+  set -gx nvm_default_packages pnpm yarn
+end
+
 if test -e ~/.bun/bin/bun
   set -gx BUN_INSTALL ~/.bun
   set -a paths $BUN_INSTALL/bin
