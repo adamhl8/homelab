@@ -57,25 +57,29 @@ function cat --wraps='bat' --description 'alias cat bat'
   bat $argv
 end
 
+function gbc --description 'git branch cleanup'
+  git fetch -p && git branch -vv | grep ': gone]' | grep -v "\*" | awk '{print $1}' | xargs -r git branch -D
+end
+
 # abbreviations
-abbr --add gs 'git status'
-abbr --add gl 'git log'
-abbr --add --set-cursor gc 'git add -A && git commit -m "%"'
-abbr --add gpush 'git push'
-abbr --add gpull 'git pull --rebase'
-abbr --add gclone 'git clone'
-abbr --add gcheck 'git checkout'
-abbr --add greset 'git fetch && git reset --hard @{u}'
-abbr --add gprune 'git fetch -fpP && gbc.py && git gc --aggressive --prune=now'
-abbr --add gclean 'git clean -ndffx'
-abbr --add gcleanf 'git clean -dffx'
-abbr --add gsanitize 'git clean -dffx && git fetch -fpP && gbc.py && git reset --hard @{u} && git gc --aggressive --prune=now'
-abbr --add gswitch 'git switch -c'
+abbr -a gs 'git status'
+abbr -a gl 'git log'
+abbr -a --set-cursor gc 'git add -A && git commit -m "%"'
+abbr -a gpush 'git push'
+abbr -a gpull 'git pull --rebase'
+abbr -a gclone 'git clone'
+abbr -a gcheck 'git checkout'
+abbr -a greset 'git fetch && git reset --hard @{u}'
+abbr -a gprune 'git fetch -fpP && gbc && git gc --aggressive --prune=now'
+abbr -a gclean 'git clean -ndffx'
+abbr -a gcleanf 'git clean -dffx'
+abbr -a gsanitize 'git clean -dffx && git fetch -fpP && gbc && git reset --hard @{u} && git gc --aggressive --prune=now'
+abbr -a gswitch 'git switch -c'
 
-abbr --add dcu 'docker compose up -d'
-abbr --add dcd 'docker compose down'
+abbr -a dcu 'docker compose up -d'
+abbr -a dcd 'docker compose down'
 
-abbr --add --set-cursor q 'sgpt -s \'%\''
+abbr -a --set-cursor q 'sgpt -s \'%\''
 
 # binds
 set --local escape              \e
