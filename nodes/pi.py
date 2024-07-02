@@ -35,6 +35,7 @@ def step2() -> None:
     X(f"ln -f -s {paths.configs.git_config} ~/")
 
     X("sudo apt install age bat -y")
+    X("ln -f -s /usr/bin/batcat ~/bin/bat")
 
     X(
         [
@@ -59,9 +60,7 @@ def step3() -> None:
     X(f"age -o ~/.config/sops/age/keys.txt -d {paths.age_key}")
     X("chmod 600 ~/.config/sops/age/keys.txt")
 
-    X("mkdir -p ~/.ssh/")
-    X("chmod 700 ~/.ssh/")
-    X(f"ln -f -s {paths.configs.authorized_keys} ~/.ssh/")
+    shared.ssh()
     shared.sshd()
     shared.docker()
 
