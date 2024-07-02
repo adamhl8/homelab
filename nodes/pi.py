@@ -30,7 +30,18 @@ def step1() -> None:
 def step2() -> None:
     shared.fish_setup()
     shared.sudoers()
-    shared.common()
+
+    X(f"ln -f -s {paths.shared_bin} ~/")
+    X(f"ln -f -s {paths.configs.git_config} ~/")
+
+    X("sudo apt install age bat -y")
+
+    X(
+        [
+            f"cd {paths.root}",
+            "git remote set-url origin git@github.com:adamhl8/homelab.git",
+        ],
+    )
 
 
 def step3() -> None:
