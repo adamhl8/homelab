@@ -8,6 +8,7 @@ __pycache__
 .python-version
 build
 dist
+node_modules
 
 # sid
 nodes/_sid/docker/*/data/
