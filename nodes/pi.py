@@ -70,5 +70,5 @@ def step4() -> None:
 
 
 def step5() -> None:
-    X(f"ln -f -s {paths.nodes.sid}/docker/ ~/")
+    X(f"ln -f -s {paths.nodes.pi}/docker/ ~/")
     start_all_docker_containers()
