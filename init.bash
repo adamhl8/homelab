@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if ! (return 0 2>/dev/null); then
+if ! (return 0 2> /dev/null); then
   echo "This script must be sourced."
   exit 1
 fi
@@ -30,8 +30,8 @@ else
   return 0
 fi
 
-if [ "${os_name}" = "linux" ] && type apt >/dev/null; then
-  type sudo >/dev/null || apt install sudo -y
+if [ "${os_name}" = "linux" ] && type apt > /dev/null; then
+  type sudo > /dev/null || apt install sudo -y
   sudo apt update && sudo apt full-upgrade -y
   sudo apt install curl -y
 fi

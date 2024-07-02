@@ -1,18 +1,18 @@
-import { $ } from "bun";
-import { getInput } from "./helpers";
+import { $ } from "bun"
+import { getInput } from "./helpers"
 
 async function reboot() {
-  const response = await getInput("Reboot? [y/N] ");
+  const response = await getInput("Reboot? [y/N] ")
   if (response.toLowerCase() === "y") {
-    await $`sudo reboot`;
-    return true;
+    await $`sudo reboot`
+    return true
   }
-  return false;
+  return false
 }
 
 async function continuep() {
-  const response = await getInput("Continue? [Y/n] ");
-  return response.toLowerCase() !== "n";
+  const response = await getInput("Continue? [Y/n] ")
+  return response.toLowerCase() !== "n"
 }
 
-export { reboot, continuep };
+export { continuep, reboot }

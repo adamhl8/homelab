@@ -29,8 +29,7 @@ services:
       PAPERLESS_TIKA_ENDPOINT: http://tika:9998
       PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://gotenberg:3000
     healthcheck:
-      test:
-        ["CMD", "curl", "-fs", "-S", "--max-time", "2", "http://localhost:8000"]
+      test: ["CMD", "curl", "-fs", "-S", "--max-time", "2", "http://localhost:8000"]
       interval: 30s
       timeout: 10s
       retries: 5
