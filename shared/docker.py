@@ -5,7 +5,7 @@ from shellrunner import X
 def main() -> None:
     X("sudo apt install ca-certificates curl gnupg -y")
     distro = get_distro()
-    distro_version_name = get_distro_version_name().replace("bookworm", "bullseye")
+    distro_version_name = get_distro_version_name()
     add_apt_source(
         name="docker",
         gpg_url=f"https://download.docker.com/linux/{distro}/gpg",

@@ -48,6 +48,9 @@ fi
 # shellcheck source=./init/sid.bash
 [ "${hostname}" = "sid" ] && source "${init}/sid.bash" && return 0
 
+# shellcheck source=./init/pi.bash
+[ "${hostname}" = "pi" ] && source "${init}/pi.bash" && return 0
+
 echo "Failed to match hostname: ${hostname}"
 
 echo "If you are on macOS, it can be set with:"
