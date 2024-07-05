@@ -85,6 +85,9 @@ def main() -> None:
     if hostname == "adguard":
         X("~/AdGuardHome/AdGuardHome --update")
 
+    if hostname == "pi":
+        X("docker-container-update.py")
+
     Log.warn("System updated. Make sure to reboot.")
 
 
