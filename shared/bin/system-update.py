@@ -24,7 +24,7 @@ def uninstall_old_node_versions() -> None:
         X(f"nvm uninstall {version}", show_command=False)
 
 
-def main() -> None:
+def main() -> None:  # noqa: C901
     if is_cwd_in_homelab_dir():
         return
 
@@ -44,13 +44,14 @@ def main() -> None:
         X("sudo apt full-upgrade -y")
         X("sudo apt autoremove -y")
 
-    X("brew update -f")
-    if os_name == "linux":
-        X("brew upgrade")
-    else:
-        X("brew upgrade -g --no-quarantine")
-    X("brew autoremove")
-    X("brew cleanup --prune=all -s")
+    if which("brew"):
+        X("brew update -f")
+        if os_name == "linux":
+            X("brew upgrade")
+        else:
+            X("brew upgrade -g --no-quarantine")
+        X("brew autoremove")
+        X("brew cleanup --prune=all -s")
 
     if X("nvm --help", check=False, show_output=False, show_command=False).status == 0:
         X("nvm install latest")
