@@ -9,18 +9,18 @@ from shellrunner import ShellCommandError, X
 
 def backup() -> None:
     print("== Starting backup... ==")
-    homelab_password = X("""sops -d --extract "['homelab_password']" ~/secrets.yaml""", show_output=False).out
+    # homelab_password = X("""sops -d --extract "['homelab_password']" ~/secrets.yaml""", show_output=False).out
 
-    print("== Backing up docker data... ==")
-    print("= Creating snapshot of docker data... =")
-    X(f"echo {homelab_password} | sudo -S -p '' rsync -v -a --delete ~/docker/ ~/docker_snapshot/", show_output=False)
+    # print("== Backing up docker data... ==")
+    # print("= Creating snapshot of docker data... =")
+    # X(f"echo {homelab_password} | sudo -S -p '' rsync -v -a --delete ~/docker/ ~/docker_snapshot/", show_output=False)
 
-    print("= Creating tarball of docker snapshot... =")
-    X(
-        f"echo {homelab_password} | sudo -S -p '' tar -vcf /mnt/storage/Backups/docker.tar -C ~/docker_snapshot/ .",
-        show_output=False,
-    )
-    X(f"echo {homelab_password} | sudo -S -p '' rm -rf ~/docker_snapshot/")
+    # print("= Creating tarball of docker snapshot... =")
+    # X(
+    #     f"echo {homelab_password} | sudo -S -p '' tar -vcf /mnt/storage/Backups/docker.tar -C ~/docker_snapshot/ .",
+    #     show_output=False,
+    # )
+    # X(f"echo {homelab_password} | sudo -S -p '' rm -rf ~/docker_snapshot/")
 
     print("== Running SnapRAID tasks... ==")
     X("python ~/snapraid/snapraid-btrfs-runner.py -c ~/snapraid/snapraid-btrfs-runner.conf")
