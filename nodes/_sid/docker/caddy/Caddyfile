@@ -235,11 +235,15 @@ adamhl.dev {
 	handle @dozzle {
 		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
 		handle @authorized_ips {
-			reverse_proxy localhost:8016
+			reverse_proxy localhost:8016 {
+				flush_interval -1
+			}
 		}
 
 		authorize with admin_policy
-		reverse_proxy localhost:8016
+		reverse_proxy localhost:8016 {
+			flush_interval -1
+		}
 	}
 
 	@ha host ha.adamhl.dev
