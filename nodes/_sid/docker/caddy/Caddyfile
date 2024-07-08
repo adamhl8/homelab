@@ -231,6 +231,17 @@ adamhl.dev {
 		reverse_proxy localhost:8015
 	}
 
+	@dozzle host dozzle.adamhl.dev
+	handle @dozzle {
+		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
+		handle @authorized_ips {
+			reverse_proxy localhost:8016
+		}
+
+		authorize with admin_policy
+		reverse_proxy localhost:8016
+	}
+
 	@ha host ha.adamhl.dev
 	handle @ha {
 		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
