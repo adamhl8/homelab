@@ -39,6 +39,7 @@ def main() -> None:
         X(
             f"curl -u '{auth}' -X POST -H '{headers}' -d '{json.dumps(new_rewrite)}' '{add_endpoint}'",
         )
+        Log.info(f"Added: {new_rewrite}")
 
 
 if __name__ == "__main__":
