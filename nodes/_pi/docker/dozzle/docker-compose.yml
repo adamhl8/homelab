@@ -1,0 +1,10 @@
+services:
+  dozzle:
+    container_name: dozzle
+    image: amir20/dozzle
+    restart: always
+    command: agent
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - 7007:7007
