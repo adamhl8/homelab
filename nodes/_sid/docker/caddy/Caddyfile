@@ -42,6 +42,13 @@ adamhl.dev {
 		authenticate with authportal
 	}
 
+	@obsidian-share host obsidian-share.adamhl.dev
+	handle @obsidian-share {
+		file_server {
+			root /var/www/obsidian-share
+		}
+	}
+
 	@plex host plex.adamhl.dev
 	handle @plex {
 		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
