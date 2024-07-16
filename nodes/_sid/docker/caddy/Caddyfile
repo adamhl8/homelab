@@ -35,6 +35,8 @@ adamhl.dev {
 *.adamhl.dev {
 	tls {
 		dns route53
+		propagation_timeout -1
+		propagation_delay 20s
 	}
 
 	@auth host auth.adamhl.dev
