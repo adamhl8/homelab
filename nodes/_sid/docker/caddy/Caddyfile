@@ -46,9 +46,9 @@ adamhl.dev {
 
 	@obsidian-share host obsidian-share.adamhl.dev
 	handle @obsidian-share {
-		file_server {
-			root /var/www/obsidian-share
-		}
+		root * /var/www/obsidian-share
+		try_files {path}.html
+		file_server
 	}
 
 	@plex host plex.adamhl.dev
