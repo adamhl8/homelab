@@ -49,8 +49,12 @@ type -q zoxide; and zoxide init fish --cmd cd | source
 set -gx fzf_fd_opts -u
 
 # aliases
-function l --wraps='LC_COLLATE=C ls -ahlF' --description 'alias l LC_COLLATE=C ls -ahlF'
-  LC_COLLATE=C ls -ahlF $argv
+function l --wraps='eza -laaghM --classify=always --icons=always --git --git-repos' --description 'alias eza -laaghM --classify=always --icons=always --git --git-repos'
+  eza -laaghM --classify=always --icons=always --git --git-repos $argv
+end
+
+function ls_on_cd --on-variable PWD
+  l
 end
 
 function cat --wraps='bat' --description 'alias cat bat'
