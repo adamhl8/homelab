@@ -4,22 +4,14 @@
   "private": true,
   "module": "run.ts",
   "scripts": {
-    "format": "prettier --write .",
-    "lint": "tsc && eslint ."
+    "lint": "tsc --noEmit && biome check --write ."
   },
   "devDependencies": {
-    "@eslint/js": "^9.6.0",
+    "@biomejs/biome": "^1.8.3",
     "@types/bun": "latest",
-    "@types/eslint__js": "^8.42.3",
-    "eslint": "^9.6.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-sonarjs": "^1.0.3",
-    "eslint-plugin-unicorn": "^54.0.0",
-    "prettier": "^3.3.2",
-    "prettier-plugin-organize-imports": "^4.0.0",
-    "prettier-plugin-pkg": "^0.18.1",
-    "prettier-plugin-sh": "^0.14.0",
-    "typescript": "^5.5.3",
-    "typescript-eslint": "^7.15.0"
-  }
+    "typescript": "^5.5.4"
+  },
+  "trustedDependencies": [
+    "@biomejs/biome"
+  ]
 }
