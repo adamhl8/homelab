@@ -12,8 +12,8 @@ def prune(directory: Path, out_dir: Path, duration_cutoff: int) -> None:
     for file_path in directory.rglob("*"):
         if any(file_path.suffix.lower() == ext for ext in video_extensions):
             if duration_cutoff > 0:
-                result = subprocess.run(
-                    ["ffprobe", "-i", file_path, "-show_entries", "format=duration", "-v", "quiet", "-of", "csv=p=0"],  # noqa: S603, S607
+                result = subprocess.run(  # noqa: S603
+                    ["ffprobe", "-i", file_path, "-show_entries", "format=duration", "-v", "quiet", "-of", "csv=p=0"],  # noqa: S607
                     capture_output=True,
                     text=True,
                     check=True,

@@ -11,6 +11,6 @@
 -e file:.
 psutil==6.0.0
     # via shellrunner
-ruff==0.4.9
+ruff==0.5.5
 shellrunner==0.4.2
     # via homelab
