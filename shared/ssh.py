@@ -7,6 +7,7 @@ def main() -> None:
     X("mkdir -p ~/.ssh/")
     X("chmod 700 ~/.ssh/")
     X(f"ln -f -s {paths.configs.authorized_keys} ~/.ssh/")
+    X(f"ln -f -s {paths.configs.allowed_signers} ~/.ssh/")
 
     hostname = get_hostname()
     X(f"""sops -d --extract "['{hostname}']['pri']" {paths.ssh_yaml} >~/.ssh/id_ed25519""")

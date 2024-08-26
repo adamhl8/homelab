@@ -10,6 +10,8 @@
 	gpgsign = true
 [gpg]
 	format = ssh
+[gpg "ssh"]
+	allowedSignersFile = ~/.ssh/allowed_signers
 [credential "https://gitlab.vulcan.mil"]
 	username = @adam.h.langbert.mil
 	helper = "!echo password=$(sops -d --extract \"['swf_vulcan_pat']\" ~/secrets.yaml); true"

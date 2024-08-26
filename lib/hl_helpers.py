@@ -14,6 +14,7 @@ class Configs(NamedTuple):
     git_config = configs_dir / ".gitconfig"
     wezterm_config = configs_dir / ".wezterm.lua"
     authorized_keys = configs_dir / "authorized_keys"
+    allowed_signers = configs_dir / "allowed_signers"
     fish_config = configs_dir / "config.fish"
     micro_bindings = configs_dir / "micro_bindings.json"
     sshd_config = configs_dir / "sshd_config"

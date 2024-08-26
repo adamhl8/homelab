@@ -29,6 +29,7 @@ set -a paths (path filter -d $HOMEBREW_PREFIX/opt/*/libexec/gnubin; or true)
 if test $hostname = adam-macbook
     type -q sops; and set -gx CI_JOB_TOKEN (sops -d --extract "['swf_vulcan_pat']" ~/secrets.yaml)
     type -q sops; and set -gx VULCAN_PAT (sops -d --extract "['swf_vulcan_pat']" ~/secrets.yaml)
+    type -q sops; and set -gx VULCAN_TOKEN (sops -d --extract "['swf_vulcan_pat']" ~/secrets.yaml)
     set -a paths $HOMEBREW_PREFIX/opt/curl/bin
     set -a paths $HOMEBREW_PREFIX/opt/zip/bin
     set -a paths $HOMEBREW_PREFIX/opt/unzip/bin
@@ -67,7 +68,7 @@ end
 
 # abbreviations
 abbr -a gs 'git status'
-abbr -a gl 'git log'
+abbr -a gl 'git log --graph --format=\'%Cred%h%Creset%C(auto)%d%Creset %s %Cgreen(%ch)%Creset %C(bold blue)%an%Creset %Cblue<%ae>%Creset\''
 abbr -a --set-cursor gc 'git add -A && git commit -m "%"'
 abbr -a gpush 'git push'
 abbr -a gpull 'git pull --rebase'
