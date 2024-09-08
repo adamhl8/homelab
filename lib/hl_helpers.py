@@ -12,6 +12,8 @@ homelab_root = Path(__file__).parent.parent.resolve(strict=True)
 class Configs(NamedTuple):
     configs_dir = homelab_root / "shared/configs"
     git_config = configs_dir / ".gitconfig"
+    prettier_config = configs_dir / ".prettierrc.mjs"
+    sgptrc = configs_dir / ".sgptrc"
     wezterm_config = configs_dir / ".wezterm.lua"
     authorized_keys = configs_dir / "authorized_keys"
     allowed_signers = configs_dir / "allowed_signers"

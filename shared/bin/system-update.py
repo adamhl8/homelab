@@ -39,6 +39,8 @@ def main() -> None:  # noqa: C901
 
     X(f"homelab_root='{paths.root}' {paths.root / 'init/shared/shellrunner.bash'}", shell="bash")  # noqa: S604
 
+    X("rye install shell-gpt -f")
+
     if os_name == "linux" and which("apt"):
         X("sudo apt update")
         X("sudo apt full-upgrade -y")
@@ -59,10 +61,8 @@ def main() -> None:  # noqa: C901
         X("npm install -g npm")
         X("npm update -g")
 
-    if which("pnpm"):
-        X("pnpm add -g pnpm")
-        X("pnpm install -g")
-        X("pnpm update -g")
+    if which("bun"):
+        X("bun update -g -f")
 
     X("fisher update")
 

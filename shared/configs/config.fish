@@ -4,24 +4,20 @@ set -g fish_greeting
 set -gx UID (id -u)
 set -gx GID (id -g)
 
-set -a paths $HOME/.rye/shims
+set -a paths ~/.rye/shims
 
 type -q micro; and set -gx EDITOR micro
 type -q sops; and set -gx SOPS_AGE_KEY_FILE ~/.config/sops/age/keys.txt
+set -gx OPENAI_API_KEY (sops -d --extract "['openai_api_key']" ~/secrets.yaml)
 
 if type -q nvm
-    nvm -s use latest
-    set -gx nvm_default_packages pnpm yarn
+    if string match -q "*latest*" (nvm list)
+        nvm -s use latest
+    end
 end
 
-if test -e ~/.bun/bin/bun
-    set -gx BUN_INSTALL ~/.bun
-    set -a paths $BUN_INSTALL/bin
-end
-
-if type -q pnpm
-    set -gx PNPM_HOME ~/.local/share/pnpm
-    set -a paths $PNPM_HOME
+if type -q bun
+    set -a paths ~/.bun/bin
 end
 
 set -a paths (path filter -d $HOMEBREW_PREFIX/opt/*/libexec/gnubin; or true)
@@ -46,7 +42,6 @@ set -p PATH $new_paths
 
 set -l ind (contains -i -- kubectl $tide_right_prompt_items); and set -e tide_right_prompt_items[$ind]
 
-type -q zoxide; and zoxide init fish --cmd cd | source
 set -gx fzf_fd_opts -u
 
 # aliases

@@ -21,7 +21,6 @@ programs = [
     "micro",
     "fd",
     "fclones",
-    "zoxide",
     "bat",
     "fzf",
     "jq",
@@ -44,8 +43,6 @@ def main() -> None:
             "git remote set-url origin git@github.com:adamhl8/homelab.git",
         ],
     )
-
-    X("rye install shell-gpt")
 
 
 if __name__ == "__main__":
