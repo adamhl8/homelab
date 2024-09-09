@@ -1,14 +1,48 @@
+# PATH
+
+function clean_path --description 'Cleans PATH (removes duplicates and empty paths). $argv will be appended to PATH'
+    set -l ORIGINAL_PATH $PATH
+    set -e PATH
+    set -gx --path PATH
+    fish_add_path -P -a $ORIGINAL_PATH
+    fish_add_path -P -a -m $argv
+end
+
+function add_path --description 'Prepends $argv to PATH'
+    fish_add_path -P -p -m $argv
+end
+
+set -l base_bin_paths /usr/local/bin /usr/bin /bin /usr/local/sbin /usr/sbin /sbin
+clean_path $base_bin_paths
+
+# this will be used with add_path so that the paths are added in the right order
+# e.g. we want ~/bin to be first
+set -l extra_paths ~/bin ~/.local/bin
+set -a extra_paths ~/.rye/shims
+set -a extra_paths ~/.bun/bin
+set -a extra_paths (path filter -d $HOMEBREW_PREFIX/opt/*/libexec/gnubin; or true)
+set -a extra_paths $HOMEBREW_PREFIX/opt/curl/bin
+set -a extra_paths $HOMEBREW_PREFIX/opt/zip/bin
+set -a extra_paths $HOMEBREW_PREFIX/opt/unzip/bin
+
+add_path $extra_paths
+
 # variables
-set -l paths ~/bin ~/.local/bin /usr/local/sbin /usr/sbin /sbin
 set -g fish_greeting
 set -gx UID (id -u)
 set -gx GID (id -g)
 
-set -a paths ~/.rye/shims
-
 type -q micro; and set -gx EDITOR micro
 type -q sops; and set -gx SOPS_AGE_KEY_FILE ~/.config/sops/age/keys.txt
-set -gx OPENAI_API_KEY (sops -d --extract "['openai_api_key']" ~/secrets.yaml)
+type -q fzf_configure_bindings; and set -gx fzf_fd_opts -u
+
+type -q sops; and set -gx OPENAI_API_KEY (sops -d --extract "['openai_api_key']" ~/secrets.yaml)
+
+if test $hostname = adam-macbook
+    type -q sops; and set -gx VULCAN_TOKEN (sops -d --extract "['swf_vulcan_pat']" ~/secrets.yaml)
+end
+
+set -l ind (contains -i -- kubectl $tide_right_prompt_items); and set -e tide_right_prompt_items[$ind]
 
 if type -q nvm
     if string match -q "*latest*" (nvm list)
@@ -16,35 +50,7 @@ if type -q nvm
     end
 end
 
-if type -q bun
-    set -a paths ~/.bun/bin
-end
-
-set -a paths (path filter -d $HOMEBREW_PREFIX/opt/*/libexec/gnubin; or true)
-
-if test $hostname = adam-macbook
-    type -q sops; and set -gx CI_JOB_TOKEN (sops -d --extract "['swf_vulcan_pat']" ~/secrets.yaml)
-    type -q sops; and set -gx VULCAN_PAT (sops -d --extract "['swf_vulcan_pat']" ~/secrets.yaml)
-    type -q sops; and set -gx VULCAN_TOKEN (sops -d --extract "['swf_vulcan_pat']" ~/secrets.yaml)
-    set -a paths $HOMEBREW_PREFIX/opt/curl/bin
-    set -a paths $HOMEBREW_PREFIX/opt/zip/bin
-    set -a paths $HOMEBREW_PREFIX/opt/unzip/bin
-end
-
-# PATH
-set -l new_paths
-for path in $paths
-    if not contains $path $PATH
-        set -a new_paths $path
-    end
-end
-set -p PATH $new_paths
-
-set -l ind (contains -i -- kubectl $tide_right_prompt_items); and set -e tide_right_prompt_items[$ind]
-
-set -gx fzf_fd_opts -u
-
-# aliases
+# functions/aliases
 function l --wraps='eza -laaghM --classify=always --icons=always --git --git-repos' --description 'alias eza -laaghM --classify=always --icons=always --git --git-repos'
     eza -laaghM --classify=always --icons=always --git --git-repos $argv
 end
