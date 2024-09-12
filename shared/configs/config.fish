@@ -72,11 +72,12 @@ abbr -a gs 'git status'
 abbr -a gl 'git log --graph --format=\'%Cred%h%Creset%C(auto)%d%Creset %s %Cgreen(%ch)%Creset %C(bold blue)%an%Creset %Cblue<%ae>%Creset\''
 abbr -a --set-cursor gc "git add -A && git commit -m '%'"
 
-function _get_relative_path_from_git_root
-    set -l git_root (git rev-parse --show-toplevel)
-    string replace -r "^$git_root/" "" (pwd)
+function _git_commit_relative
+    set -l git_root (git rev-parse --show-toplevel 2>/dev/null; or true)
+    set -l relative_path (string replace -r "^$git_root/" "" (pwd))
+    echo "git add -A && git commit -m '$relative_path: %'"
 end
-abbr -a --set-cursor gcr "git add -A && git commit -m '$(_get_relative_path_from_git_root): %'"
+abbr -a --set-cursor gcr --function _git_commit_relative
 
 abbr -a gpush 'git push'
 abbr -a gpull 'git pull --rebase'
