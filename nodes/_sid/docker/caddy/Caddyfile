@@ -44,6 +44,44 @@ adamhl.dev {
 		authenticate with authportal
 	}
 
+	@proxmox host proxmox.adamhl.dev
+	handle @proxmox {
+		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
+		handle @authorized_ips {
+			reverse_proxy pve.lan:8006 {
+				transport http {
+					tls_insecure_skip_verify
+				}
+			}
+		}
+
+		authorize with admin_policy
+		reverse_proxy pve.lan:8006 {
+			transport http {
+				tls_insecure_skip_verify
+			}
+		}
+	}
+
+	@opnsense host opnsense.adamhl.dev
+	handle @opnsense {
+		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
+		handle @authorized_ips {
+			reverse_proxy opnsense.lan {
+				transport http {
+					tls_insecure_skip_verify
+				}
+			}
+		}
+
+		authorize with admin_policy
+		reverse_proxy opnsense.lan {
+			transport http {
+				tls_insecure_skip_verify
+			}
+		}
+	}
+
 	@ha host ha.adamhl.dev
 	handle @ha {
 		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
@@ -53,28 +91,6 @@ adamhl.dev {
 
 		authorize with admin_policy
 		reverse_proxy homeassistant.lan:8123
-	}
-
-	@proxmox host proxmox.adamhl.dev
-	handle @proxmox {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
-		handle @authorized_ips {
-			reverse_proxy pve.lan:8006
-		}
-
-		authorize with admin_policy
-		reverse_proxy pve.lan:8006
-	}
-
-	@opnsense host opnsense.adamhl.dev
-	handle @opnsense {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
-		handle @authorized_ips {
-			reverse_proxy opnsense.lan
-		}
-
-		authorize with admin_policy
-		reverse_proxy opnsense.lan
 	}
 
 	@plex host plex.adamhl.dev
