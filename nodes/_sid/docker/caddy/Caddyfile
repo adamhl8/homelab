@@ -44,8 +44,8 @@ adamhl.dev {
 		authenticate with authportal
 	}
 
-	@proxmox host proxmox.adamhl.dev
-	handle @proxmox {
+	@pve host pve.adamhl.dev
+	handle @pve {
 		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
 		handle @authorized_ips {
 			reverse_proxy pve.lan:8006 {
