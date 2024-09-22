@@ -38,7 +38,7 @@ class HomelabPaths(NamedTuple):
     age_key = homelab_root / "key.age"
     secrets_yaml = homelab_root / "secrets.yaml"
     ssh_yaml = homelab_root / "ssh.yaml"
-    caddyfile = Nodes.sid / "docker/caddy/Caddyfile"
+    caddyfile = homelab_root / "wip/caddy/Caddyfile"
     configs = Configs()
     nodes = Nodes()
 
