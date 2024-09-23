@@ -4,21 +4,8 @@ services:
     image: ghcr.io/adamhl8/eyir
     restart: always
     volumes:
-      - /home/adam/dev/eyir/faq/:/app/faq/
       - ./data/:/app/prisma/db/
     environment:
       BOT_TOKEN: ${eyir_token}
       APPLICATION_ID: 320863841548238848
       DATABASE_URL: file:db/prod.db
-
-  filebrowser:
-    container_name: eyir-filebrowser
-    image: filebrowser/filebrowser
-    restart: always
-    ports:
-      - 8003:80
-    volumes:
-      - ./filebrowser.db:/database.db
-      - /home/adam/dev/eyir/faq/:/faq/
-    environment:
-      FB_ROOT: /faq/

@@ -32,6 +32,4 @@ def step3() -> None:
 
 
 def step4() -> None:
-    shared.node.setup_pnpm()
-    X("pnpm add -g pyright")
     shared.docker.login()

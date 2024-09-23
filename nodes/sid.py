@@ -2,7 +2,6 @@ from hl_helpers import homelab_paths as paths
 from hl_helpers import start_all_docker_containers
 from shellrunner import X
 
-from nodes._sid._modules import sid
 from shared._modules import shared
 
 
@@ -29,12 +28,6 @@ def step3() -> None:
 
 def step4() -> None:
     shared.docker.login()
-
-    sid.disks()
-    sid.snapraid()
-    sid.restic()
-    sid.smb()
-    sid.nas()
 
 
 def step5() -> None:

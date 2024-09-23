@@ -1,5 +1,0 @@
-LABEL=disk1 /mnt/disk1 btrfs subvol=/data 0 0
-LABEL=disk2 /mnt/disk2 btrfs subvol=/data 0 0
-LABEL=disk3 /mnt/disk3 btrfs subvol=/data 0 0
-LABEL=parity1 /mnt/parity1 ext4 defaults 0 0
-/mnt/disk* /mnt/storage fuse.mergerfs cache.files=off,dropcacheonclose=true,category.create=mfs,fsname=mergerfs 0 0

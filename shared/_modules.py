@@ -30,9 +30,6 @@ class Node:
     def __call__(self) -> None:
         node.main()
 
-    def __init__(self) -> None:
-        self.setup_pnpm = node.setup_pnpm
-
 
 class Sdkman:
     def __call__(self) -> None:
