@@ -3,7 +3,7 @@ from shellrunner import X
 
 
 def main() -> None:
-    X("sudo apt install ca-certificates curl gnupg -y")
+    X("sudo apt install ca-certificates curl -y")
     distro = get_distro()
     distro_version_name = get_distro_version_name()
     add_apt_source(
@@ -22,3 +22,10 @@ def login() -> None:
 
 if __name__ == "__main__":
     main()
+
+"""
+curl -fsSL 'https://download.docker.com/linux/debian/gpg' | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian bookworm stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
+sudo apt update
+sudo apt install fish -y
+"""

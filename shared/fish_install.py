@@ -22,3 +22,13 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+"""
+add_apt_source
+https://software.opensuse.org/download.html?project=shells:fish:release:3&package=fish
+sudo apt install gpg -y
+curl -fsSL 'https://download.opensuse.org/repositories/shells:fish:release:3/Debian_12/Release.key' | sudo gpg --dearmor -o /etc/apt/keyrings/shells_fish_release_3.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/shells_fish_release_3.gpg] http://download.opensuse.org/repositories/shells:/fish:/release:/3/Debian_12/ /" | sudo tee /etc/apt/sources.list.d/shells_fish_release_3.list >/dev/null
+sudo apt update
+sudo apt install fish -y
+"""

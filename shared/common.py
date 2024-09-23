@@ -27,6 +27,7 @@ programs = [
     "yq",
     "xq",
     "age",
+    "eza",
 ]
 
 
@@ -47,3 +48,20 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+"""
+curl -fsSL 'https://raw.githubusercontent.com/eza-community/eza/main/deb.asc' | sudo gpg --dearmor -o /etc/apt/keyrings/gierens.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | sudo tee /etc/apt/sources.list.d/gierens.list >/dev/null
+sudo apt update
+sudo apt install eza -y
+"""
+
+"""
+if type batcat
+ln -s -f /usr/bin/batcat ~/bin/bat
+"""
+
+"""
+ln -s -f ~/homelab/shared/bin/docker-container-update.py ~/bin/
+ln -s -f ~/homelab/shared/bin/system-update.py ~/bin/
+"""

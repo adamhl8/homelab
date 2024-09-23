@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# sudo apt install git -y
+
 if ! (return 0 2> /dev/null); then
   echo "This script must be sourced."
   exit 1

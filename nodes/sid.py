@@ -14,15 +14,11 @@ def step2() -> None:
     shared.sudoers()
     shared.common()
 
-    X("mkdir -p ~/logs/")
-    X(f"ln -f -s {paths.nodes.sid}/bin/* ~/bin/")
-
 
 def step3() -> None:
     shared.sops()
     shared.ssh()
     shared.sshd()
-    shared.node()
     shared.docker()
 
 
