@@ -7,7 +7,7 @@ services:
       - 8007:7878
     volumes:
       - ./data/:/config/
-      - /mnt/storage/Media/:/Media/
+      - /home/adam/mnt/storage/Media/:/Media/
     environment:
       PUID: ${UID}
       PGID: ${GID}

@@ -11,5 +11,4 @@ services:
       - 21027:21027/udp
     volumes:
       - ./data/:/var/syncthing/
-      - /mnt/storage/Stuff/:/Stuff/
-      - /mnt/storage/Apps/:/Apps/
+      - /home/adam/mnt/storage/Stuff/:/Stuff/

@@ -8,8 +8,8 @@ services:
       - /dev/dri/
     volumes:
       - ./data/:/config/
-      - /mnt/storage/Media/:/Media/
-      - /mnt/storage/Other/Z/Z/:/Z/
+      - /home/adam/mnt/storage/Media/:/Media/
+      - /home/adam/mnt/storage/Other/Z/Z/:/Z/
     environment:
       VERSION: latest
       PUID: ${UID}

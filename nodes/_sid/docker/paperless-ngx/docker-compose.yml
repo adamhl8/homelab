@@ -8,7 +8,7 @@ services:
       - 8013:8000
     volumes:
       - ./data/:/usr/src/paperless/data/
-      - /mnt/storage/Paperless/:/usr/src/paperless/media/
+      - /home/adam/mnt/storage/Paperless/:/usr/src/paperless/media/
       - ./consume/:/usr/src/paperless/consume/
       - ./export/:/usr/src/paperless/export/
     environment:

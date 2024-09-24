@@ -7,7 +7,7 @@ services:
       - 8002:80
     volumes:
       - ./filebrowser.db:/database.db
-      - /mnt/storage/:/Storage/
+      - /home/adam/mnt/storage:/Storage/
     environment:
       FB_ROOT: /Storage/
       FB_NOAUTH: true

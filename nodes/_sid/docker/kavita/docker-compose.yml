@@ -7,4 +7,4 @@ services:
       - 8012:5000
     volumes:
       - ./data/:/kavita/config/
-      - /mnt/storage/Stuff/Library/:/Library/
+      - /home/adam/mnt/storage/Stuff/Library/:/Library/

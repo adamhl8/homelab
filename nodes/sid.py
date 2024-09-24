@@ -29,3 +29,12 @@ def step4() -> None:
 def step5() -> None:
     X(f"ln -f -s {paths.nodes.sid}/docker/ ~/")
     start_all_docker_containers()
+
+
+"""
+sudo apt install nfs-common -y
+mkdir -p ~/mnt/storage
+echo 'truenas.lan:/mnt/nas/storage /home/adam/mnt/storage nfs _netdev,nofail,hard,noatime,nodiratime,rsize=1048576,wsize=1048576 0 0' | sudo tee -a /etc/fstab
+sudo systemctl daemon-reload
+sudo mount -a
+"""
