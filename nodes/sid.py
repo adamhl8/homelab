@@ -38,3 +38,9 @@ echo 'truenas.lan:/mnt/nas/storage /home/adam/mnt/storage nfs _netdev,nofail,har
 sudo systemctl daemon-reload
 sudo mount -a
 """
+
+"""
+ln -s -f ~/homelab/nodes/_sid/docker_override.conf /etc/systemd/system/docker.service.d/override.conf
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+"""
