@@ -9,7 +9,6 @@ services:
     volumes:
       - ./data/:/config/
       - /home/adam/mnt/storage/Media/:/Media/
-      - /home/adam/mnt/storage/Other/Z/Z/:/Z/
     environment:
       VERSION: latest
       PUID: ${UID}

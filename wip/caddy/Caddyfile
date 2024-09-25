@@ -164,11 +164,6 @@ adamhl.dev {
 		reverse_proxy sid.lan:8002
 	}
 
-	@eyir host eyir.adamhl.dev
-	handle @eyir {
-		reverse_proxy sid.lan:8003
-	}
-
 	@librechat host librechat.adamhl.dev
 	handle @librechat {
 		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
