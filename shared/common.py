@@ -65,3 +65,8 @@ ln -s -f /usr/bin/batcat ~/bin/bat
 ln -s -f ~/homelab/shared/bin/docker-container-update.py ~/bin/
 ln -s -f ~/homelab/shared/bin/system-update.py ~/bin/
 """
+
+"""
+curl -Lo /tmp/delta.deb https://github.com/dandavison/delta/releases/download/0.18.2/git-delta_0.18.2_amd64.deb
+sudo apt install /tmp/delta.deb -y
+"""

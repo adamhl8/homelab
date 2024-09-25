@@ -40,7 +40,7 @@ sudo mount -a
 """
 
 """
-ln -s -f ~/homelab/nodes/_sid/docker_override.conf /etc/systemd/system/docker.service.d/override.conf
+sudo sed -i -r 's|(Requires=.+)|\1 home-adam-mnt-storage.mount|' /lib/systemd/system/docker.service
 sudo systemctl daemon-reload
 sudo systemctl restart docker
 """
