@@ -44,3 +44,8 @@ sudo sed -i -r 's|(Requires=.+)|\1 home-adam-mnt-storage.mount|' /lib/systemd/sy
 sudo systemctl daemon-reload
 sudo systemctl restart docker
 """
+
+"""
+curl -Lo ~/bin/regctl https://github.com/regclient/regclient/releases/download/v0.7.1/regctl-linux-amd64
+chmod +x ~/bin/regctl
+"""
