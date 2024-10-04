@@ -92,6 +92,7 @@ update-alternatives --install /usr/bin/caddy caddy /usr/bin/caddy.custom 50
 
 `Caddyfile` in `/etc/caddy/Caddyfile`
 `users.json` in `/etc/caddy/users.json`
+replace mfa thingy
 
 /etc/systemd/system/caddy.service.d/override.conf
 
