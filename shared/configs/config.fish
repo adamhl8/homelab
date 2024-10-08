@@ -24,6 +24,7 @@ set -a extra_paths (path filter -d $HOMEBREW_PREFIX/opt/*/libexec/gnubin; or tru
 set -a extra_paths $HOMEBREW_PREFIX/opt/curl/bin
 set -a extra_paths $HOMEBREW_PREFIX/opt/zip/bin
 set -a extra_paths $HOMEBREW_PREFIX/opt/unzip/bin
+set -a extra_paths $HOMEBREW_PREFIX/opt/llvm/bin
 
 add_path $extra_paths
 

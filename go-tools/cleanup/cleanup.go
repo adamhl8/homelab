@@ -1,5 +1,3 @@
-///usr/bin/true; exec sudo /usr/bin/env go run "$0" "$@"
-
 package main
 
 import (
@@ -8,12 +6,19 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
-	"runtime"
 	"strings"
 	"sync"
+
+	"github.com/sourcegraph/conc"
 )
 
-func main() {
+func cleanup() {
+
+	if os.Geteuid() != 0 {
+		fmt.Println("Please run the program with sudo.")
+		os.Exit(1)
+	}
+
 	// List of paths to remove
 	pathsToRemove := []string{
 		".android",
@@ -67,24 +72,12 @@ func main() {
 		"._ files":         regexp.MustCompile(`^\._`),
 	}
 
-	// WaitGroup to synchronize goroutines
-	var wg sync.WaitGroup
-	// Mutex to protect shared resources
+	var wg conc.WaitGroup
 	var mutex sync.Mutex
-
-	// Map to store found files
 	foundFiles := make(map[string][]string)
 
-	// Channel to limit concurrency
-	concurrencyLimit := make(chan struct{}, runtime.NumCPU())
-
-	for desc, pattern := range patterns {
-		wg.Add(1)
-		go func(description string, regex *regexp.Regexp) {
-			defer wg.Done()
-			concurrencyLimit <- struct{}{}
-			defer func() { <-concurrencyLimit }()
-
+	for description, regex := range patterns {
+		wg.Go(func() {
 			fmt.Printf("Finding %s...\n", description)
 
 			var matches []string
@@ -107,10 +100,9 @@ func main() {
 			mutex.Lock()
 			foundFiles[description] = matches
 			mutex.Unlock()
-		}(desc, pattern)
+		})
 	}
 
-	// Wait for all goroutines to finish
 	wg.Wait()
 
 	reader := bufio.NewReader(os.Stdin)
