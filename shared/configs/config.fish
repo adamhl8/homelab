@@ -20,6 +20,7 @@ clean_path $base_bin_paths
 set -l extra_paths ~/bin ~/.local/bin
 set -a extra_paths ~/.rye/shims
 set -a extra_paths ~/.bun/bin
+set -a extra_paths ~/bin/go/bin
 set -a extra_paths (path filter -d $HOMEBREW_PREFIX/opt/*/libexec/gnubin; or true)
 set -a extra_paths $HOMEBREW_PREFIX/opt/curl/bin
 set -a extra_paths $HOMEBREW_PREFIX/opt/zip/bin
