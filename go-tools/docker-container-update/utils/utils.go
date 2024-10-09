@@ -2,6 +2,7 @@ package utils
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"io"
 	"os/exec"
@@ -34,7 +35,7 @@ type ComposeStacks map[string]*ComposeStack
 func GetComposeStacks(ctx context.Context, dockerClient *client.Client) (ComposeStacks, error) {
 	containers, err := dockerClient.ContainerList(ctx, container.ListOptions{})
 	if err != nil {
-		return nil, fmt.Errorf("Failed to get container list from docker: %w", err)
+		return nil, fmt.Errorf("failed to get container list from docker: %w", err)
 	}
 
 	composeStacks := make(ComposeStacks)
@@ -67,15 +68,20 @@ func GetComposeStacks(ctx context.Context, dockerClient *client.Client) (Compose
 	return composeStacks, nil
 }
 
-func CheckForContainerUpdate(ctx context.Context, dockerClient *client.Client, rc *regclient.RegClient, containerDetails *ContainerDetails) error {
+func CheckForContainerUpdate(
+	ctx context.Context,
+	dockerClient *client.Client,
+	regclient *regclient.RegClient,
+	containerDetails *ContainerDetails,
+) error {
 	localImageDigest, err := getLocalImageDigest(ctx, dockerClient, containerDetails)
 	if err != nil {
-		return fmt.Errorf("Failed to get local image digest for %s: %w", containerDetails.InfoString, err)
+		return fmt.Errorf("failed to get local image digest for %s: %w", containerDetails.InfoString, err)
 	}
 
-	remoteImageDigest, err := getRemoteImageDigest(ctx, rc, containerDetails)
+	remoteImageDigest, err := getRemoteImageDigest(ctx, regclient, containerDetails)
 	if err != nil {
-		return fmt.Errorf("Failed to get remote image digest for %s: %w", containerDetails.InfoString, err)
+		return fmt.Errorf("failed to get remote image digest for %s: %w", containerDetails.InfoString, err)
 	}
 
 	containerDetails.IsUpToDate = strings.Contains(localImageDigest, remoteImageDigest)
@@ -85,6 +91,7 @@ func CheckForContainerUpdate(ctx context.Context, dockerClient *client.Client, r
 
 func PrintContainerUpdateDetails(containerDetails *ContainerDetails) {
 	var status string
+
 	switch containerDetails.IsUpToDate {
 	case false:
 		status = color.YellowString("Update found")
@@ -98,65 +105,94 @@ func PrintContainerUpdateDetails(containerDetails *ContainerDetails) {
 func PullNewImage(ctx context.Context, dockerClient *client.Client, containerDetails *ContainerDetails) error {
 	reader, err := dockerClient.ImagePull(ctx, containerDetails.Image, image.PullOptions{})
 	if err != nil {
-		return fmt.Errorf("Failed to initiate image pull for %s: %w", containerDetails.InfoString, err)
+		return fmt.Errorf("failed to initiate image pull for %s: %w", containerDetails.InfoString, err)
 	}
 	defer reader.Close()
 
 	_, err = io.Copy(io.Discard, reader)
 	if err != nil {
-		return fmt.Errorf("Failed to pull image for %s: %w", containerDetails.InfoString, err)
+		return fmt.Errorf("failed to pull image for %s: %w", containerDetails.InfoString, err)
 	}
 
 	return nil
 }
+
+var errDockerComposeCmd = errors.New("failed to run docker compose command")
 
 func StartContainers(composeFilePath string) error {
 	cmd := exec.Command("docker", "compose", "-f", composeFilePath, "up", "-d")
+
 	err := cmd.Run()
 	if err != nil {
-		if exitErr, ok := err.(*exec.ExitError); ok {
-			return fmt.Errorf(string(exitErr.Stderr))
+		var exitErr *exec.ExitError
+		if errors.As(err, &exitErr) {
+			return fmt.Errorf("%w: %s", errDockerComposeCmd, string(exitErr.Stderr))
 		}
-		return err
+
+		return fmt.Errorf("%w: %w", errDockerComposeCmd, err)
 	}
 
 	return nil
 }
 
-func getLocalImageDigest(ctx context.Context, dockerClient *client.Client, containerDetails *ContainerDetails) (string, error) {
+var (
+	errNoLocalImageDigest    = errors.New("no local image digest found")
+	errLocalImageDigestEmpty = errors.New("local image digest is empty")
+)
+
+func getLocalImageDigest(
+	ctx context.Context,
+	dockerClient *client.Client,
+	containerDetails *ContainerDetails,
+) (string, error) {
 	imageDetails, _, err := dockerClient.ImageInspectWithRaw(ctx, containerDetails.ImageID)
 	if err != nil {
-		return "", fmt.Errorf("Failed to inspect image for %s: %w", containerDetails.InfoString, err)
+		return "", fmt.Errorf("failed to inspect image for %s: %w", containerDetails.InfoString, err)
 	}
 
 	if len(imageDetails.RepoDigests) == 0 {
-		return "", fmt.Errorf("No local image digest found for %s(%s)", containerDetails.InfoString, containerDetails.ImageID)
+		return "", fmt.Errorf("%w for %s(%s)", errNoLocalImageDigest, containerDetails.InfoString, containerDetails.ImageID)
 	}
 
 	imageDigest := strings.TrimSpace(imageDetails.RepoDigests[0])
 	if imageDigest == "" {
-		return "", fmt.Errorf("Local image digest is empty for %s(%s)", containerDetails.InfoString, containerDetails.ImageID)
+		return "", fmt.Errorf("%w for %s(%s)",
+			errLocalImageDigestEmpty, containerDetails.InfoString, containerDetails.ImageID)
 	}
 
 	return imageDigest, nil
 }
 
-func getRemoteImageDigest(ctx context.Context, rc *regclient.RegClient, containerDetails *ContainerDetails) (string, error) {
+var errRemoteImageDigestEmpty = errors.New("remote image digest is empty")
+
+func getRemoteImageDigest(
+	ctx context.Context,
+	regclient *regclient.RegClient,
+	containerDetails *ContainerDetails,
+) (string, error) {
 	imageRef, err := ref.New(containerDetails.Image)
 	if err != nil {
-		return "", fmt.Errorf("Failed to create image reference for %s(%s): %w", containerDetails.InfoString, containerDetails.ImageID, err)
+		return "", fmt.Errorf("failed to create image reference for %s(%s): %w",
+			containerDetails.InfoString, containerDetails.ImageID, err)
 	}
-	defer rc.Close(ctx, imageRef)
+	defer regclient.Close(ctx, imageRef)
 
-	manifest, err := rc.ManifestHead(ctx, imageRef)
+	manifest, err := regclient.ManifestHead(ctx, imageRef)
 	if err != nil {
-		return "", fmt.Errorf("Failed to get manifest head for %s(%s): %w", containerDetails.InfoString, containerDetails.ImageID, err)
+		return "", fmt.Errorf("failed to get manifest head for %s(%s): %w",
+			containerDetails.InfoString, containerDetails.ImageID, err)
 	}
 
 	remoteDigest := manifest.GetDescriptor().Digest.String()
 	remoteDigest = strings.TrimSpace(remoteDigest)
+
 	if remoteDigest == "" {
-		return "", fmt.Errorf("Remote image digest is empty for %s(%s)", containerDetails.InfoString, containerDetails.ImageID)
+		return "", fmt.Errorf(
+			"%w for %s(%s)",
+			errRemoteImageDigestEmpty,
+			containerDetails.InfoString,
+			containerDetails.ImageID,
+		)
 	}
 
 	return remoteDigest, nil

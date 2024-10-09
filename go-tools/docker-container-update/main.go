@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"log"
 	"os"
 
 	"adamhl8/docker-container-update/utils"
@@ -22,60 +21,77 @@ func main() {
 	}
 	defer dockerClient.Close()
 
-	rc := regclient.New()
+	regclient := regclient.New()
 
 	color.Blue("Getting details for running containers...")
+
 	composeStacks, err := utils.GetComposeStacks(ctx, dockerClient)
 	if err != nil {
-		log.Fatalf("Failed to get details for running containers: %v", err)
+		fmt.Fprintf(os.Stderr, "Failed to get details for running containers: %v\n", err)
+
+		return
 	}
 
-COMPOSE_STACKS:
 	for _, composeStack := range composeStacks {
 		color.Magenta("\n== %s ==", composeStack.Path)
 
-		containersToUpdate := []*utils.ContainerDetails{}
-
-		color.Blue("Checking for updates...")
-		for _, containerDetails := range composeStack.Containers {
-			err := utils.CheckForContainerUpdate(ctx, dockerClient, rc, containerDetails)
-			if err != nil {
-				msg := color.RedString("Failed to check for updates for %s", containerDetails.InfoString)
-				fmt.Fprintf(os.Stderr, "%s: %v\n", msg, err)
-				continue COMPOSE_STACKS
-			}
-
-			if !containerDetails.IsUpToDate {
-				containersToUpdate = append(containersToUpdate, containerDetails)
-			}
-
-			utils.PrintContainerUpdateDetails(containerDetails)
-		}
-
-		if len(containersToUpdate) == 0 {
-			color.Green("All containers are up to date")
-			continue
-		}
-
-		color.Blue("Updating containers...")
-		for _, containerDetails := range containersToUpdate {
-			color.Blue("Pulling new image for %s...", containerDetails.InfoString)
-			err := utils.PullNewImage(ctx, dockerClient, containerDetails)
-			if err != nil {
-				msg := color.RedString("Failed to update container %s", containerDetails.InfoString)
-				fmt.Fprintf(os.Stderr, "%s: %v\n", msg, err)
-				continue COMPOSE_STACKS
-			}
-			color.Green("Updated %s", containerDetails.InfoString)
-		}
-
-		color.Blue("Starting containers...")
-		err = utils.StartContainers(composeStack.Path)
+		err := updateStack(ctx, dockerClient, regclient, composeStack)
 		if err != nil {
-			msg := color.RedString("Failed to start containers")
-			fmt.Fprintf(os.Stderr, "%s: %v\n", msg, err)
+			fmt.Fprintf(os.Stderr, "Failed to update stack: %v\n", err)
+
 			continue
 		}
-		color.Green("Done!")
 	}
+}
+
+func updateStack(
+	ctx context.Context,
+	dockerClient *client.Client,
+	regclient *regclient.RegClient,
+	composeStack *utils.ComposeStack,
+) error {
+	containersToUpdate := []*utils.ContainerDetails{}
+
+	color.Blue("Checking for updates...")
+
+	for _, containerDetails := range composeStack.Containers {
+		err := utils.CheckForContainerUpdate(ctx, dockerClient, regclient, containerDetails)
+		if err != nil {
+			return fmt.Errorf("failed to check for updates for %s: %w", containerDetails.InfoString, err)
+		}
+
+		if !containerDetails.IsUpToDate {
+			containersToUpdate = append(containersToUpdate, containerDetails)
+		}
+
+		utils.PrintContainerUpdateDetails(containerDetails)
+	}
+
+	if len(containersToUpdate) == 0 {
+		color.Green("All containers are up to date")
+
+		return nil
+	}
+
+	color.Blue("\nUpdating containers...")
+
+	for _, containerDetails := range containersToUpdate {
+		err := utils.PullNewImage(ctx, dockerClient, containerDetails)
+		if err != nil {
+			return fmt.Errorf("failed to update container %s: %w", containerDetails.InfoString, err)
+		}
+
+		color.Green("Updated %s", containerDetails.InfoString)
+	}
+
+	color.Blue("Starting containers...")
+
+	err := utils.StartContainers(composeStack.Path)
+	if err != nil {
+		return fmt.Errorf("failed to start containers: %w", err)
+	}
+
+	color.Green("Done!")
+
+	return nil
 }

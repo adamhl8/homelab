@@ -1,2 +1,9 @@
 build:
   go build -o ~/bin/docker-container-update
+
+lint:
+  gofumpt -extra -w .
+  golangci-lint run
+
+run:
+  go run .
