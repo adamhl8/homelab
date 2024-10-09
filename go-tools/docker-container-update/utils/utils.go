@@ -14,54 +14,72 @@ import (
 	"github.com/regclient/regclient/types/ref"
 )
 
+type ComposeStack struct {
+	Path       string
+	Containers []*ContainerDetails
+}
+
 type ContainerDetails struct {
 	ImageID         string
 	Image           string
 	ServiceName     string
 	ComposeFilePath string
 	IsUpToDate      bool
+	InfoString      string
 }
 
-func GetComposeContainersMap(dockerClient *client.Client) (map[string][]*ContainerDetails, error) {
-	containers, err := dockerClient.ContainerList(context.Background(), container.ListOptions{})
+type ComposeToContainersMap map[string]*ComposeStack
+
+func GetComposeToContainersMap(ctx context.Context, dockerClient *client.Client) (ComposeToContainersMap, error) {
+	containers, err := dockerClient.ContainerList(ctx, container.ListOptions{})
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("Failed to get container list from docker: %w", err)
 	}
 
-	composeToContainersMap := make(map[string][]*ContainerDetails)
+	composeToContainersMap := make(ComposeToContainersMap)
 
 	for _, container := range containers {
-		containerDetails := ContainerDetails{
+		serviceName := container.Labels["com.docker.compose.service"]
+		composeFilePath := container.Labels["com.docker.compose.project.config_files"]
+		infoString := fmt.Sprintf("%s[%s]", color.BlueString(serviceName), color.WhiteString(container.Image))
+
+		containerDetails := &ContainerDetails{
 			ImageID:         container.ImageID,
 			Image:           container.Image,
-			ServiceName:     container.Labels["com.docker.compose.service"],
-			ComposeFilePath: container.Labels["com.docker.compose.project.config_files"],
+			ServiceName:     serviceName,
+			ComposeFilePath: composeFilePath,
 			IsUpToDate:      true,
+			InfoString:      infoString,
 		}
-		composeToContainersMap[containerDetails.ComposeFilePath] = append(composeToContainersMap[containerDetails.ComposeFilePath], &containerDetails)
+
+		if _, ok := composeToContainersMap[containerDetails.ComposeFilePath]; !ok {
+			composeToContainersMap[containerDetails.ComposeFilePath] = &ComposeStack{
+				Path:       containerDetails.ComposeFilePath,
+				Containers: []*ContainerDetails{},
+			}
+		}
+
+		composeStack := composeToContainersMap[containerDetails.ComposeFilePath]
+		composeStack.Containers = append(composeStack.Containers, containerDetails)
 	}
 
 	return composeToContainersMap, nil
 }
 
-func CheckForContainerUpdate(dockerClient *client.Client, rc *regclient.RegClient, containerDetails *ContainerDetails) error {
-	localImageDigest, err := getLocalImageDigest(dockerClient, containerDetails)
+func CheckForContainerUpdate(ctx context.Context, dockerClient *client.Client, rc *regclient.RegClient, containerDetails *ContainerDetails) error {
+	localImageDigest, err := getLocalImageDigest(ctx, dockerClient, containerDetails)
 	if err != nil {
-		return err
+		return fmt.Errorf("Failed to get local image digest for %s: %w", containerDetails.InfoString, err)
 	}
 
-	remoteImageDigest, err := getRemoteImageDigest(rc, containerDetails)
+	remoteImageDigest, err := getRemoteImageDigest(ctx, rc, containerDetails)
 	if err != nil {
-		return err
+		return fmt.Errorf("Failed to get remote image digest for %s: %w", containerDetails.InfoString, err)
 	}
 
 	containerDetails.IsUpToDate = strings.Contains(localImageDigest, remoteImageDigest)
 
 	return nil
-}
-
-func GetContainerInfoString(containerDetails *ContainerDetails) string {
-	return fmt.Sprintf("%s[%s]", color.BlueString(containerDetails.ServiceName), color.WhiteString(containerDetails.Image))
 }
 
 func PrintContainerUpdateDetails(containerDetails *ContainerDetails) {
@@ -73,13 +91,13 @@ func PrintContainerUpdateDetails(containerDetails *ContainerDetails) {
 		status = "Up to date"
 	}
 
-	fmt.Printf("%s: %s\n", GetContainerInfoString(containerDetails), status)
+	fmt.Printf("%s: %s\n", containerDetails.InfoString, status)
 }
 
-func PullNewImage(dockerClient *client.Client, containerDetails *ContainerDetails) error {
-	pullResponse, err := dockerClient.ImagePull(context.Background(), containerDetails.Image, image.PullOptions{})
+func PullNewImage(ctx context.Context, dockerClient *client.Client, containerDetails *ContainerDetails) error {
+	pullResponse, err := dockerClient.ImagePull(ctx, containerDetails.Image, image.PullOptions{})
 	if err != nil {
-		return err
+		return fmt.Errorf("Failed to pull new image for %s: %w", containerDetails.InfoString, err)
 	}
 	defer pullResponse.Close()
 
@@ -99,40 +117,40 @@ func StartContainers(composeFilePath string) error {
 	return nil
 }
 
-func getLocalImageDigest(dockerClient *client.Client, containerDetails *ContainerDetails) (string, error) {
-	imageDetails, _, err := dockerClient.ImageInspectWithRaw(context.Background(), containerDetails.ImageID)
+func getLocalImageDigest(ctx context.Context, dockerClient *client.Client, containerDetails *ContainerDetails) (string, error) {
+	imageDetails, _, err := dockerClient.ImageInspectWithRaw(ctx, containerDetails.ImageID)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("Failed to inspect image for %s: %w", containerDetails.InfoString, err)
 	}
 
 	if len(imageDetails.RepoDigests) == 0 {
-		return "", fmt.Errorf("No local image digest found for %s(%s)", GetContainerInfoString(containerDetails), containerDetails.ImageID)
+		return "", fmt.Errorf("No local image digest found for %s(%s)", containerDetails.InfoString, containerDetails.ImageID)
 	}
 
 	imageDigest := strings.TrimSpace(imageDetails.RepoDigests[0])
 	if imageDigest == "" {
-		return "", fmt.Errorf("Local image digest is empty for %s(%s)", GetContainerInfoString(containerDetails), containerDetails.ImageID)
+		return "", fmt.Errorf("Local image digest is empty for %s(%s)", containerDetails.InfoString, containerDetails.ImageID)
 	}
 
 	return imageDigest, nil
 }
 
-func getRemoteImageDigest(rc *regclient.RegClient, containerDetails *ContainerDetails) (string, error) {
+func getRemoteImageDigest(ctx context.Context, rc *regclient.RegClient, containerDetails *ContainerDetails) (string, error) {
 	imageRef, err := ref.New(containerDetails.Image)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("Failed to create image reference for %s(%s): %w", containerDetails.InfoString, containerDetails.ImageID, err)
 	}
-	defer rc.Close(context.Background(), imageRef)
+	defer rc.Close(ctx, imageRef)
 
-	manifest, err := rc.ManifestHead(context.Background(), imageRef)
+	manifest, err := rc.ManifestHead(ctx, imageRef)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("Failed to get manifest head for %s(%s): %w", containerDetails.InfoString, containerDetails.ImageID, err)
 	}
 
 	remoteDigest := manifest.GetDescriptor().Digest.String()
 	remoteDigest = strings.TrimSpace(remoteDigest)
 	if remoteDigest == "" {
-		return "", fmt.Errorf("Remote image digest is empty for %s", GetContainerInfoString(containerDetails))
+		return "", fmt.Errorf("Remote image digest is empty for %s(%s)", containerDetails.InfoString, containerDetails.ImageID)
 	}
 
 	return remoteDigest, nil
