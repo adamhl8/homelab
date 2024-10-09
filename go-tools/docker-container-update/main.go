@@ -32,6 +32,12 @@ func main() {
 		return
 	}
 
+	if len(composeStacks) == 0 {
+		color.Yellow("No docker compose stacks found")
+
+		return
+	}
+
 	for _, composeStack := range composeStacks {
 		color.Magenta("\n== %s ==", composeStack.Path)
 

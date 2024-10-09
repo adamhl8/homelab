@@ -14,6 +14,7 @@ import (
 	"github.com/fatih/color"
 	"github.com/regclient/regclient"
 	"github.com/regclient/regclient/types/ref"
+	"github.com/samber/lo"
 )
 
 type ComposeStack struct {
@@ -42,7 +43,21 @@ func GetComposeStacks(ctx context.Context, dockerClient *client.Client) (Compose
 
 	for _, container := range containers {
 		serviceName := container.Labels["com.docker.compose.service"]
+
+		if serviceName == "" {
+			names := lo.Map(container.Names, func(name string, _ int) string {
+				return strings.TrimPrefix(name, "/")
+			})
+
+			serviceName = strings.Join(names, ",")
+		}
+
 		composeFilePath := container.Labels["com.docker.compose.project.config_files"]
+
+		if composeFilePath == "" {
+			composeFilePath = "NOT IN A COMPOSE STACK"
+		}
+
 		infoString := fmt.Sprintf("%s[%s]", color.BlueString(serviceName), color.WhiteString(container.Image))
 
 		containerDetails := &ContainerDetails{

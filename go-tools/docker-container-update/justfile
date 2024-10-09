@@ -7,3 +7,6 @@ lint:
 
 run:
   go run .
+
+bump-deps:
+  go get -u -t all && go mod tidy
