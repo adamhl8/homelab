@@ -20,17 +20,18 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	defer dockerClient.Close()
 
 	rc := regclient.New()
 
 	color.Blue("Getting details for running containers...")
-	composeToContainersMap, err := utils.GetComposeToContainersMap(ctx, dockerClient)
+	composeStacks, err := utils.GetComposeStacks(ctx, dockerClient)
 	if err != nil {
 		log.Fatalf("Failed to get details for running containers: %v", err)
 	}
 
 COMPOSE_STACKS:
-	for _, composeStack := range composeToContainersMap {
+	for _, composeStack := range composeStacks {
 		color.Magenta("\n== %s ==", composeStack.Path)
 
 		containersToUpdate := []*utils.ContainerDetails{}
@@ -58,6 +59,7 @@ COMPOSE_STACKS:
 
 		color.Blue("Updating containers...")
 		for _, containerDetails := range containersToUpdate {
+			color.Blue("Pulling new image for %s...", containerDetails.InfoString)
 			err := utils.PullNewImage(ctx, dockerClient, containerDetails)
 			if err != nil {
 				msg := color.RedString("Failed to update container %s", containerDetails.InfoString)

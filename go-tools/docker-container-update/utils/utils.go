@@ -3,6 +3,7 @@ package utils
 import (
 	"context"
 	"fmt"
+	"io"
 	"os/exec"
 	"strings"
 
@@ -28,15 +29,15 @@ type ContainerDetails struct {
 	InfoString      string
 }
 
-type ComposeToContainersMap map[string]*ComposeStack
+type ComposeStacks map[string]*ComposeStack
 
-func GetComposeToContainersMap(ctx context.Context, dockerClient *client.Client) (ComposeToContainersMap, error) {
+func GetComposeStacks(ctx context.Context, dockerClient *client.Client) (ComposeStacks, error) {
 	containers, err := dockerClient.ContainerList(ctx, container.ListOptions{})
 	if err != nil {
 		return nil, fmt.Errorf("Failed to get container list from docker: %w", err)
 	}
 
-	composeToContainersMap := make(ComposeToContainersMap)
+	composeStacks := make(ComposeStacks)
 
 	for _, container := range containers {
 		serviceName := container.Labels["com.docker.compose.service"]
@@ -52,18 +53,18 @@ func GetComposeToContainersMap(ctx context.Context, dockerClient *client.Client)
 			InfoString:      infoString,
 		}
 
-		if _, ok := composeToContainersMap[containerDetails.ComposeFilePath]; !ok {
-			composeToContainersMap[containerDetails.ComposeFilePath] = &ComposeStack{
+		if _, ok := composeStacks[containerDetails.ComposeFilePath]; !ok {
+			composeStacks[containerDetails.ComposeFilePath] = &ComposeStack{
 				Path:       containerDetails.ComposeFilePath,
 				Containers: []*ContainerDetails{},
 			}
 		}
 
-		composeStack := composeToContainersMap[containerDetails.ComposeFilePath]
+		composeStack := composeStacks[containerDetails.ComposeFilePath]
 		composeStack.Containers = append(composeStack.Containers, containerDetails)
 	}
 
-	return composeToContainersMap, nil
+	return composeStacks, nil
 }
 
 func CheckForContainerUpdate(ctx context.Context, dockerClient *client.Client, rc *regclient.RegClient, containerDetails *ContainerDetails) error {
@@ -95,11 +96,16 @@ func PrintContainerUpdateDetails(containerDetails *ContainerDetails) {
 }
 
 func PullNewImage(ctx context.Context, dockerClient *client.Client, containerDetails *ContainerDetails) error {
-	pullResponse, err := dockerClient.ImagePull(ctx, containerDetails.Image, image.PullOptions{})
+	reader, err := dockerClient.ImagePull(ctx, containerDetails.Image, image.PullOptions{})
 	if err != nil {
-		return fmt.Errorf("Failed to pull new image for %s: %w", containerDetails.InfoString, err)
+		return fmt.Errorf("Failed to initiate image pull for %s: %w", containerDetails.InfoString, err)
 	}
-	defer pullResponse.Close()
+	defer reader.Close()
+
+	_, err = io.Copy(io.Discard, reader)
+	if err != nil {
+		return fmt.Errorf("Failed to pull image for %s: %w", containerDetails.InfoString, err)
+	}
 
 	return nil
 }
