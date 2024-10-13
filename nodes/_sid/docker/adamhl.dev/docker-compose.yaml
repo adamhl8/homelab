@@ -1,0 +1,12 @@
+services:
+  adamhl.dev:
+    container_name: adamhl.dev
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    image: ghcr.io/adamhl8/adamhl.dev
+    restart: always
+    ports:
+      - 8000:80
+    volumes:
+      - ./data/:/data/
+      - ./config/:/config/

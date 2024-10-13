@@ -29,7 +29,7 @@
 }
 
 adamhl.dev {
-	respond "Hey there :)"
+	reverse_proxy sid.lan:8000
 }
 
 *.adamhl.dev {
@@ -272,5 +272,10 @@ adamhl.dev {
 
 		authorize with admin_policy
 		reverse_proxy sid.lan:8015
+	}
+
+	@watchtower host watchtower.adamhl.dev
+	handle @watchtower {
+		reverse_proxy sid.lan:8020
 	}
 }
