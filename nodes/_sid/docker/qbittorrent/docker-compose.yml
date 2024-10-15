@@ -2,8 +2,8 @@ services:
   qbittorrent:
     container_name: qbittorrent
     image: ghcr.io/hotio/qbittorrent
-    ports:
-      - 8003:8080
+    restart: always
+    network_mode: host
     volumes:
       - ./data/:/data
       - ./config/:/config
@@ -13,4 +13,4 @@ services:
       - PGID=${GID}
       - UMASK=002
       - TZ=America/Chicago
-      - WEBUI_PORTS=8080/tcp,8080/udp
+      - WEBUI_PORTS=8003/tcp,8003/udp
