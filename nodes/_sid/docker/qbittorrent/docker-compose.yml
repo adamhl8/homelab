@@ -1,0 +1,16 @@
+services:
+  qbittorrent:
+    container_name: qbittorrent
+    image: ghcr.io/hotio/qbittorrent
+    ports:
+      - 8003:8080
+    volumes:
+      - ./data/:/data
+      - ./config/:/config
+      - /home/adam/mnt/storage/Media/:/Media/
+    environment:
+      - PUID=${UID}
+      - PGID=${GID}
+      - UMASK=002
+      - TZ=America/Chicago
+      - WEBUI_PORTS=8080/tcp,8080/udp
