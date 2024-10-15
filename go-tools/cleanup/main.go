@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -12,44 +13,41 @@ import (
 	"github.com/sourcegraph/conc"
 )
 
-func cleanup() {
+// List of paths to remove.
+var pathsToRemove = []string{
+	".android",
+	".cache",
+	".cups",
+	".dbclient",
+	".embedded-postgres-go",
+	".gradle",
+	".hawtjni",
+	".lesshst",
+	".matplotlib",
+	".m2",
+	".node_repl_history",
+	".npm",
+	".pnpm-state",
+	".python_history",
+	".sonarlint",
+	".sts4",
+	".yarn",
+	".yarnrc",
+	"Movies",
+	"Music",
+	".bash_history",
+	".viminfo",
+	".zsh_history",
+}
 
+func main() {
 	if os.Geteuid() != 0 {
-		fmt.Println("Please run the program with sudo.")
-		os.Exit(1)
-	}
-
-	// List of paths to remove
-	pathsToRemove := []string{
-		".android",
-		".cache",
-		".cups",
-		".dbclient",
-		".embedded-postgres-go",
-		".gradle",
-		".hawtjni",
-		".lesshst",
-		".matplotlib",
-		".m2",
-		".node_repl_history",
-		".npm",
-		".pnpm-state",
-		".python_history",
-		".sonarlint",
-		".sts4",
-		".yarn",
-		".yarnrc",
-		"Movies",
-		"Music",
-		".bash_history",
-		".viminfo",
-		".zsh_history",
+		log.Fatal("Please run the program with sudo.")
 	}
 
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
-		fmt.Println("Error getting home directory:", err)
-		return
+		log.Fatalf("failed to get home directory: %v", err)
 	}
 
 	// Remove the specified paths
@@ -73,7 +71,9 @@ func cleanup() {
 	}
 
 	var wg conc.WaitGroup
+
 	var mutex sync.Mutex
+
 	foundFiles := make(map[string][]string)
 
 	for description, regex := range patterns {
@@ -81,19 +81,23 @@ func cleanup() {
 			fmt.Printf("Finding %s...\n", description)
 
 			var matches []string
+
 			err := filepath.WalkDir(homeDir, func(path string, d os.DirEntry, err error) error {
 				if err != nil {
 					return err
 				}
+
 				if !d.IsDir() {
 					if regex.MatchString(d.Name()) {
 						matches = append(matches, path)
 					}
 				}
+
 				return nil
 			})
 			if err != nil {
 				fmt.Printf("Error walking the path for %s: %v\n", description, err)
+
 				return
 			}
 
@@ -110,11 +114,15 @@ func cleanup() {
 	for desc, files := range foundFiles {
 		if len(files) > 0 {
 			fmt.Printf("\nFound %s:\n", desc)
+
 			for _, file := range files {
 				fmt.Println(file)
 			}
+
 			fmt.Print("Delete? [Y/n] ")
+
 			reply, _ := reader.ReadString('\n')
+
 			reply = strings.TrimSpace(reply)
 			if reply == "" || strings.ToLower(reply) == "y" {
 				// Delete the files

@@ -1,2 +1,12 @@
 build:
-  go build -o ~/bin/cleanup cleanup.go
+  go build -o ~/bin/cleanup
+
+lint:
+  gofumpt -extra -w .
+  golangci-lint run
+
+run:
+  go run .
+
+bump-deps:
+  go get -u -t all && go mod tidy
