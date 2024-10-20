@@ -14,7 +14,7 @@ def main() -> None:
     os.environ["SHELLRUNNER_SHOW_OUTPUT"] = "False"
     os.environ["SHELLRUNNER_SHOW_COMMAND"] = "False"
 
-    base_url = "https://opnsense.lan:8443/api/unbound"
+    base_url = "https://opnsense.lan/api/unbound"
     list_endpoint = f"{base_url}/settings/searchHostOverride"
     add_endpoint = f"{base_url}/settings/addHostOverride"
     delete_endpoint = f"{base_url}/settings/delHostOverride"

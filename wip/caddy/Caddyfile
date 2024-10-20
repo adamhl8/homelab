@@ -186,6 +186,17 @@ adamhl.dev {
 		reverse_proxy sid.lan:8004
 	}
 
+	@umami host umami.adamhl.dev
+	handle @umami {
+		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
+		handle @authorized_ips {
+			reverse_proxy sid.lan:8005
+		}
+
+		authorize with admin_policy
+		reverse_proxy sid.lan:8005
+	}
+
 	@sonarr host sonarr.adamhl.dev
 	handle @sonarr {
 		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
