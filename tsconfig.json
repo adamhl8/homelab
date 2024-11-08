@@ -1,5 +1,5 @@
 {
-  "include": ["plugins", "bun-infra.config.ts"],
+  "include": ["plugins", "bun-infra.config.ts", "data"],
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
