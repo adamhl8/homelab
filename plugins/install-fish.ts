@@ -2,21 +2,14 @@ import { $ } from "bun"
 import type { StatelessPluginFactory } from "bun-infra/types/plugin"
 import { runFishCmd } from "./utils/utils.ts"
 
-interface InstallFishOptions {
-  fishConfigPath: string
-}
-
-async function install(options: InstallFishOptions) {
-  await $`mkdir -p ~/.config/fish/conf.d/`
-  await $`ln -f -s ${options.fishConfigPath} ~/.config/fish/`
-
+async function install() {
   await $`brew install fish`
+  await $`mkdir -p ~/.config/fish/conf.d/`
   await $`$HOMEBREW_PREFIX/bin/brew shellenv fish >~/.config/fish/conf.d/homebrew.fish`
 }
 
 async function setDefaultShell() {
   const fishPath = { raw: "$HOMEBREW_PREFIX/bin/fish" }
-  await $`echo ${fishPath}`
   try {
     await $`grep -q fish /etc/shells`
     console.info("fish is already in /etc/shells")
@@ -39,17 +32,12 @@ async function configure() {
   await runFishCmd("fisher install PatrickF1/fzf.fish")
 }
 
-const installFish: StatelessPluginFactory<InstallFishOptions> = (options) => ({
+const installFish: StatelessPluginFactory = () => ({
   name: "Install Fish",
-  check: () => !Bun.which("fish"),
   handle: async () => {
-    await install(options)
+    await install()
     await setDefaultShell()
     await configure()
-
-    if (Bun.which("rye")) {
-      await $`rye self completion -s fish >~/.config/fish/completions/rye.fish`
-    }
   },
   update: () => {
     return

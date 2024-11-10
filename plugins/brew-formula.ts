@@ -6,16 +6,17 @@ interface BrewFormulaDiff {
   removed: string[]
 }
 
-const brewFormula: StatefulPluginFactory<string[], BrewFormulaDiff> = (desired) => ({
+const brewFormula: StatefulPluginFactory<string[], BrewFormulaDiff> = (casks) => ({
   name: "Brew Formula",
+  desired: casks,
   current: async () => {
-    return (await $`brew ls --installed-on-request --formula`.quiet()).text().trim().split("\n")
+    return (await $`brew ls --installed-on-request --formula`.quiet()).text().trim().split("\n").filter(Boolean)
   },
-  change: (_, current) => {
+  change: (_, _previous, current) => {
     const currentSet = new Set(current)
-    const desiredSet = new Set(desired)
+    const desiredSet = new Set(casks)
 
-    const added = desired.filter((x) => !currentSet.has(x))
+    const added = casks.filter((x) => !currentSet.has(x))
     const removed = current.filter((x) => !desiredSet.has(x))
 
     if (added.length === 0 && removed.length === 0) return
@@ -23,10 +24,10 @@ const brewFormula: StatefulPluginFactory<string[], BrewFormulaDiff> = (desired) 
   },
   handle: async (_, change) => {
     if (change.added.length > 0) {
-      await $`brew install ${change.added.join(" ")}`
+      for (const formula of change.added) await $`brew install ${formula}`
     }
     if (change.removed.length > 0) {
-      await $`brew uninstall ${change.removed.join(" ")}`
+      for (const formula of change.removed) await $`brew uninstall ${formula}`
     }
   },
   update: async () => {

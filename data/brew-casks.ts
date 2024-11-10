@@ -1,3 +1,5 @@
+// https://www.bresink.com/osx/0TinkerTool/download.php
+
 const brewCasks = [
   "1password",
   "adobe-acrobat-pro",

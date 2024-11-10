@@ -1,0 +1,100 @@
+{
+  "adam-macbook": {
+    "stateless": {
+      "sops Config": {
+        "state": true
+      },
+      "Install Rye": {
+        "state": true
+      },
+      "Install Homebrew": {
+        "state": true
+      },
+      "Install Fish": {
+        "state": true
+      },
+      "Keka Helper": {
+        "state": true
+      },
+      "Forklift Default": {
+        "state": true
+      },
+      "SSH": {
+        "state": true
+      }
+    },
+    "stateful": {
+      "Link Files": {
+        "state": [
+          {
+            "source": "/Users/adam/homelab-bun/configs/config.fish",
+            "dest": "/Users/adam/.config/fish/config.fish"
+          },
+          {
+            "source": "/Users/adam/homelab-bun/configs/secrets.yaml",
+            "dest": "/Users/adam/secrets.yaml"
+          },
+          {
+            "source": "/Users/adam/homelab-bun/hosts/macbook/.wezterm.lua",
+            "dest": "/Users/adam/.wezterm.lua"
+          },
+          {
+            "source": "/Users/adam/homelab-bun/hosts/macbook/.gitconfig-swf",
+            "dest": "/Users/adam/.gitconfig-swf"
+          },
+          {
+            "source": "/Users/adam/homelab-bun/hosts/macbook/DefaultKeyBinding.dict",
+            "dest": "/Users/adam/Library/KeyBindings/DefaultKeyBinding.dict"
+          },
+          {
+            "source": "/Users/adam/homelab-bun/hosts/macbook/bin/gusync.py",
+            "dest": "/Users/adam/bin/gusync.py"
+          },
+          {
+            "source": "/Users/adam/homelab-bun/hosts/macbook/bin/dns-overrides.py",
+            "dest": "/Users/adam/bin/dns-overrides.py"
+          },
+          {
+            "source": "/Users/adam/homelab-bun/hosts/macbook/bin/gsync.py",
+            "dest": "/Users/adam/bin/gsync.py"
+          },
+          {
+            "source": "/Users/adam/homelab-bun/hosts/macbook/bin/system-update.py",
+            "dest": "/Users/adam/bin/system-update.py"
+          },
+          {
+            "source": "/Users/adam/homelab-bun/hosts/macbook/bin/gaddupstream.py",
+            "dest": "/Users/adam/bin/gaddupstream.py"
+          },
+          {
+            "source": "/Users/adam/homelab-bun/hosts/macbook/bin/dircopy.py",
+            "dest": "/Users/adam/bin/dircopy.py"
+          },
+          {
+            "source": "/Users/adam/homelab-bun/hosts/macbook/bin/videos.py",
+            "dest": "/Users/adam/bin/videos.py"
+          }
+        ]
+      },
+      "hostname": {
+        "state": "adam-macbook"
+      },
+      "Mac Apps": {
+        "state": [
+          "1099120373",
+          "1639917298",
+          "1295203466",
+          "1545870783",
+          "414568915",
+          "1558360383",
+          "490179405",
+          "1193539993",
+          "470158793",
+          "1565701763",
+          "6446061552",
+          "1611378436"
+        ]
+      }
+    }
+  }
+}
