@@ -1,14 +1,18 @@
 import { $ } from "bun"
-import type { StatelessPluginFactory } from "bun-infra/types/plugin"
-import { resolveLocalPath } from "../utils/paths.ts"
+import { resolvePath } from "bun-infra/lib"
+import { createPlugin } from "bun-infra/plugin"
 
-const sopsConfig: StatelessPluginFactory = () => ({
-  name: "sops Config",
-  handle: async () => {
-    await $`mkdir -p ~/.config/sops/age/`
-    await $`echo "Enter key.age passphrase" && age -o ~/.config/sops/age/keys.txt -d ${resolveLocalPath("configs/key.age")}`
-    await $`chmod 600 ~/.config/sops/age/keys.txt`
+const sopsConfig = createPlugin<null, true>(
+  { name: "sops Config" },
+  {
+    diff: (_, previous) => (previous === null ? undefined : true),
+    handle: async (ctx) => {
+      await $`mkdir -p ~/.config/sops/age/`
+      ctx.logger.info("Enter key.age passphrase")
+      await $`age -o ~/.config/sops/age/keys.txt -d ${await resolvePath("./configs/key.age")}`
+      await $`chmod 600 ~/.config/sops/age/keys.txt`
+    },
   },
-})
+)
 
 export { sopsConfig }

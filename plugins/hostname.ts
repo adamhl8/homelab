@@ -1,25 +1,33 @@
 import { $ } from "bun"
-import type { StatefulPluginFactory } from "bun-infra/types/plugin"
+import { createPlugin } from "bun-infra/plugin"
 
-const hostname: StatefulPluginFactory<string, string> = (hostname) => ({
-  name: "hostname",
-  desired: hostname,
-  current: async (ctx) => {
-    if (ctx.os === "darwin") {
-      return (await $`sudo scutil --get LocalHostName`.quiet()).text().trim()
-    }
-    return ""
+interface HostnameDiff {
+  hostname?: { old: string; new: string }
+  localHostname?: { old: string; new: string }
+}
+
+const hostname = createPlugin<string, HostnameDiff>(
+  { name: "hostname" },
+  {
+    diff: async (ctx, _previous, hostname) => {
+      if (ctx.os === "darwin") {
+        const currentHostname = (await $`sudo scutil --get HostName`.quiet()).text().trim()
+        const currentLocalHostname = (await $`sudo scutil --get LocalHostName`.quiet()).text().trim()
+        const diff: HostnameDiff = {}
+        if (currentHostname !== hostname) diff.hostname = { old: currentHostname, new: hostname }
+        if (currentLocalHostname !== hostname) diff.localHostname = { old: currentLocalHostname, new: hostname }
+        if (Object.keys(diff).length === 0) return
+        return diff
+      }
+      return
+    },
+    handle: async (ctx, diff) => {
+      if (ctx.os === "darwin") {
+        if (diff.hostname) await $`sudo scutil --set HostName ${diff.hostname.new}`
+        if (diff.localHostname) await $`sudo scutil --set LocalHostName ${diff.localHostname.new}`
+      }
+    },
   },
-  change: (_, current) => (current === hostname ? undefined : hostname),
-  handle: async (ctx, change) => {
-    if (ctx.os === "darwin") {
-      await $`sudo scutil --set HostName ${change}`
-      await $`sudo scutil --set LocalHostName ${change}`
-    }
-  },
-  update: () => {
-    return
-  },
-})
+)
 
 export { hostname }
