@@ -1,14 +1,1 @@
-shared/bin/*
-.DS_Store
-.env
-__pycache__
-.venv
-.pytest_cache
-.ruff_cache
-.python-version
-build
-dist
-node_modules
-
-# sid
-nodes/_sid/docker/*/data/
+node_modules/

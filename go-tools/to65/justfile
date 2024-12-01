@@ -1,0 +1,12 @@
+build:
+  go build -o ~/bin/to65
+
+lint:
+  gofumpt -extra -w .
+  golangci-lint run
+
+run:
+  go run .
+
+bump-deps:
+  go get -u -t all && go mod tidy

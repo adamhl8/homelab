@@ -1,0 +1,14 @@
+services:
+  radarr:
+    container_name: radarr
+    image: lscr.io/linuxserver/radarr
+    restart: always
+    ports:
+      - 8007:7878
+    volumes:
+      - ./data/:/config/
+      - /home/adam/mnt/storage/Media/:/Media/
+    environment:
+      PUID: ${UID}
+      PGID: ${GID}
+      TZ: America/Chicago

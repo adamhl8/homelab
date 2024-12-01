@@ -1,7 +1,0 @@
-services:
-  homelab-api:
-    container_name: homelab-api
-    image: ghcr.io/adamhl8/homelab-api
-    restart: always
-    environment:
-      GITHUB_TOKEN: ${github_homelab_api_token}

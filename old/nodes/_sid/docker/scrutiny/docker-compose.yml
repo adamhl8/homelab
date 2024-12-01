@@ -1,0 +1,34 @@
+services:
+  scrutiny:
+    container_name: scrutiny
+    image: ghcr.io/analogj/scrutiny:master-web
+    restart: always
+    ports:
+      - 8010:8080
+    volumes:
+      - ./data/:/opt/scrutiny/config/
+    environment:
+      SCRUTINY_WEB_INFLUXDB_HOST: influxdb
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/health"]
+      interval: 5s
+      timeout: 10s
+      retries: 20
+      start_period: 10s
+    depends_on:
+      influxdb:
+        condition: service_healthy
+
+  influxdb:
+    container_name: scrutiny-influxdb
+    image: influxdb:2.2
+    restart: always
+    ports:
+      - 8086:8086
+    volumes:
+      - ./influxdb/:/var/lib/influxdb2
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8086/health"]
+      interval: 5s
+      timeout: 10s
+      retries: 20

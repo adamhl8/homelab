@@ -1,0 +1,8 @@
+services:
+  reaction-light:
+    container_name: reaction-light
+    image: ghcr.io/eibex/reaction-light
+    restart: always
+    volumes:
+      - ./data/:/bot/files/
+      - ./config.ini:/bot/config.ini

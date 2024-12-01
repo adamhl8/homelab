@@ -1,0 +1,5 @@
+{
+  "\u001b[1;10D": "DuplicateLine",
+  "Alt-/": "lua:comment.comment",
+  "CtrlUnderscore": "lua:comment.comment"
+}

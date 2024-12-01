@@ -1,0 +1,232 @@
+{
+  "adam-macbook": {
+    "Default File Viewer": {
+      "state": "com.binarynights.ForkLift"
+    },
+    "hostname": {
+      "state": "adam-macbook"
+    },
+    "Brew Formula": {
+      "state": [
+        "age",
+        "bash",
+        "bat",
+        "bun",
+        "caddy",
+        "coreutils",
+        "cocoapods",
+        "curl",
+        "delve",
+        "diffutils",
+        "dockutil",
+        "dua-cli",
+        "eza",
+        "fclones",
+        "fd",
+        "ffmpeg",
+        "findutils",
+        "fish",
+        "fnm",
+        "fzf",
+        "gallery-dl",
+        "gawk",
+        "git",
+        "git-delta",
+        "git-lfs",
+        "gnu-sed",
+        "gnu-tar",
+        "go",
+        "grep",
+        "gzip",
+        "jq",
+        "just",
+        "ko",
+        "mas",
+        "micro",
+        "sops",
+        "unzip",
+        "wget",
+        "xq",
+        "yq",
+        "zip"
+      ]
+    },
+    "Brew Casks": {
+      "state": [
+        "1password",
+        "adobe-acrobat-pro",
+        "alt-tab",
+        "anki",
+        "bambu-studio",
+        "bruno",
+        "calibre",
+        "cursor",
+        "discord",
+        "font-atkinson-hyperlegible",
+        "font-jetbrains-mono-nerd-font",
+        "forklift",
+        "google-chrome",
+        "iina",
+        "jordanbaird-ice",
+        "linearmouse",
+        "obsidian",
+        "orbstack",
+        "plex",
+        "protonvpn",
+        "qbittorrent",
+        "qlvideo",
+        "raycast",
+        "shottr",
+        "slack",
+        "spaceid",
+        "tailscale",
+        "utm",
+        "vlc",
+        "wezterm",
+        "zen-browser"
+      ]
+    },
+    "Install Fish": {
+      "state": null
+    },
+    "Default Shell": {
+      "state": "/opt/homebrew/bin/fish"
+    },
+    "Install Fisher Plugins": {
+      "state": [
+        "ilancosman/tide",
+        "daleeidd/natural-selection",
+        "patrickf1/fzf.fish",
+        "meaningful-ooo/sponge"
+      ]
+    },
+    "Tide Config": {
+      "state": "2 1 2 3 1 1 1 1 1 1 1"
+    },
+    "Mac Apps": {
+      "state": [
+        "1099120373",
+        "1639917298",
+        "1295203466",
+        "1545870783",
+        "414568915",
+        "1558360383",
+        "490179405",
+        "1193539993",
+        "470158793",
+        "1565701763",
+        "6446061552",
+        "1611378436",
+        "497799835"
+      ]
+    },
+    "Keka Helper": {
+      "state": null
+    },
+    "Homebrew": {
+      "state": null
+    },
+    "Fisher Plugins": {
+      "state": [
+        "ilancosman/tide",
+        "daleeidd/natural-selection",
+        "patrickf1/fzf.fish",
+        "reitzig/sdkman-for-fish"
+      ]
+    },
+    "Link Files": {
+      "state": [
+        {
+          "source": "/Users/adam/homelab-bun/configs/config.fish",
+          "dest": "/Users/adam/.config/fish/config.fish"
+        },
+        {
+          "source": "/Users/adam/homelab-bun/configs/secrets.yaml",
+          "dest": "/Users/adam/secrets.yaml"
+        },
+        {
+          "source": "/Users/adam/homelab-bun/configs/authorized_keys",
+          "dest": "/Users/adam/.ssh/authorized_keys"
+        },
+        {
+          "source": "/Users/adam/homelab-bun/configs/allowed_signers",
+          "dest": "/Users/adam/.ssh/allowed_signers"
+        },
+        {
+          "source": "/Users/adam/homelab-bun/hosts/macbook/.wezterm.lua",
+          "dest": "/Users/adam/.wezterm.lua"
+        },
+        {
+          "source": "/Users/adam/homelab-bun/hosts/macbook/.gitconfig-swf",
+          "dest": "/Users/adam/.gitconfig-swf"
+        },
+        {
+          "source": "/Users/adam/homelab-bun/hosts/macbook/DefaultKeyBinding.dict",
+          "dest": "/Users/adam/Library/KeyBindings/DefaultKeyBinding.dict"
+        },
+        {
+          "source": "/Users/adam/homelab-bun/hosts/macbook/bin/gusync.py",
+          "dest": "/Users/adam/bin/gusync.py"
+        },
+        {
+          "source": "/Users/adam/homelab-bun/hosts/macbook/bin/dns-overrides.py",
+          "dest": "/Users/adam/bin/dns-overrides.py"
+        },
+        {
+          "source": "/Users/adam/homelab-bun/hosts/macbook/bin/gsync.py",
+          "dest": "/Users/adam/bin/gsync.py"
+        },
+        {
+          "source": "/Users/adam/homelab-bun/hosts/macbook/bin/system-update.py",
+          "dest": "/Users/adam/bin/system-update.py"
+        },
+        {
+          "source": "/Users/adam/homelab-bun/hosts/macbook/bin/gaddupstream.py",
+          "dest": "/Users/adam/bin/gaddupstream.py"
+        },
+        {
+          "source": "/Users/adam/homelab-bun/hosts/macbook/bin/dircopy.py",
+          "dest": "/Users/adam/bin/dircopy.py"
+        },
+        {
+          "source": "/Users/adam/homelab-bun/hosts/macbook/bin/videos.py",
+          "dest": "/Users/adam/bin/videos.py"
+        }
+      ]
+    },
+    "SSH": {
+      "state": null
+    },
+    "sops Config": {
+      "state": null
+    },
+    "fnm": {
+      "state": null
+    },
+    "Install Rye": {
+      "state": {}
+    },
+    "Install sdkman": {
+      "state": null
+    },
+    "Docker Login": {
+      "state": {
+        "registry": "ghcr.io",
+        "username": "adamhl8",
+        "sopsPasswordKey": "github_ghcr_token"
+      }
+    },
+    "MacOS Dock": {
+      "state": [
+        "/Applications/ForkLift.app",
+        "/Applications/Zen Browser.app",
+        "/Applications/Obsidian.app",
+        "/Applications/Cursor.app",
+        "/Applications/WezTerm.app",
+        "/Applications/Slack.app",
+        "/Applications/Discord.app",
+        "/Applications/Windows App.app"
+      ]
+    }
+  }
+}

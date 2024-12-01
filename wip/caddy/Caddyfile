@@ -29,7 +29,11 @@
 }
 
 adamhl.dev {
-	reverse_proxy sid.lan:8000
+	reverse_proxy truenas.lan:8000
+}
+
+joieparma.com {
+	reverse_proxy truenas.lan:9000
 }
 
 *.adamhl.dev {
@@ -46,7 +50,7 @@ adamhl.dev {
 
 	@pve host pve.adamhl.dev
 	handle @pve {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
+		@authorized_ips remote_ip private_ranges 100.97.191.90 100.99.68.15
 		handle @authorized_ips {
 			reverse_proxy https://pve.lan:8006 {
 				transport http {
@@ -65,7 +69,7 @@ adamhl.dev {
 
 	@opnsense host opnsense.adamhl.dev
 	handle @opnsense {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
+		@authorized_ips remote_ip private_ranges 100.97.191.90 100.99.68.15
 		handle @authorized_ips {
 			reverse_proxy https://opnsense.lan {
 				transport http {
@@ -82,9 +86,20 @@ adamhl.dev {
 		}
 	}
 
+	@ha host ha.adamhl.dev
+	handle @ha {
+		@authorized_ips remote_ip private_ranges 100.97.191.90 100.99.68.15
+		handle @authorized_ips {
+			reverse_proxy homeassistant.lan:8123
+		}
+
+		authorize with admin_policy
+		reverse_proxy homeassistant.lan:8123
+	}
+
 	@truenas host truenas.adamhl.dev
 	handle @truenas {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
+		@authorized_ips remote_ip private_ranges 100.97.191.90 100.99.68.15
 		handle @authorized_ips {
 			reverse_proxy https://truenas.lan {
 				transport http {
@@ -101,22 +116,11 @@ adamhl.dev {
 		}
 	}
 
-	@ha host ha.adamhl.dev
-	handle @ha {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
-		handle @authorized_ips {
-			reverse_proxy homeassistant.lan:8123
-		}
-
-		authorize with admin_policy
-		reverse_proxy homeassistant.lan:8123
-	}
-
 	@unifi host unifi.adamhl.dev
 	handle @unifi {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
+		@authorized_ips remote_ip private_ranges 100.97.191.90 100.99.68.15
 		handle @authorized_ips {
-			reverse_proxy https://sid.lan:8443 {
+			reverse_proxy https://truenas.lan:8443 {
 				transport http {
 					tls_insecure_skip_verify
 				}
@@ -124,7 +128,7 @@ adamhl.dev {
 		}
 
 		authorize with admin_policy
-		reverse_proxy https://sid.lan:8443 {
+		reverse_proxy https://truenas.lan:8443 {
 			transport http {
 				tls_insecure_skip_verify
 			}
@@ -133,181 +137,197 @@ adamhl.dev {
 
 	@plex host plex.adamhl.dev
 	handle @plex {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
+		@authorized_ips remote_ip private_ranges 100.97.191.90 100.99.68.15
 		handle @authorized_ips {
-			reverse_proxy sid.lan:32400
+			reverse_proxy truenas.lan:32400
 		}
 
 		authorize with admin_policy
-		reverse_proxy sid.lan:32400
+		reverse_proxy truenas.lan:32400
 	}
 
-	@sync host sync.adamhl.dev
-	handle @sync {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
+	@dockge host dockge.adamhl.dev
+	handle @dockge {
+		@authorized_ips remote_ip private_ranges 100.97.191.90 100.99.68.15
 		handle @authorized_ips {
-			reverse_proxy sid.lan:8001
+			reverse_proxy truenas.lan:8001
 		}
 
 		authorize with admin_policy
-		reverse_proxy sid.lan:8001
+		reverse_proxy truenas.lan:8001
 	}
 
 	@files host files.adamhl.dev
 	handle @files {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
+		@authorized_ips remote_ip private_ranges 100.97.191.90 100.99.68.15
 		handle @authorized_ips {
-			reverse_proxy sid.lan:8002
+			reverse_proxy truenas.lan:8002
 		}
 
 		authorize with admin_policy
-		reverse_proxy sid.lan:8002
+		reverse_proxy truenas.lan:8002
 	}
 
 	@qbittorrent host qbittorrent.adamhl.dev
 	handle @qbittorrent {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
+		@authorized_ips remote_ip private_ranges 100.97.191.90 100.99.68.15
 		handle @authorized_ips {
-			reverse_proxy sid.lan:8003
+			reverse_proxy truenas.lan:8003
 		}
 
 		authorize with admin_policy
-		reverse_proxy sid.lan:8003
+		reverse_proxy truenas.lan:8003
 	}
 
 	@librechat host librechat.adamhl.dev
 	handle @librechat {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
+		@authorized_ips remote_ip private_ranges 100.97.191.90 100.99.68.15
 		handle @authorized_ips {
-			reverse_proxy sid.lan:8004
+			reverse_proxy truenas.lan:8004
 		}
 
 		authorize with admin_policy
-		reverse_proxy sid.lan:8004
+		reverse_proxy truenas.lan:8004
 	}
 
 	@umami host umami.adamhl.dev
 	handle @umami {
 		@script_js path /script.js
 		handle @script_js {
-			reverse_proxy sid.lan:8005
+			reverse_proxy truenas.lan:8005
 		}
 
 		@api path /api/*
 		handle @api {
-			reverse_proxy sid.lan:8005
+			reverse_proxy truenas.lan:8005
 		}
 
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
+		@authorized_ips remote_ip private_ranges 100.97.191.90 100.99.68.15
 		handle @authorized_ips {
-			reverse_proxy sid.lan:8005
+			reverse_proxy truenas.lan:8005
 		}
 
 		authorize with admin_policy
-		reverse_proxy sid.lan:8005
+		reverse_proxy truenas.lan:8005
 	}
 
 	@sonarr host sonarr.adamhl.dev
 	handle @sonarr {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
+		@authorized_ips remote_ip private_ranges 100.97.191.90 100.99.68.15
 		handle @authorized_ips {
-			reverse_proxy sid.lan:8006
+			reverse_proxy truenas.lan:8006
 		}
 
 		authorize with admin_policy
-		reverse_proxy sid.lan:8006
+		reverse_proxy truenas.lan:8006
 	}
 
 	@radarr host radarr.adamhl.dev
 	handle @radarr {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
+		@authorized_ips remote_ip private_ranges 100.97.191.90 100.99.68.15
 		handle @authorized_ips {
-			reverse_proxy sid.lan:8007
+			reverse_proxy truenas.lan:8007
 		}
 
 		authorize with admin_policy
-		reverse_proxy sid.lan:8007
+		reverse_proxy truenas.lan:8007
+	}
+
+	@backrest host backrest.adamhl.dev
+	handle @backrest {
+		@authorized_ips remote_ip private_ranges 100.97.191.90 100.99.68.15
+		handle @authorized_ips {
+			reverse_proxy truenas.lan:8008
+		}
+
+		authorize with admin_policy
+		reverse_proxy truenas.lan:8008
 	}
 
 	@cyberchef host cyberchef.adamhl.dev
 	handle @cyberchef {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
+		@authorized_ips remote_ip private_ranges 100.97.191.90 100.99.68.15
 		handle @authorized_ips {
-			reverse_proxy sid.lan:8009
+			reverse_proxy truenas.lan:8009
 		}
 
 		authorize with admin_policy
-		reverse_proxy sid.lan:8009
+		reverse_proxy truenas.lan:8009
 	}
 
 	@scrutiny host scrutiny.adamhl.dev
 	handle @scrutiny {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
+		@authorized_ips remote_ip private_ranges 100.97.191.90 100.99.68.15
 		handle @authorized_ips {
-			reverse_proxy sid.lan:8010
+			reverse_proxy truenas.lan:8010
 		}
 
 		authorize with admin_policy
-		reverse_proxy sid.lan:8010
+		reverse_proxy truenas.lan:8010
 	}
 
 	@homarr host homarr.adamhl.dev
 	handle @homarr {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
+		@authorized_ips remote_ip private_ranges 100.97.191.90 100.99.68.15
 		handle @authorized_ips {
-			reverse_proxy sid.lan:8011
+			reverse_proxy truenas.lan:8011
 		}
 
 		authorize with admin_policy
-		reverse_proxy sid.lan:8011
+		reverse_proxy truenas.lan:8011
 	}
 
 	@kavita host kavita.adamhl.dev
 	handle @kavita {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
+		@authorized_ips remote_ip private_ranges 100.97.191.90 100.99.68.15
 		handle @authorized_ips {
-			reverse_proxy sid.lan:8012
+			reverse_proxy truenas.lan:8012
 		}
 
 		authorize with admin_policy
-		reverse_proxy sid.lan:8012
+		reverse_proxy truenas.lan:8012
 	}
 
 	@paperless host paperless.adamhl.dev
 	handle @paperless {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
+		@authorized_ips remote_ip private_ranges 100.97.191.90 100.99.68.15
 		handle @authorized_ips {
-			reverse_proxy sid.lan:8013
+			reverse_proxy truenas.lan:8013
 		}
 
 		authorize with admin_policy
-		reverse_proxy sid.lan:8013
+		reverse_proxy truenas.lan:8013
 	}
 
 	@immich host immich.adamhl.dev
 	handle @immich {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
+		@authorized_ips remote_ip private_ranges 100.97.191.90 100.99.68.15
 		handle @authorized_ips {
-			reverse_proxy sid.lan:8014
+			reverse_proxy truenas.lan:8014
 		}
 
 		authorize with admin_policy
-		reverse_proxy sid.lan:8014
+		reverse_proxy truenas.lan:8014
 	}
 
 	@actual host actual.adamhl.dev
 	handle @actual {
-		@authorized_ips remote_ip private_ranges 100.85.253.103 100.97.191.90 100.101.107.135
+		@authorized_ips remote_ip private_ranges 100.97.191.90 100.99.68.15
 		handle @authorized_ips {
-			reverse_proxy sid.lan:8015
+			reverse_proxy truenas.lan:8015
 		}
 
 		authorize with admin_policy
-		reverse_proxy sid.lan:8015
+		reverse_proxy truenas.lan:8015
 	}
 
 	@watchtower host watchtower.adamhl.dev
 	handle @watchtower {
-		reverse_proxy sid.lan:8020
+		reverse_proxy truenas.lan:8020
+	}
+
+	@wildcard host *.adamhl.dev
+	handle @wildcard {
+		redir https://adamhl.dev
 	}
 }

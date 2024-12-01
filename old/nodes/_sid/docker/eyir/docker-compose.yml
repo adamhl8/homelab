@@ -1,0 +1,11 @@
+services:
+  eyir:
+    container_name: eyir
+    image: ghcr.io/adamhl8/eyir
+    restart: always
+    volumes:
+      - ./data/:/app/prisma/db/
+    environment:
+      BOT_TOKEN: ${eyir_token}
+      APPLICATION_ID: 320863841548238848
+      DATABASE_URL: file:db/prod.db

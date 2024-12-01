@@ -8,8 +8,6 @@ linters:
     - forbidigo
     # deprecated
     - exportloopref
-    - gomnd
-    - execinquery
 
 issues:
   max-issues-per-linter: 0
