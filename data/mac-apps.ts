@@ -12,6 +12,7 @@ const macAppIds = [
   "6446061552", // Signal Shifter
   "1611378436", // Pure Paste
   "497799835", // Xcode
+  "408981434", // iMovie
 ]
 
 export { macAppIds }

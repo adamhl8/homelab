@@ -29,7 +29,6 @@ const brewCasks = [
   "spaceid",
   "tailscale",
   "utm",
-  "vlc",
   "wezterm",
   "zen-browser",
 ]

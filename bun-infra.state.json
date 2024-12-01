@@ -81,7 +81,6 @@
         "spaceid",
         "tailscale",
         "utm",
-        "vlc",
         "wezterm",
         "zen-browser"
       ]
@@ -117,7 +116,8 @@
         "1565701763",
         "6446061552",
         "1611378436",
-        "497799835"
+        "497799835",
+        "408981434"
       ]
     },
     "Keka Helper": {
@@ -137,59 +137,67 @@
     "Link Files": {
       "state": [
         {
-          "source": "/Users/adam/homelab-bun/configs/config.fish",
+          "source": "/Users/adam/homelab/configs/config.fish",
           "dest": "/Users/adam/.config/fish/config.fish"
         },
         {
-          "source": "/Users/adam/homelab-bun/configs/secrets.yaml",
+          "source": "/Users/adam/homelab/configs/.gitconfig",
+          "dest": "/Users/adam/.gitconfig"
+        },
+        {
+          "source": "/Users/adam/homelab/configs/secrets.yaml",
           "dest": "/Users/adam/secrets.yaml"
         },
         {
-          "source": "/Users/adam/homelab-bun/configs/authorized_keys",
+          "source": "/Users/adam/homelab/configs/authorized_keys",
           "dest": "/Users/adam/.ssh/authorized_keys"
         },
         {
-          "source": "/Users/adam/homelab-bun/configs/allowed_signers",
+          "source": "/Users/adam/homelab/configs/allowed_signers",
           "dest": "/Users/adam/.ssh/allowed_signers"
         },
         {
-          "source": "/Users/adam/homelab-bun/hosts/macbook/.wezterm.lua",
+          "source": "/Users/adam/homelab/hosts/macbook/.wezterm.lua",
           "dest": "/Users/adam/.wezterm.lua"
         },
         {
-          "source": "/Users/adam/homelab-bun/hosts/macbook/.gitconfig-swf",
+          "source": "/Users/adam/homelab/hosts/macbook/.gitconfig-swf",
           "dest": "/Users/adam/.gitconfig-swf"
         },
         {
-          "source": "/Users/adam/homelab-bun/hosts/macbook/DefaultKeyBinding.dict",
+          "source": "/Users/adam/homelab/hosts/macbook/.prettierrc.mjs",
+          "dest": "/Users/adam/.prettierrc.mjs"
+        },
+        {
+          "source": "/Users/adam/homelab/hosts/macbook/DefaultKeyBinding.dict",
           "dest": "/Users/adam/Library/KeyBindings/DefaultKeyBinding.dict"
         },
         {
-          "source": "/Users/adam/homelab-bun/hosts/macbook/bin/gusync.py",
+          "source": "/Users/adam/homelab/hosts/macbook/bin/gusync.py",
           "dest": "/Users/adam/bin/gusync.py"
         },
         {
-          "source": "/Users/adam/homelab-bun/hosts/macbook/bin/dns-overrides.py",
+          "source": "/Users/adam/homelab/hosts/macbook/bin/dns-overrides.py",
           "dest": "/Users/adam/bin/dns-overrides.py"
         },
         {
-          "source": "/Users/adam/homelab-bun/hosts/macbook/bin/gsync.py",
+          "source": "/Users/adam/homelab/hosts/macbook/bin/gsync.py",
           "dest": "/Users/adam/bin/gsync.py"
         },
         {
-          "source": "/Users/adam/homelab-bun/hosts/macbook/bin/system-update.py",
+          "source": "/Users/adam/homelab/hosts/macbook/bin/system-update.py",
           "dest": "/Users/adam/bin/system-update.py"
         },
         {
-          "source": "/Users/adam/homelab-bun/hosts/macbook/bin/gaddupstream.py",
+          "source": "/Users/adam/homelab/hosts/macbook/bin/gaddupstream.py",
           "dest": "/Users/adam/bin/gaddupstream.py"
         },
         {
-          "source": "/Users/adam/homelab-bun/hosts/macbook/bin/dircopy.py",
+          "source": "/Users/adam/homelab/hosts/macbook/bin/dircopy.py",
           "dest": "/Users/adam/bin/dircopy.py"
         },
         {
-          "source": "/Users/adam/homelab-bun/hosts/macbook/bin/videos.py",
+          "source": "/Users/adam/homelab/hosts/macbook/bin/videos.py",
           "dest": "/Users/adam/bin/videos.py"
         }
       ]
