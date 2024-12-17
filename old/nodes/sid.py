@@ -1,8 +1,7 @@
 from hl_helpers import homelab_paths as paths
 from hl_helpers import start_all_docker_containers
-from shellrunner import X
-
 from shared._modules import shared
+from shellrunner import X
 
 
 def step1() -> None:
@@ -42,6 +41,7 @@ sudo mount -a
 
 # systemctl list-units -t mount
 """
+sudo sed -i -r 's|(After=.+)|\1 home-adam-mnt-taildrive.mount|' /lib/systemd/system/docker.service
 sudo sed -i -r 's|(Requires=.+)|\1 home-adam-mnt-taildrive.mount|' /lib/systemd/system/docker.service
 sudo systemctl daemon-reload
 sudo systemctl restart docker
@@ -52,10 +52,11 @@ curl -fsSL https://tailscale.com/install.sh | sh
 sudo apt install davfs2
 mkdir -p ~/mnt/taildrive
 echo '/home/adam/mnt/taildrive "" ""' | sudo tee -a /etc/davfs2/secrets >/dev/null
+echo 'use_locks 0' | sudo tee -a /etc/davfs2/davfs2.conf >/dev/null
 
 echo 'http://100.100.100.100:8080 /home/adam/mnt/taildrive davfs _netdev,rw,user,uid=1000,gid=1000 0 0' | sudo tee -a /etc/fstab
 sudo systemctl daemon-reload
 sudo mount -av
 
-ln -f -s ~/mnt/taildrive/adamhl8.github/truenas/storage/ ~/mnt/
+ln -f -s ~/mnt/taildrive/adamhl8.github/pve-tailscale/storage/ ~/mnt/
 """

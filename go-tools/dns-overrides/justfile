@@ -1,0 +1,15 @@
+build:
+  go build -o ~/bin/dns-overrides
+
+lint:
+  gofumpt -extra -w .
+  golangci-lint run
+
+run:
+  go run .
+
+bump-deps:
+  go clean -cache
+  go clean -modcache
+  go get -u -t all
+  go mod tidy

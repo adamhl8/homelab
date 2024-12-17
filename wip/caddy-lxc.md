@@ -3,7 +3,7 @@ on pve host:
 ```sh
 pct create 102 local:vztmpl/ubuntu-24.04-standard_24.04-2_amd64.tar.zst \
   --hostname caddy \
-  --password Ov3rclocking! \
+  --password password \
   --unprivileged 1 \
   --ssh-public-keys <(echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO8kVfp1izD27w8sucRuf2NnkRynVcmM5lZgzUcv+J8Y adam-macbook') \
   --rootfs local-zfs:16 \

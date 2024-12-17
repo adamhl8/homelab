@@ -3,11 +3,34 @@ package main
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 	"regexp"
 
 	"github.com/rs/zerolog"
 	"github.com/samber/lo"
 )
+
+var (
+	zlog    zerolog.Logger
+	homeDir string
+)
+
+func init() {
+	zerolog.SetGlobalLevel(zerolog.InfoLevel)
+	zlog = zerolog.New(os.Stderr).With().Timestamp().Logger()
+	zlog = zlog.Output(zerolog.ConsoleWriter{Out: os.Stderr})
+
+	if os.Geteuid() != 0 {
+		zlog.Fatal().Msg("Please run the program as root.")
+	}
+
+	userHomeDir, err := os.UserHomeDir()
+	if err != nil {
+		zlog.Fatal().Err(err).Msg("failed to get home directory")
+	}
+
+	homeDir = filepath.Clean(userHomeDir)
+}
 
 type CleanupDetails struct {
 	PathsToRemove  []string
@@ -73,34 +96,26 @@ func getCleanupDetails() CleanupDetails {
 }
 
 func main() {
-	zerolog.SetGlobalLevel(zerolog.InfoLevel)
-	plog := zerolog.New(os.Stderr).With().Timestamp().Logger()
-	plog = plog.Output(zerolog.ConsoleWriter{Out: os.Stderr})
-
-	if os.Geteuid() != 0 {
-		plog.Fatal().Msg("Please run the program as root.")
-	}
-
 	cleanupDetails := getCleanupDetails()
 	for _, path := range cleanupDetails.PathsToRemove {
-		removePath(&plog, path, true)
+		removePath(path, true)
 	}
 
-	plog.Info().Msg("Removed paths")
+	zlog.Info().Msg("Removed paths")
 	fmt.Println()
 
-	fileDetailsList := findFiles(&plog, cleanupDetails.SearchDirs, cleanupDetails.SearchPatterns)
+	fileDetailsList := findFiles(cleanupDetails.SearchDirs, cleanupDetails.SearchPatterns)
 	for _, fileDetails := range fileDetailsList {
-		shouldRemove := shouldRemoveFiles(&plog, fileDetails)
+		shouldRemove := shouldRemoveFiles(fileDetails)
 		if !shouldRemove {
 			continue
 		}
 
 		for _, path := range fileDetails.Paths {
-			removePath(&plog, path, false)
+			removePath(path, false)
 		}
 	}
 
 	fmt.Println()
-	plog.Info().Msg("Done")
+	zlog.Info().Msg("Done")
 }

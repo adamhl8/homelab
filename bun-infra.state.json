@@ -177,10 +177,6 @@
           "dest": "/Users/adam/bin/gusync.py"
         },
         {
-          "source": "/Users/adam/homelab/hosts/macbook/bin/dns-overrides.py",
-          "dest": "/Users/adam/bin/dns-overrides.py"
-        },
-        {
           "source": "/Users/adam/homelab/hosts/macbook/bin/gsync.py",
           "dest": "/Users/adam/bin/gsync.py"
         },
