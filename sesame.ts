@@ -1,31 +1,33 @@
 #!/usr/bin/env bun
 
-import type { BunInfraConfig } from "bun-infra/types"
+import { sesame } from "sesame"
+import {
+  brewCasks,
+  brewFormula,
+  defaultFileViewer,
+  defaultShell,
+  dockerLogin,
+  fisher,
+  fnm,
+  hostname,
+  installFish,
+  installHomebrew,
+  installRye,
+  kekaHelper,
+  linkFiles,
+  macApps,
+  macosDock,
+  sdkman,
+  sopsConfig,
+  ssh,
+  tideConfig,
+} from "sesame/plugins"
+import type { BunInfraConfig } from "sesame/types"
 import { brewCasks as brewCaskList } from "./data/brew-casks.ts"
 import { brewFormulaList } from "./data/brew-formula.ts"
 import { fisherPlugins } from "./data/fisher.ts"
 import { links } from "./data/links.ts"
 import { macAppIds } from "./data/mac-apps.ts"
-import { fnm } from "./plugins/fnm.ts"
-import { hostname } from "./plugins/hostname.ts"
-import { installHomebrew } from "./plugins/install-homebrew.ts"
-import { installRye } from "./plugins/install-rye.ts"
-import { linkFiles } from "./plugins/link-files.ts"
-import { macosDock } from "./plugins/macos-dock.ts"
-import { brewCasks } from "./plugins/programs/brew-casks.ts"
-import { brewFormula } from "./plugins/programs/brew-formula.ts"
-import { macApps } from "./plugins/programs/mac-apps.ts"
-import { sdkman } from "./plugins/sdkman.ts"
-import { defaultShell } from "./plugins/shell/default-shell.ts"
-import { fisher } from "./plugins/shell/fisher.ts"
-import { installFish } from "./plugins/shell/install-fish.ts"
-import { tideConfig } from "./plugins/shell/tide-config.ts"
-import { sopsConfig } from "./plugins/sops-config.ts"
-import { ssh } from "./plugins/ssh.ts"
-import { defaultFileViewer } from "./plugins/utils/default-file-viewer.ts"
-import { dockerLogin } from "./plugins/utils/docker-login.ts"
-import { kekaHelper } from "./plugins/utils/keka-helper.ts"
-import { sesame } from "bun-infra"
 
 const config = {
   sid: {

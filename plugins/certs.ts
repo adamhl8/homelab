@@ -1,5 +1,5 @@
 import { $ } from "bun"
-import { createPlugin } from "bun-infra/plugin"
+import { createPlugin } from "sesame/plugin"
 
 interface HostnameDiff {
   hostname?: { old: string; new: string }

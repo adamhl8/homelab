@@ -24,6 +24,7 @@ if type -q go
     set -a extra_paths (go env GOPATH)/bin
     set -a extra_paths (go env GOROOT)/bin
 end
+set -a extra_paths ~/.cargo/bin
 set -a extra_paths (path filter -d $HOMEBREW_PREFIX/opt/*/libexec/gnubin; or true)
 set -a extra_paths $HOMEBREW_PREFIX/opt/curl/bin
 set -a extra_paths $HOMEBREW_PREFIX/opt/zip/bin

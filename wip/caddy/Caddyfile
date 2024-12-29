@@ -33,6 +33,13 @@ adamhl.dev {
 }
 
 joieparma.com {
+	@resume path /resume
+	handle @resume {
+		root /srv/joieparma.com
+		rewrite * /resume.pdf
+		file_server
+	}
+
 	reverse_proxy sid.lan:9000
 }
 
@@ -112,7 +119,7 @@ joieparma.com {
 	handle @unifi {
 		@authorized_ips remote_ip private_ranges 100.97.191.90 100.99.68.15
 		handle @authorized_ips {
-			reverse_proxy https://sid.lan:8443 {
+			reverse_proxy https://unifi.lan:8443 {
 				transport http {
 					tls_insecure_skip_verify
 				}
@@ -120,7 +127,7 @@ joieparma.com {
 		}
 
 		authorize with admin_policy
-		reverse_proxy https://sid.lan:8443 {
+		reverse_proxy https://unifi.lan:8443 {
 			transport http {
 				tls_insecure_skip_verify
 			}
@@ -273,11 +280,11 @@ joieparma.com {
 	handle @paperless {
 		@authorized_ips remote_ip private_ranges 100.97.191.90 100.99.68.15
 		handle @authorized_ips {
-			reverse_proxy sid.lan:8013
+			reverse_proxy paperless.lan:8000
 		}
 
 		authorize with admin_policy
-		reverse_proxy sid.lan:8013
+		reverse_proxy paperless.lan:8000
 	}
 
 	@immich host immich.adamhl.dev

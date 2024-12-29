@@ -2,6 +2,7 @@ const links = [
   { source: "configs/config.fish", dest: "~/.config/fish/" },
   { source: "configs/.gitconfig", dest: "~/" },
   { source: "configs/secrets.yaml", dest: "~/" },
+  { source: "configs/.bunfig.toml", dest: "~/" },
   { source: "configs/authorized_keys", dest: "~/.ssh/" },
   { source: "configs/allowed_signers", dest: "~/.ssh/" },
   { source: "hosts/macbook/.wezterm.lua", dest: "~/" },

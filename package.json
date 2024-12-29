@@ -7,7 +7,7 @@
     "lint": "tsc --noEmit && biome check --write . && eslint ."
   },
   "dependencies": {
-    "bun-infra": "link:bun-infra",
+    "sesame": "link:sesame",
     "cli-highlight": "^2.1.11",
     "figures": "^6.1.0",
     "signale": "^1.4.0",

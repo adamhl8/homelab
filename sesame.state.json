@@ -43,6 +43,7 @@
         "ko",
         "mas",
         "micro",
+        "rustup",
         "sops",
         "unzip",
         "wget",
@@ -147,6 +148,10 @@
         {
           "source": "/Users/adam/homelab/configs/secrets.yaml",
           "dest": "/Users/adam/secrets.yaml"
+        },
+        {
+          "source": "/Users/adam/homelab/configs/.bunfig.toml",
+          "dest": "/Users/adam/.bunfig.toml"
         },
         {
           "source": "/Users/adam/homelab/configs/authorized_keys",

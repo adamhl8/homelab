@@ -34,6 +34,7 @@ const brewFormulaList = [
   "ko",
   "mas",
   "micro",
+  "rustup",
   "sops",
   "unzip",
   "wget",
