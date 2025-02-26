@@ -1,0 +1,15 @@
+services:
+  pingvin-share:
+    container_name: pingvin-share
+    image: stonith404/pingvin-share
+    restart: always
+    ports:
+      - 8008:3000
+    volumes:
+      - data:/opt/app/backend/data
+      - data:/opt/app/frontend/public/img
+    environment:
+      TRUST_PROXY: true
+
+volumes:
+  data:

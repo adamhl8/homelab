@@ -1,6 +1,6 @@
 ssh -q -t root@pve.lan 'bash -l -c "pct create 109 local:vztmpl/debian-12-standard_12.7-1_amd64.tar.zst \
  --hostname paperless \
- --password Ov3rclocking! \
+ --password password \
  --unprivileged 1 \
  --ssh-public-keys <(echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO8kVfp1izD27w8sucRuf2NnkRynVcmM5lZgzUcv+J8Y adam-macbook') \
  --rootfs local-zfs:16 \

@@ -66,16 +66,19 @@
         "font-atkinson-hyperlegible",
         "font-jetbrains-mono-nerd-font",
         "forklift",
+        "ghostty",
         "google-chrome",
         "iina",
         "jordanbaird-ice",
         "linearmouse",
+        "losslesscut",
         "obsidian",
         "orbstack",
         "plex",
         "protonvpn",
         "qbittorrent",
         "qlvideo",
+        "qmk-toolbox",
         "raycast",
         "shottr",
         "slack",
@@ -83,7 +86,8 @@
         "tailscale",
         "utm",
         "wezterm",
-        "zen-browser"
+        "zen-browser",
+        "zoom"
       ]
     },
     "Install Fish": {
@@ -140,6 +144,10 @@
         {
           "source": "/Users/adam/homelab/configs/config.fish",
           "dest": "/Users/adam/.config/fish/config.fish"
+        },
+        {
+          "source": "/Users/adam/homelab/configs/ghostty",
+          "dest": "/Users/adam/.config/ghostty"
         },
         {
           "source": "/Users/adam/homelab/configs/.gitconfig",

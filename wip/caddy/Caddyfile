@@ -232,6 +232,11 @@ joieparma.com {
 		reverse_proxy sid.lan:8007
 	}
 
+	@pingvin host share.adamhl.dev
+	handle @pingvin {
+		reverse_proxy sid.lan:8008
+	}
+
 	@cyberchef host cyberchef.adamhl.dev
 	handle @cyberchef {
 		@authorized_ips remote_ip private_ranges 100.97.191.90 100.99.68.15

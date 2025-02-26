@@ -1,3 +1,5 @@
+set -q GHOSTTY_RESOURCES_DIR; and source "$GHOSTTY_RESOURCES_DIR"/shell-integration/fish/vendor_conf.d/ghostty-shell-integration.fish
+
 # PATH
 
 function clean_path --description 'Cleans PATH (removes duplicates and empty paths). $argv will be appended to PATH'
@@ -46,6 +48,7 @@ type -q sops; and set -gx OPENAI_API_KEY (sops -d --extract "['openai_api_key']"
 
 if test $hostname = adam-macbook
     type -q sops; and set -gx VULCAN_TOKEN (sops -d --extract "['swf_vulcan_pat']" ~/secrets.yaml)
+    type -q sops; and set -gx CI_JOB_TOKEN $VULCAN_TOKEN
     type -q sops; and set -gx GITHUB_ASTRO_TOKEN (sops -d --extract "['github_astro_adamhl-dev_token']" ~/secrets.yaml)
 end
 
@@ -158,3 +161,7 @@ if functions --query _natural_selection
     bind $command_shift_z '_natural_selection redo'
     bind '' kill-selection end-selection self-insert
 end
+
+# Added by OrbStack: command-line tools and integration
+# This won't be added again if you remove it.
+source ~/.orbstack/shell/init.fish 2>/dev/null || :

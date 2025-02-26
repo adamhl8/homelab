@@ -1,0 +1,14 @@
+services:
+  core-keeper-server:
+    container_name: core-keeper-server
+    image: ghcr.io/adamhl8/core-keeper-server:latest
+    volumes:
+      - server-files:/home/steam/core-keeper-dedicated
+      - server-data:/home/steam/core-keeper-data
+    restart: unless-stopped
+    env_file:
+      - .env
+    stop_grace_period: 2m
+volumes:
+  server-files:
+  server-data:

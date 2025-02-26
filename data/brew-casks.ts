@@ -13,16 +13,19 @@ const brewCasks = [
   "font-atkinson-hyperlegible",
   "font-jetbrains-mono-nerd-font",
   "forklift",
+  "ghostty",
   "google-chrome",
   "iina",
   "jordanbaird-ice",
   "linearmouse",
+  "losslesscut",
   "obsidian",
   "orbstack",
   "plex",
   "protonvpn",
   "qbittorrent",
   "qlvideo",
+  "qmk-toolbox",
   "raycast",
   "shottr",
   "slack",
@@ -31,6 +34,7 @@ const brewCasks = [
   "utm",
   "wezterm",
   "zen-browser",
+  "zoom",
 ]
 
 export { brewCasks }

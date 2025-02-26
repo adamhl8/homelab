@@ -1,6 +1,6 @@
 ssh -q -t root@pve.lan 'bash -l -c "pct create 110 local:vztmpl/debian-12-standard_12.7-1_amd64.tar.zst \
  --hostname unifi \
- --password Ov3rclocking! \
+ --password password \
  --unprivileged 1 \
  --ssh-public-keys <(echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO8kVfp1izD27w8sucRuf2NnkRynVcmM5lZgzUcv+J8Y adam-macbook') \
  --rootfs local-zfs:16 \
@@ -24,5 +24,5 @@ curl -fsSL https://www.mongodb.org/static/pgp/server-8.0.asc | gpg --dearmor -o 
 echo "deb [signed-by=/usr/share/keyrings/mongodb-server-8.0.gpg] http://repo.mongodb.org/apt/debian bookworm/mongodb-org/8.0 main" | tee /etc/apt/sources.list.d/mongodb-org-8.0.list
 apt update && apt install -y mongodb-org
 
-curl -Lo ~/unifi.deb https://dl.ui.com/unifi/9.0.106-pv0h5r341z/unifi_sysvinit_all.deb
+curl -Lo ~/unifi.deb https://dl.ui.com/unifi/9.0.108-u598f2io2a/unifi_sysvinit_all.deb
 apt install -y ~/unifi.deb && rm ~/unifi.deb

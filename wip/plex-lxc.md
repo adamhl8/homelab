@@ -22,7 +22,7 @@ lxc.idmap = g 1001 101001 64535
 ```
 
 ssh -q -t root@pve.lan 'bash -l -c "echo 'mp0: /nas/storage,mp=/nas/storage' >>/etc/pve/lxc/106.conf"'
-ssh -q -t root@pve.lan 'bash -l -c "echo 'dev0: /dev/dri/card0,gid=44' >>/etc/pve/lxc/106.conf"'
+ssh -q -t root@pve.lan 'bash -l -c "echo 'dev0: /dev/dri/card1,gid=44' >>/etc/pve/lxc/106.conf"'
 ssh -q -t root@pve.lan 'bash -l -c "echo 'dev1: /dev/dri/renderD128,gid=104' >>/etc/pve/lxc/106.conf"'
 ssh -q -t root@pve.lan 'bash -l -c "cat /etc/pve/lxc/106.conf"'
 ssh -q -t root@pve.lan 'bash -l -c "pct start 106"'

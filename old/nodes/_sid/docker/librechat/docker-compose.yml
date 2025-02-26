@@ -3,21 +3,23 @@ services:
     container_name: librechat
     image: ghcr.io/danny-avila/librechat-dev
     restart: always
-    user: ${UID}:${GID}
+    user: 1000:1000
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - 8004:3080
     volumes:
+      - type: bind
+        source: ./.env
+        target: /app/.env
       - ./images/:/app/client/public/images/
+      - ./uploads/:/app/uploads/
       - ./logs/:/app/api/logs/
     environment:
-      ENDPOINTS: openAI
-      OPENAI_MODELS: gpt-4o
-      DOMAIN_CLIENT: https://librechat.adamhl.dev
-      DOMAIN_SERVER: https://librechat.adamhl.dev
+      HOST: 0.0.0.0
       MONGO_URI: mongodb://mongo:27017/LibreChat
+      RAG_PORT: 8000
       RAG_API_URL: http://librechat-rag-api:8000
-    env_file:
-      - .env
     depends_on:
       - librechat-rag-api
       - mongo
@@ -28,6 +30,7 @@ services:
     restart: always
     environment:
       DB_HOST: pgvector
+      RAG_PORT: 8000
     env_file:
       - .env
     depends_on:
@@ -38,7 +41,7 @@ services:
     image: mongo
     restart: always
     command: mongod --noauth
-    user: ${UID}:${GID}
+    user: 1000:1000
     volumes:
       - ./mongo/:/data/db/
 
