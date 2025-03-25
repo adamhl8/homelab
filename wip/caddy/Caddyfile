@@ -81,6 +81,7 @@ joieparma.com {
 			reverse_proxy https://opnsense.lan {
 				transport http {
 					tls_insecure_skip_verify
+					versions 1.1
 				}
 			}
 		}
@@ -89,6 +90,7 @@ joieparma.com {
 		reverse_proxy https://opnsense.lan {
 			transport http {
 				tls_insecure_skip_verify
+				versions 1.1
 			}
 		}
 	}

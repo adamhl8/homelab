@@ -79,7 +79,19 @@ apt install caddy
 https://caddyserver.com/docs/build#package-support-files-for-custom-builds-for-debianubunturaspbian
 
 ```sh
-curl -fsSLo caddy 'https://caddyserver.com/api/download?os=linux&arch=amd64&p=github.com%2Fcaddy-dns%2Froute53&p=github.com%2Fgreenpau%2Fcaddy-security%40latest&idempotency=57032529439103'
+curl -fsSLo go.tar.gz 'https://go.dev/dl/go1.24.1.linux-amd64.tar.gz'
+rm -rf /usr/local/go && tar -C /usr/local -xzf go.tar.gz
+rm -rf go.tar.gz
+echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bashrc
+source ~/.bashrc
+echo 'export PATH=$PATH:$(go env GOPATH)/bin' >> ~/.bashrc
+go install github.com/caddyserver/xcaddy/cmd/xcaddy@latest
+
+xcaddy build \
+    --with github.com/greenpau/caddy-security \
+    --with github.com/caddy-dns/route53 \
+    --output ./caddy
+
 chmod +x caddy
 ```
 

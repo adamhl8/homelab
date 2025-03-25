@@ -101,6 +101,8 @@ abbr -a dcd 'docker compose down'
 
 abbr -a pfmt 'prettier --config ~/.prettierrc.mjs --write .'
 
+abbr -a tazea 'bunx taze latest -fw && rm -rf node_modules/ bun.lock && bun i -f'
+
 abbr -a --set-cursor q 'sgpt -s \'%\''
 
 # binds

@@ -1,7 +1,7 @@
 services:
   core-keeper-server:
     container_name: core-keeper-server
-    image: ghcr.io/adamhl8/core-keeper-server:latest
+    image: escaping/core-keeper-dedicated
     volumes:
       - server-files:/home/steam/core-keeper-dedicated
       - server-data:/home/steam/core-keeper-data
