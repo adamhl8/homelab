@@ -1,3 +1,4 @@
+// wip
 package main
 
 import (
@@ -32,6 +33,7 @@ func init() {
 	homeDir = filepath.Clean(userHomeDir)
 }
 
+// CleanupDetails wip.
 type CleanupDetails struct {
 	PathsToRemove  []string
 	SearchDirs     []string

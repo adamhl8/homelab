@@ -298,11 +298,11 @@ joieparma.com {
 	handle @immich {
 		@authorized_ips remote_ip private_ranges 100.97.191.90 100.99.68.15
 		handle @authorized_ips {
-			reverse_proxy sid.lan:8014
+			reverse_proxy immich.lan:8000
 		}
 
 		authorize with admin_policy
-		reverse_proxy sid.lan:8014
+		reverse_proxy immich.lan:8000
 	}
 
 	@actual host actual.adamhl.dev

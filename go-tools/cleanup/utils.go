@@ -12,6 +12,7 @@ import (
 	"github.com/charlievieth/fastwalk"
 )
 
+// FileDetails wip.
 type FileDetails struct {
 	Name    string
 	Paths   []string
@@ -26,6 +27,7 @@ func (f *FileDetails) addPath(path string) {
 	f.Paths = append(f.Paths, path)
 }
 
+// FileDetailsList wip.
 type FileDetailsList []*FileDetails
 
 func findFiles(dirs []string, patterns map[string]*regexp.Regexp) FileDetailsList {
