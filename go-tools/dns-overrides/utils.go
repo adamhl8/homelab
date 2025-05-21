@@ -14,15 +14,18 @@ func getDomainsFromCaddyfile(caddyfilePath string) ([]string, error) {
 		return nil, fmt.Errorf("failed to read Caddyfile: %w", err)
 	}
 
-	re := regexp.MustCompile(`@\w+ host (?P<domain>[\w\.]+)`)
+	re := regexp.MustCompile(`(?m)^(\S+\.adamhl\.dev)\s*{`)
 	matches := re.FindAllStringSubmatch(string(caddyfileContent), -1)
-
-	domainIndex := re.SubexpIndex("domain")
 
 	domains := make([]string, 0, len(matches))
 
 	for _, match := range matches {
-		domain := match[domainIndex]
+		domain := match[1]
+
+		if domain == "*.adamhl.dev" {
+			continue
+		}
+
 		domains = append(domains, domain)
 	}
 

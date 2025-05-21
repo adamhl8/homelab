@@ -15,7 +15,7 @@ type File struct {
 	format  string
 }
 
-func NewSops(path string, format string) (*File, error) {
+func NewSops(path, format string) (*File, error) {
 	if format != "yaml" {
 		return nil, fmt.Errorf("%w: %s", ErrUnsupportedFormat, format)
 	}

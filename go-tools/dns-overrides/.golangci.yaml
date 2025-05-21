@@ -1,16 +1,19 @@
+version: "2"
 linters:
-  enable-all: true
+  default: all
   disable:
-    - gofumpt
     - depguard
-    - gci
     - exhaustruct
     - forbidigo
     - gochecknoglobals
     - gochecknoinits
-    # deprecated
-    - exportloopref
 
 issues:
   max-issues-per-linter: 0
   max-same-issues: 0
+
+formatters:
+  enable:
+    - gofmt
+    - goimports
+    - golines

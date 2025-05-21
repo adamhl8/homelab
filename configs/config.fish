@@ -93,7 +93,7 @@ abbr -a greset 'git fetch && git reset --hard @{u}'
 abbr -a gprune 'git fetch -fpP && gbc && git gc --aggressive --prune=now'
 abbr -a gclean 'git clean -ndffx'
 abbr -a gcleanf 'git clean -dffx'
-abbr -a gsanitize 'git clean -dffx && git fetch -fpP && gbc && git reset --hard @{u} && git gc --aggressive --prune=now'
+abbr -a gsanitize 'git clean -dffx && git fetch -fpP && gbc && git reset --hard @{u} && git reflog expire --expire=now --all && git gc --aggressive --prune=now'
 abbr -a gswitch 'git switch -c'
 
 abbr -a dcu 'docker compose up -d'
