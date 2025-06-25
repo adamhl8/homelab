@@ -1,5 +1,2 @@
-[install]
-saveTextLockfile = true
-
 [run]
 bun = true

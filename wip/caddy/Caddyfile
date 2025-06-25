@@ -1,8 +1,5 @@
 {
 	email adamhl@pm.me
-	ech ech.adamhl.dev {
-		dns route53
-	}
 
 	order authenticate before respond
 	order authorize before reverse_proxy
@@ -293,6 +290,16 @@ actual.adamhl.dev {
 
 	authorize with admin_policy
 	reverse_proxy sid.lan:8015
+}
+
+kan.adamhl.dev {
+	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	handle @authorized_ips {
+		reverse_proxy kan.lan:8000
+	}
+
+	authorize with admin_policy
+	reverse_proxy kan.lan:8000
 }
 
 watchtower.adamhl.dev {

@@ -1,5 +1,7 @@
 set -q GHOSTTY_RESOURCES_DIR; and source "$GHOSTTY_RESOURCES_DIR"/shell-integration/fish/vendor_conf.d/ghostty-shell-integration.fish
 
+starship init fish | source
+
 # PATH
 
 function clean_path --description 'Cleans PATH (removes duplicates and empty paths). $argv will be appended to PATH'
@@ -20,7 +22,6 @@ clean_path $base_bin_paths
 # this will be used with add_path so that the paths are added in the right order
 # e.g. we want ~/bin to be first
 set -l extra_paths ~/bin ~/.local/bin
-set -a extra_paths ~/.rye/shims
 set -a extra_paths ~/.bun/bin
 if type -q go
     set -a extra_paths (go env GOPATH)/bin
@@ -43,6 +44,8 @@ set -gx GID (id -g)
 type -q micro; and set -gx EDITOR micro
 type -q sops; and set -gx SOPS_AGE_KEY_FILE ~/.config/sops/age/keys.txt
 type -q fzf_configure_bindings; and set -gx fzf_fd_opts -u
+
+set -gx BUN_OPTIONS '--bun'
 
 type -q sops; and set -gx OPENAI_API_KEY (sops -d --extract "['openai_api_key']" ~/secrets.yaml)
 
@@ -163,7 +166,3 @@ if functions --query _natural_selection
     bind $command_shift_z '_natural_selection redo'
     bind '' kill-selection end-selection self-insert
 end
-
-# Added by OrbStack: command-line tools and integration
-# This won't be added again if you remove it.
-source ~/.orbstack/shell/init.fish 2>/dev/null || :

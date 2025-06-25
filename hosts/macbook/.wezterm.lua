@@ -9,27 +9,35 @@ local inactive_tab = "#2e2e2e"
 local inactive = "#808080"
 local hover = "#232323"
 local selection = "#264f78"
+
 local black = "#000000"
-local red = "#cd3131"
-local green = "#0dbc79"
-local yellow = "#e5e510"
-local blue = "#2472c8"
-local purple = "#bc3fbc"
-local cyan = "#11a8cd"
-local white = "#e5e5e5"
 local bright_black = "#666666"
+
+local red = "#cd3131"
 local bright_red = "#f14c4c"
+
+local green = "#0dbc79"
 local bright_green = "#23d18b"
+
+local yellow = "#e5e510"
 local bright_yellow = "#f5f543"
+
+local blue = "#2472c8"
 local bright_blue = "#3b8eea"
+
+local purple = "#bc3fbc"
 local bright_purple = "#d670d6"
+
+local cyan = "#11a8cd"
 local bright_cyan = "#29b8db"
+
+local white = "#e5e5e5"
 local bright_white = "#e5e5e5"
 
 config.default_prog = { '/opt/homebrew/bin/fish', '--login' }
 
 config.font = wezterm.font {
-  family = 'JetBrainsMono Nerd Font',
+  family = 'JetBrainsMono Nerd Font Mono',
   harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' },
 }
 config.font_size = 16
@@ -117,56 +125,56 @@ config.enable_kitty_keyboard = true
 
 local act = wezterm.action
 config.keys = {
-	{
-		key = 'LeftArrow',
-		mods = 'SUPER',
-		action = act.SendString '\x1b[1;9D'
-	},
-	{
-		key = 'RightArrow',
-		mods = 'SUPER',
-		action = act.SendString '\x1b[1;9C'
-	},
-	{
-		key = 'LeftArrow',
-		mods = 'SUPER|SHIFT',
-		action = act.SendString '\x1b[1;10D'
-	},
-	{
-		key = 'RightArrow',
-		mods = 'SUPER|SHIFT',
-		action = act.SendString '\x1b[1;10C'
-	},
-	{
-		key = 'Backspace',
-		mods = 'SUPER',
-		action = act.SendString '\x1b[127;9u'
-	},
-	{
-		key = 'Delete',
-		mods = 'SUPER',
-		action = act.SendString '\x1b[3;9~'
-	},
-	{
-		key = 'a',
-		mods = 'SUPER',
-		action = act.SendString '\x1b[97;9u'
-	},
-	{
-		key = 'z',
-		mods = 'SUPER',
-		action = act.SendString '\x1b[122;9u'
-	},
-	{
-		key = 'z',
-		mods = 'SUPER|SHIFT',
-		action = act.SendString '\x1b[122;10u'
-	},
-	{
-		key = '/',
-		mods = 'SUPER',
-		action = act.SendString '\x1b[47;9u'
-	},
+  {
+    key = 'LeftArrow',
+    mods = 'SUPER',
+    action = act.SendString '\x1b[1;9D'
+  },
+  {
+    key = 'RightArrow',
+    mods = 'SUPER',
+    action = act.SendString '\x1b[1;9C'
+  },
+  {
+    key = 'LeftArrow',
+    mods = 'SUPER|SHIFT',
+    action = act.SendString '\x1b[1;10D'
+  },
+  {
+    key = 'RightArrow',
+    mods = 'SUPER|SHIFT',
+    action = act.SendString '\x1b[1;10C'
+  },
+  -- {
+  --   key = 'Backspace',
+  --   mods = 'SUPER',
+  --   action = act.SendString '\x1b[127;9u'
+  -- },
+  {
+    key = 'Delete',
+    mods = 'SUPER',
+    action = act.SendString '\x1b[3;9~'
+  },
+  {
+    key = 'a',
+    mods = 'SUPER',
+    action = act.SendString '\x1b[97;9u'
+  },
+  {
+    key = 'z',
+    mods = 'SUPER',
+    action = act.SendString '\x1b[122;9u'
+  },
+  {
+    key = 'z',
+    mods = 'SUPER|SHIFT',
+    action = act.SendString '\x1b[122;10u'
+  },
+  {
+    key = '/',
+    mods = 'SUPER',
+    action = act.SendString '\x1b[47;9u'
+  },
 }
 
 return config
