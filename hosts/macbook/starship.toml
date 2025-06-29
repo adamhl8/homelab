@@ -24,7 +24,7 @@ $time\
 right_format = """
 [](fg:surface1)\
 $status\
-[( $cmd_duration)](bg:surface1)\
+$cmd_duration\
 """
 
 [status]
@@ -33,9 +33,9 @@ pipestatus = true
 style = 'fg:text bg:surface1'
 success_symbol = '[]($style bold fg:green)'
 symbol = '[]($style bold fg:red)'
-format = '[ $symbol $int (\($common_meaning$signal_name\))]($style)'
+format = '[ $symbol $int( \($common_meaning$signal_name\)) ]($style)'
 pipestatus_segment_format = "$int"
-pipestatus_format = '[ $symbol $int (\($common_meaning$signal_name\)) $pipestatus]($style)'
+pipestatus_format = '[ $symbol $int( \($common_meaning$signal_name\)) $pipestatus ]($style)'
 
 [cmd_duration]
 style = "bg:yellow fg:crust"
