@@ -97,12 +97,7 @@
       "state": "/opt/homebrew/bin/fish"
     },
     "Install Fisher Plugins": {
-      "state": [
-        "ilancosman/tide",
-        "daleeidd/natural-selection",
-        "patrickf1/fzf.fish",
-        "meaningful-ooo/sponge"
-      ]
+      "state": ["ilancosman/tide", "daleeidd/natural-selection", "patrickf1/fzf.fish", "meaningful-ooo/sponge"]
     },
     "Tide Config": {
       "state": "2 1 2 3 1 1 1 1 1 1 1"
@@ -132,12 +127,7 @@
       "state": null
     },
     "Fisher Plugins": {
-      "state": [
-        "ilancosman/tide",
-        "daleeidd/natural-selection",
-        "patrickf1/fzf.fish",
-        "reitzig/sdkman-for-fish"
-      ]
+      "state": ["ilancosman/tide", "daleeidd/natural-selection", "patrickf1/fzf.fish", "reitzig/sdkman-for-fish"]
     },
     "Link Files": {
       "state": [
