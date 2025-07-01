@@ -3,11 +3,13 @@ ssh root@<tailscale-ip>
 on proxmox host:
 
 append to /etc/pve/lxc/<backrest-lxc-id>.conf
+
 ```
 mp0: /nas/storage,mp=/nas/storage
 ```
 
 /etc/pve/lxc/<backrest-lxc-id>.conf
+
 ```
 lxc.idmap = u 0 100000 1000
 lxc.idmap = g 0 100000 1000
@@ -22,7 +24,6 @@ apt install curl -y
 
 dpkg-reconfigure tzdata
 
-
 curl -Lo /root/backrest.tar.gz https://github.com/garethgeorge/backrest/releases/latest/download/backrest_Linux_x86_64.tar.gz
 tar -xzf /root/backrest.tar.gz backrest
 chown root:root backrest
@@ -33,9 +34,8 @@ rm -f backrest.tar.gz
 
 mkdir -p /root/backrest
 
-
-
 /etc/systemd/system/backrest.service
+
 ```
 [Unit]
 Description=Backrest
@@ -54,6 +54,7 @@ WantedBy=multi-user.target
 ```
 
 /root/backrest/config.json
+
 ```
 {
   "modno":  1,
@@ -136,6 +137,7 @@ WantedBy=multi-user.target
   }
 }
 ```
+
 systemctl daemon-reload
 systemctl enable backrest
 systemctl start backrest

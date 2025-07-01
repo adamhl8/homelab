@@ -14,7 +14,7 @@
     "valibot": "^1.1.0"
   },
   "devDependencies": {
-    "@adamhl8/configs": "^0.3.0",
+    "@adamhl8/configs": "^0.4.2",
     "@biomejs/biome": "^2.0.6",
     "@types/bun": "^1.2.17",
     "@types/signale": "^1.4.7",

@@ -1,4 +1,6 @@
-import { $, type Shell, type ShellExpression } from "bun"
+import process from "node:process"
+import type { Shell, ShellExpression } from "bun"
+import { $ } from "bun"
 
 interface BunShellOptions {
   cwd?: string

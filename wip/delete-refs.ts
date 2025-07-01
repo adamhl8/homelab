@@ -2,8 +2,10 @@
 
 // bun build --compile --outfile=delete-refs --sourcemap=inline --minify ./scripts/delete-refs.ts && cp delete-refs ~/bin/delete-refs
 
+import process from "node:process"
 import { intro, isCancel, multiselect, outro, spinner } from "@clack/prompts"
-import { $, type ShellError, type ShellOutput } from "bun"
+import type { ShellError, ShellOutput } from "bun"
+import { $ } from "bun"
 
 async function deleteRemoteRefs() {
   intro("Delete Remote Refs")
