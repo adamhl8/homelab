@@ -52,10 +52,9 @@ type -q sops; and set -gx OPENAI_API_KEY (sops -d --extract "['openai_api_key']"
 if test $hostname = adam-macbook
     type -q sops; and set -gx VULCAN_TOKEN (sops -d --extract "['swf_vulcan_pat']" ~/secrets.yaml)
     type -q sops; and set -gx CI_JOB_TOKEN $VULCAN_TOKEN
+    type -q sops; and set -gx GITHUB_TOKEN (sops -d --extract "['github_repo_token']" ~/secrets.yaml)
     type -q sops; and set -gx GITHUB_ASTRO_TOKEN (sops -d --extract "['github_astro_adamhl-dev_token']" ~/secrets.yaml)
 end
-
-set -l ind (contains -i -- kubectl $tide_right_prompt_items); and set -e tide_right_prompt_items[$ind]
 
 type -q fnm; and fnm env --shell fish | source
 
