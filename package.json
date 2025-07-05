@@ -1,10 +1,11 @@
 {
   "name": "homelab",
-  "type": "module",
   "version": "0.0.1",
+  "type": "module",
   "scripts": {
-    "start": "bun-infra",
-    "lint": "tsc --noEmit && biome check --write"
+    "lint": "tsc --noEmit && biome check --write",
+    "prepare": "find .githooks -type f -exec ln -srf {} .git/hooks/ \\;",
+    "start": "bun-infra"
   },
   "dependencies": {
     "cli-highlight": "^2.1.11",
@@ -20,7 +21,5 @@
     "@types/signale": "^1.4.7",
     "typescript": "^5.8.3"
   },
-  "trustedDependencies": [
-    "@biomejs/biome"
-  ]
+  "trustedDependencies": ["@biomejs/biome"]
 }
