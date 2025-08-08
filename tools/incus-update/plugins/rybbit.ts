@@ -8,7 +8,11 @@ export async function pre(): Promise<Result> {
 
   logger.info("Cloning Rybbit repository...")
 
-  const commands = ["rm -rf rybbit-repo", "git clone --depth=1 https://github.com/rybbit-io/rybbit.git rybbit-repo"]
+  const commands = [
+    "docker compose down",
+    "rm -rf rybbit-repo",
+    "git clone --depth=1 https://github.com/rybbit-io/rybbit.git rybbit-repo",
+  ]
 
   for (const command of commands) {
     // biome-ignore lint/nursery/noAwaitInLoop: need to run commands in order
