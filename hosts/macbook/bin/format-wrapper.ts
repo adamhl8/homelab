@@ -1,4 +1,5 @@
 #!/usr/bin/env bun
+/** biome-ignore-all lint/correctness/useHookAtTopLevel: not a react component */
 
 import path from "node:path"
 import process from "node:process"
@@ -112,7 +113,7 @@ const biome: Formatter = async (input) => {
   }
 
   const { stdout, stderr, exitCode } = await runFormatterCmd(
-    `"${biomeProjectCmd}" format --stdin-file-path="${bufferPath}" --write`,
+    `"${biomeProjectCmd}" check --stdin-file-path="${bufferPath}" --write`,
     input,
   )
 

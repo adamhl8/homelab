@@ -4,7 +4,7 @@
     "rewriteRelativeImportExtensions": false,
     "noEmit": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "~/tools/*": ["./tools/*"]
     }
   }
 }

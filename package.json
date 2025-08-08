@@ -3,22 +3,19 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
+    "compile:tool": "./compile-tool.sh",
     "lint": "tsc --noEmit && biome check --write",
-    "prepare": "find .githooks -type f -exec ln -srf {} .git/hooks/ \\; || true",
-    "start": "bun-infra"
+    "prepare": "find .githooks -type f -exec ln -srf {} .git/hooks/ \\; || true"
   },
   "dependencies": {
-    "cli-highlight": "^2.1.11",
-    "figures": "^6.1.0",
-    "signale": "^1.4.0",
-    "untildify": "^5.0.0",
-    "valibot": "^1.1.0"
+    "@clack/prompts": "^0.11.0",
+    "ts-explicit-errors": "^3.0.0",
+    "untildify": "^5.0.0"
   },
   "devDependencies": {
-    "@adamhl8/configs": "^0.9.1",
-    "@biomejs/biome": "^2.1.1",
-    "@types/bun": "^1.2.18",
-    "@types/signale": "^1.4.7",
-    "typescript": "^5.8.3"
+    "@adamhl8/configs": "^0.10.1",
+    "@biomejs/biome": "^2.1.4",
+    "@types/bun": "^1.2.19",
+    "typescript": "^5.9.2"
   }
 }

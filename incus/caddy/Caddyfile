@@ -1,0 +1,262 @@
+{
+	email adamhl@pm.me
+
+	order authenticate before respond
+	order authorize before reverse_proxy
+
+	security {
+		local identity store localdb {
+			realm local
+			path /etc/caddy/users.json
+		}
+
+		authentication portal authportal {
+			enable identity store localdb
+			cookie domain adamhl.dev
+			cookie lifetime 172800
+			crypto default token lifetime 86400
+
+			ui {
+				links {
+					"Portal Settings" /settings icon "las la-cog"
+				}
+			}
+		}
+
+		authorization policy admin_policy {
+			set auth url https://auth.adamhl.dev
+			allow roles authp/admin
+		}
+	}
+
+	admin :2019
+}
+
+joieparma.com {
+	@resume path /resume
+	handle @resume {
+		root /srv/joieparma.com
+		rewrite * /resume.pdf
+		file_server
+	}
+
+	reverse_proxy joieparma-com.lan:8000
+}
+
+adamhl.dev {
+	reverse_proxy adamhl-dev.lan:8000
+}
+
+watchtower.adamhl.dev {
+	reverse_proxy adamhl-dev.lan:8001
+}
+
+rybbit.adamhl.dev {
+	@api path /api/*
+	handle @api {
+		reverse_proxy rybbit.lan:8001
+	}
+
+	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	handle @authorized_ips {
+		reverse_proxy rybbit.lan:8000
+	}
+
+	authorize with admin_policy
+	reverse_proxy rybbit.lan:8000
+}
+
+*.adamhl.dev {
+	tls {
+		dns route53 {
+			wait_for_propagation true
+		}
+	}
+
+	@wildcard host *.adamhl.dev
+	handle @wildcard {
+		redir https://adamhl.dev
+	}
+}
+
+auth.adamhl.dev {
+	authenticate with authportal
+}
+
+incus.adamhl.dev {
+	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	handle @authorized_ips {
+		reverse_proxy https://incus.lan:8000 {
+			transport http {
+				tls_insecure_skip_verify
+				tls_client_auth /var/lib/caddy/incus-client.crt /var/lib/caddy/incus-client.key
+			}
+		}
+	}
+
+	authorize with admin_policy
+	reverse_proxy https://incus.lan:8000 {
+		transport http {
+			tls_insecure_skip_verify
+			tls_client_auth /var/lib/caddy/incus-client.crt /var/lib/caddy/incus-client.key
+		}
+	}
+}
+
+homepage.adamhl.dev {
+	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	handle @authorized_ips {
+		reverse_proxy homepage.lan:8000
+	}
+
+	authorize with admin_policy
+	reverse_proxy homepage.lan:8000
+}
+
+opnsense.adamhl.dev {
+	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	handle @authorized_ips {
+		reverse_proxy opnsense.lan
+	}
+
+	authorize with admin_policy
+	reverse_proxy opnsense.lan
+}
+
+unifi.adamhl.dev {
+	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	handle @authorized_ips {
+		reverse_proxy https://unifi.lan:8000 {
+			transport http {
+				tls_insecure_skip_verify
+			}
+		}
+	}
+
+	authorize with admin_policy
+	reverse_proxy https://unifi.lan:8000 {
+		transport http {
+			tls_insecure_skip_verify
+		}
+	}
+}
+
+backrest.adamhl.dev {
+	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	handle @authorized_ips {
+		reverse_proxy backrest.lan:8000
+	}
+
+	authorize with admin_policy
+	reverse_proxy backrest.lan:8000
+}
+
+scrutiny.adamhl.dev {
+	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	handle @authorized_ips {
+		reverse_proxy scrutiny.lan:8000
+	}
+
+	authorize with admin_policy
+	reverse_proxy scrutiny.lan:8000
+}
+
+filebrowser.adamhl.dev {
+	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	handle @authorized_ips {
+		reverse_proxy filebrowser.lan:8000
+	}
+
+	authorize with admin_policy
+	reverse_proxy filebrowser.lan:8000
+}
+
+share.adamhl.dev {
+	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	handle @authorized_ips {
+		reverse_proxy palmr.lan:8000
+	}
+
+	authorize with admin_policy
+	reverse_proxy palmr.lan:8000
+}
+
+paperless.adamhl.dev {
+	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	handle @authorized_ips {
+		reverse_proxy paperless.lan:8000
+	}
+
+	authorize with admin_policy
+	reverse_proxy paperless.lan:8000
+}
+
+immich.adamhl.dev {
+	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	handle @authorized_ips {
+		reverse_proxy immich.lan:8000
+	}
+
+	authorize with admin_policy
+	reverse_proxy immich.lan:8000
+}
+
+plex.adamhl.dev {
+	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	handle @authorized_ips {
+		reverse_proxy plex.lan:32400
+	}
+
+	authorize with admin_policy
+	reverse_proxy plex.lan:32400
+}
+
+qbittorrent.adamhl.dev {
+	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	handle @authorized_ips {
+		reverse_proxy qbittorrent.lan:8000
+	}
+
+	authorize with admin_policy
+	reverse_proxy qbittorrent.lan:8000
+}
+
+radarr.adamhl.dev {
+	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	handle @authorized_ips {
+		reverse_proxy radarr.lan:8000
+	}
+
+	authorize with admin_policy
+	reverse_proxy radarr.lan:8000
+}
+
+sonarr.adamhl.dev {
+	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	handle @authorized_ips {
+		reverse_proxy sonarr.lan:8000
+	}
+
+	authorize with admin_policy
+	reverse_proxy sonarr.lan:8000
+}
+
+prowlarr.adamhl.dev {
+	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	handle @authorized_ips {
+		reverse_proxy prowlarr.lan:8000
+	}
+
+	authorize with admin_policy
+	reverse_proxy prowlarr.lan:8000
+}
+
+overseerr.adamhl.dev {
+	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	handle @authorized_ips {
+		reverse_proxy overseerr.lan:8000
+	}
+
+	authorize with admin_policy
+	reverse_proxy overseerr.lan:8000
+}
