@@ -35,7 +35,7 @@ for (const mirror of shuffledMirrors) {
   const fullUrl = `${mirror}/${tarball}`
 
   console.info(`Downloading Zig from mirror '${mirror}'...`)
-  // biome-ignore lint/nursery/noAwaitInLoop: try one mirror at a time
+  // biome-ignore lint/performance/noAwaitInLoops: try one mirror at a time
   await $`curl -fsSL ${fullUrl} -o ~/${tarball}`
   await $`curl -fsSL ${fullUrl}.minisig -o ~/${tarball}.minisig`
 

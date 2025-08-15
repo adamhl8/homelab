@@ -48,7 +48,7 @@ async function useFormatters(...formatterGroups: FormatterGroup[]) {
       let finalResult: FormatterResult | undefined
 
       for (const formatter of formatterGroup) {
-        // biome-ignore lint/nursery/noAwaitInLoop: we need to wait for each formatter
+        // biome-ignore lint/performance/noAwaitInLoops: we need to wait for each formatter
         const result = await formatter(currentInput)
         const errorString = getFormatterErrorString(result)
         if (errorString) {

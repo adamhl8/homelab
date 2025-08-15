@@ -13,9 +13,9 @@
     "untildify": "^5.0.0"
   },
   "devDependencies": {
-    "@adamhl8/configs": "^0.10.1",
-    "@biomejs/biome": "^2.1.4",
-    "@types/bun": "^1.2.19",
+    "@adamhl8/configs": "^0.11.0",
+    "@biomejs/biome": "^2.2.0",
+    "@types/bun": "^1.2.20",
     "typescript": "^5.9.2"
   }
 }

@@ -51,7 +51,7 @@ export async function post(): Promise<Result> {
   ]
 
   for (const command of commands) {
-    // biome-ignore lint/nursery/noAwaitInLoop: need to run commands in order
+    // biome-ignore lint/performance/noAwaitInLoops: need to run commands in order
     const result = await runInstanceCommand(host, command)
     if (isErr(result)) return result
   }

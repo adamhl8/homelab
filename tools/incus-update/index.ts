@@ -29,12 +29,14 @@ async function updateInstance(instanceName: string, options?: UpdateInstanceOpti
     const pluginPreResult = await instancePlugin.pre()
     if (isErr(pluginPreResult)) return err(`failed to run pre-update hook for '${instanceName}'`, pluginPreResult)
   }
-
   logger.info("Updating packages...")
   const aptUpdateResult = await runInstanceCommand(
     host,
-    "sudo apt -qq update && sudo apt -qq full-upgrade -y && sudo apt -qq autoremove -y",
-    { quiet: false }, // this shouldn't be quiet since there might be an interactive prompt
+    'export DEBIAN_FRONTEND=noninteractive; \
+    sudo --preserve-env=DEBIAN_FRONTEND apt -q -y update && \
+    sudo --preserve-env=DEBIAN_FRONTEND apt -q -y -o "Dpkg::Options::=--force-confdef" -o "Dpkg::Options::=--force-confold" full-upgrade && \
+    sudo --preserve-env=DEBIAN_FRONTEND apt -q -y autoremove',
+    { quiet },
   )
 
   if (isErr(aptUpdateResult)) return err(`failed to update packages on '${instanceName}'`, aptUpdateResult)
@@ -96,7 +98,7 @@ async function incusUpdate(): Promise<Result> {
   for (const instanceName of instanceNames) {
     if (EXCLUDED_INSTANCES.includes(instanceName)) continue
 
-    // biome-ignore lint/nursery/noAwaitInLoop: handle one instance at a time
+    // biome-ignore lint/performance/noAwaitInLoops: handle one instance at a time
     const instance = await incusClient.getInstance(instanceName)
     if (isErr(instance)) return err(`failed to get instance details for '${instanceName}'`, instance)
 

@@ -11,9 +11,12 @@ export async function sh(command: string, options?: ShellOptions): Promise<Resul
   if (options?.quiet) shellCommand.quiet()
 
   const result = await shellCommand
-  const output = [result.stdout, result.stderr].map((text) => text.toString("utf-8").trim()).join("\n")
+  const output = [result.stdout, result.stderr]
+    .map((text) => text.toString("utf-8").trim())
+    .join("\n")
+    .trim()
   if (result.exitCode !== 0) return err(`command '${command}' failed with exit code ${result.exitCode}: ${output}`)
-  return output.trim()
+  return output
 }
 
 export async function runInstanceCommand(

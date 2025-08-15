@@ -9,7 +9,7 @@ async function uninstallOldNodeVersions() {
     if (!version) continue
     if (!version.startsWith("v")) continue
     if (aliases.some((alias) => alias.startsWith("latest"))) continue
-    // biome-ignore lint/nursery/noAwaitInLoop: uninstall one at a time
+    // biome-ignore lint/performance/noAwaitInLoops: uninstall one at a time
     await $`fnm uninstall ${version}`
   }
 }

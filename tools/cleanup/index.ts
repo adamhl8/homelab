@@ -66,7 +66,7 @@ async function handlePatterns() {
       const cleanedOutput = output.trim().split("\n").filter(Boolean)
       return cleanedOutput
     })
-    // biome-ignore lint/nursery/noAwaitInLoop: handle each pattern individually
+    // biome-ignore lint/performance/noAwaitInLoops: handle each pattern individually
     const matches = (await Promise.all(outputPromises)).flat()
     if (matches.length === 0) {
       console.info("No matches found")

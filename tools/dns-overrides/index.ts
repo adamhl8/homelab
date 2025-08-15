@@ -1,4 +1,4 @@
-/** biome-ignore-all lint/nursery/noAwaitInLoop: unbound/opnsense has strict rate limits */
+/** biome-ignore-all lint/performance/noAwaitInLoops: unbound/opnsense has strict rate limits */
 import process from "node:process"
 import { $ } from "bun"
 import type { Result } from "ts-explicit-errors"
