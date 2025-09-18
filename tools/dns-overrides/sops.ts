@@ -11,7 +11,8 @@ export class SopsClient {
 
   public async get(key: string): Promise<Result<string>> {
     const result = await $`sops -d --extract '["${key}"]' ${this.#secretsFilePath}`.nothrow().quiet()
-    if (result.exitCode !== 0) return err(`failed to get value for '${key}': ${result.stderr.toString().trim()}`)
+    if (result.exitCode !== 0)
+      return err(`failed to get value for '${key}': ${result.stderr.toString().trim()}`, undefined)
     return result.text()
   }
 }

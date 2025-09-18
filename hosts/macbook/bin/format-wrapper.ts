@@ -9,7 +9,7 @@ const [bufferPath = "", prettierConfigPath = ""] = process.argv.slice(2)
 const stdin = await Bun.stdin.text()
 const cwd = process.cwd()
 
-type FormatterResult = {
+interface FormatterResult {
   identifier: string
   stdout: string
   stderr: string
@@ -37,7 +37,6 @@ function getFormatterErrorString(result: FormatterResult): string | undefined {
  * @param formatterGroups One or more {@link FormatterGroup}, which is either a single {@link Formatter} or an array of {@link Formatter}
  * @returns void
  */
-// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: it's fine
 async function useFormatters(...formatterGroups: FormatterGroup[]) {
   let errors = ""
 
@@ -184,4 +183,5 @@ const prettier: Formatter = async (input) => {
 const fileExtension = path.extname(bufferPath)
 
 if (fileExtension === ".astro") await useFormatters([projectPrettier, biome], prettier)
+else if (fileExtension === ".md") await useFormatters(prettier)
 else await useFormatters(biome, projectPrettier, prettier)

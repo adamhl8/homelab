@@ -4,8 +4,6 @@
     "paths": {
       "~/*": ["./src/*"],
       "~/tools/*": ["./tools/*"]
-    },
-    "rewriteRelativeImportExtensions": false,
-    "noEmit": true
+    }
   }
 }

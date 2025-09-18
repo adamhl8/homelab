@@ -7,6 +7,8 @@ export default {
     "/Users/adam/.bun/install/global/node_modules/prettier-plugin-sh/lib/index.js",
     "/Users/adam/.bun/install/global/node_modules/prettier-plugin-toml/lib/index.js",
     "/Users/adam/.bun/install/global/node_modules/prettier-plugin-pkg/lib/index.js",
+    "/Users/adam/.bun/install/global/node_modules/@prettier/plugin-xml/src/plugin.js",
+    "/Users/adam/.bun/install/global/node_modules/prettier-plugin-java/dist/index.js",
   ],
   overrides: [
     {

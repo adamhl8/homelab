@@ -76,6 +76,7 @@ async function handlePatterns() {
     console.info(`Found ${matches.length} files:`)
     console.info(matches.join("\n"))
 
+    // biome-ignore lint/suspicious/noAlert: false-positive
     const response = prompt("\nRemove? [y/N]")
     if (!response || response.trim().toLowerCase() !== "y") continue
 
@@ -90,7 +91,7 @@ async function handlePatterns() {
 }
 
 async function cleanup(): Promise<Result> {
-  if (os.userInfo().uid !== 0) return err("cleanup must be run as root")
+  if (os.userInfo().uid !== 0) return err("cleanup must be run as root", undefined)
 
   console.info("Removing paths...")
   await removePaths()

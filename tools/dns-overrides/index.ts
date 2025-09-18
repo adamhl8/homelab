@@ -16,7 +16,7 @@ async function getDomainsFromCaddyfile(caddyfilePath: string): Promise<Result<st
   if (isErr(caddyfileContent)) return err("failed to read caddyfile", caddyfileContent)
 
   const matches = caddyfileContent.matchAll(CADDY_SITEBLOCK_REGEX)
-  if (!matches) return err("No site blocks found in Caddyfile")
+  if (!matches) return err("No site blocks found in Caddyfile", undefined)
 
   const domains: string[] = []
   for (const match of matches) {
@@ -32,7 +32,7 @@ async function updateDnsOverrides(): Promise<Result> {
   const args = process.argv.slice(2)
   const [caddyfilePath, secretsFilePath] = args
   if (!(caddyfilePath && secretsFilePath)) {
-    return err("Usage: dns-overrides <caddyfile> <sops secrets>")
+    return err("Usage: dns-overrides <caddyfile> <sops secrets>", undefined)
   }
 
   const domains = await getDomainsFromCaddyfile(caddyfilePath)

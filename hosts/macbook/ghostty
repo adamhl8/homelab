@@ -44,3 +44,4 @@ keybind = cmd+a=csi:97;9u
 keybind = cmd+z=csi:122;9u
 keybind = cmd+shift+z=csi:122;10u
 keybind = cmd+/=csi:47;9u
+keybind = shift+enter=text:\x1b\r

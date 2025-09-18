@@ -5,7 +5,7 @@ incus launch images:debian/13/cloud backrest \
   -p cloud-init-base \
   -p nas-storage \
   -c limits.cpu=2 \
-  -c limits.memory=2GiB \
+  -c limits.memory=3GiB \
   -d root,size=16GiB
 ```
 

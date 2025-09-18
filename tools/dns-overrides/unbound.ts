@@ -49,6 +49,7 @@ export class UnboundClient {
     if (!(currentOverridesResponse.ok && currentOverrides.rows))
       return err(
         `failed to get overrides: (${currentOverridesResponse.status}) [${currentOverridesResponse.statusText}] ${JSON.stringify(currentOverrides)}`,
+        undefined,
       )
 
     return currentOverrides.rows
@@ -63,6 +64,7 @@ export class UnboundClient {
     if (!(deleteOverrideResponse.ok && deleteOverride.result === "deleted"))
       return err(
         `failed to delete override for '${uuid}': (${deleteOverrideResponse.status}) [${deleteOverrideResponse.statusText}] ${JSON.stringify(deleteOverride)}`,
+        undefined,
       )
   }
 
@@ -79,6 +81,7 @@ export class UnboundClient {
     if (!(newOverrideResponse.ok && newOverride.result === "saved"))
       return err(
         `failed to add override for '${override.domain}': (${newOverrideResponse.status}) [${newOverrideResponse.statusText}] ${JSON.stringify(newOverride)}`,
+        undefined,
       )
   }
 
@@ -91,6 +94,7 @@ export class UnboundClient {
     if (!(restartUnboundResponse.ok && restartUnbound.response === "OK"))
       return err(
         `failed to restart unbound: (${restartUnboundResponse.status}) [${restartUnboundResponse.statusText}] ${JSON.stringify(restartUnbound)}`,
+        undefined,
       )
   }
 }

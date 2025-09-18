@@ -24,7 +24,10 @@ export class IncusClient {
     const data = (await response.json()) as IncusApiResponse<string[]>
 
     if (!response.ok || data.status !== "Success") {
-      return err(`failed to get instances: (${response.status}) [${response.statusText}] ${JSON.stringify(data)}`)
+      return err(
+        `failed to get instances: (${response.status}) [${response.statusText}] ${JSON.stringify(data)}`,
+        undefined,
+      )
     }
 
     return data.metadata.map((instancePath) => instancePath.split("/").pop() ?? "").filter(Boolean)
@@ -37,6 +40,7 @@ export class IncusClient {
     if (!response.ok || data.status !== "Success") {
       return err(
         `failed to get instance '${name}': (${response.status}) [${response.statusText}] ${JSON.stringify(data)}`,
+        undefined,
       )
     }
 

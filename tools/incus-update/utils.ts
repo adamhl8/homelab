@@ -6,7 +6,7 @@ interface ShellOptions {
   quiet?: boolean
 }
 
-export async function sh(command: string, options?: ShellOptions): Promise<Result<string>> {
+async function sh(command: string, options?: ShellOptions): Promise<Result<string>> {
   const shellCommand = $`${{ raw: command }}`.nothrow()
   if (options?.quiet) shellCommand.quiet()
 
@@ -15,7 +15,8 @@ export async function sh(command: string, options?: ShellOptions): Promise<Resul
     .map((text) => text.toString("utf-8").trim())
     .join("\n")
     .trim()
-  if (result.exitCode !== 0) return err(`command '${command}' failed with exit code ${result.exitCode}: ${output}`)
+  if (result.exitCode !== 0)
+    return err(`command '${command}' failed with exit code ${result.exitCode}: ${output}`, undefined)
   return output
 }
 
@@ -44,7 +45,10 @@ export async function safeFetch(url: string, init?: BunFetchRequestInit): Promis
   const response = await attempt(() => fetch(url, init))
   if (isErr(response)) return err(`failed to fetch '${url}'`, response)
   if (!response.ok)
-    return err(`failed to fetch '${url}': (${response.status}) [${response.statusText}] ${await response.text()}`)
+    return err(
+      `failed to fetch '${url}': (${response.status}) [${response.statusText}] ${await response.text()}`,
+      undefined,
+    )
 
   return response
 }

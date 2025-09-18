@@ -76,8 +76,6 @@ services:
         condition: service_healthy
       postgres:
         condition: service_started
-      redis:
-        condition: service_started
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:3001/api/health"]
       interval: 3s
@@ -91,7 +89,15 @@ services:
     restart: always
     volumes:
       - clickhouse:/var/lib/clickhouse/
-      - ./rybbit-repo/clickhouse_config/:/etc/clickhouse-server/config.d/
+    configs:
+      - source: clickhouse_network
+        target: /etc/clickhouse-server/config.d/network.xml
+      - source: clickhouse_json
+        target: /etc/clickhouse-server/config.d/enable_json.xml
+      - source: clickhouse_logging
+        target: /etc/clickhouse-server/config.d/logging_rules.xml
+      - source: clickhouse_user_logging
+        target: /etc/clickhouse-server/config.d/user_logging.xml
     environment:
       - CLICKHOUSE_DB=${CLICKHOUSE_DB}
       - CLICKHOUSE_PASSWORD=${CLICKHOUSE_PASSWORD}
@@ -119,18 +125,56 @@ services:
       retries: 5
       start_period: 10s
 
-  redis:
-    image: redis:7-alpine
-    container_name: ${COMPOSE_PROJECT_NAME}-redis
-    restart: always
-    volumes:
-      - redis:/data/
-    command: ["redis-server", "--appendonly", "yes"]
-
 volumes:
   clickhouse:
   postgres:
   redis:
+
+configs:
+  clickhouse_network:
+    content: |
+      <clickhouse>
+          <listen_host>0.0.0.0</listen_host>
+      </clickhouse>
+
+  clickhouse_json:
+    content: |
+      <clickhouse>
+          <settings>
+              <enable_json_type>1</enable_json_type>
+          </settings>
+      </clickhouse>
+
+  clickhouse_logging:
+    content: |
+      <clickhouse>
+        <logger>
+            <level>warning</level>
+            <console>true</console>
+        </logger>
+        <query_thread_log remove="remove"/>
+        <query_log remove="remove"/>
+        <text_log remove="remove"/>
+        <trace_log remove="remove"/>
+        <metric_log remove="remove"/>
+        <asynchronous_metric_log remove="remove"/>
+        <session_log remove="remove"/>
+        <part_log remove="remove"/>
+        <latency_log remove="remove"/>
+        <processors_profile_log remove="remove"/>
+      </clickhouse>
+
+  clickhouse_user_logging:
+    content: |
+      <clickhouse>
+        <profiles>
+          <default>
+            <log_queries>0</log_queries>
+            <log_query_threads>0</log_query_threads>
+            <log_processors_profiles>0</log_processors_profiles>
+          </default>
+        </profiles>
+      </clickhouse>
 ```
 
 ```sh

@@ -35,6 +35,11 @@ set -a extra_paths $HOMEBREW_PREFIX/opt/zip/bin
 set -a extra_paths $HOMEBREW_PREFIX/opt/unzip/bin
 set -a extra_paths $HOMEBREW_PREFIX/opt/llvm/bin
 
+set -a extra_paths $HOMEBREW_PREFIX/opt/flex/bin
+set -a extra_paths $HOMEBREW_PREFIX/opt/bison/bin
+set -gx LDFLAGS "-L/opt/homebrew/opt/flex/lib -L/opt/homebrew/opt/bison/lib -L/opt/homebrew/opt/llvm/lib"
+set -gx CPPFLAGS "-I/opt/homebrew/opt/flex/include -I/opt/homebrew/opt/llvm/include"
+
 add_path $extra_paths
 
 # variables
@@ -47,6 +52,11 @@ type -q sops; and set -gx SOPS_AGE_KEY_FILE ~/.config/sops/age/keys.txt
 type -q fzf_configure_bindings; and set -gx fzf_fd_opts -u
 
 type -q sops; and set -gx OPENAI_API_KEY (sops -d --extract "['openai_api_key']" ~/secrets.yaml)
+
+type -q sops; and set -gx RADARR_URL 'https://radarr.adamhl.dev'
+type -q sops; and set -gx RADARR_API_KEY (sops -d --extract "['radarr_api_key']" ~/secrets.yaml)
+type -q sops; and set -gx SONARR_URL 'https://sonarr.adamhl.dev'
+type -q sops; and set -gx SONARR_API_KEY (sops -d --extract "['sonarr_api_key']" ~/secrets.yaml)
 
 if test $hostname = adam-macbook
     type -q sops; and set -gx VULCAN_TOKEN (sops -d --extract "['swf_vulcan_pat']" ~/secrets.yaml)
@@ -77,6 +87,7 @@ end
 abbr -a gs 'git status'
 abbr -a gl 'git log --graph --format=\'%Cred%h%Creset%C(auto)%d%Creset %s %Cgreen(%ch)%Creset %C(bold blue)%an%Creset %Cblue<%ae>%Creset\''
 abbr -a --set-cursor gc "git add -A && git commit -m '%'"
+abbr -a gca "git add -A && git commit --amend --no-edit"
 
 function _git_commit_relative
     set -l git_root (git rev-parse --show-toplevel 2>/dev/null; or true)
@@ -101,7 +112,7 @@ abbr -a dcd 'docker compose down'
 
 abbr -a pfmt 'prettier --config ~/.prettierrc.mjs --write .'
 
-abbr -a tazea 'bunx taze latest -fw && rm -rf node_modules/ bun.lock && bun i -f'
+abbr -a tazea 'bunx taze latest -lfw && rm -rf node_modules/ bun.lock && bun i -f'
 
 abbr -a --set-cursor q 'sgpt -s \'%\''
 
