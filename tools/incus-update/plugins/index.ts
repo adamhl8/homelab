@@ -1,6 +1,6 @@
 import type { Result } from "ts-explicit-errors"
 
-import * as backrest from "./backrest.ts"
+import * as backrest from "~/tools/incus-update/plugins/backrest.ts"
 import * as caddy from "./caddy.ts"
 import * as filebrowser from "./filebrowser.ts"
 import * as rybbit from "./rybbit.ts"

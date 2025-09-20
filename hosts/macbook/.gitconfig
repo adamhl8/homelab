@@ -6,6 +6,7 @@
 	ff = only
 [push]
 	autoSetupRemote = true
+	followTags = true
 [commit]
 	gpgsign = true
 [tag]

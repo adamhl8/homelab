@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 
-import * as process from "node:process"
+import process from "node:process"
 import { $ } from "bun"
 
 // https://ziglang.org/download/community-mirrors
