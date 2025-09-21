@@ -24,11 +24,11 @@
 // } from "sesame/plugins"
 // import type { BunInfraConfig } from "sesame/types"
 
-// import { brewCasks as brewCaskList } from "./data/brew-casks.ts"
-// import { brewFormulaList } from "./data/brew-formula.ts"
-// import { fisherPlugins } from "./data/fisher.ts"
-// import { links } from "./data/links.ts"
-// import { macAppIds } from "./data/mac-apps.ts"
+// import { brewCasks as brewCaskList } from "data/brew-casks.ts"
+// import { brewFormulaList } from "data/brew-formula.ts"
+// import { fisherPlugins } from "data/fisher.ts"
+// import { links } from "data/links.ts"
+// import { macAppIds } from "data/mac-apps.ts"
 
 // const config = {
 //   sid: {
