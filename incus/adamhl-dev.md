@@ -5,7 +5,6 @@ incus launch images:debian/13/cloud adamhl-dev \
   -p cloud-init-base \
   -p docker \
   -c limits.cpu=2 \
-  -c limits.memory=1GiB \
   -d root,size=16GiB
 ```
 

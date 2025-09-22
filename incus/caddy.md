@@ -4,7 +4,6 @@ incus launch images:debian/13/cloud caddy \
   -p net-br0 \
   -p cloud-init-base \
   -c limits.cpu=2 \
-  -c limits.memory=1GiB \
   -d root,size=16GiB
 ```
 

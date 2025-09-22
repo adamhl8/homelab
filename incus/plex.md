@@ -14,7 +14,6 @@ incus launch images:debian/13/cloud plex \
   -p nas-storage \
   -p intel-gpu \
   -c limits.cpu=2 \
-  -c limits.memory=2GiB \
   -d root,size=32GiB
 ```
 

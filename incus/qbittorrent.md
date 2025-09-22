@@ -5,7 +5,6 @@ incus init images:debian/13/cloud qbittorrent \
   -p nas-storage \
   -p docker \
   -c limits.cpu=2 \
-  -c limits.memory=3GiB \
   -d root,size=16GiB
 
 incus network create net-qbittorrent --type=physical parent=enp1s0f3

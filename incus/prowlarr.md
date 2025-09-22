@@ -5,7 +5,6 @@ incus launch images:debian/13/cloud prowlarr \
   -p cloud-init-base \
   -p nas-storage \
   -c limits.cpu=1 \
-  -c limits.memory=1GiB \
   -d root,size=16GiB
 ```
 

@@ -6,7 +6,6 @@ incus launch images:debian/13/cloud immich \
   -p nas-storage \
   -p docker \
   -c limits.cpu=2 \
-  -c limits.memory=2GiB \
   -d root,size=16GiB
 ```
 
