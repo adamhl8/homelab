@@ -74,6 +74,11 @@ async function incusUpdate(): Promise<Result> {
   const { values: options } = parseArgs({
     args: process.argv.slice(2),
     options: {
+      instance: {
+        type: "string",
+        default: undefined,
+        short: "i",
+      },
       prune: {
         type: "boolean",
         default: false,
@@ -96,6 +101,7 @@ async function incusUpdate(): Promise<Result> {
 
   const failedInstances: string[] = []
   for (const instanceName of instanceNames) {
+    if (options.instance && options.instance !== instanceName) continue
     if (EXCLUDED_INSTANCES.includes(instanceName)) continue
 
     // biome-ignore lint/performance/noAwaitInLoops: handle one instance at a time
