@@ -1,4 +1,4 @@
-const links = [
+export const links = [
   { source: "configs/config.fish", dest: "~/.config/fish/" },
   { source: "configs/ghostty", dest: "~/.config/ghostty/" },
   { source: "configs/.gitconfig", dest: "~/" },
@@ -12,5 +12,3 @@ const links = [
   { source: "hosts/macbook/DefaultKeyBinding.dict", dest: "~/Library/KeyBindings/" },
   { source: "hosts/macbook/bin/*", dest: "~/bin/" },
 ]
-
-export { links }

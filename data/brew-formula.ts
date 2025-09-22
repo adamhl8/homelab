@@ -1,4 +1,4 @@
-const brewFormulaList = [
+export const brewFormulaList = [
   "age",
   "bash",
   "bat",
@@ -42,5 +42,3 @@ const brewFormulaList = [
   "yq",
   "zip",
 ]
-
-export { brewFormulaList }

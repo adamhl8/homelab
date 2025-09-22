@@ -1,4 +1,4 @@
-const macAppIds = [
+export const macAppIds = [
   "1099120373", // ProtonMail Exporter
   "1639917298", // Onigiri
   "1295203466", // Windows App
@@ -14,5 +14,3 @@ const macAppIds = [
   "497799835", // Xcode
   "408981434", // iMovie
 ]
-
-export { macAppIds }
