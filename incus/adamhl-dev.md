@@ -29,10 +29,7 @@ services:
     image: ghcr.io/adamhl8/adamhl.dev
     restart: always
     ports:
-      - 8000:80
-    volumes:
-      - data:/data/
-      - data:/config/
+      - 8000:8080
 
   ddns-route53:
     container_name: ${COMPOSE_PROJECT_NAME}-ddns-route53
@@ -65,9 +62,6 @@ services:
       WATCHTOWER_LABEL_ENABLE: true
       WATCHTOWER_HTTP_API_UPDATE: true
       WATCHTOWER_HTTP_API_TOKEN: ${WATCHTOWER_API_TOKEN}
-
-volumes:
-  data:
 ```
 
 ```sh
