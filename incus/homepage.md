@@ -125,22 +125,27 @@ statusStyle: "dot"
         siteMonitor: http://palmr.lan:8000
 
 - Media:
-    - Plex:
-        icon: plex
-        href: https://plex.adamhl.dev
-        siteMonitor: http://plex.lan:32400
+    - Jellyfin:
+        icon: jellyfin
+        href: https://jellyfin.adamhl.dev
+        siteMonitor: http://jellyfin.lan:8000
         widget:
-          type: plex
-          url: http://plex.lan:32400
+          type: jellyfin
+          url: http://jellyfin.lan:8000
           key: <value>
-          fields: ["streams", "movies", "tv"]
-    - Overseerr:
-        icon: overseerr
-        href: https://overseerr.adamhl.dev
-        siteMonitor: http://overseerr.lan:8000
+          enableBlocks: true
+          enableUser: true
+          enableMediaControl: false
+          showEpisodeNumber: true
+          expandOneStreamToTwoRows: false
+          fields: ["movies", "series"]
+    - Seerr:
+        icon: jellyseerr
+        href: https://seerr.adamhl.dev
+        siteMonitor: http://seerr.lan:8000
         widget:
-          type: overseerr
-          url: http://overseerr.lan:8000
+          type: jellyseerr
+          url: http://seerr.lan:8000
           key: <value>
     - Radarr:
         icon: radarr

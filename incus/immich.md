@@ -35,7 +35,7 @@ services:
     ports:
       - 8000:2283
     volumes:
-      - ${UPLOAD_LOCATION}:/usr/src/app/upload
+      - ${UPLOAD_LOCATION}:/data/
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
@@ -58,15 +58,16 @@ services:
 
   redis:
     container_name: ${COMPOSE_PROJECT_NAME}-redis
-    image: docker.io/valkey/valkey:8-bookworm@sha256:fec42f399876eb6faf9e008570597741c87ff7662a54185593e74b09ce83d177
+    image: docker.io/valkey/valkey:8-bookworm@sha256:fea8b3e67b15729d4bb70589eb03367bab9ad1ee89c876f54327fc7c6e618571
     restart: always
     healthcheck:
       test: redis-cli ping || exit 1
 
   postgres:
     container_name: ${COMPOSE_PROJECT_NAME}-postgres
-    image: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0
+    image: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0@sha256:41eacbe83eca995561fe43814fd4891e16e39632806253848efaf04d3c8a8b84
     restart: always
+    shm_size: 128mb
     volumes:
       - ${DB_DATA_LOCATION}:/var/lib/postgresql/data
     environment:

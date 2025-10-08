@@ -11,7 +11,7 @@ export async function pre(): Promise<Result> {
   const commands = [
     "docker compose down",
     "rm -rf rybbit-repo",
-    "git clone --depth=1 https://github.com/rybbit-io/rybbit.git rybbit-repo",
+    "git clone -q --depth=1 https://github.com/rybbit-io/rybbit.git rybbit-repo",
   ]
 
   for (const command of commands) {

@@ -13,10 +13,10 @@
   },
   "devDependencies": {
     "@adamhl8/configs": "^0.17.5",
-    "@biomejs/biome": "^2.2.4",
+    "@biomejs/biome": "^2.2.5",
     "@types/bun": "^1.2.23",
-    "knip": "^5.64.1",
+    "knip": "^5.64.2",
     "markdown-toc": "^1.2.0",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.3"
   }
 }

@@ -6,7 +6,7 @@ import { logger, runInstanceCommand, safeFetch } from "~/tools/incus-update/util
 export async function post(): Promise<Result> {
   const host = "backrest.lan"
 
-  const currentVersionResult = await runInstanceCommand(host, "cat ~/.backrest/.version", { quiet: true })
+  const currentVersionResult = await runInstanceCommand(host, "cat ~/.backrest/.version")
   if (isErr(currentVersionResult)) return err("failed to get current version", currentVersionResult)
   const currentVersion = currentVersionResult.trim()
 

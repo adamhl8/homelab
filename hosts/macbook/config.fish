@@ -61,7 +61,7 @@ type -q sops; and set -gx SONARR_API_KEY (sops -d --extract "['sonarr_api_key']"
 if test $hostname = adam-macbook
     type -q sops; and set -gx VULCAN_TOKEN (sops -d --extract "['swf_vulcan_pat']" ~/secrets.yaml)
     type -q sops; and set -gx CI_JOB_TOKEN $VULCAN_TOKEN
-    type -q sops; and set -gx GITHUB_TOKEN (sops -d --extract "['github_repo_token']" ~/secrets.yaml)
+    type -q sops; and set -gx GITHUB_TOKEN (sops -d --extract "['gh_token']" ~/secrets.yaml)
 end
 
 type -q fnm; and fnm env --shell fish | source

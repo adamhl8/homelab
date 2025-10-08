@@ -16,8 +16,6 @@ interface UpdateInstanceOptions {
 }
 
 async function updateInstance(instanceName: string, options?: UpdateInstanceOptions): Promise<Result> {
-  const quiet = !options?.verbose
-
   console.log()
   logger.info(`Updating '${instanceName}'`)
   const host = `${instanceName}.lan`
@@ -33,10 +31,9 @@ async function updateInstance(instanceName: string, options?: UpdateInstanceOpti
   const aptUpdateResult = await runInstanceCommand(
     host,
     'export DEBIAN_FRONTEND=noninteractive; \
-    sudo --preserve-env=DEBIAN_FRONTEND apt -q -y update && \
-    sudo --preserve-env=DEBIAN_FRONTEND apt -q -y -o "Dpkg::Options::=--force-confdef" -o "Dpkg::Options::=--force-confold" full-upgrade && \
-    sudo --preserve-env=DEBIAN_FRONTEND apt -q -y autoremove',
-    { quiet },
+    sudo --preserve-env=DEBIAN_FRONTEND apt -qq -y update && \
+    sudo --preserve-env=DEBIAN_FRONTEND apt -qq -y -o "Dpkg::Options::=--force-confdef" -o "Dpkg::Options::=--force-confold" full-upgrade && \
+    sudo --preserve-env=DEBIAN_FRONTEND apt -qq -y autoremove',
   )
 
   if (isErr(aptUpdateResult)) return err(`failed to update packages on '${instanceName}'`, aptUpdateResult)
@@ -44,9 +41,10 @@ async function updateInstance(instanceName: string, options?: UpdateInstanceOpti
   if (options?.hasDockerProfile) {
     logger.info("Updating docker containers...")
 
-    const dockerUpdateResult = await runInstanceCommand(host, "docker compose pull && docker compose up -d --build", {
-      quiet,
-    })
+    const dockerUpdateResult = await runInstanceCommand(
+      host,
+      "docker compose pull -q && docker compose up -d --build --quiet-pull --quiet-build",
+    )
     if (isErr(dockerUpdateResult))
       return err(`failed to update docker containers on '${instanceName}'`, dockerUpdateResult)
 
@@ -55,7 +53,6 @@ async function updateInstance(instanceName: string, options?: UpdateInstanceOpti
       const dockerPruneResult = await runInstanceCommand(
         host,
         "docker system prune -a --volumes -f && docker volume prune -a -f",
-        { quiet },
       )
       if (isErr(dockerPruneResult)) return err(`failed to prune docker on '${instanceName}'`, dockerPruneResult)
     }

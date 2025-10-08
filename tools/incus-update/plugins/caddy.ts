@@ -6,7 +6,7 @@ import { logger, runInstanceCommand, safeFetch } from "~/tools/incus-update/util
 export async function post(): Promise<Result> {
   const host = "caddy.lan"
 
-  const currentVersionResult = await runInstanceCommand(host, "caddy version", { quiet: true })
+  const currentVersionResult = await runInstanceCommand(host, "caddy version")
   if (isErr(currentVersionResult)) return err("failed to get current version", currentVersionResult)
   const currentVersion = currentVersionResult.split(" ")[0] ?? "UNKNOWN"
 
@@ -26,8 +26,7 @@ export async function post(): Promise<Result> {
     "go install github.com/caddyserver/xcaddy/cmd/xcaddy@latest > /dev/null",
     "xcaddy build \
       --with github.com/greenpau/caddy-security \
-      --with github.com/caddy-dns/route53 \
-      --replace github.com/libdns/route53=github.com/libdns/route53@master \
+      --with github.com/caddy-dns/route53@master \
       --output ./caddy > /dev/null",
     "chmod +x caddy",
     "sudo dpkg-divert --divert /usr/bin/caddy.default --rename /usr/bin/caddy",

@@ -6,7 +6,7 @@ import { logger, runInstanceCommand, safeFetch } from "~/tools/incus-update/util
 export async function post(): Promise<Result> {
   const host = "filebrowser.lan"
 
-  const currentVersionResult = await runInstanceCommand(host, "filebrowser version", { quiet: true })
+  const currentVersionResult = await runInstanceCommand(host, "filebrowser version")
   if (isErr(currentVersionResult)) return err("failed to get current version", currentVersionResult)
   // File Browser v2.41.0/e5e1b6de
   const currentVersion = currentVersionResult.split(" ")[2]?.split("/")[0] ?? "UNKNOWN"

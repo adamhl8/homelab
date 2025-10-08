@@ -35,8 +35,7 @@ go clean -modcache
 
 xcaddy build \
   --with github.com/greenpau/caddy-security \
-  --with github.com/caddy-dns/route53 \
-  --replace github.com/libdns/route53=github.com/libdns/route53@master \
+  --with github.com/caddy-dns/route53@master \
   --output ./caddy
 
 chmod +x caddy

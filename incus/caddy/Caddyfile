@@ -201,14 +201,14 @@ immich.adamhl.dev {
 	reverse_proxy immich.lan:8000
 }
 
-plex.adamhl.dev {
+jellyfin.adamhl.dev {
 	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
 	handle @authorized_ips {
-		reverse_proxy plex.lan:32400
+		reverse_proxy jellyfin.lan:8000
 	}
 
 	authorize with admin_policy
-	reverse_proxy plex.lan:32400
+	reverse_proxy jellyfin.lan:8000
 }
 
 qbittorrent.adamhl.dev {
@@ -251,12 +251,12 @@ prowlarr.adamhl.dev {
 	reverse_proxy prowlarr.lan:8000
 }
 
-overseerr.adamhl.dev {
+seerr.adamhl.dev {
 	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
 	handle @authorized_ips {
-		reverse_proxy overseerr.lan:8000
+		reverse_proxy seerr.lan:8000
 	}
 
 	authorize with admin_policy
-	reverse_proxy overseerr.lan:8000
+	reverse_proxy seerr.lan:8000
 }

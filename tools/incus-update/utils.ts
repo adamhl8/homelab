@@ -2,13 +2,8 @@ import { $ } from "bun"
 import type { Result } from "ts-explicit-errors"
 import { attempt, err, isErr } from "ts-explicit-errors"
 
-interface ShellOptions {
-  quiet?: boolean
-}
-
-async function sh(command: string, options?: ShellOptions): Promise<Result<string>> {
+async function sh(command: string): Promise<Result<string>> {
   const shellCommand = $`${{ raw: command }}`.nothrow()
-  if (options?.quiet) shellCommand.quiet()
 
   const result = await shellCommand
   const output = [result.stdout, result.stderr]
@@ -20,11 +15,7 @@ async function sh(command: string, options?: ShellOptions): Promise<Result<strin
   return output
 }
 
-export async function runInstanceCommand(
-  host: string,
-  command: string,
-  options?: ShellOptions,
-): Promise<Result<string>> {
+export async function runInstanceCommand(host: string, command: string): Promise<Result<string>> {
   // The command might contain variables that need to be interpolated.
   // Note that there are three shells involved here:
   // 1. The local shell which executes the `ssh` command
@@ -38,7 +29,7 @@ export async function runInstanceCommand(
   //
   // To help explain the following, we can add some spaces to make it clear where each quoted string starts and ends
   // 'bash -li -c ' "'" '${command}' "'"
-  return await sh(`ssh -o LogLevel=ERROR -t ${host} 'bash -li -c '"'"'${command}'"'"`, options)
+  return await sh(`ssh -o LogLevel=ERROR -t ${host} 'bash -li -c '"'"'${command}'"'"`)
 }
 
 export async function safeFetch(url: string, init?: BunFetchRequestInit): Promise<Result<Response>> {

@@ -8,9 +8,7 @@ export async function post(): Promise<Result> {
 
   logger.info("Updating scrutiny-collector on Incus host...")
 
-  const currentVersionResult = await runInstanceCommand(host, "scrutiny-collector --version 2>/dev/null", {
-    quiet: true,
-  })
+  const currentVersionResult = await runInstanceCommand(host, "scrutiny-collector --version 2>/dev/null")
   if (isErr(currentVersionResult)) return err("failed to get current version", currentVersionResult)
   const currentVersion = `v${currentVersionResult.split(" ")[2] ?? "UNKNOWN"}`
 
