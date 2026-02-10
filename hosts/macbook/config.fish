@@ -35,11 +35,6 @@ set -a extra_paths $HOMEBREW_PREFIX/opt/zip/bin
 set -a extra_paths $HOMEBREW_PREFIX/opt/unzip/bin
 set -a extra_paths $HOMEBREW_PREFIX/opt/llvm/bin
 
-set -a extra_paths $HOMEBREW_PREFIX/opt/flex/bin
-set -a extra_paths $HOMEBREW_PREFIX/opt/bison/bin
-set -gx LDFLAGS "-L/opt/homebrew/opt/flex/lib -L/opt/homebrew/opt/bison/lib -L/opt/homebrew/opt/llvm/lib"
-set -gx CPPFLAGS "-I/opt/homebrew/opt/flex/include -I/opt/homebrew/opt/llvm/include"
-
 add_path $extra_paths
 
 # variables

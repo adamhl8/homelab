@@ -12,8 +12,10 @@ incus launch images:debian/13/cloud prowlarr \
 sudo apt install -y sqlite3
 ```
 
+# https://learn.microsoft.com/en-us/dotnet/core/install/linux-debian
+
 ```sh
-curl -fsSLo packages-microsoft-prod.deb https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb
+curl -fsSLo packages-microsoft-prod.deb https://packages.microsoft.com/config/debian/13/packages-microsoft-prod.deb
 sudo apt install ./packages-microsoft-prod.deb
 rm packages-microsoft-prod.deb
 sudo apt update && sudo apt install -y dotnet-runtime-8.0

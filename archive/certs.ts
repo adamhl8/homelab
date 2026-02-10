@@ -49,3 +49,5 @@
 // )
 
 // export { hostname }
+
+void 0

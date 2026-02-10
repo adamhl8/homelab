@@ -51,7 +51,7 @@ services:
     container_name: ${COMPOSE_PROJECT_NAME}-watchtower
     labels:
       - "com.centurylinklabs.watchtower.enable=false"
-    image: containrrr/watchtower
+    image: nickfedor/watchtower
     restart: always
     ports:
       - 8001:8080

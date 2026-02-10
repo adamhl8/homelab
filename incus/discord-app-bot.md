@@ -25,7 +25,7 @@ services:
     image: ghcr.io/adamhl8/discord-app-bot
     restart: always
     volumes:
-      - ./data/:/app/prisma/db/
+      - ./data/:/app/db/
     environment:
       BOT_TOKEN: ${DISCORD_APP_BOT_TOKEN}
       APPLICATION_ID: 970956137157492786
