@@ -47,6 +47,10 @@ adamhl.dev {
 	reverse_proxy adamhl-dev.lan:8000
 }
 
+battlegrind.adamhl.dev {
+	reverse_proxy battlegrind.lan:8000
+}
+
 watchtower.adamhl.dev {
 	reverse_proxy adamhl-dev.lan:8001
 }
@@ -259,4 +263,14 @@ seerr.adamhl.dev {
 
 	authorize with admin_policy
 	reverse_proxy seerr.lan:8000
+}
+
+infisical.adamhl.dev {
+	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	handle @authorized_ips {
+		reverse_proxy infisical.lan:8000
+	}
+
+	authorize with admin_policy
+	reverse_proxy infisical.lan:8000
 }
