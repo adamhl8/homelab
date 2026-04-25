@@ -59,7 +59,7 @@ if test $hostname = adam-macbook
     type -q sops; and set -gx GITHUB_TOKEN (sops -d --extract "['gh_token']" ~/secrets.yaml)
 end
 
-type -q fnm; and fnm env --shell fish | source
+type -q fnm; and fnm env --shell fish --use-on-cd | source
 
 # functions/aliases
 function l --wraps='eza -laaghM --classify=always --icons=always --git --git-repos' --description 'alias eza -laaghM --classify=always --icons=always --git --git-repos'
@@ -93,6 +93,7 @@ abbr -a --set-cursor gcr --function _git_commit_relative
 
 abbr -a gpush 'git push'
 abbr -a gpull 'git pull --rebase'
+abbr -a grbm 'git pull --rebase && git fetch origin main && git rebase origin/main'
 abbr -a gclone 'git clone'
 abbr -a gcheck 'git checkout'
 abbr -a greset 'git fetch && git reset --hard @{u}'

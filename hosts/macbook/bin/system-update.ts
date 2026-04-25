@@ -15,7 +15,7 @@ async function uninstallOldNodeVersions() {
 }
 
 await $`brew update -f`
-await $`brew upgrade -g --no-quarantine`
+await $`brew upgrade -g`
 await $`brew autoremove`
 await $`brew cleanup --prune=all -s`
 

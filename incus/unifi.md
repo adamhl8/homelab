@@ -24,6 +24,7 @@ echo "Downloading UniFi OS Server..."
 curl -fsSLo ~/unifi_os_server-installer "${unifi_os_server_download_url}"
 chmod +x ~/unifi_os_server-installer
 sudo ~/unifi_os_server-installer
+sudo systemctl enable uosserver
 ```
 
 ```sh

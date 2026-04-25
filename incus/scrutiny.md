@@ -32,7 +32,7 @@ name: scrutiny
 services:
   scrutiny:
     container_name: ${COMPOSE_PROJECT_NAME}
-    image: ghcr.io/analogj/scrutiny:master-web
+    image: ghcr.io/analogj/scrutiny:latest-web
     restart: always
     ports:
       - 8000:8080
@@ -52,7 +52,7 @@ services:
 
   influxdb:
     container_name: ${COMPOSE_PROJECT_NAME}-influxdb
-    image: influxdb:2.2
+    image: influxdb:2.8
     restart: always
     volumes:
       - influxdb:/var/lib/influxdb2

@@ -1,3 +1,5 @@
+#!/usr/bin/env bun
+
 import process from "node:process"
 import { parseArgs } from "node:util"
 import type { Result } from "ts-explicit-errors"

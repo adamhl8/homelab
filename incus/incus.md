@@ -330,6 +330,7 @@ config:
           permitemptypasswords no
           permitrootlogin no
           printmotd no
+          Subsystem sftp /usr/lib/openssh/sftp-server
           HostKey /etc/ssh/ssh_host_rsa_key
           HostKey /etc/ssh/ssh_host_ed25519_key
           KexAlgorithms sntrup761x25519-sha512@openssh.com,curve25519-sha256,curve25519-sha256@libssh.org,gss-curve25519-sha256-,diffie-hellman-group16-sha512,gss-group16-sha512-,diffie-hellman-group18-sha512,diffie-hellman-group-exchange-sha256
