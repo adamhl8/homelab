@@ -55,19 +55,19 @@ watchtower.adamhl.dev {
 	reverse_proxy adamhl-dev.lan:8001
 }
 
-rybbit.adamhl.dev {
-	@api path /api/*
-	handle @api {
-		reverse_proxy rybbit.lan:8001
+umami.adamhl.dev {
+	@script path /imamu*
+	handle @script {
+		reverse_proxy umami.lan:8000
 	}
 
-	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	@authorized_ips remote_ip private_ranges 100.64.0.0/10
 	handle @authorized_ips {
-		reverse_proxy rybbit.lan:8000
+		reverse_proxy umami.lan:8000
 	}
 
 	authorize with admin_policy
-	reverse_proxy rybbit.lan:8000
+	reverse_proxy umami.lan:8000
 }
 
 *.adamhl.dev {
@@ -88,7 +88,7 @@ auth.adamhl.dev {
 }
 
 incus.adamhl.dev {
-	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	@authorized_ips remote_ip private_ranges 100.64.0.0/10
 	handle @authorized_ips {
 		reverse_proxy https://incus.lan:8000 {
 			transport http {
@@ -108,7 +108,7 @@ incus.adamhl.dev {
 }
 
 homepage.adamhl.dev {
-	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	@authorized_ips remote_ip private_ranges 100.64.0.0/10
 	handle @authorized_ips {
 		reverse_proxy homepage.lan:8000
 	}
@@ -118,7 +118,7 @@ homepage.adamhl.dev {
 }
 
 opnsense.adamhl.dev {
-	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	@authorized_ips remote_ip private_ranges 100.64.0.0/10
 	handle @authorized_ips {
 		reverse_proxy opnsense.lan
 	}
@@ -128,7 +128,7 @@ opnsense.adamhl.dev {
 }
 
 unifi.adamhl.dev {
-	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	@authorized_ips remote_ip private_ranges 100.64.0.0/10
 	handle @authorized_ips {
 		reverse_proxy https://unifi.lan:8000 {
 			transport http {
@@ -146,7 +146,7 @@ unifi.adamhl.dev {
 }
 
 backrest.adamhl.dev {
-	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	@authorized_ips remote_ip private_ranges 100.64.0.0/10
 	handle @authorized_ips {
 		reverse_proxy backrest.lan:8000
 	}
@@ -156,7 +156,7 @@ backrest.adamhl.dev {
 }
 
 scrutiny.adamhl.dev {
-	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	@authorized_ips remote_ip private_ranges 100.64.0.0/10
 	handle @authorized_ips {
 		reverse_proxy scrutiny.lan:8000
 	}
@@ -165,8 +165,18 @@ scrutiny.adamhl.dev {
 	reverse_proxy scrutiny.lan:8000
 }
 
+actual-budget.adamhl.dev {
+	@authorized_ips remote_ip private_ranges 100.64.0.0/10
+	handle @authorized_ips {
+		reverse_proxy actual-budget.lan:8000
+	}
+
+	authorize with admin_policy
+	reverse_proxy actual-budget.lan:8000
+}
+
 filebrowser.adamhl.dev {
-	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	@authorized_ips remote_ip private_ranges 100.64.0.0/10
 	handle @authorized_ips {
 		reverse_proxy filebrowser.lan:8000
 	}
@@ -175,18 +185,8 @@ filebrowser.adamhl.dev {
 	reverse_proxy filebrowser.lan:8000
 }
 
-share.adamhl.dev {
-	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
-	handle @authorized_ips {
-		reverse_proxy palmr.lan:8000
-	}
-
-	authorize with admin_policy
-	reverse_proxy palmr.lan:8000
-}
-
 paperless.adamhl.dev {
-	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	@authorized_ips remote_ip private_ranges 100.64.0.0/10
 	handle @authorized_ips {
 		reverse_proxy paperless.lan:8000
 	}
@@ -196,7 +196,7 @@ paperless.adamhl.dev {
 }
 
 immich.adamhl.dev {
-	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	@authorized_ips remote_ip private_ranges 100.64.0.0/10
 	handle @authorized_ips {
 		reverse_proxy immich.lan:8000
 	}
@@ -206,7 +206,7 @@ immich.adamhl.dev {
 }
 
 jellyfin.adamhl.dev {
-	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	@authorized_ips remote_ip private_ranges 100.64.0.0/10
 	handle @authorized_ips {
 		reverse_proxy jellyfin.lan:8000
 	}
@@ -216,7 +216,7 @@ jellyfin.adamhl.dev {
 }
 
 qbittorrent.adamhl.dev {
-	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	@authorized_ips remote_ip private_ranges 100.64.0.0/10
 	handle @authorized_ips {
 		reverse_proxy qbittorrent.lan:8000
 	}
@@ -226,7 +226,7 @@ qbittorrent.adamhl.dev {
 }
 
 radarr.adamhl.dev {
-	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	@authorized_ips remote_ip private_ranges 100.64.0.0/10
 	handle @authorized_ips {
 		reverse_proxy radarr.lan:8000
 	}
@@ -236,7 +236,7 @@ radarr.adamhl.dev {
 }
 
 sonarr.adamhl.dev {
-	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	@authorized_ips remote_ip private_ranges 100.64.0.0/10
 	handle @authorized_ips {
 		reverse_proxy sonarr.lan:8000
 	}
@@ -246,7 +246,7 @@ sonarr.adamhl.dev {
 }
 
 prowlarr.adamhl.dev {
-	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	@authorized_ips remote_ip private_ranges 100.64.0.0/10
 	handle @authorized_ips {
 		reverse_proxy prowlarr.lan:8000
 	}
@@ -256,21 +256,11 @@ prowlarr.adamhl.dev {
 }
 
 seerr.adamhl.dev {
-	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
+	@authorized_ips remote_ip private_ranges 100.64.0.0/10
 	handle @authorized_ips {
 		reverse_proxy seerr.lan:8000
 	}
 
 	authorize with admin_policy
 	reverse_proxy seerr.lan:8000
-}
-
-infisical.adamhl.dev {
-	@authorized_ips remote_ip private_ranges 100.89.9.15 100.99.68.15
-	handle @authorized_ips {
-		reverse_proxy infisical.lan:8000
-	}
-
-	authorize with admin_policy
-	reverse_proxy infisical.lan:8000
 }

@@ -28,8 +28,10 @@ services:
     ports:
       - 8000:3000
     environment:
-      DATABASE_URL: postgresql://umami:umami@postgres:5432/umami
       APP_SECRET: ${APP_SECRET}
+      DATABASE_URL: postgresql://umami:umami@postgres:5432/umami
+      COLLECT_API_ENDPOINT: /imamu
+      TRACKER_SCRIPT_NAME: imamu.js
     depends_on:
       postgres:
         condition: service_healthy

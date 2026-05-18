@@ -42,9 +42,9 @@ rm ./*.deb ./*.ddeb
 ## jellyfin
 
 ```sh
-curl -fsSLo ~/jellyfin-server.deb 'https://repo.jellyfin.org/files/server/debian/latest-preview/amd64/jellyfin-server_10.11.0-rc8+deb13_amd64.deb'
-curl -fsSLo ~/jellyfin-web.deb 'https://repo.jellyfin.org/files/server/debian/latest-preview/amd64/jellyfin-web_10.11.0-rc8+deb13_all.deb'
-curl -fsSLo ~/jellyfin-ffmpeg.deb 'https://repo.jellyfin.org/files/ffmpeg/debian/latest-7.x/amd64/jellyfin-ffmpeg7_7.1.2-2-trixie_amd64.deb'
+curl -fsSLo ~/jellyfin-server.deb 'https://repo.jellyfin.org/files/server/debian/stable/v10.11.8/amd64/jellyfin-server_10.11.8%2Bdeb13_amd64.deb'
+curl -fsSLo ~/jellyfin-web.deb 'https://repo.jellyfin.org/files/server/debian/stable/v10.11.8/amd64/jellyfin-web_10.11.8%2Bdeb13_all.deb'
+curl -fsSLo ~/jellyfin-ffmpeg.deb 'https://repo.jellyfin.org/files/ffmpeg/debian/latest-7.x/amd64/jellyfin-ffmpeg7_7.1.3-6-trixie_amd64.deb'
 sudo apt install -y ~/jellyfin-server.deb ~/jellyfin-web.deb ~/jellyfin-ffmpeg.deb
 rm ~/jellyfin-server.deb ~/jellyfin-web.deb ~/jellyfin-ffmpeg.deb
 ```
