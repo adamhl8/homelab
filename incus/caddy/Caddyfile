@@ -195,6 +195,16 @@ paperless.adamhl.dev {
 	reverse_proxy paperless.lan:8000
 }
 
+papra.adamhl.dev {
+	@authorized_ips remote_ip private_ranges 100.64.0.0/10
+	handle @authorized_ips {
+		reverse_proxy papra.lan:8000
+	}
+
+	authorize with admin_policy
+	reverse_proxy papra.lan:8000
+}
+
 immich.adamhl.dev {
 	@authorized_ips remote_ip private_ranges 100.64.0.0/10
 	handle @authorized_ips {

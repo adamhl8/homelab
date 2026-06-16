@@ -16,8 +16,9 @@ name: seerr
 services:
   seerr:
     container_name: seerr
-    image: fallenbagel/jellyseerr
+    image: ghcr.io/seerr-team/seerr
     restart: always
+    init: true
     ports:
       - 8000:5055
     volumes:
@@ -25,7 +26,7 @@ services:
     environment:
       - TZ=America/Chicago
     healthcheck:
-      test: wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/status || exit 1
+      test: wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/settings/public || exit 1
       start_period: 20s
       timeout: 3s
       interval: 15s
