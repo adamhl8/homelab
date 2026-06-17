@@ -76,7 +76,7 @@ set static lease and port forward in opnsense
 
 reboot container
 
-## incus cert
+## incus client cert
 
 generate cert
 download and add to trust store
@@ -97,3 +97,18 @@ sudo mv incus-client.crt incus-client.key /var/lib/caddy/
 ```
 
 restart caddy
+
+## incus server cert
+
+```sh
+echo | openssl s_client -connect incus.lan:8000 2>/dev/null | openssl x509 | sudo tee /var/lib/caddy/incus-server.crt >/dev/null
+
+sudo chmod 644 /var/lib/caddy/incus-server.crt
+sudo chown caddy:caddy /var/lib/caddy/incus-server.crt
+```
+
+### Get incus SAN for Caddyfile
+
+```sh
+echo | openssl s_client -connect 10.8.8.2:8000 2>/dev/null | openssl x509 -noout -ext subjectAltName
+```

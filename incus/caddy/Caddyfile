@@ -93,7 +93,8 @@ incus.adamhl.dev {
 		reverse_proxy https://incus.lan:8000 {
 			header_up Host {host}
 			transport http {
-				tls_insecure_skip_verify
+				tls_server_name incus
+				tls_trust_pool file /var/lib/caddy/incus-server.crt
 				tls_client_auth /var/lib/caddy/incus-client.crt /var/lib/caddy/incus-client.key
 			}
 		}
@@ -103,7 +104,8 @@ incus.adamhl.dev {
 	reverse_proxy https://incus.lan:8000 {
 		header_up Host {host}
 		transport http {
-			tls_insecure_skip_verify
+			tls_server_name incus
+			tls_trust_pool file /var/lib/caddy/incus-server.crt
 			tls_client_auth /var/lib/caddy/incus-client.crt /var/lib/caddy/incus-client.key
 		}
 	}
