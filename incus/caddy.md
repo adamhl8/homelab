@@ -112,3 +112,18 @@ sudo chown caddy:caddy /var/lib/caddy/incus-server.crt
 ```sh
 echo | openssl s_client -connect 10.8.8.2:8000 2>/dev/null | openssl x509 -noout -ext subjectAltName
 ```
+
+## unifi server cert
+
+```sh
+echo | openssl s_client -connect unifi.lan:8000 2>/dev/null | openssl x509 | sudo tee /var/lib/caddy/unifi-server.crt >/dev/null
+
+sudo chmod 644 /var/lib/caddy/unifi-server.crt
+sudo chown caddy:caddy /var/lib/caddy/unifi-server.crt
+```
+
+### Get unifi SAN for Caddyfile
+
+```sh
+echo | openssl s_client -connect unifi.lan:8000 2>/dev/null | openssl x509 -noout -ext subjectAltName
+```

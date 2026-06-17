@@ -140,7 +140,8 @@ unifi.adamhl.dev {
 		reverse_proxy https://unifi.lan:8000 {
 			header_up Host {host}
 			transport http {
-				tls_insecure_skip_verify
+				tls_server_name unifi.local
+				tls_trust_pool file /var/lib/caddy/unifi-server.crt
 			}
 		}
 	}
@@ -149,7 +150,8 @@ unifi.adamhl.dev {
 	reverse_proxy https://unifi.lan:8000 {
 		header_up Host {host}
 		transport http {
-			tls_insecure_skip_verify
+			tls_server_name unifi.local
+			tls_trust_pool file /var/lib/caddy/unifi-server.crt
 		}
 	}
 }
