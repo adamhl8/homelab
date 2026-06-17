@@ -91,6 +91,7 @@ incus.adamhl.dev {
 	@authorized_ips remote_ip private_ranges 100.64.0.0/10
 	handle @authorized_ips {
 		reverse_proxy https://incus.lan:8000 {
+			header_up Host {host}
 			transport http {
 				tls_insecure_skip_verify
 				tls_client_auth /var/lib/caddy/incus-client.crt /var/lib/caddy/incus-client.key
@@ -100,6 +101,7 @@ incus.adamhl.dev {
 
 	authorize with admin_policy
 	reverse_proxy https://incus.lan:8000 {
+		header_up Host {host}
 		transport http {
 			tls_insecure_skip_verify
 			tls_client_auth /var/lib/caddy/incus-client.crt /var/lib/caddy/incus-client.key
@@ -127,10 +129,14 @@ opnsense.adamhl.dev {
 	reverse_proxy opnsense.lan
 }
 
+# As of Caddy v2.11, proxying to an HTTPS upstream defaults the Host header to the upstream address (so Host agrees with the TLS SNI). But most apps want the original public Host, so we restore it with {host}.
+# Without override -> Host: unifi.lan:8000
+# With override    -> Host: unifi.adamhl.dev (the original request Host)
 unifi.adamhl.dev {
 	@authorized_ips remote_ip private_ranges 100.64.0.0/10
 	handle @authorized_ips {
 		reverse_proxy https://unifi.lan:8000 {
+			header_up Host {host}
 			transport http {
 				tls_insecure_skip_verify
 			}
@@ -139,6 +145,7 @@ unifi.adamhl.dev {
 
 	authorize with admin_policy
 	reverse_proxy https://unifi.lan:8000 {
+		header_up Host {host}
 		transport http {
 			tls_insecure_skip_verify
 		}
