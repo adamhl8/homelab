@@ -81,7 +81,8 @@ end
 # abbreviations
 abbr -a gs 'git status'
 abbr -a gl 'git log --graph --format=\'%Cred%h%Creset%C(auto)%d%Creset %s %Cgreen(%ch)%Creset %C(bold blue)%an%Creset %Cblue<%ae>%Creset\''
-abbr -a --set-cursor gc "git add -A && git commit -m '%'"
+abbr -a --set-cursor gc "git commit -m '%'"
+abbr -a --set-cursor gac "git add -A && git commit -m '%'"
 abbr -a gca "git add -A && git commit --amend --no-edit"
 
 function _git_commit_relative
@@ -109,8 +110,6 @@ abbr -a dcd 'docker compose down'
 abbr -a pfmt 'prettier --config ~/.prettierrc.mjs --write .'
 
 abbr -a tazea 'bunx taze latest -lfw && rm -rf node_modules/ bun.lock && bun i -f'
-
-abbr -a --set-cursor q 'sgpt -s \'%\''
 
 # binds
 if functions --query _natural_selection
