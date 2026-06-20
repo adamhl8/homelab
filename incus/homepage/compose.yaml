@@ -1,0 +1,17 @@
+name: homepage
+
+services:
+  homepage:
+    container_name: homepage
+    image: ghcr.io/gethomepage/homepage
+    restart: always
+    ports:
+      - 8000:3000
+    volumes:
+      - ./homepage/:/app/config/
+    env_file:
+      - .env
+    environment:
+      PUID: 1000
+      PGID: 1000
+      HOMEPAGE_ALLOWED_HOSTS: "*"

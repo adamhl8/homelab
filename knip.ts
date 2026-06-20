@@ -10,7 +10,7 @@ const config = knipConfig({
     "./sesame.ts",
     "./tools/*/index.ts",
   ],
-  ignore: ["./archive/**/*"],
+  ignore: ["./archive/**/*", "incus/**/*"],
   ignoreBinaries: [/.*/],
 } as const)
 
