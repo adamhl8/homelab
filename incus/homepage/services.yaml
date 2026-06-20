@@ -23,6 +23,11 @@
         - Tailscale:
             icon: tailscale
             ping: tailscale.lan
+            widget:
+              type: tailscale
+              deviceid: ndDhKuPUDj11CNTRL
+              key: "{{HOMEPAGE_VAR_TAILSCALE}}"
+              fields: ["hostname", "address", "last_seen"]
         - Pi:
             icon: raspberry-pi
             ping: pi.lan
@@ -72,6 +77,12 @@
         icon: filebrowser
         href: https://filebrowser.adamhl.dev
         siteMonitor: http://filebrowser.lan:8000
+        widget:
+          type: filebrowser
+          url: http://filebrowser.lan:8000
+          username: homepage
+          password: "{{HOMEPAGE_VAR_FILE_BROWSER}}"
+          fields: ["available", "used", "total"]
 
 - Media:
     - Jellyfin:

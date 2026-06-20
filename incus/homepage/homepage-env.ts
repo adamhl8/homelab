@@ -10,6 +10,8 @@ const SECRET_TO_ENV = {
   prowlarr_api_key: "PROWLARR",
   unifi_homepage_password: "UNIFI",
   homelab_password: "QBITTORRENT",
+  tailscale_homepage_api_key: "TAILSCALE",
+  filebrowser_homepage_password: "FILE_BROWSER",
 } as const
 
 const json = await $`sops -d --output-type json ~/secrets.yaml`.text()
