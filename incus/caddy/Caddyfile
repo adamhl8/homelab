@@ -121,37 +121,27 @@ homepage.adamhl.dev {
 	reverse_proxy homepage.lan:8000
 }
 
-opnsense.adamhl.dev {
-	@authorized_ips remote_ip private_ranges 100.64.0.0/10
-	handle @authorized_ips {
-		reverse_proxy opnsense.lan
-	}
-
-	authorize with admin_policy
-	reverse_proxy opnsense.lan
-}
-
 # As of Caddy v2.11, proxying to an HTTPS upstream defaults the Host header to the upstream address (so Host agrees with the TLS SNI). But most apps want the original public Host, so we restore it with {host}.
-# Without override -> Host: unifi.lan:8000
+# Without override -> Host: ucg-fiber.lan
 # With override    -> Host: unifi.adamhl.dev (the original request Host)
 unifi.adamhl.dev {
 	@authorized_ips remote_ip private_ranges 100.64.0.0/10
 	handle @authorized_ips {
-		reverse_proxy https://unifi.lan:8000 {
+		reverse_proxy https://ucg-fiber.lan {
 			header_up Host {host}
 			transport http {
 				tls_server_name unifi.local
-				tls_trust_pool file /var/lib/caddy/unifi-server.crt
+				tls_trust_pool file /var/lib/caddy/unifi-core.crt
 			}
 		}
 	}
 
 	authorize with admin_policy
-	reverse_proxy https://unifi.lan:8000 {
+	reverse_proxy https://ucg-fiber.lan {
 		header_up Host {host}
 		transport http {
 			tls_server_name unifi.local
-			tls_trust_pool file /var/lib/caddy/unifi-server.crt
+			tls_trust_pool file /var/lib/caddy/unifi-core.crt
 		}
 	}
 }

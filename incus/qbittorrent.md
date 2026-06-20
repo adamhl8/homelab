@@ -7,7 +7,7 @@ incus init images:debian/13/cloud qbittorrent \
   -c limits.cpu=2 \
   -d root,size=16GiB
 
-incus network create net-qbittorrent --type=physical parent=enp1s0f3
+incus network create net-qbittorrent --type=physical parent=enp4s0
 incus network attach net-qbittorrent qbittorrent eth0
 incus start qbittorrent
 ```

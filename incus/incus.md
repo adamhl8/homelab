@@ -3,8 +3,8 @@
 `/etc/network/interfaces`:
 
 ```
-auto enp3s0
-iface enp3s0 inet static
+auto enp6s0
+iface enp6s0 inet static
     address 10.8.8.2
     netmask 255.255.255.0
 ```
@@ -130,8 +130,6 @@ scp -O ~/Downloads/incus-ui.crt 10.8.8.2:~/
 incus config trust add-certificate incus-ui.crt
 ```
 
-> set up OPNsense
-
 ## networking
 
 > - https://discuss.linuxcontainers.org/t/networking-setup-to-best-mimick-proxmoxs-bridge-mode/21941/6
@@ -180,7 +178,7 @@ Address=
 
 ```
 [Match]
-Name=enp1s0f2
+Name=enp3s0
 
 [Network]
 Bridge=br0
@@ -213,13 +211,13 @@ WantedBy=multi-user.target
 ```sh
 #!/bin/sh
 
-echo "Waiting for enp3s0 interface to have IP 10.8.8.2..."
+echo "Waiting for enp6s0 interface to have IP 10.8.8.2..."
 
 while true; do
-  ip_address=$(ip addr show enp3s0 2> /dev/null | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1)
+  ip_address=$(ip addr show enp6s0 2> /dev/null | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1)
 
   if [ "$ip_address" = "10.8.8.2" ]; then
-    echo "Interface enp3s0 has IP 10.8.8.2"
+    echo "Interface enp6s0 has IP 10.8.8.2"
     break
   fi
 
@@ -239,34 +237,6 @@ echo "Done"
 ```sh
 sudo systemctl daemon-reload
 sudo systemctl enable --now incus-webui-wait.service
-```
-
-## scripts
-
-`~/bin/pwr.sh`:
-
-```sh
-#!/bin/sh
-
-systemctl_action="${1}"
-
-if [ "${systemctl_action}" != "reboot" ] && [ "${systemctl_action}" != "poweroff" ]; then
-  echo "Usage: pwr.sh [reboot|poweroff]"
-  exit 1
-fi
-
-curl -fsS -X POST -d '{}' \
-  -H 'Content-Type: application/json' \
-  -u '<opnsense_key>:<opnsense_secret>' \
-  http://opnsense.lan/api/core/system/halt > /dev/null
-echo "Waiting for OPNsense to halt..."
-until incus info opnsense | grep -q 'Status: STOPPED'; do sleep 1; done
-echo "OPNsense halted"
-sudo systemctl "${systemctl_action}"
-```
-
-```sh
-chmod +x ~/bin/pwr.sh
 ```
 
 ## nas zpool
