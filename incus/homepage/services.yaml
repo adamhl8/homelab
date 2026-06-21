@@ -111,7 +111,7 @@
             Authorization: "Bearer {{HOMEPAGE_VAR_PAPRA}}"
           mappings:
             - field: organizationStats.documentsCount
-              label: Count
+              label: Documents
               format: number
             - field: organizationStats.documentsSize
               label: Size
