@@ -3,6 +3,44 @@
         icon: incus
         href: https://incus.adamhl.dev
         siteMonitor: http://incus.lan:8000
+        widgets:
+          # incus returns null for empty lists, which makes `size` render NaN
+          - type: customapi
+            url: https://incus.adamhl.dev/1.0/instances
+            refreshInterval: 60000
+            mappings:
+              - field: metadata
+                label: Instances
+                format: size
+                remap:
+                  - value: null
+                    to: []
+          - type: customapi
+            url: https://incus.adamhl.dev/1.0/warnings
+            refreshInterval: 60000
+            mappings:
+              - field: metadata
+                label: Warnings
+                format: size
+                remap:
+                  - value: null
+                    to: []
+            highlight:
+              Warnings:
+                numeric:
+                  - when: gte
+                    value: 1
+                    level: warn
+          - type: customapi
+            url: https://incus.adamhl.dev/1.0/storage-pools/default/resources
+            refreshInterval: 60000
+            mappings:
+              - field: metadata.space.used
+                label: Used
+                format: bytes
+              - field: metadata.space.total
+                label: Total
+                format: bytes
     - Network:
         - UniFi:
             icon: unifi
@@ -65,6 +103,19 @@
         icon: papra
         href: https://papra.adamhl.dev
         siteMonitor: http://papra.lan:8000
+        widget:
+          type: customapi
+          url: http://papra.lan:8000/api/organizations/org_saksgp1uyc5fd8ypf7y1qee2/documents/statistics
+          refreshInterval: 60000
+          headers:
+            Authorization: "Bearer {{HOMEPAGE_VAR_PAPRA}}"
+          mappings:
+            - field: organizationStats.documentsCount
+              label: Count
+              format: number
+            - field: organizationStats.documentsSize
+              label: Size
+              format: bytes
     - Actual Budget:
         icon: actual-budget
         href: https://actual-budget.adamhl.dev

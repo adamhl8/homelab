@@ -12,6 +12,7 @@ const SECRET_TO_ENV = {
   homelab_password: "QBITTORRENT",
   tailscale_homepage_api_key: "TAILSCALE",
   filebrowser_homepage_password: "FILE_BROWSER",
+  papra_homepage_api_key: "PAPRA",
 } as const
 
 const json = await $`sops -d --output-type json ~/secrets.yaml`.text()
