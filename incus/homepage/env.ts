@@ -8,7 +8,7 @@ const SECRET_TO_ENV = {
   radarr_api_key: "RADARR",
   sonarr_api_key: "SONARR",
   prowlarr_api_key: "PROWLARR",
-  unifi_homepage_password: "UNIFI",
+  unifi_homepage_api_key: "UNIFI",
   homelab_password: "QBITTORRENT",
   tailscale_homepage_api_key: "TAILSCALE",
   filebrowser_homepage_password: "FILE_BROWSER",

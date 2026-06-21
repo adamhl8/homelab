@@ -53,9 +53,9 @@ type -q sops; and set -gx RADARR_API_KEY (sops -d --extract "['radarr_api_key']"
 type -q sops; and set -gx SONARR_URL 'https://sonarr.adamhl.dev'
 type -q sops; and set -gx SONARR_API_KEY (sops -d --extract "['sonarr_api_key']" ~/secrets.yaml)
 
+type -q sops; and set -gx UNIFI_API_KEY (sops -d --extract "['unifi_dns-overrides_api_key']" ~/secrets.yaml)
+
 if test $hostname = adam-macbook
-    type -q sops; and set -gx VULCAN_TOKEN (sops -d --extract "['swf_vulcan_pat']" ~/secrets.yaml)
-    type -q sops; and set -gx CI_JOB_TOKEN $VULCAN_TOKEN
     type -q sops; and set -gx GITHUB_TOKEN (sops -d --extract "['gh_token']" ~/secrets.yaml)
 end
 

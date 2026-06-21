@@ -49,8 +49,7 @@
             widget:
               type: unifi
               url: https://ucg-fiber.lan
-              username: homepage
-              password: "{{HOMEPAGE_VAR_UNIFI}}"
+              key: "{{HOMEPAGE_VAR_UNIFI}}"
               fields: ["uptime", "lan", "lan_users", "lan_devices"]
         - caddy:
             icon: caddy

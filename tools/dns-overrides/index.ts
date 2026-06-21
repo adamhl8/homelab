@@ -1,86 +1,49 @@
-/** biome-ignore-all lint/performance/noAwaitInLoops: unbound/opnsense has strict rate limits */
+/** biome-ignore-all lint/performance/noAwaitInLoops: keep DNS policy writes sequential */
 import process from "node:process"
 import { $ } from "bun"
 import type { Result } from "ts-explicit-errors"
 import { attempt, err, isErr } from "ts-explicit-errors"
 
-import { SopsClient } from "~/tools/dns-overrides/sops.ts"
-import type { NewOverride } from "~/tools/dns-overrides/unbound.ts"
-import { UnboundClient } from "~/tools/dns-overrides/unbound.ts"
+import { getCaddyDomains } from "~/tools/dns-overrides/caddy.ts"
+import { UnifiClient } from "~/tools/dns-overrides/unifi.ts"
 
 const CADDY_HOST = "caddy.lan"
-const CADDY_SITEBLOCK_REGEX = /^(?<domain>\S+\.adamhl\.dev)\s*\{/gmv
-
-async function getDomainsFromCaddyfile(caddyfilePath: string): Promise<Result<string[]>> {
-  const caddyfileContent = await attempt(() => Bun.file(caddyfilePath).text())
-  if (isErr(caddyfileContent)) return err("failed to read caddyfile", caddyfileContent)
-
-  const matches = caddyfileContent.matchAll(CADDY_SITEBLOCK_REGEX)
-  if (!matches) return err("No site blocks found in Caddyfile", undefined)
-
-  const domains: string[] = []
-  for (const match of matches) {
-    const domain = match.groups?.["domain"]
-    if (!domain || domain === "*.adamhl.dev") continue
-    domains.push(domain)
-  }
-
-  return domains
-}
+const MANAGED_DOMAIN_REGEX = /\.adamhl\.dev$/v
 
 async function updateDnsOverrides(): Promise<Result> {
-  const args = process.argv.slice(2)
-  const [caddyfilePath, secretsFilePath] = args
-  if (!(caddyfilePath && secretsFilePath)) {
-    return err("Usage: dns-overrides <caddyfile> <sops secrets>", undefined)
-  }
+  const apiKey = process.env["UNIFI_API_KEY"]
+  if (!apiKey) return err("UNIFI_API_KEY is not set", undefined)
 
-  const domains = await getDomainsFromCaddyfile(caddyfilePath)
-  if (isErr(domains)) return err("failed to get domains from Caddyfile", domains)
+  const domains = await getCaddyDomains()
+  if (isErr(domains)) return err("failed to get domains from caddy", domains)
 
   const caddyIp = await attempt(async () => (await $`dig +short ${CADDY_HOST}`.text()).trim())
   if (isErr(caddyIp)) return err(`failed to resolve caddy IP for '${CADDY_HOST}'`, caddyIp)
+  if (!caddyIp) return err(`'${CADDY_HOST}' did not resolve to an IP`, undefined)
 
-  const overrides: NewOverride[] = domains.map((domain) => ({
-    enabled: "1",
-    hostname: "*",
-    domain,
-    rr: "A",
-    mxprio: "",
-    mx: "",
-    server: caddyIp,
-    description: "",
-  }))
+  const client = new UnifiClient(apiKey)
 
-  const sopsClient = new SopsClient(secretsFilePath)
-  const opnsenseKey = await sopsClient.get("opnsense_key")
-  if (isErr(opnsenseKey)) return err("failed to get opnsense key", opnsenseKey)
-  const opnsenseSecret = await sopsClient.get("opnsense_secret")
-  if (isErr(opnsenseSecret)) return err("failed to get opnsense secret", opnsenseSecret)
+  const siteId = await client.resolveSiteId()
+  if (isErr(siteId)) return err("failed to resolve unifi site", siteId)
 
-  const unboundClient = new UnboundClient({
-    opnsenseKey,
-    opnsenseSecret,
-  })
+  const policies = await client.getDnsPolicies(siteId)
+  if (isErr(policies)) return err("failed to get existing dns policies", policies)
 
-  const currentOverrides = await unboundClient.getOverrides()
-  if (isErr(currentOverrides)) return currentOverrides
+  const managed = policies.filter((p) => p.type === "A_RECORD" && MANAGED_DOMAIN_REGEX.test(p.domain))
 
-  console.info(`Deleting ${currentOverrides.length} existing overrides...`)
-  for (const override of currentOverrides) {
-    const deleteResult = await unboundClient.deleteOverride(override.uuid)
-    if (isErr(deleteResult)) return err(`failed to delete override for '${override.domain}'`, deleteResult)
+  console.info(`Deleting ${managed.length} existing overrides...`)
+  for (const policy of managed) {
+    const deleteResult = await client.deleteDnsPolicy(siteId, policy.id)
+    if (isErr(deleteResult)) return err(`failed to delete override for '${policy.domain}'`, deleteResult)
   }
 
-  console.info(`Adding ${overrides.length} overrides...`)
-  for (const override of overrides) {
-    const addResult = await unboundClient.addOverride(override)
-    if (isErr(addResult)) return err(`failed to add override for '${override.domain}'`, addResult)
+  console.info(`Adding ${domains.length} overrides...`)
+  for (const domain of domains) {
+    const addResult = await client.createARecord(siteId, domain, caddyIp)
+    if (isErr(addResult)) return err(`failed to add override for '${domain}'`, addResult)
   }
 
-  const restartUnboundResult = await unboundClient.restartUnbound()
-  if (isErr(restartUnboundResult)) return restartUnboundResult
-  console.info("Restarted unbound")
+  console.info("Done")
 }
 
 async function main(): Promise<number> {
