@@ -32,44 +32,6 @@
 	admin :2019
 }
 
-joieparma.com {
-	@resume path /resume
-	handle @resume {
-		root /srv/joieparma.com
-		rewrite * /resume.pdf
-		file_server
-	}
-
-	reverse_proxy joieparma-com.lan:8000
-}
-
-adamhl.dev {
-	reverse_proxy adamhl-dev.lan:8000
-}
-
-battlegrind.adamhl.dev {
-	reverse_proxy battlegrind.lan:8000
-}
-
-watchtower.adamhl.dev {
-	reverse_proxy adamhl-dev.lan:8001
-}
-
-umami.adamhl.dev {
-	@script path /imamu*
-	handle @script {
-		reverse_proxy umami.lan:8000
-	}
-
-	@authorized_ips remote_ip private_ranges 100.64.0.0/10
-	handle @authorized_ips {
-		reverse_proxy umami.lan:8000
-	}
-
-	authorize with admin_policy
-	reverse_proxy umami.lan:8000
-}
-
 *.adamhl.dev {
 	tls {
 		dns route53 {
@@ -87,181 +49,135 @@ auth.adamhl.dev {
 	authenticate with authportal
 }
 
-incus.adamhl.dev {
+joieparma.com {
+	@resume path /resume
+	handle @resume {
+		root /srv/joieparma.com
+		rewrite * /resume.pdf
+		file_server
+	}
+
+	reverse_proxy joieparma-com.lan:8000
+}
+
+adamhl.dev {
+	reverse_proxy adamhl-dev.lan:8000
+}
+
+watchtower.adamhl.dev {
+	reverse_proxy adamhl-dev.lan:8001
+}
+
+battlegrind.adamhl.dev {
+	reverse_proxy battlegrind.lan:8000
+}
+
+### Private Services ###
+
+(private_service_base) {
 	@authorized_ips remote_ip private_ranges 100.64.0.0/10
 	handle @authorized_ips {
-		reverse_proxy https://incus.lan:8000 {
-			header_up Host {host}
-			transport http {
-				tls_server_name incus
-				tls_trust_pool file /var/lib/caddy/incus-server.crt
-				tls_client_auth /var/lib/caddy/incus-client.crt /var/lib/caddy/incus-client.key
-			}
-		}
+		{block}
 	}
 
 	authorize with admin_policy
-	reverse_proxy https://incus.lan:8000 {
-		header_up Host {host}
-		transport http {
-			tls_server_name incus
-			tls_trust_pool file /var/lib/caddy/incus-server.crt
-			tls_client_auth /var/lib/caddy/incus-client.crt /var/lib/caddy/incus-client.key
+	{block}
+}
+
+# Require auth unless the request is from LAN/Tailscale
+(private_service) {
+	import private_service_base {
+		reverse_proxy {args[0]}
+	}
+}
+
+# Services where the upstream forces HTTPS
+# As of Caddy v2.11, proxying to an HTTPS upstream defaults the Host header to the upstream address (so Host agrees with the TLS SNI). But most apps want the original public Host, so we restore it with {host}.
+# Without override -> Host: ucg-fiber.lan
+# With override    -> Host: unifi.adamhl.dev (the original request Host)
+(private_service_tls) {
+	import private_service_base {
+		reverse_proxy {args[0]} {
+			header_up Host {host}
+			transport http {
+				{block}
+			}
 		}
+	}
+}
+
+unifi.adamhl.dev {
+	import private_service_tls https://ucg-fiber.lan {
+		tls_server_name unifi.local
+		tls_trust_pool file /var/lib/caddy/unifi-core.crt
+	}
+}
+
+incus.adamhl.dev {
+	import private_service_tls https://incus.lan:8000 {
+		tls_server_name incus
+		tls_trust_pool file /var/lib/caddy/incus-server.crt
+		tls_client_auth /var/lib/caddy/incus-client.crt /var/lib/caddy/incus-client.key
 	}
 }
 
 homepage.adamhl.dev {
-	@authorized_ips remote_ip private_ranges 100.64.0.0/10
-	handle @authorized_ips {
-		reverse_proxy homepage.lan:8000
-	}
-
-	authorize with admin_policy
-	reverse_proxy homepage.lan:8000
-}
-
-# As of Caddy v2.11, proxying to an HTTPS upstream defaults the Host header to the upstream address (so Host agrees with the TLS SNI). But most apps want the original public Host, so we restore it with {host}.
-# Without override -> Host: ucg-fiber.lan
-# With override    -> Host: unifi.adamhl.dev (the original request Host)
-unifi.adamhl.dev {
-	@authorized_ips remote_ip private_ranges 100.64.0.0/10
-	handle @authorized_ips {
-		reverse_proxy https://ucg-fiber.lan {
-			header_up Host {host}
-			transport http {
-				tls_server_name unifi.local
-				tls_trust_pool file /var/lib/caddy/unifi-core.crt
-			}
-		}
-	}
-
-	authorize with admin_policy
-	reverse_proxy https://ucg-fiber.lan {
-		header_up Host {host}
-		transport http {
-			tls_server_name unifi.local
-			tls_trust_pool file /var/lib/caddy/unifi-core.crt
-		}
-	}
+	import private_service homepage.lan:8000
 }
 
 backrest.adamhl.dev {
-	@authorized_ips remote_ip private_ranges 100.64.0.0/10
-	handle @authorized_ips {
-		reverse_proxy backrest.lan:8000
-	}
-
-	authorize with admin_policy
-	reverse_proxy backrest.lan:8000
+	import private_service backrest.lan:8000
 }
 
 scrutiny.adamhl.dev {
-	@authorized_ips remote_ip private_ranges 100.64.0.0/10
-	handle @authorized_ips {
-		reverse_proxy scrutiny.lan:8000
+	import private_service scrutiny.lan:8000
+}
+
+umami.adamhl.dev {
+	@script path /imamu*
+	handle @script {
+		reverse_proxy umami.lan:8000
 	}
 
-	authorize with admin_policy
-	reverse_proxy scrutiny.lan:8000
+	import private_service umami.lan:8000
 }
 
 actual-budget.adamhl.dev {
-	@authorized_ips remote_ip private_ranges 100.64.0.0/10
-	handle @authorized_ips {
-		reverse_proxy actual-budget.lan:8000
-	}
-
-	authorize with admin_policy
-	reverse_proxy actual-budget.lan:8000
+	import private_service actual-budget.lan:8000
 }
 
 filebrowser.adamhl.dev {
-	@authorized_ips remote_ip private_ranges 100.64.0.0/10
-	handle @authorized_ips {
-		reverse_proxy filebrowser.lan:8000
-	}
-
-	authorize with admin_policy
-	reverse_proxy filebrowser.lan:8000
+	import private_service filebrowser.lan:8000
 }
 
 papra.adamhl.dev {
-	@authorized_ips remote_ip private_ranges 100.64.0.0/10
-	handle @authorized_ips {
-		reverse_proxy papra.lan:8000
-	}
-
-	authorize with admin_policy
-	reverse_proxy papra.lan:8000
+	import private_service papra.lan:8000
 }
 
 immich.adamhl.dev {
-	@authorized_ips remote_ip private_ranges 100.64.0.0/10
-	handle @authorized_ips {
-		reverse_proxy immich.lan:8000
-	}
-
-	authorize with admin_policy
-	reverse_proxy immich.lan:8000
+	import private_service immich.lan:8000
 }
 
 jellyfin.adamhl.dev {
-	@authorized_ips remote_ip private_ranges 100.64.0.0/10
-	handle @authorized_ips {
-		reverse_proxy jellyfin.lan:8000
-	}
-
-	authorize with admin_policy
-	reverse_proxy jellyfin.lan:8000
+	import private_service jellyfin.lan:8000
 }
 
 qbittorrent.adamhl.dev {
-	@authorized_ips remote_ip private_ranges 100.64.0.0/10
-	handle @authorized_ips {
-		reverse_proxy qbittorrent.lan:8000
-	}
-
-	authorize with admin_policy
-	reverse_proxy qbittorrent.lan:8000
+	import private_service qbittorrent.lan:8000
 }
 
 radarr.adamhl.dev {
-	@authorized_ips remote_ip private_ranges 100.64.0.0/10
-	handle @authorized_ips {
-		reverse_proxy radarr.lan:8000
-	}
-
-	authorize with admin_policy
-	reverse_proxy radarr.lan:8000
+	import private_service radarr.lan:8000
 }
 
 sonarr.adamhl.dev {
-	@authorized_ips remote_ip private_ranges 100.64.0.0/10
-	handle @authorized_ips {
-		reverse_proxy sonarr.lan:8000
-	}
-
-	authorize with admin_policy
-	reverse_proxy sonarr.lan:8000
+	import private_service sonarr.lan:8000
 }
 
 prowlarr.adamhl.dev {
-	@authorized_ips remote_ip private_ranges 100.64.0.0/10
-	handle @authorized_ips {
-		reverse_proxy prowlarr.lan:8000
-	}
-
-	authorize with admin_policy
-	reverse_proxy prowlarr.lan:8000
+	import private_service prowlarr.lan:8000
 }
 
 seerr.adamhl.dev {
-	@authorized_ips remote_ip private_ranges 100.64.0.0/10
-	handle @authorized_ips {
-		reverse_proxy seerr.lan:8000
-	}
-
-	authorize with admin_policy
-	reverse_proxy seerr.lan:8000
+	import private_service seerr.lan:8000
 }
