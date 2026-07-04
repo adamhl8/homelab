@@ -23,6 +23,7 @@ clean_path $base_bin_paths
 # e.g. we want ~/bin to be first
 set -l extra_paths ~/bin ~/.local/bin
 set -a extra_paths ~/.bun/bin
+set -a extra_paths ~/.nub/bin
 if type -q go
     set -a extra_paths (go env GOPATH)/bin
     set -a extra_paths (go env GOROOT)/bin
