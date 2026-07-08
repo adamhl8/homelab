@@ -72,6 +72,10 @@ battlegrind.adamhl.dev {
 	reverse_proxy battlegrind.lan:8000
 }
 
+discord-app-bot.adamhl.dev {
+	reverse_proxy discord-app-bot.lan:8000
+}
+
 ### Private Services ###
 
 (private_service_base) {

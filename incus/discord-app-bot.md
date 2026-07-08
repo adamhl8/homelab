@@ -11,7 +11,8 @@ incus launch images:debian/13/cloud discord-app-bot \
 `.env`:
 
 ```env
-DISCORD_APP_BOT_TOKEN=your_token_here
+BOT_TOKEN=value
+APP_BOT_SECRET=value
 ```
 
 `compose.yaml`:
@@ -24,11 +25,14 @@ services:
     container_name: ${COMPOSE_PROJECT_NAME}
     image: ghcr.io/adamhl8/discord-app-bot
     restart: always
+    ports:
+      - 8000:8080
     volumes:
       - ./data/:/app/db/
     environment:
-      BOT_TOKEN: ${DISCORD_APP_BOT_TOKEN}
+      BOT_TOKEN: ${BOT_TOKEN}
       APPLICATION_ID: 970956137157492786
+      APP_BOT_SECRET: ${APP_BOT_SECRET}
       DATABASE_URL: file:db/prod.db
 ```
 
