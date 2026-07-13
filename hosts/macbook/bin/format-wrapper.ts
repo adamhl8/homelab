@@ -1,12 +1,12 @@
 #!/usr/bin/env bun
-/** biome-ignore-all lint/correctness/useHookAtTopLevel: not a react component */
 
 import path from "node:path"
 import process from "node:process"
-import { $ } from "bun"
+
+import bun, { $ } from "bun"
 
 const [bufferPath = "", prettierConfigPath = ""] = process.argv.slice(2)
-const stdin = await Bun.stdin.text()
+const stdin = await bun.stdin.text()
 const cwd = process.cwd()
 
 interface FormatterResult {
@@ -18,7 +18,7 @@ interface FormatterResult {
 type Formatter = (input: string) => FormatterResult | Promise<FormatterResult>
 type FormatterGroup = Formatter | Formatter[]
 
-function getFormatterErrorString(result: FormatterResult): string | undefined {
+const getFormatterErrorString = (result: FormatterResult): string | undefined => {
   // if the output is empty, it's likely a formatter failed, printed nothing, but didn't exit with a non-zero status
   // regardless of the reason it's empty, we don't want to continue or else we'd replace the current buffer with nothing
   if (result.exitCode === 0 && result.stdout.trim().length > 0) return
@@ -26,18 +26,18 @@ function getFormatterErrorString(result: FormatterResult): string | undefined {
 }
 
 /**
- * Runs each {@link FormatterGroup} in order. If a `FormatterGroup` succeeds, no further `FormatterGroup`s are run and the result is written to stdout (and ultimately to the Zed buffer).
+ * Runs each {@link FormatterGroup} in order. If a `FormatterGroup` succeeds, no further `FormatterGroup`s are run and
+ * the result is written to stdout (and ultimately to the Zed buffer).
  *
  * In other words, subsequent `FormatterGroup`s are used as fallbacks.
  *
- * If the `FormatterGroup` is an array, _all_ of the `Formatter`s in the array must succeed for the `FormatterGroup` to succeed.
+ * If the `FormatterGroup` is an array, _all_ of the `Formatter`s in the array must succeed for the `FormatterGroup` to
+ * succeed.
+ *
  * - The output of each `Formatter` is used as the input for the next `Formatter` in the array.
  * - This allows you to chain multiple formatters together and use the combined results.
- *
- * @param formatterGroups One or more {@link FormatterGroup}, which is either a single {@link Formatter} or an array of {@link Formatter}
- * @returns void
  */
-async function useFormatters(...formatterGroups: FormatterGroup[]) {
+const useFormatters = async (...formatterGroups: FormatterGroup[]) => {
   let errors = ""
 
   for (const formatterGroup of formatterGroups) {
@@ -47,7 +47,7 @@ async function useFormatters(...formatterGroups: FormatterGroup[]) {
       let finalResult: FormatterResult | undefined
 
       for (const formatter of formatterGroup) {
-        // biome-ignore lint/performance/noAwaitInLoops: we need to wait for each formatter
+        // oxlint-disable-next-line no-await-in-loop -- each formatter's output feeds the next
         const result = await formatter(currentInput)
         const errorString = getFormatterErrorString(result)
         if (errorString) {
@@ -66,6 +66,7 @@ async function useFormatters(...formatterGroups: FormatterGroup[]) {
         return
       }
     } else {
+      // oxlint-disable-next-line no-await-in-loop -- groups are fallbacks, tried in order
       const result = await formatterGroup(stdin)
       const errorString = getFormatterErrorString(result)
       if (errorString) {
@@ -83,7 +84,7 @@ async function useFormatters(...formatterGroups: FormatterGroup[]) {
   process.exitCode = 1
 }
 
-async function runFormatterCmd(cmd: string, input: string) {
+const runFormatterCmd = async (cmd: string, input: string) => {
   const { stdout, stderr, exitCode } = await $`echo ${input} | ${{ raw: cmd }}`.quiet().nothrow()
   return { stdout: stdout.toString().trim(), stderr: stderr.toString().trim(), exitCode }
 }
@@ -98,14 +99,14 @@ const biome: Formatter = async (input) => {
     exitCode: 1,
   }
 
-  const biomeBinaryExists = await Bun.file(biomeProjectCmd).exists()
+  const biomeBinaryExists = await bun.file(biomeProjectCmd).exists()
   if (!biomeBinaryExists) {
     result.stderr = "skipped, biome binary not found"
     return result
   }
 
-  const biomeConfigJsonExists = await Bun.file(`${cwd}/biome.json`).exists()
-  const biomeConfigJsoncExists = await Bun.file(`${cwd}/biome.jsonc`).exists()
+  const biomeConfigJsonExists = await bun.file(`${cwd}/biome.json`).exists()
+  const biomeConfigJsoncExists = await bun.file(`${cwd}/biome.jsonc`).exists()
   if (!(biomeConfigJsonExists || biomeConfigJsoncExists)) {
     result.stderr = "skipped, no biome config found"
     return result
@@ -132,7 +133,7 @@ const projectPrettier: Formatter = async (input) => {
     exitCode: 1,
   }
 
-  const prettierBinaryExists = await Bun.file(prettierProjectCmd).exists()
+  const prettierBinaryExists = await bun.file(prettierProjectCmd).exists()
   if (!prettierBinaryExists) {
     result.stderr = "skipped, prettier binary not found"
     return result
@@ -164,7 +165,7 @@ const projectPrettier: Formatter = async (input) => {
 }
 
 const prettier: Formatter = async (input) => {
-  const prettierCmd = Bun.which("prettier")
+  const prettierCmd = bun.which("prettier")
   const identifier = `prettier (${prettierCmd})`
 
   const { stdout, stderr, exitCode } = await runFormatterCmd(

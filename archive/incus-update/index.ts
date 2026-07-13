@@ -2,12 +2,13 @@
 
 import process from "node:process"
 import { parseArgs } from "node:util"
+
 import type { Result } from "ts-explicit-errors"
 import { err, isErr } from "ts-explicit-errors"
 
-import { IncusClient } from "~/tools/incus-update/incus.ts"
-import { plugins } from "~/tools/incus-update/plugins/index.ts"
-import { logger, runInstanceCommand } from "~/tools/incus-update/utils.ts"
+import { IncusClient } from "#archive/incus-update/incus.ts"
+import { plugins } from "#archive/incus-update/plugins/index.ts"
+import { logger, runInstanceCommand } from "#archive/incus-update/utils.ts"
 
 const INCUS_BASE_URL = "https://incus.adamhl.dev"
 
@@ -17,7 +18,7 @@ interface UpdateInstanceOptions {
   verbose?: boolean
 }
 
-async function updateInstance(instanceName: string, options?: UpdateInstanceOptions): Promise<Result> {
+const updateInstance = async (instanceName: string, options?: UpdateInstanceOptions): Promise<Result> => {
   console.log()
   logger.info(`Updating '${instanceName}'`)
   const host = `${instanceName}.lan`
@@ -30,13 +31,13 @@ async function updateInstance(instanceName: string, options?: UpdateInstanceOpti
     if (isErr(pluginPreResult)) return err(`failed to run pre-update hook for '${instanceName}'`, pluginPreResult)
   }
   logger.info("Updating packages...")
-  const aptUpdateResult = await runInstanceCommand(
-    host,
-    'export DEBIAN_FRONTEND=noninteractive; \
-    sudo --preserve-env=DEBIAN_FRONTEND apt -qq -y update && \
-    sudo --preserve-env=DEBIAN_FRONTEND apt -qq -y -o "Dpkg::Options::=--force-confdef" -o "Dpkg::Options::=--force-confold" full-upgrade && \
-    sudo --preserve-env=DEBIAN_FRONTEND apt -qq -y autoremove',
-  )
+  const aptUpdateCommand = [
+    "export DEBIAN_FRONTEND=noninteractive;",
+    "sudo --preserve-env=DEBIAN_FRONTEND apt -qq -y update &&",
+    'sudo --preserve-env=DEBIAN_FRONTEND apt -qq -y -o "Dpkg::Options::=--force-confdef" -o "Dpkg::Options::=--force-confold" full-upgrade &&',
+    "sudo --preserve-env=DEBIAN_FRONTEND apt -qq -y autoremove",
+  ].join(" ")
+  const aptUpdateResult = await runInstanceCommand(host, aptUpdateCommand)
 
   if (isErr(aptUpdateResult)) return err(`failed to update packages on '${instanceName}'`, aptUpdateResult)
 
@@ -67,9 +68,9 @@ async function updateInstance(instanceName: string, options?: UpdateInstanceOpti
   }
 }
 
-const EXCLUDED_INSTANCES = ["opnsense"]
+const EXCLUDED_INSTANCES = new Set(["opnsense"])
 
-async function incusUpdate(): Promise<Result> {
+const incusUpdate = async (): Promise<Result> => {
   const { values: options } = parseArgs({
     args: process.argv.slice(2),
     options: {
@@ -101,9 +102,9 @@ async function incusUpdate(): Promise<Result> {
   const failedInstances: string[] = []
   for (const instanceName of instanceNames) {
     if (options.instance && options.instance !== instanceName) continue
-    if (EXCLUDED_INSTANCES.includes(instanceName)) continue
+    if (EXCLUDED_INSTANCES.has(instanceName)) continue
 
-    // biome-ignore lint/performance/noAwaitInLoops: handle one instance at a time
+    // oxlint-disable-next-line no-await-in-loop -- handle one instance at a time
     const instance = await incusClient.getInstance(instanceName)
     if (isErr(instance)) return err(`failed to get instance details for '${instanceName}'`, instance)
 
@@ -115,6 +116,7 @@ async function incusUpdate(): Promise<Result> {
 
     const hasDockerProfile = instance.profiles.includes("docker")
 
+    // oxlint-disable-next-line no-await-in-loop -- handle one instance at a time
     const updateResult = await updateInstance(instanceName, {
       hasDockerProfile,
       dockerPrune: options.prune,
@@ -138,7 +140,7 @@ async function incusUpdate(): Promise<Result> {
   else logger.info("Done")
 }
 
-async function main(): Promise<number> {
+const main = async (): Promise<number> => {
   const result = await incusUpdate()
   if (isErr(result)) {
     logger.error(result.messageChain)

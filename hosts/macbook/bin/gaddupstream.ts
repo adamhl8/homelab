@@ -3,7 +3,7 @@
 import { $ } from "bun"
 
 const url = await $`git remote get-url origin`.text()
-const repo = url.split(":")[1]?.replace(/\.git$/m, "")
+const repo = url.split(":")[1]?.replace(/\.git$/mv, "")
 if (!repo) throw new Error("failed to get repo name")
 
 const repoData = (await (await fetch(`https://api.github.com/repos/${repo}`)).json()) as {

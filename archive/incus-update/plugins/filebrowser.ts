@@ -1,9 +1,9 @@
 import type { Result } from "ts-explicit-errors"
 import { err, isErr } from "ts-explicit-errors"
 
-import { logger, runInstanceCommand, safeFetch } from "~/tools/incus-update/utils.ts"
+import { logger, runInstanceCommand, safeFetch } from "#archive/incus-update/utils.ts"
 
-export async function post(): Promise<Result> {
+export const post = async (): Promise<Result> => {
   const host = "filebrowser.lan"
 
   const currentVersionResult = await runInstanceCommand(host, "filebrowser version")
@@ -32,7 +32,7 @@ export async function post(): Promise<Result> {
   ]
 
   for (const command of commands) {
-    // biome-ignore lint/performance/noAwaitInLoops: need to run commands in order
+    // oxlint-disable-next-line no-await-in-loop -- need to run commands in order
     const result = await runInstanceCommand(host, command)
     if (isErr(result)) return result
   }

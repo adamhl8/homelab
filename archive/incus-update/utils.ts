@@ -2,12 +2,12 @@ import { $ } from "bun"
 import type { Result } from "ts-explicit-errors"
 import { attempt, err, isErr } from "ts-explicit-errors"
 
-async function sh(command: string): Promise<Result<string>> {
+const sh = async (command: string): Promise<Result<string>> => {
   const shellCommand = $`${{ raw: command }}`.nothrow()
 
   const result = await shellCommand
   const output = [result.stdout, result.stderr]
-    .map((text) => text.toString("utf-8").trim())
+    .map((text) => text.toString("utf8").trim())
     .join("\n")
     .trim()
   if (result.exitCode !== 0)
@@ -15,7 +15,7 @@ async function sh(command: string): Promise<Result<string>> {
   return output
 }
 
-export async function runInstanceCommand(host: string, command: string): Promise<Result<string>> {
+export const runInstanceCommand = async (host: string, command: string): Promise<Result<string>> =>
   // The command might contain variables that need to be interpolated.
   // Note that there are three shells involved here:
   // 1. The local shell which executes the `ssh` command
@@ -29,24 +29,30 @@ export async function runInstanceCommand(host: string, command: string): Promise
   //
   // To help explain the following, we can add some spaces to make it clear where each quoted string starts and ends
   // 'bash -li -c ' "'" '${command}' "'"
-  return await sh(`ssh -o LogLevel=ERROR -t ${host} 'bash -li -c '"'"'${command}'"'"`)
-}
+  sh(`ssh -o LogLevel=ERROR -t ${host} 'bash -li -c '"'"'${command}'"'"`)
 
-export async function safeFetch(url: string, init?: BunFetchRequestInit): Promise<Result<Response>> {
-  const response = await attempt(() => fetch(url, init))
+export const safeFetch = async (url: string, init?: BunFetchRequestInit): Promise<Result<Response>> => {
+  const response = await attempt(async () => fetch(url, init))
   if (isErr(response)) return err(`failed to fetch '${url}'`, response)
-  if (!response.ok)
+  if (!response.ok) {
     return err(
       `failed to fetch '${url}': (${response.status}) [${response.statusText}] ${await response.text()}`,
       undefined,
     )
+  }
 
   return response
 }
 
 const loggerPrefix = "[incus-update]"
 export const logger = {
-  info: (message: string) => console.info(`${loggerPrefix} ${message}`),
-  warn: (message: string) => console.warn(`${loggerPrefix} ${message}`),
-  error: (message: string) => console.error(`${loggerPrefix} ${message}`),
+  info: (message: string) => {
+    console.info(`${loggerPrefix} ${message}`)
+  },
+  warn: (message: string) => {
+    console.warn(`${loggerPrefix} ${message}`)
+  },
+  error: (message: string) => {
+    console.error(`${loggerPrefix} ${message}`)
+  },
 }

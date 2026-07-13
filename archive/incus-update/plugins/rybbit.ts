@@ -1,9 +1,9 @@
 import type { Result } from "ts-explicit-errors"
 import { isErr } from "ts-explicit-errors"
 
-import { logger, runInstanceCommand } from "~/tools/incus-update/utils.ts"
+import { logger, runInstanceCommand } from "#archive/incus-update/utils.ts"
 
-export async function pre(): Promise<Result> {
+export const pre = async (): Promise<Result> => {
   const host = "rybbit.lan"
 
   logger.info("Cloning Rybbit repository...")
@@ -15,7 +15,7 @@ export async function pre(): Promise<Result> {
   ]
 
   for (const command of commands) {
-    // biome-ignore lint/performance/noAwaitInLoops: need to run commands in order
+    // oxlint-disable-next-line no-await-in-loop -- need to run commands in order
     const result = await runInstanceCommand(host, command)
     if (isErr(result)) return result
   }

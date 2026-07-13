@@ -2,30 +2,33 @@
 
 import { $ } from "bun"
 
-async function uninstallOldNodeVersions() {
+const uninstallOldNodeVersions = async () => {
   const versions = (await $`fnm list`.text()).split("\n")
   for (const line of versions) {
     const [, version, ...aliases] = line.split(" ")
     if (!version) continue
     if (!version.startsWith("v")) continue
     if (aliases.some((alias) => alias.startsWith("latest"))) continue
-    // biome-ignore lint/performance/noAwaitInLoops: uninstall one at a time
+
+    // oxlint-disable-next-line no-await-in-loop -- uninstall one at a time
     await $`fnm uninstall ${version}`
   }
 }
 
-await $`brew update -f`
-await $`brew upgrade -g`
+await $`brew update --force`
+await $`brew upgrade --greedy`
 await $`brew autoremove`
-await $`brew cleanup --prune=all -s`
+await $`brew cleanup --prune=all --scrub`
 
 await $`fnm install --latest`
 await $`fnm default latest`
 await uninstallOldNodeVersions()
 
-await $`bunx taze latest -fw && rm -rf node_modules/ bun.lock && bun i -f`.cwd("/Users/adam/.bun/install/global")
+await $`bunx taze latest --force --write && rm -rf node_modules/ bun.lock && bun install --force`.cwd(
+  "/Users/adam/.bun/install/global",
+)
 
-await $`fish -li -c 'fisher update'`
+await $`fish --login --interactive --command 'fisher update'`
 
-await $`fish -li -c 'sdk selfupdate'`
-await $`fish -li -c 'sdk update'`
+await $`fish --login --interactive --command 'sdk selfupdate'`
+await $`fish --login --interactive --command 'sdk update'`

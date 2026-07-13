@@ -1,6 +1,6 @@
 import { $ } from "bun"
 
-/** sops key -> homepage env var (without HOMEPAGE_VAR_ prefix) */
+/** Sops key -> homepage env var (without HOMEPAGE_VAR_ prefix) */
 const SECRET_TO_ENV = {
   immich_key: "IMMICH",
   jellyfin_api_key: "JELLYFIN",
@@ -16,7 +16,7 @@ const SECRET_TO_ENV = {
 } as const
 
 const json = await $`sops -d --output-type json ~/secrets.yaml`.text()
-const secrets: Record<string, string> = JSON.parse(json)
+const secrets = JSON.parse(json) as Record<string, string>
 
 for (const [key, envVar] of Object.entries(SECRET_TO_ENV)) {
   const secret = secrets[key]
