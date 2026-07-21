@@ -8,31 +8,126 @@ Everything derives from one passphrase, kept in your head:
 
 ```
 passphrase
-  -> configs/key.age            (scrypt-encrypted age identity, committed)
-      -> sops
-          -> configs/ssh.yaml       SSH key
-          -> configs/secrets.yaml   API keys, passwords
+  -> secrets/key.age                     (scrypt-encrypted age identity, committed)
+      -> ~/.config/sops/age/keys.txt     (decrypted by bootstrap.sh, never committed)
+          -> sops
+              -> secrets/ssh.yaml        SSH keys (private included)
+              -> secrets/credentials.yaml    API keys, passwords
 ```
 
 The layers build on each other, bottom up. Each one can only run once the one below it
 exists:
 
-| Layer                  | Owns                                                                  | Auth it uses      |
-| ---------------------- | --------------------------------------------------------------------- | ----------------- |
-| `metal/`               | bare Debian on the host                                               | KVM console       |
-| `pyinfra/` (host)      | ZFS, networking, the Incus daemon, Tofu's client cert                 | SSH key           |
-| `tofu/`                | everything inside the Incus API: pools, profiles, networks, instances | Incus client cert |
-| `pyinfra/` (container) | packages, files, services, compose stacks                             | SSH key           |
+| Layer                  | Owns                                                                  | Auth it uses       |
+| ---------------------- | --------------------------------------------------------------------- | ------------------ |
+| `bootstrap.sh`         | homebrew, the clone, the decrypted age identity                       | **the passphrase** |
+| `pyinfra/macbook/`     | this macbook: brew packages, dotfiles, SSH keys, AWS profile          | age identity       |
+| `metal/`               | bare Debian on the host                                               | KVM console        |
+| `pyinfra/` (host)      | ZFS, networking, the Incus daemon, Tofu's client cert                 | SSH key            |
+| `tofu/`                | everything inside the Incus API: pools, profiles, networks, instances | Incus client cert  |
+| `pyinfra/` (container) | packages, files, services, compose stacks                             | SSH key            |
 
-`metal/` and `tofu/` are the only ones with anything real in them so far. `pyinfra/` is a
-skeleton.
+`bootstrap.sh`, `pyinfra/macbook/`, `metal/`, and `tofu/` are real. The host and container
+pyinfra layers are still skeletons.
 
-`pyinfra/` is a self-contained uv project, so run it from there:
+`pyinfra/` is a self-contained uv project with one inventory for the whole homelab:
+`inventory.py` lists every host, and each group (`macbook`, later `incus`) gets a folder
+named after it, holding `deploy.py` plus the `files/` it deploys. Shared code lives in
+`pyinfra/lib/`. A deploy file has no group binding of its own (pyinfra runs whatever file
+you pass against every inventory host), so the pairing lives in the justfile via `--limit`,
+and every deploy opens with `require_group(__file__)`, which fails loudly if the folder name
+doesn't match a group the host is in. Per-host variance goes in inventory host data, not
+`host.name` conditionals.
 
 ```sh
-cd pyinfra
-uv run pyinfra inventory.py deploy.py
+just plan macbook    # dry-run, with diffs
+just apply macbook
 ```
+
+## Bootstrapping a machine from nothing
+
+One command, and one passphrase:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/adamhl8/homelab/main/bootstrap.sh | sh
+```
+
+That is the whole manual surface. `bootstrap.sh` is safe to re-run, and it does only the four
+things that have to happen before pyinfra can take over:
+
+1. **Install homebrew.** Its installer also installs the Xcode Command Line Tools, which is
+   where `git` actually comes from, so it is a strict superset of `xcode-select --install`.
+2. **Clone this repo over HTTPS.** It has to be HTTPS: a `git@` clone needs the SSH key, and
+   the SSH key lives inside the repo being cloned. This works only because the repo is public.
+   `macbook/deploy.py` flips `origin` back to SSH once it has written the key.
+3. **`brew install uv sops age`.** Only what pyinfra itself is made of (there is no pyinfra
+   formula, hence uv). Every other package is declared in `pyinfra/macbook/files/Brewfile`, which
+   pyinfra applies, so the Brewfile stays the single source of truth.
+4. **Decrypt `secrets/key.age`** to `~/.config/sops/age/keys.txt`, which prompts for the
+   passphrase.
+
+Step 4 is the only step that cannot be code, and it is the reason bootstrap exists at all. The
+passphrase is the one input to this entire system that isn't in git. It also can't be folded
+into pyinfra, because pyinfra shells out to sops while _parsing its inventory_: the key has to
+be on disk before pyinfra starts, so pyinfra can never be the thing that puts it there.
+
+Everything downstream is a pure function of (passphrase + repo). A wiped machine is recoverable
+with nothing but this command and something you remember.
+
+### What layer -1 does not cover
+
+**`aws sso login --profile adamhl8`.** The AWS profile authenticates through SSO, so its
+credentials are a session token minted in a browser, not a key on disk. pyinfra writes
+`~/.aws/config` so the profile _exists_, which is what matters structurally: every tofu recipe
+in the justfile is gated behind `aws configure list-profiles | grep -qx adamhl8` and **silently
+does nothing** when that check fails. Without the profile, `just tofu-check` plans nothing and
+still exits clean.
+
+**Your passphrase is the whole vault.** `secrets/key.age` is committed to a _public_ repo, so
+the scrypt-encrypted identity and every ciphertext in `credentials.yaml` are world-readable. That
+is what age's scrypt mode is designed for, but it means the security of everything reduces to
+how well your passphrase resists offline grinding by someone who has cloned the repo. It wants
+to be a long diceware phrase, not a good password.
+
+## Layer -1: this macbook
+
+`pyinfra/macbook/` owns the machine you run everything else _from_. It is a normal pyinfra
+deploy against the `@local` connector, so `--dry` works and is worth using every time: `@local`
+pointed at `$HOME` means a careless `files.put` overwrites real state with no undo.
+
+It manages four things:
+
+- **Brew packages**, from `pyinfra/macbook/files/Brewfile` (generated with `brew bundle dump`).
+- **SSH keys**, written from `secrets/ssh.yaml`. Both the private and public halves are in the
+  vault, so a fresh machine gets a working `git commit` and `ssh incus.lan` with no key ceremony.
+- **The AWS profile**, `~/.aws/{config,credentials}`.
+- **Dotfiles**: the shared base from `pyinfra/files/` (used by every host, e.g. the coming
+  WSL one) plus macbook-only extras from `pyinfra/macbook/files/`, copied into `$HOME`.
+
+The dotfiles are plain copies: edit the file under `pyinfra/files/` (or the group's
+`files/`), then deploy.
+Zed's settings are a shared source (`pyinfra/files/zed/settings.json`) with a per-group
+destination, since it differs per host: the macbook maps it to `~/.config/zed/settings.json`,
+and the WSL host will map the same source to
+`/mnt/c/Users/<winuser>/AppData/Roaming/Zed/settings.json` (Zed runs Windows-side there and
+remotes into WSL). That future mapping needs `Dest(mode=None)` support in `lib/fs.py`: chmod
+on a default drvfs mount is a no-op, so a managed mode would report drift every run.
+The `zed/settings.json` source path is deliberate: Zed's builtin schema association matches
+any path ending in `zed/settings.json`, so the repo copy gets settings autocomplete for free.
+`--dry` reports anything that has drifted from what's declared. One caveat: **`files.put`
+writes _through_ a symlink** — pointed at a link whose target already matches, it reports
+`Success` and leaves the link in place — so any old symlink at these paths has to be removed
+by hand before the deploy actually owns the file.
+
+One more ordering constraint is load-bearing: the **SSH keys are written before `.gitconfig`**.
+That config sets `commit.gpgsign = true` with `~/.ssh/id_ed25519.pub` as the signing key, so
+writing it first would break every `git commit` on the machine until the key showed up.
+
+Brew's side is only additive: `brew bundle` installs what the Brewfile lists but never removes a
+package that left it. `brew bundle cleanup --file=pyinfra/macbook/files/Brewfile` reports that drift and
+only `--force` acts on it, which keeps uninstalling a deliberate act rather than a side effect of
+a deploy. Same reasoning as choosing the disk by hand in `metal/`: the destructive direction gets
+a human in it.
 
 ## Bare-metal Debian install
 

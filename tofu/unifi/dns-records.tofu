@@ -25,7 +25,7 @@ terraform {
 }
 
 data "sops_file" "secrets" {
-  source_file = "${path.module}/../../configs/secrets.yaml"
+  source_file = "${path.module}/../../secrets/credentials.yaml"
 }
 
 provider "unifi" {

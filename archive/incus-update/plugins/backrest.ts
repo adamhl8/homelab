@@ -1,7 +1,10 @@
+import { type } from "arktype"
 import type { Result } from "ts-explicit-errors"
 import { err, isErr } from "ts-explicit-errors"
 
 import { logger, runInstanceCommand, safeFetch } from "#archive/incus-update/utils.ts"
+
+const releaseSchema = type({ tag_name: "string" })
 
 export const post = async (): Promise<Result> => {
   const host = "backrest.lan"
@@ -12,7 +15,10 @@ export const post = async (): Promise<Result> => {
 
   const latestReleaseResponse = await safeFetch("https://api.github.com/repos/garethgeorge/backrest/releases/latest")
   if (isErr(latestReleaseResponse)) return err("failed to get latest version", latestReleaseResponse)
-  const latestRelease = (await latestReleaseResponse.json()) as { tag_name: string }
+
+  const latestRelease = releaseSchema(await latestReleaseResponse.json())
+  if (latestRelease instanceof type.errors)
+    return err(`failed to parse latest release: ${latestRelease.summary}`, undefined)
   const latestVersion = latestRelease.tag_name
 
   if (currentVersion === latestVersion) {

@@ -1,0 +1,14 @@
+[profile localstack]
+region = us-east-1
+output = json
+
+[profile adamhl8]
+sso_session = adamhl8
+sso_account_id = 269329412317
+sso_role_name = Administrator
+region = us-east-1
+
+[sso-session adamhl8]
+sso_start_url = https://d-906674597f.awsapps.com/start
+sso_region = us-east-1
+sso_registration_scopes = sso:account:access

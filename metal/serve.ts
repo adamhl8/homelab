@@ -34,10 +34,10 @@ const hashPassword = async (password: string): Promise<Result<string>> => {
 
 /** Everything substituted into `preseed.cfg` */
 const getTemplateValues = async () => {
-  const sshPubkey = await sops("configs/ssh.yaml", '["adam-macbook"]["pub"]')
+  const sshPubkey = await sops("secrets/ssh.yaml", '["adam-macbook"]["pub"]')
   if (isErr(sshPubkey)) return sshPubkey
 
-  const password = await sops("configs/secrets.yaml", '["homelab_password"]')
+  const password = await sops("secrets/credentials.yaml", '["homelab_password"]')
   if (isErr(password)) return password
 
   const passwordCrypt = await hashPassword(password)

@@ -29,6 +29,3 @@ await $`bunx taze latest --force --write && rm -rf node_modules/ bun.lock && bun
 )
 
 await $`fish --login --interactive --command 'fisher update'`
-
-await $`fish --login --interactive --command 'sdk selfupdate'`
-await $`fish --login --interactive --command 'sdk update'`

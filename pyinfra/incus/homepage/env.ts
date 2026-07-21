@@ -1,4 +1,7 @@
+import { type } from "arktype"
 import { $ } from "bun"
+
+const secretsSchema = type("Record<string, string>")
 
 /** Sops key -> homepage env var (without HOMEPAGE_VAR_ prefix) */
 const SECRET_TO_ENV = {
@@ -16,7 +19,8 @@ const SECRET_TO_ENV = {
 } as const
 
 const json = await $`sops -d --output-type json ~/secrets.yaml`.text()
-const secrets = JSON.parse(json) as Record<string, string>
+const secrets = secretsSchema(JSON.parse(json))
+if (secrets instanceof type.errors) throw new Error(`invalid secrets: ${secrets.summary}`)
 
 for (const [key, envVar] of Object.entries(SECRET_TO_ENV)) {
   const secret = secrets[key]

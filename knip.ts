@@ -4,16 +4,10 @@ import { knipConfig } from "@adamhl8/configs"
 const config = knipConfig({
   project: ["!./archive/**/*"],
   // system binaries we shell out to, not things we could depend on
-  ignoreBinaries: ["awk", "brew", "fish", "fnm", "openssl", "prettier", "sops"],
+  ignoreBinaries: ["awk", "brew", "fish", "fnm", "openssl", "sops"],
   // the deployed .prettierrc.mjs types itself against the globally-installed prettier
   ignoreDependencies: ["prettier"],
-  entry: [
-    "archive/incus-update/index.ts",
-    "hosts/macbook/.prettierrc.mjs",
-    "hosts/macbook/bin/*.ts",
-    "incus/homepage/env.ts",
-    "metal/serve.ts",
-  ],
+  entry: ["pyinfra/files/.prettierrc.mjs", "pyinfra/files/bin/*.ts", "pyinfra/incus/homepage/env.ts", "metal/serve.ts"],
 })
 
 export default config

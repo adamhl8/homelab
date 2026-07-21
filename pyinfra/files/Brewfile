@@ -1,0 +1,41 @@
+tap "oven-sh/bun", trusted: true
+tap "mikescher/tap", trusted: true
+
+brew "git"
+brew "git-delta"
+
+brew "fish"
+brew "starship"
+brew "micro"
+
+brew "bat"
+brew "eza"
+brew "fd"
+brew "fzf"
+brew "ripgrep"
+brew "jq"
+brew "yq"
+
+brew "age"
+brew "sops"
+
+brew "doggo"
+brew "iperf3"
+
+brew "bun"
+brew "fnm"
+brew "rustup"
+brew "uv"
+
+brew "awscli"
+brew "opentofu"
+brew "caddy"
+brew "dops"
+
+brew "gh"
+brew "git-cliff"
+brew "lefthook"
+brew "just"
+brew "actionlint"
+brew "shellcheck"
+brew "shfmt"

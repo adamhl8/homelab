@@ -1,6 +1,21 @@
 # todo
 
-High-level plan. `metal/` (layer 0) is done and tested.
+check for missing installs
+
+High-level plan. `bootstrap.sh` + `pyinfra/macbook/` (layer -1) and `metal/` (layer 0) are
+done. Layer -1 has been applied for real (2026-07-21): the old repo symlinks are gone, the
+deploy owns the machine's dotfiles/keys/AWS profile as plain files, and a fresh login shell
+sources its config and decrypts the vault from `~/homelab/secrets/credentials.yaml`.
+
+## -1. Macbook — remaining
+
+- **Test the recovery path on a VM**, not on the daily driver. Boot a clean macOS, run the
+  one-liner, and see whether it really comes back. Until that passes, "recoverable" is a claim.
+- `pyinfra/macbook/files/Brewfile` is a `brew bundle dump` snapshot, so it includes whatever happened to
+  be installed. Worth a read-through to prune the things you don't actually want re-installed on
+  a fresh machine.
+- Not covered by layer -1, by nature: `aws sso login --profile adamhl8` (browser), and the
+  passphrase itself.
 
 ## 0. Backups — do this regardless of the IaC work
 
@@ -57,6 +72,13 @@ Import the 23 existing containers. Nothing gets deleted.
 - Profile **order** matters and is not uniform (`homepage` differs; `qbittorrent` has no
   `net-br0`).
 - Keep the existing Unifi DNS module.
+
+**Every tofu recipe in the justfile can silently no-op.** They are gated behind
+`aws configure list-profiles | grep -qx adamhl8`, and `run-when` does nothing at all when the
+condition fails. On a machine without that profile, `just prepare` skips `tofu init` and
+`just tofu-check` skips the plan, and both exit clean. `pyinfra/macbook/` now writes
+`~/.aws/config` so the profile exists, but the session still needs `aws sso login`, and an
+expired session fails the same silent way. Worth making that gate loud rather than quiet.
 
 Decisions needed: `jellyfin2` is intentional, so import it — but it has no note. Is
 `home-assistant.md` (documented, no container) dead?

@@ -47,17 +47,17 @@ type -q micro; and set -gx EDITOR micro
 type -q sops; and set -gx SOPS_AGE_KEY_FILE ~/.config/sops/age/keys.txt
 type -q fzf_configure_bindings; and set -gx fzf_fd_opts -u
 
-type -q sops; and set -gx OPENAI_API_KEY (sops -d --extract "['openai_api_key']" ~/secrets.yaml)
+type -q sops; and set -gx OPENAI_API_KEY (sops -d --extract "['openai_api_key']" ~/homelab/secrets/credentials.yaml)
 
 type -q sops; and set -gx RADARR_URL 'https://radarr.adamhl.dev'
-type -q sops; and set -gx RADARR_API_KEY (sops -d --extract "['radarr_api_key']" ~/secrets.yaml)
+type -q sops; and set -gx RADARR_API_KEY (sops -d --extract "['radarr_api_key']" ~/homelab/secrets/credentials.yaml)
 type -q sops; and set -gx SONARR_URL 'https://sonarr.adamhl.dev'
-type -q sops; and set -gx SONARR_API_KEY (sops -d --extract "['sonarr_api_key']" ~/secrets.yaml)
+type -q sops; and set -gx SONARR_API_KEY (sops -d --extract "['sonarr_api_key']" ~/homelab/secrets/credentials.yaml)
 
-type -q sops; and set -gx UNIFI_API_KEY (sops -d --extract "['unifi_dns-overrides_api_key']" ~/secrets.yaml)
+type -q sops; and set -gx UNIFI_API_KEY (sops -d --extract "['unifi_dns-overrides_api_key']" ~/homelab/secrets/credentials.yaml)
 
 if test $hostname = adam-macbook
-    type -q sops; and set -gx GITHUB_TOKEN (sops -d --extract "['gh_token']" ~/secrets.yaml)
+    type -q sops; and set -gx GITHUB_TOKEN (sops -d --extract "['gh_token']" ~/homelab/secrets/credentials.yaml)
 end
 
 type -q fnm; and fnm env --shell fish --use-on-cd | source

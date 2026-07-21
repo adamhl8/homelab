@@ -1,4 +1,4 @@
-local = ["@local"]
+macbook = ["@local"]
 
-# SSH hosts can be added later, e.g.:
-# incus = [("incus.adamhl.dev", {"ssh_user": "adam"})]
+# The incus host, once metal/ has installed it:
+# incus = [("incus.lan", {"ssh_user": "adam"})]  # ruff:ignore[commented-out-code]
