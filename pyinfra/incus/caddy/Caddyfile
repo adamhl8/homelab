@@ -49,27 +49,12 @@ auth.adamhl.dev {
 	authenticate with authportal
 }
 
-joieparma.com {
-	@resume path /resume
-	handle @resume {
-		root /srv/joieparma.com
-		rewrite * /resume.pdf
-		file_server
-	}
-
-	reverse_proxy joieparma-com.lan:8000
-}
-
 adamhl.dev {
 	reverse_proxy adamhl-dev.lan:8000
 }
 
 watchtower.adamhl.dev {
 	reverse_proxy adamhl-dev.lan:8001
-}
-
-battlegrind.adamhl.dev {
-	reverse_proxy battlegrind.lan:8000
 }
 
 discord-app-bot.adamhl.dev {
@@ -82,6 +67,18 @@ guild-sim.adamhl.dev {
 
 watchtower.guild-sim.adamhl.dev {
 	reverse_proxy guild-sim.lan:8081
+}
+
+# Limits access to Anthropic's connector range and LAN/Tailscale.
+# The claude.ai connector can't sign in through the auth portal.
+obsidian-mcp.adamhl.dev {
+	@allowed remote_ip private_ranges 100.64.0.0/10 160.79.104.0/21
+	handle @allowed {
+		reverse_proxy obsidian.lan:8000
+	}
+	handle {
+		respond 403
+	}
 }
 
 ### Private Services ###
