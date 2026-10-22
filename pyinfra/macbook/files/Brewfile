@@ -20,7 +20,9 @@ brew "localstack/tap/localstack-cli"
 brew "ffmpeg"
 brew "adamhl8/inspectarr/inspectarr"
 
+brew "m-cli"
 brew "mas"
+brew "dockutil"
 
 cask "font-atkinson-hyperlegible-next"
 
@@ -60,8 +62,14 @@ cask "cameracontroller"
 cask "qdirstat"
 
 cask "adobe-acrobat-pro"
+cask "adobe-digital-editions"
 cask "bambu-studio"
 cask "steam"
+cask "battle-net"
+
+cask "anydesk"
+cask "parsec"
+cask "drata-agent"
 
 mas "AudioWrangler", id: 1565701763
 mas "Brother iPrint&Scan", id: 1193539993
@@ -73,3 +81,5 @@ mas "Menu Bar Calendar", id: 1558360383
 mas "Onigiri", id: 1639917298
 mas "Pure Paste", id: 1611378436
 mas "Signal Shifter", id: 6446061552
+
+uv "cyberdrop-dl-patched"

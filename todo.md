@@ -1,6 +1,7 @@
 # todo
 
-check for missing installs
+manage npmrc, extract secret using sops
+check commit history for anything missed
 
 High-level plan. `bootstrap.sh` + `pyinfra/macbook/` (layer -1) and `metal/` (layer 0) are
 done. Layer -1 has been applied for real (2026-07-21): the old repo symlinks are gone, the

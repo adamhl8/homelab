@@ -1,0 +1,7 @@
+{
+  "Log to console": {
+    "prefix": "dbg",
+    "body": ["console.info(`$1: \\${$2}`)", "$0"],
+    "description": "Logs to console"
+  }
+}

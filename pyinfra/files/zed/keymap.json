@@ -1,0 +1,53 @@
+[
+  {
+    "context": "Editor || Terminal",
+    "bindings": {
+      "cmd-ctrl-left": [
+        "workspace::MoveItemToPaneInDirection",
+        {
+          "direction": "left"
+        }
+      ]
+    }
+  },
+  {
+    "context": "Editor || Terminal",
+    "bindings": {
+      "ctrl-cmd-right": [
+        "workspace::MoveItemToPaneInDirection",
+        {
+          "direction": "right"
+        }
+      ]
+    }
+  },
+  {
+    "context": "Editor && (edit_prediction && (showing_completions || in_leading_whitespace))",
+    "bindings": {
+      "tab": "editor::AcceptEditPrediction"
+    }
+  },
+  {
+    "context": "(Editor && edit_prediction)",
+    "bindings": {
+      "ctrl-cmd-right": null
+    }
+  },
+  {
+    "context": "(Editor && (edit_prediction && (showing_completions || in_leading_whitespace)))",
+    "bindings": {
+      "ctrl-cmd-right": null
+    }
+  },
+  {
+    "context": "Terminal",
+    "bindings": {
+      "shift-enter": ["terminal::SendText", "\u001b\r"]
+    }
+  }
+  // {
+  //   "bindings": {
+  //     "cmd-r": ["task::Spawn", { "task_name": "Claude Code" }]
+  //   }
+  // }
+]

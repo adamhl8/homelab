@@ -128,11 +128,16 @@
         href: https://filebrowser.adamhl.dev
         siteMonitor: http://filebrowser.lan:8000
         widget:
-          type: filebrowser
-          url: http://filebrowser.lan:8000
-          username: homepage
-          password: "{{HOMEPAGE_VAR_FILE_BROWSER}}"
-          fields: ["available", "used", "total"]
+          type: customapi
+          url: http://filebrowser.lan:8000/api/settings/sources
+          refreshInterval: 60000
+          mappings:
+            - field: storage.usedAlt
+              label: Used
+              format: bytes
+            - field: storage.total
+              label: Total
+              format: bytes
 
 - Media:
     - Jellyfin:

@@ -76,6 +76,14 @@ discord-app-bot.adamhl.dev {
 	reverse_proxy discord-app-bot.lan:8000
 }
 
+guild-sim.adamhl.dev {
+	reverse_proxy guild-sim.lan:8080
+}
+
+watchtower.guild-sim.adamhl.dev {
+	reverse_proxy guild-sim.lan:8081
+}
+
 ### Private Services ###
 
 (private_service_base) {

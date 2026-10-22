@@ -9,6 +9,19 @@ plan host:
 apply host:
     cd pyinfra && uv run pyinfra inventory.py {{ host }}/deploy.py --limit {{ host }} -y
 
+# find which defaults key a settings toggle maps to (from yannbertrand/macos-defaults diff.sh)
+defaults-diff:
+    #!/usr/bin/env bash
+    dir=$(mktemp -d)
+    defaults read > "$dir/old"
+    defaults -currentHost read > "$dir/host-old"
+    read -n 1 -s -r -p "Change a setting now, then press any key..."
+    echo
+    defaults read > "$dir/new"
+    defaults -currentHost read > "$dir/host-new"
+    git --no-pager diff --no-index "$dir/old" "$dir/new" || true
+    git --no-pager diff --no-index "$dir/host-old" "$dir/host-new" || true
+
 lint: _lint
     cd pyinfra && uv run ruff check --fix .
     cd pyinfra && uv run ruff format .

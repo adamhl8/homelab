@@ -14,11 +14,10 @@ const SECRET_TO_ENV = {
   unifi_homepage_api_key: "UNIFI",
   homelab_password: "QBITTORRENT",
   tailscale_homepage_api_key: "TAILSCALE",
-  filebrowser_homepage_password: "FILE_BROWSER",
   papra_homepage_api_key: "PAPRA",
 } as const
 
-const json = await $`sops -d --output-type json ~/secrets.yaml`.text()
+const json = await $`sops -d --output-type json ~/homelab/secrets/credentials.yaml`.text()
 const secrets = secretsSchema(JSON.parse(json))
 if (secrets instanceof type.errors) throw new Error(`invalid secrets: ${secrets.summary}`)
 

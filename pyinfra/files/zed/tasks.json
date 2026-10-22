@@ -1,0 +1,7 @@
+[
+  {
+    "label": "vitest run -t \"$ZED_SYMBOL\"",
+    "command": "bun vitest run --no-coverage \"$ZED_FILE\" -t \"$ZED_SYMBOL\"",
+    "tags": ["ts-test", "js-test"]
+  }
+]

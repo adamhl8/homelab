@@ -12,7 +12,7 @@ incus launch images:debian/13/cloud immich \
 `.env`:
 
 ```env
-IMMICH_VERSION=release
+IMMICH_VERSION=v3
 UPLOAD_LOCATION=/nas/storage/Immich/
 DB_DATA_LOCATION=./postgres
 DB_HOSTNAME=postgres
@@ -30,7 +30,7 @@ name: immich
 services:
   immich-server:
     container_name: ${COMPOSE_PROJECT_NAME}-server
-    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
+    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION}
     restart: always
     ports:
       - 8000:2283
@@ -47,7 +47,7 @@ services:
 
   immich-machine-learning:
     container_name: ${COMPOSE_PROJECT_NAME}-machine-learning
-    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-release}
+    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION}
     restart: always
     volumes:
       - model-cache:/cache
@@ -58,14 +58,14 @@ services:
 
   redis:
     container_name: ${COMPOSE_PROJECT_NAME}-redis
-    image: docker.io/valkey/valkey:8-bookworm@sha256:fea8b3e67b15729d4bb70589eb03367bab9ad1ee89c876f54327fc7c6e618571
+    image: docker.io/valkey/valkey:9@sha256:70739f85ad2ee01a726a965584a0f94895f01b0c60b3cc8b0aeef11eaa6888cf
     restart: always
     healthcheck:
-      test: redis-cli ping || exit 1
+      test: redis-cli ping | grep -q PONG || exit 1
 
   postgres:
     container_name: ${COMPOSE_PROJECT_NAME}-postgres
-    image: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0@sha256:41eacbe83eca995561fe43814fd4891e16e39632806253848efaf04d3c8a8b84
+    image: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0@sha256:bcf63357191b76a916ae5eb93464d65c07511da41e3bf7a8416db519b40b1c23
     restart: always
     shm_size: 128mb
     volumes:
@@ -75,6 +75,8 @@ services:
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_INITDB_ARGS: "--data-checksums"
+    healthcheck:
+      disable: false
 
 volumes:
   model-cache:

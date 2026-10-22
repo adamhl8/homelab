@@ -46,7 +46,8 @@
   "diff_view_style": "unified",
   "agent": {
     "dock": "right",
-    "sidebar_side": "right"
+    "sidebar_side": "right",
+    "terminal_init_command": "claude"
   },
   "terminal": {
     "font_family": "IosevkaTerminal Nerd Font",
@@ -68,7 +69,7 @@
   },
   "file_types": {
     "Caddyfile": ["Caddyfile*", "*.caddyfile"],
-    "Plain Text": ["LICENSE", ".gitignore", ".gitattributes", ".gitconfig", ".npmrc", "*.base", "*.cfg"]
+    "Plain Text": ["LICENSE", ".gitignore", ".gitattributes", ".gitconfig", ".npmrc", "*.base", "*.cfg", "aws_*"]
   },
   "formatter": {
     "external": { "command": "echo", "arguments": ["ERROR: FORMATTER NOT SET"] }
@@ -130,5 +131,40 @@
       "language_servers": ["typescript-ls", "!vtsls", "!typescript-language-server", "..."]
     },
     "YAML": { "formatter": { "language_server": { "name": "oxfmt" } } }
+  },
+  "auto_install_extensions": {
+    "astro": true,
+    "biome": true,
+    "caddyfile": true,
+    "catppuccin": true,
+    "catppuccin-icons": true,
+    "codebook": true,
+    "docker-compose": true,
+    "dockerfile": true,
+    "fish": true,
+    "git-firefly": true,
+    "gleam": true,
+    "golangci-lint": true,
+    "gosum": true,
+    "graphql": true,
+    "groovy": true,
+    "html": true,
+    "java": true,
+    "just": true,
+    "lua": true,
+    "material-icon-theme": true,
+    "opentofu": true,
+    "oxc": true,
+    "prisma": true,
+    "proto": true,
+    "ruby": true,
+    "sql": true,
+    "swift": true,
+    "toml": true,
+    "tsgo": true,
+    "typst": true,
+    "vscode-dark-modern": true,
+    "xml": true,
+    "zig": true
   }
 }

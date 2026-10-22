@@ -9,17 +9,34 @@ incus launch images:debian/13/cloud filebrowser \
 ```
 
 ```sh
-mkdir -p ~/bin
-curl -fsSLo ~/filebrowser.tar.gz 'https://github.com/filebrowser/filebrowser/releases/latest/download/linux-amd64-filebrowser.tar.gz'
-tar -xzf ~/filebrowser.tar.gz -C ~/bin/ filebrowser
-rm ~/filebrowser.tar.gz
+sudo apt install -y ffmpeg
+mkdir -p ~/bin ~/.filebrowser
+curl -fsSLo ~/bin/filebrowser 'https://github.com/gtsteffaniak/filebrowser/releases/download/v2.0.7-beta/linux-amd64-filebrowser'
 chmod +x ~/bin/filebrowser
 ```
 
-```sh
-~/bin/filebrowser config init --database=/home/adam/filebrowser.db --address="0.0.0.0" --port=8000 --auth.method=noauth --root=/nas/storage/
-# a user/password is required but doesn't matter since we're using noauth
-~/bin/filebrowser --database=/home/adam/filebrowser.db users add adam "$(openssl rand -base64 16)" --perm.admin
+`/home/adam/.filebrowser/config.yaml`:
+
+```yaml
+server:
+  cacheDir: /home/adam/.filebrowser/cache/
+  database:
+    path: /home/adam/.filebrowser/filebrowser.sqlite
+  sources:
+    - path: /nas/storage
+      config:
+        defaultEnabled: true
+auth:
+  adminUsername: adam
+  methods:
+    noauth: true
+http:
+  port: 8000
+  externalUrl: https://filebrowser.adamhl.dev
+  trustProxyHeaders: true
+integrations:
+  media:
+    ffmpegPath: /usr/bin
 ```
 
 `/etc/systemd/system/filebrowser.service`:
@@ -32,7 +49,7 @@ After=network.target
 [Service]
 User=adam
 Type=exec
-ExecStart=/home/adam/bin/filebrowser --database=/home/adam/filebrowser.db
+ExecStart=/home/adam/bin/filebrowser -c /home/adam/.filebrowser/config.yaml
 Restart=always
 
 [Install]

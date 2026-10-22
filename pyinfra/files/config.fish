@@ -29,7 +29,6 @@ if type -q go
     set -a extra_paths (go env GOROOT)/bin
 end
 set -a extra_paths ~/.cargo/bin
-set -a extra_paths ~/.zig
 set -a extra_paths (path filter -d $HOMEBREW_PREFIX/opt/*/libexec/gnubin; or true)
 set -a extra_paths $HOMEBREW_PREFIX/opt/curl/bin
 set -a extra_paths $HOMEBREW_PREFIX/opt/zip/bin
@@ -110,7 +109,7 @@ abbr -a dcd 'docker compose down'
 
 abbr -a pfmt 'prettier --config ~/.prettierrc.mjs --write .'
 
-abbr -a tazea 'bunx taze latest -lfw && rm -rf node_modules/ bun.lock && bun i -f'
+abbr -a ncua 'bunx npm-check-updates --upgrade --format group && rm -rf node_modules/ bun.lock && bun i -f'
 
 # binds
 if functions --query _natural_selection
