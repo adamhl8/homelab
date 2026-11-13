@@ -308,3 +308,34 @@ to and what Tofu talks to on port 8000.
 Because the reservation lands the box on 10.8.8.2 with your SSH key already installed, no
 console step is needed after the install: no static IP, no editing
 `/etc/network/interfaces`, no second KVM session.
+
+## Free My TV on the living room TV
+
+`tv/` builds [Free My TV](https://github.com/simbasjungles/free-my-tv), an ad-free home screen
+for the TCL Google TV, and installs it over adb:
+
+```sh
+just tv-build      # build only
+just tv-install    # build, then install on Living-Room-TV.lan
+```
+
+`tv/build.ts` checks out upstream at the commit pinned in `UPSTREAM_REV` into
+`~/.cache/free-my-tv`, writes `tv/config.properties` there with the TMDB key appended, and runs
+upstream's `build.sh`. Bump `UPSTREAM_REV` to update.
+
+Local changes live in `tv/patches/*.patch`, applied in name order on top of a clean checkout.
+`hide-live-tv.patch` adds a `hide_live_tv` setting that drops the Live TV entry from the
+shortcuts row and the drawer (the TV always reports a tuner, and its Live TV app also plays
+HDMI, so the TV side can't hide it). A patch that no longer applies after a bump fails the
+build, so regenerate it with `git diff` in `~/.cache/free-my-tv`.
+
+The JDK and Android tools come from the macbook Brewfile (`openjdk@17`,
+`android-commandlinetools`, `android-platform-tools`). The script installs the SDK packages
+upstream's CI builds with (`build-tools;34.0.0`, `platforms;android-34`) through `sdkmanager`.
+
+Two secrets live in `credentials.yaml`: `tmdb_api_key` and `free_my_tv_keystore` (the signing
+keystore, base64). **The keystore is what makes this reproducible.** Android refuses an update
+signed by a different key, so a fresh keystore would mean uninstalling the app and redoing the
+setup on the TV. The checkout is outside the repo because it holds both secrets in plaintext.
+
+The TV drops off the network when it sleeps, so wake it before `just tv-install`.

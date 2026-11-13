@@ -220,3 +220,6 @@
     - Battlegrind:
         href: https://battlegrind.adamhl.dev
         siteMonitor: http://battlegrind.lan:8000
+    - Rarebound:
+        href: https://rarebound.adamhl.dev
+        siteMonitor: http://rarebound.lan:8000

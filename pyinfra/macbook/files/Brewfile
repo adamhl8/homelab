@@ -24,6 +24,10 @@ brew "m-cli"
 brew "mas"
 brew "dockutil"
 
+brew "openjdk@17"
+cask "android-commandlinetools"
+cask "android-platform-tools"
+
 cask "font-atkinson-hyperlegible-next"
 
 cask "ghostty"

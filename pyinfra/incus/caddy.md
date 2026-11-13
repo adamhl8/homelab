@@ -63,6 +63,8 @@ sudo mkdir -p /etc/systemd/system/caddy.service.d/
 Environment="AWS_ACCESS_KEY_ID=value"
 Environment="AWS_SECRET_ACCESS_KEY=value"
 Environment="AWS_REGION=us-east-1"
+Environment="NAS_MCP_TOKEN=value"
+Environment="NAS_DOCS_TOKEN=value"
 ```
 
 ```sh

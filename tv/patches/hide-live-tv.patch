@@ -1,0 +1,42 @@
+diff --git a/app/src/io/freemytv/HomeApps.java b/app/src/io/freemytv/HomeApps.java
+index ec4197c..37d8383 100644
+--- a/app/src/io/freemytv/HomeApps.java
++++ b/app/src/io/freemytv/HomeApps.java
+@@ -279,7 +279,7 @@ final class HomeApps {
+     /** Live TV, the HDMI inputs with a device sending a signal, and All Apps. */
+     static List<Item> shortcuts(Context c) {
+         List<Item> items = new ArrayList<>();
+-        if (liveTv(c) != null) {
++        if (!Config.HIDE_LIVE_TV && liveTv(c) != null) {
+             items.add(shortcut(LIVE_TV, "live", Ui.tr("Live TV"), "tv"));
+         }
+         items.addAll(inputs(c));
+@@ -356,7 +356,7 @@ final class HomeApps {
+     /** For the bottom drawer: live TV and every HDMI input (the ones with no device are shown dimmed). */
+     static List<Item> allInputs(Context c) {
+         List<Item> items = new ArrayList<>();
+-        if (liveTv(c) != null) items.add(shortcut(LIVE_TV, "live", Ui.tr("Live TV"), "tv"));
++        if (!Config.HIDE_LIVE_TV && liveTv(c) != null) items.add(shortcut(LIVE_TV, "live", Ui.tr("Live TV"), "tv"));
+         items.addAll(inputs(c, true));
+         return items;
+     }
+diff --git a/build.sh b/build.sh
+index 30fbc0b..69bcd76 100755
+--- a/build.sh
++++ b/build.sh
+@@ -59,6 +59,7 @@ ASSIST=false; [ "$(prop disable_assistant false)" = "true" ] && ASSIST=true
+ CRYPTO=false; [ "$(prop show_crypto true)" = "true" ] && CRYPTO=true
+ ANIMATION=false; [ "$(prop hide_animation false)" = "true" ] && ANIMATION=true
+ SAVER=true; [ "$(prop screensaver true)" = "false" ] && SAVER=false
++HIDELIVE=false; [ "$(prop hide_live_tv false)" = "true" ] && HIDELIVE=true
+ 
+ rm -rf out && mkdir -p out/gen/io/freemytv out/classes
+ cat > out/gen/io/freemytv/Config.java <<EOF
+@@ -83,6 +84,7 @@ final class Config {
+     static final boolean SHOW_CRYPTO = $CRYPTO;
+     static final boolean HIDE_ANIMATION = $ANIMATION;
+     static final boolean SCREENSAVER = $SAVER;   // false: the TV keeps its own
++    static final boolean HIDE_LIVE_TV = $HIDELIVE;   // true: no Live TV in the shortcuts and the drawer
+     static final boolean GENERIC = $GENERIC;   // built with --generic, as the APK on GitHub's releases (Updates)
+ }
+ EOF

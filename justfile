@@ -9,6 +9,13 @@ plan host:
 apply host:
     cd pyinfra && uv run pyinfra inventory.py {{ host }}/deploy.py --limit {{ host }} -y
 
+# build Free My TV for the living room TV, then install it with `just tv-install`
+tv-build:
+    bun tv/build.ts
+
+tv-install:
+    bun tv/build.ts --install
+
 # find which defaults key a settings toggle maps to (from yannbertrand/macos-defaults diff.sh)
 defaults-diff:
     #!/usr/bin/env bash

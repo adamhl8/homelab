@@ -69,6 +69,10 @@ watchtower.guild-sim.adamhl.dev {
 	reverse_proxy guild-sim.lan:8081
 }
 
+rarebound.adamhl.dev {
+	reverse_proxy rarebound.lan:8000
+}
+
 # Limits access to Anthropic's connector range and LAN/Tailscale.
 # The claude.ai connector can't sign in through the auth portal.
 obsidian-mcp.adamhl.dev {
@@ -78,6 +82,40 @@ obsidian-mcp.adamhl.dev {
 	}
 	handle {
 		respond 403
+	}
+}
+
+# Limits access to Anthropic's connector range and LAN/Tailscale.
+# Requires the bearer token because the connector has no other auth.
+# The regexp rejects a bare "Bearer " if NAS_MCP_TOKEN is ever unset.
+nas-mcp.adamhl.dev {
+	@allowed {
+		remote_ip private_ranges 100.64.0.0/10 160.79.104.0/21
+		header Authorization "Bearer {$NAS_MCP_TOKEN}"
+		header_regexp Authorization "^Bearer [0-9a-f]{64}$"
+	}
+	handle @allowed {
+		request_header -Authorization
+		reverse_proxy nas-mcp.lan:8000
+	}
+	handle {
+		respond 404
+	}
+}
+
+# Same gate as nas-mcp, with its own token.
+nas-docs.adamhl.dev {
+	@allowed {
+		remote_ip private_ranges 100.64.0.0/10 160.79.104.0/21
+		header Authorization "Bearer {$NAS_DOCS_TOKEN}"
+		header_regexp Authorization "^Bearer [0-9a-f]{64}$"
+	}
+	handle @allowed {
+		request_header -Authorization
+		reverse_proxy nas-mcp.lan:8001
+	}
+	handle {
+		respond 404
 	}
 }
 

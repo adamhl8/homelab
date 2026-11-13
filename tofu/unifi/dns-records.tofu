@@ -35,7 +35,7 @@ provider "unifi" {
 }
 
 locals {
-  caddyfile = file("${path.module}/../../incus/caddy/Caddyfile")
+  caddyfile = file("${path.module}/../../pyinfra/incus/caddy/Caddyfile")
 
   # site blocks like "foo.adamhl.dev {" -> skips *.adamhl.dev and the apex domain
   caddy_domains = toset([
