@@ -4,7 +4,7 @@ import process from "node:process"
 import { parseArgs } from "node:util"
 
 import type { Result } from "ts-explicit-errors"
-import { err, isErr } from "ts-explicit-errors"
+import { err, isErr, messageChain } from "ts-explicit-errors"
 
 import { IncusClient } from "#archive/incus-update/incus.ts"
 import { plugins } from "#archive/incus-update/plugins/index.ts"
@@ -123,7 +123,7 @@ const incusUpdate = async (): Promise<Result> => {
       verbose: options.verbose,
     })
     if (isErr(updateResult)) {
-      logger.error(`failed to update instance '${instanceName}': ${updateResult.messageChain}`)
+      logger.error(`failed to update instance '${instanceName}': ${messageChain(updateResult)}`)
       failedInstances.push(instanceName)
     } else logger.info(`✓ Successfully updated '${instanceName}'`)
   }
@@ -131,7 +131,7 @@ const incusUpdate = async (): Promise<Result> => {
   const incusUpdateResult = await updateInstance("incus", {
     verbose: options.verbose,
   })
-  if (isErr(incusUpdateResult)) logger.error(`failed to update Incus host: ${incusUpdateResult.messageChain}`)
+  if (isErr(incusUpdateResult)) logger.error(`failed to update Incus host: ${messageChain(incusUpdateResult)}`)
   else logger.info("✓ Successfully updated Incus host")
 
   console.log()
@@ -143,7 +143,7 @@ const incusUpdate = async (): Promise<Result> => {
 const main = async (): Promise<number> => {
   const result = await incusUpdate()
   if (isErr(result)) {
-    logger.error(result.messageChain)
+    logger.error(messageChain(result))
     return 1
   }
   return 0

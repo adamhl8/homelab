@@ -1,0 +1,24 @@
+/** @type {import("prettier").Config} */
+const config = {
+  printWidth: 120,
+  semi: false,
+  plugins: [
+    "/Users/adam/.bun/install/global/node_modules/prettier-plugin-sh/lib/index.js",
+    "/Users/adam/.bun/install/global/node_modules/prettier-plugin-toml/lib/index.js",
+    "/Users/adam/.bun/install/global/node_modules/prettier-plugin-pkg/lib/index.js",
+    "/Users/adam/.bun/install/global/node_modules/@prettier/plugin-xml/src/plugin.js",
+    "/Users/adam/.bun/install/global/node_modules/prettier-plugin-java/dist/index.js",
+  ],
+  overrides: [
+    {
+      // https://github.com/prettier/prettier/issues/15956
+      files: ["*.jsonc"],
+      options: {
+        trailingComma: "none",
+      },
+    },
+  ],
+}
+
+// oxlint-disable-next-line import/no-default-export -- prettier reads its config from the default export
+export default config

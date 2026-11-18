@@ -1,0 +1,146 @@
+{
+  "cli_default_open_behavior": "existing_window",
+  "theme": "Catppuccin Macchiato",
+  "icon_theme": "Catppuccin Macchiato",
+  "buffer_font_family": "Iosevka Nerd Font",
+  "buffer_font_size": 14,
+  "colorize_brackets": true,
+  "soft_wrap": "editor_width",
+  "sticky_scroll": {
+    "enabled": true
+  },
+  "minimap": {
+    "show": "auto"
+  },
+  "hide_mouse": "never",
+  "diagnostics": {
+    "inline": {
+      "enabled": true
+    }
+  },
+  "tab_size": 2,
+  "autosave": "on_focus_change",
+  "format_on_save": "on",
+  "edit_predictions": {
+    "provider": "mercury"
+  },
+  "use_system_window_tabs": true,
+  "tabs": {
+    "git_status": true,
+    "show_diagnostics": "all"
+  },
+  "project_panel": {
+    "dock": "left",
+    "auto_fold_dirs": false,
+    "diagnostic_badges": true
+  },
+  "outline_panel": {
+    "dock": "left"
+  },
+  "collaboration_panel": {
+    "dock": "left"
+  },
+  "git_panel": {
+    "dock": "left",
+    "tree_view": true
+  },
+  "diff_view_style": "unified",
+  "agent": {
+    "dock": "right",
+    "sidebar_side": "right",
+    "terminal_init_command": "claude"
+  },
+  "terminal": {
+    "font_family": "IosevkaTerminal Nerd Font",
+    "font_size": 15,
+    "cursor_shape": "bar",
+    "blinking": "on"
+  },
+  "lsp": {
+    "biome": {
+      "settings": {
+        "require_config_file": true
+      }
+    },
+    "astro-language-server": {
+      "initialization_options": {
+        "contentIntellisense": true
+      }
+    }
+  },
+  "file_types": {
+    "Caddyfile": ["Caddyfile*", "*.caddyfile"],
+    "Plain Text": [
+      "LICENSE",
+      ".gitignore",
+      ".gitattributes",
+      ".gitconfig",
+      "git-ignore",
+      ".npmrc",
+      "*.base",
+      "*.cfg",
+      "aws_*"
+    ]
+  },
+  "formatter": {
+    "external": { "command": "echo", "arguments": ["ERROR: FORMATTER NOT SET"] }
+  },
+  "languages": {
+    "Astro": { "formatter": { "language_server": { "name": "oxfmt" } } },
+    "Caddyfile": {
+      "formatter": {
+        "external": {
+          "command": "caddy",
+          "arguments": ["fmt", "-"]
+        }
+      }
+    },
+    "Dockerfile": {
+      "formatter": {
+        "external": { "command": "dockerfmt", "arguments": ["--indent=2", "--newline"] }
+      }
+    },
+    "Fish": { "formatter": "auto" },
+    "JavaScript": {
+      "formatter": { "language_server": { "name": "oxfmt" } },
+      "language_servers": ["typescript-ls", "!vtsls", "!typescript-language-server", "..."]
+    },
+    "JSON": { "formatter": { "language_server": { "name": "oxfmt" } } },
+    "JSONC": { "formatter": { "language_server": { "name": "oxfmt" } } },
+    "Just": { "formatter": { "language_server": { "name": "just-lsp" } } },
+    "Markdown": {
+      "formatter": { "language_server": { "name": "oxfmt" } },
+      "language_servers": ["astro-language-server", "..."]
+    },
+    "OpenTofu": { "formatter": { "language_server": { "name": "tofu-ls" } } },
+    "Plain Text": { "formatter": "auto" },
+    "Prisma": { "formatter": { "language_server": { "name": "prisma-language-server" } } },
+    "Python": {
+      "formatter": { "language_server": { "name": "ruff" } },
+      "language_servers": ["ty", "ruff"],
+      "code_actions_on_format": {
+        "source.organizeImports.ruff": true,
+        "source.fixAll.ruff": true
+      }
+    },
+    "Ruby": { "formatter": "auto" },
+    "Shell Script": {
+      "formatter": {
+        "external": {
+          "command": "shfmt",
+          "arguments": ["--filename", "{buffer_path}", "--indent", "2"]
+        }
+      }
+    },
+    "TOML": { "formatter": { "language_server": { "name": "oxfmt" } } },
+    "TSX": {
+      "formatter": { "language_server": { "name": "oxfmt" } },
+      "language_servers": ["typescript-ls", "!vtsls", "!typescript-language-server", "..."]
+    },
+    "TypeScript": {
+      "formatter": { "language_server": { "name": "oxfmt" } },
+      "language_servers": ["typescript-ls", "!vtsls", "!typescript-language-server", "..."]
+    },
+    "YAML": { "formatter": { "language_server": { "name": "oxfmt" } } }
+  }
+}

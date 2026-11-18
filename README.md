@@ -18,30 +18,30 @@ passphrase
 The layers build on each other, bottom up. Each one can only run once the one below it
 exists:
 
-| Layer                  | Owns                                                                  | Auth it uses       |
-| ---------------------- | --------------------------------------------------------------------- | ------------------ |
-| `bootstrap.sh`         | homebrew, the clone, the decrypted age identity                       | **the passphrase** |
-| `pyinfra/macbook/`     | this macbook: brew packages, dotfiles, SSH keys, AWS profile          | age identity       |
-| `metal/`               | bare Debian on the host                                               | KVM console        |
-| `pyinfra/` (host)      | ZFS, networking, the Incus daemon, Tofu's client cert                 | SSH key            |
-| `tofu/`                | everything inside the Incus API: pools, profiles, networks, instances | Incus client cert  |
-| `pyinfra/` (container) | packages, files, services, compose stacks                             | SSH key            |
+| Layer                 | Owns                                                                  | Auth it uses       |
+| --------------------- | --------------------------------------------------------------------- | ------------------ |
+| `bootstrap.sh`        | homebrew, the clone, the decrypted age identity                       | **the passphrase** |
+| `hosts/macbook.ts`    | this macbook: brew packages, dotfiles, SSH keys, macOS settings       | age identity       |
+| `metal/`              | bare Debian on the host                                               | KVM console        |
+| `hosts/` (incus host) | ZFS, networking, the Incus daemon, Tofu's client cert                 | SSH key            |
+| `tofu/`               | everything inside the Incus API: pools, profiles, networks, instances | Incus client cert  |
+| `hosts/` (containers) | packages, files, services, compose stacks                             | SSH key            |
 
-`bootstrap.sh`, `pyinfra/macbook/`, `metal/`, and `tofu/` are real. The host and container
-pyinfra layers are still skeletons.
+`bootstrap.sh`, `hosts/macbook.ts`, `metal/`, and `tofu/` are real. The incus host and container
+layers aren't written yet. Until they are, `incus/` holds the manual runbooks and configs for them.
 
-`pyinfra/` is a self-contained uv project with one inventory for the whole homelab:
-`inventory.py` lists every host, and each group (`macbook`, later `incus`) gets a folder
-named after it, holding `deploy.py` plus the `files/` it deploys. Shared code lives in
-`pyinfra/lib/`. A deploy file has no group binding of its own (pyinfra runs whatever file
-you pass against every inventory host), so the pairing lives in the justfile via `--limit`,
-and every deploy opens with `require_group(__file__)`, which fails loudly if the folder name
-doesn't match a group the host is in. Per-host variance goes in inventory host data, not
-`host.name` conditionals.
+`hosts/` holds one [tsinfra](https://github.com/adamhl8/tsinfra) script per machine. tsinfra only
+loads the `.ts` files directly in `hosts/`, so everything else lives in folders: the integrations
+(the code that gets a host to a state) in `hosts/integrations/`, a host's larger inputs (what it
+wants, like its brew packages) in a folder named after it (`hosts/macbook/`), and other shared
+helpers in `hosts/lib/`. Integrations work on macOS and Linux, branching on the host's platform
+where they differ. The ones with no Linux equivalent, like the Dock and `defaults`, live in
+`hosts/integrations/macos/`. The files hosts link to live in `hosts/files/` when they're shared, and in
+`hosts/<host>/files/` when only one host uses them.
 
 ```sh
-just plan macbook    # dry-run, with diffs
-just apply macbook
+bask plan macbook    # dry-run, with diffs
+bask apply macbook
 ```
 
 ## Bootstrapping a machine from nothing
@@ -53,23 +53,24 @@ curl -fsSL https://raw.githubusercontent.com/adamhl8/homelab/main/bootstrap.sh |
 ```
 
 That is the whole manual surface. `bootstrap.sh` is safe to re-run, and it does only the four
-things that have to happen before pyinfra can take over:
+things that have to happen before tsinfra can take over:
 
 1. **Install homebrew.** Its installer also installs the Xcode Command Line Tools, which is
    where `git` actually comes from, so it is a strict superset of `xcode-select --install`.
 2. **Clone this repo over HTTPS.** It has to be HTTPS: a `git@` clone needs the SSH key, and
    the SSH key lives inside the repo being cloned. This works only because the repo is public.
-   `macbook/deploy.py` flips `origin` back to SSH once it has written the key.
-3. **`brew install uv sops age`.** Only what pyinfra itself is made of (there is no pyinfra
-   formula, hence uv). Every other package is declared in `pyinfra/macbook/files/Brewfile`, which
-   pyinfra applies, so the Brewfile stays the single source of truth.
+   `hosts/macbook.ts` flips `origin` back to SSH once it has written the key.
+3. **`brew install bun sops age`, then `bun install`.** Only what tsinfra needs to run. Every other
+   package is declared in `hosts/macbook/brew.ts`, which the macbook host applies, so that list stays
+   the single source of truth.
 4. **Decrypt `secrets/key.age`** to `~/.config/sops/age/keys.txt`, which prompts for the
    passphrase.
 
 Step 4 is the only step that cannot be code, and it is the reason bootstrap exists at all. The
 passphrase is the one input to this entire system that isn't in git. It also can't be folded
-into pyinfra, because pyinfra shells out to sops while _parsing its inventory_: the key has to
-be on disk before pyinfra starts, so pyinfra can never be the thing that puts it there.
+into tsinfra, because `hosts/macbook.ts` decrypts its sudo password with sops when tsinfra _loads_
+it: the key has to be on disk before tsinfra starts, so tsinfra can never be the thing that puts it
+there.
 
 Everything downstream is a pure function of (passphrase + repo). A wiped machine is recoverable
 with nothing but this command and something you remember.
@@ -77,10 +78,10 @@ with nothing but this command and something you remember.
 ### What layer -1 does not cover
 
 **`aws sso login --profile adamhl8`.** The AWS profile authenticates through SSO, so its
-credentials are a session token minted in a browser, not a key on disk. pyinfra writes
-`~/.aws/config` so the profile _exists_, which is what matters structurally: every tofu recipe
-in the justfile is gated behind `aws configure list-profiles | grep -qx adamhl8` and **silently
-does nothing** when that check fails. Without the profile, `just tofu-check` plans nothing and
+credentials are a session token minted in a browser, not a key on disk. The macbook host writes
+`~/.aws/config` so the profile _exists_, which is what matters structurally: the base bask tofu
+tasks are gated behind `aws configure list-profiles` listing `adamhl8` and **silently
+do nothing** when that check fails. Without the profile, `bask tofu-check` plans nothing and
 still exits clean.
 
 **Your passphrase is the whole vault.** `secrets/key.age` is committed to a _public_ repo, so
@@ -91,43 +92,49 @@ to be a long diceware phrase, not a good password.
 
 ## Layer -1: this macbook
 
-`pyinfra/macbook/` owns the machine you run everything else _from_. It is a normal pyinfra
-deploy against the `@local` connector, so `--dry` works and is worth using every time: `@local`
-pointed at `$HOME` means a careless `files.put` overwrites real state with no undo.
+`hosts/macbook.ts` owns the machine you run everything else _from_. It targets `@local`, so run
+`bask plan macbook` before every `bask apply macbook`: `@local` pointed at `$HOME` means a careless
+file step overwrites real state with no undo.
 
-It manages four things:
+It manages:
 
-- **Brew packages**, from `pyinfra/macbook/files/Brewfile` (generated with `brew bundle dump`).
+- **Brew packages**, listed in `hosts/macbook/brew.ts`. The brew integration turns the list into a
+  Brewfile and sends it to `brew bundle` on stdin.
 - **SSH keys**, written from `secrets/ssh.yaml`. Both the private and public halves are in the
   vault, so a fresh machine gets a working `git commit` and `ssh incus.lan` with no key ceremony.
 - **The AWS profile**, `~/.aws/{config,credentials}`.
-- **Dotfiles**: the shared base from `pyinfra/files/` (used by every host, e.g. the coming
-  WSL one) plus macbook-only extras from `pyinfra/macbook/files/`, copied into `$HOME`.
+- **Dotfiles**: the shared base from `hosts/files/` (used by every host, e.g. the coming WSL one)
+  plus macbook-only extras from `hosts/macbook/files/`, linked into `$HOME`.
+- **macOS settings**: the hostname, `defaults`, file handlers, the Dock, power, the wallpaper, and
+  fonts.
+- **fish** as the login shell, with the fisher plugins in `hosts/files/fish_plugins`.
 
-The dotfiles are plain copies: edit the file under `pyinfra/files/` (or the group's
-`files/`), then deploy.
-Zed's settings are a shared source (`pyinfra/files/zed/settings.json`) with a per-group
-destination, since it differs per host: the macbook maps it to `~/.config/zed/settings.json`,
-and the WSL host will map the same source to
-`/mnt/c/Users/<winuser>/AppData/Roaming/Zed/settings.json` (Zed runs Windows-side there and
-remotes into WSL). That future mapping needs `Dest(mode=None)` support in `lib/fs.py`: chmod
-on a default drvfs mount is a no-op, so a managed mode would report drift every run.
+The dotfiles are symlinks into the repo, so an edit on either side is the same edit: when an app
+changes its config, the change shows up in `git diff`. The wallpaper is set straight to the repo's
+image, because Finder reports a symlink's target. Files generated on the host stay real files, like
+the SSH keys and `conf.d/homebrew.fish`.
+A link has no mode of its own, so the files integration sets each source's mode in the repo: 644 by
+default, 755 for the bin scripts, and 600 where `hosts/macbook/dotfiles.ts` says so. A new file gets
+fixed on the next apply, whatever mode you created it with.
+Some apps save by writing a new file over the old one, which turns a link back into a regular file.
+A link step then fails instead of replacing the file, so the app's edits aren't lost. Copy the file
+into the repo, delete it, and apply to put the link back.
+Zed's settings are a shared source (`hosts/files/zed/settings.json`) with a per-host destination, since it
+differs per host: the macbook links it at `~/.config/zed/settings.json`, and the WSL host will map
+the same source to `/mnt/c/Users/<winuser>/AppData/Roaming/Zed/settings.json` (Zed runs
+Windows-side there and remotes into WSL). That mapping has to be a file copy, because a link there
+would point into WSL's filesystem, which Windows-side Zed can't follow. It should also leave out
+`mode`: chmod on a default drvfs mount is a no-op, so a managed mode would report drift every run.
 The `zed/settings.json` source path is deliberate: Zed's builtin schema association matches
 any path ending in `zed/settings.json`, so the repo copy gets settings autocomplete for free.
-`--dry` reports anything that has drifted from what's declared. One caveat: **`files.put`
-writes _through_ a symlink** — pointed at a link whose target already matches, it reports
-`Success` and leaves the link in place — so any old symlink at these paths has to be removed
-by hand before the deploy actually owns the file.
 
 One more ordering constraint is load-bearing: the **SSH keys are written before `.gitconfig`**.
 That config sets `commit.gpgsign = true` with `~/.ssh/id_ed25519.pub` as the signing key, so
 writing it first would break every `git commit` on the machine until the key showed up.
 
-Brew's side is only additive: `brew bundle` installs what the Brewfile lists but never removes a
-package that left it. `brew bundle cleanup --file=pyinfra/macbook/files/Brewfile` reports that drift and
-only `--force` acts on it, which keeps uninstalling a deliberate act rather than a side effect of
-a deploy. Same reasoning as choosing the disk by hand in `metal/`: the destructive direction gets
-a human in it.
+Brew converges in both directions: apply installs what the package list names, and runs
+`brew bundle cleanup --force` on anything installed outside them. `bask plan macbook` lists both
+before anything is installed or removed.
 
 ## Bare-metal Debian install
 
@@ -193,12 +200,12 @@ means "whatever disk partman just used" — the only device we know at that poin
 6. It installs unattended and reboots into `incus.lan` (10.8.8.2) with your SSH key already
    in place. Unmount the virtual media so it does not boot the installer again.
 
-Then hand off to pyinfra.
+Then hand off to the incus host's tsinfra script.
 
 ### What the install leaves you
 
 Deliberately close to nothing: a booting Debian with `adam`, your SSH key, and a locked root
-account. Everything else (ZFS, bridge networking, Incus) belongs to pyinfra, so that host
+account. Everything else (ZFS, bridge networking, Incus) belongs to the host's tsinfra script, so that host
 config stays convergent rather than frozen into an install-time decision.
 
 `late_command` therefore only installs the SSH key, and does it entirely through `in-target`,
@@ -208,8 +215,8 @@ redirect is performed by the _installer's_ shell before `in-target` ever runs, s
 would silently write the key into the installer's ramdisk and throw it away at reboot.
 
 There is no `sudoers` file here either. d-i adds the first user to the `sudo` group whenever
-root login is disabled, so `adam` can already escalate with the password from sops. pyinfra
-uses that on its first run and installs passwordless sudo itself.
+root login is disabled, so `adam` can already escalate with the password from sops. The host's
+tsinfra script uses that on its first run and installs passwordless sudo itself.
 
 ### What `auto=true` and `priority=critical` do
 
@@ -278,11 +285,11 @@ install would silently produce `127.0.1.1 incus` with no FQDN. Ten characters bu
 independence from the router's config.
 
 `netcfg/target_network_config` is deliberately _not_ pinned. It decides whether d-i writes
-`/etc/network/interfaces`, netplan, or NetworkManager config, which matters because pyinfra
-migrates away from ifupdown. But `ifupdown` is `Priority: important` (so the `standard` task
+`/etc/network/interfaces`, netplan, or NetworkManager config, which matters because the host's
+tsinfra script migrates away from ifupdown. But `ifupdown` is `Priority: important` (so the `standard` task
 always installs it) while `network-manager` is only `optional` and `netplan.io` is never
-installed, so netcfg has one real candidate and picks it. This is an assumption pyinfra
-relies on rather than one the boot line enforces.
+installed, so netcfg has one real candidate and picks it. This is an assumption the host
+script relies on rather than one the boot line enforces.
 
 The interface is therefore the only thing on the boot line, which keeps it short enough to
 type without a typo.
@@ -293,13 +300,13 @@ At install time the host shows three ethernet NICs, and **all three are on 10.8.
 will take a DHCP lease**. A wrong choice installs cleanly and only fails later, which makes
 this worth pinning deliberately:
 
-| NIC      | Role once pyinfra has run                                       | Host IP         |
+| NIC      | Role once the host script has run                               | Host IP         |
 | -------- | --------------------------------------------------------------- | --------------- |
 | `enp3s0` | enslaved to `br0`, the container bridge uplink                  | none            |
 | `enp4s0` | moved into the qbittorrent container (Incus `physical` network) | none            |
 | `enp6s0` | the host's own uplink: DHCP reservation, default route          | **10.8.8.2/24** |
 
-`enp3s0` has to stay address-less. pyinfra enslaves it to `br0`, whose `.network` file
+`enp3s0` has to stay address-less. The host script enslaves it to `br0`, whose `.network` file
 carries an empty `Address=`, so a host holding its only IP there would cut itself off the
 instant the bridge came up. `enp4s0` has to stay free for Incus to hand to qbittorrent.
 Only `enp6s0` carries the DHCP reservation for 10.8.8.2, which is what `incus.lan` resolves
@@ -315,8 +322,8 @@ console step is needed after the install: no static IP, no editing
 for the TCL Google TV, and installs it over adb:
 
 ```sh
-just tv-build      # build only
-just tv-install    # build, then install on Living-Room-TV.lan
+bask tv-build       # build only
+bask tv-build -i    # build, then install on Living-Room-TV.lan
 ```
 
 `tv/build.ts` checks out upstream at the commit pinned in `UPSTREAM_REV` into
@@ -329,7 +336,7 @@ shortcuts row and the drawer (the TV always reports a tuner, and its Live TV app
 HDMI, so the TV side can't hide it). A patch that no longer applies after a bump fails the
 build, so regenerate it with `git diff` in `~/.cache/free-my-tv`.
 
-The JDK and Android tools come from the macbook Brewfile (`openjdk@17`,
+The JDK and Android tools come from the macbook's brew packages (`openjdk@17`,
 `android-commandlinetools`, `android-platform-tools`). The script installs the SDK packages
 upstream's CI builds with (`build-tools;34.0.0`, `platforms;android-34`) through `sdkmanager`.
 
@@ -338,4 +345,4 @@ keystore, base64). **The keystore is what makes this reproducible.** Android ref
 signed by a different key, so a fresh keystore would mean uninstalling the app and redoing the
 setup on the TV. The checkout is outside the repo because it holds both secrets in plaintext.
 
-The TV drops off the network when it sleeps, so wake it before `just tv-install`.
+The TV drops off the network when it sleeps, so wake it before `bask tv-build -i`.

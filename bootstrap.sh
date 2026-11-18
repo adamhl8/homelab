@@ -19,9 +19,10 @@ if [ ! -d "$REPO_DIR/.git" ]; then
 fi
 cd "$REPO_DIR"
 
-# install what's needed for pyinfra
-echo "Installing uv, sops, age..."
-brew install uv sops age
+# install what's needed for tsinfra
+echo "Installing bun, sops, age..."
+brew install oven-sh/bun/bun sops age
+bun install
 
 if [ ! -f "$AGE_KEY" ]; then
   echo "Decrypting age key..."
@@ -32,4 +33,4 @@ if [ ! -f "$AGE_KEY" ]; then
   chmod 600 "$AGE_KEY"
 fi
 
-echo "Bootstrap done"
+echo "Bootstrap done, run: bunx tsinfra apply macbook"

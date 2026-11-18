@@ -1,18 +1,19 @@
 import { knipConfig } from "@adamhl8/configs"
 
-// there is no src/: every TS file here is a graph root (an executable, a deployed dotfile, or a data module)
 const config = knipConfig({
-  project: ["!./archive/**/*"],
-  // system binaries we shell out to, not things we could depend on
-  ignoreBinaries: ["adb", "awk", "brew", "fish", "fnm", "openssl", "sdkmanager", "sops"],
-  // the deployed .prettierrc.mjs types itself against the globally-installed prettier
+  // Ignore the system binaries the scripts shell out to because no package provides them.
+  ignoreBinaries: ["adb", "brew", "fish", "fnm", "openssl", "sdkmanager", "sops"],
+  // Ignore `prettier` because the deployed `.prettierrc.mjs` types itself against the global install.
   ignoreDependencies: ["prettier"],
+  // List every script as a runtime entry because there is no `src/` and each one runs on its own.
   entry: [
-    "pyinfra/files/.prettierrc.mjs",
-    "pyinfra/files/bin/*.ts",
-    "pyinfra/incus/homepage/env.ts",
-    "metal/serve.ts",
-    "tv/build.ts",
+    "archive/incus-update/index.ts!",
+    "hosts/*.ts!",
+    "hosts/files/.prettierrc.mjs!",
+    "hosts/files/bin/*.ts!",
+    "incus/homepage/env.ts!",
+    "metal/serve.ts!",
+    "tv/build.ts!",
   ],
 })
 

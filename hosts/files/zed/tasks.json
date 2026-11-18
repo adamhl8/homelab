@@ -1,0 +1,16 @@
+[
+  {
+    "label": "vitest $ZED_SYMBOL",
+    "command": "$ZED_CUSTOM_TYPESCRIPT_RUNNER exec -- vitest run --no-coverage --testNamePattern \"$ZED_CUSTOM_TYPESCRIPT_VITEST_TEST_NAME\" \"$ZED_FILE\"",
+    "cwd": "$ZED_CUSTOM_TYPESCRIPT_VITEST_PACKAGE_PATH",
+    "save": "all",
+    "tags": ["ts-test", "js-test", "tsx-test"]
+  },
+  {
+    "label": "bun test $ZED_SYMBOL",
+    "command": "bun test --test-name-pattern \"$ZED_CUSTOM_TYPESCRIPT_BUN_TEST_NAME\" \"$ZED_FILE\"",
+    "cwd": "$ZED_CUSTOM_TYPESCRIPT_BUN_PACKAGE_PATH",
+    "save": "all",
+    "tags": ["ts-test", "js-test", "tsx-test"]
+  }
+]

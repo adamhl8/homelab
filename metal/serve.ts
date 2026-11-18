@@ -5,10 +5,12 @@ import process from "node:process"
 
 import bun, { $ } from "bun"
 import type { Result } from "ts-explicit-errors"
-import { attempt, err, isErr } from "ts-explicit-errors"
+import { attempt, err, isErr, messageChain } from "ts-explicit-errors"
 
 const PORT = 8000
 const PRESEED_ROUTE = "/preseed.cfg"
+const INCUS_HOST_IP = "10.8.8.2"
+const TEMPLATE_VAR = /\{\{(?<varname>.+?)\}\}/gv
 
 const METAL_DIR = import.meta.dir
 const REPO_DIR = path.resolve(METAL_DIR, "..")
@@ -18,9 +20,9 @@ const NETCFG_VALUES = {
   INTERFACE: "enp6s0",
   HOSTNAME: "incus",
   DOMAIN: "lan",
-} as const
+}
 
-const sops = async (file: string, extractPath: string): Promise<Result<string>> => {
+const decryptSecret = async (file: string, extractPath: string): Promise<Result<string>> => {
   const secret = await attempt(async () => $`sops -d --extract ${extractPath} ${path.join(REPO_DIR, file)}`.text())
   if (isErr(secret)) return err(`failed to decrypt '${extractPath}' from '${file}'`, secret)
   return secret.trim()
@@ -33,11 +35,11 @@ const hashPassword = async (password: string): Promise<Result<string>> => {
 }
 
 /** Everything substituted into `preseed.cfg` */
-const getTemplateValues = async () => {
-  const sshPubkey = await sops("secrets/ssh.yaml", '["adam-macbook"]["pub"]')
+const getTemplateValues = async (): Promise<Result<Record<string, string>>> => {
+  const sshPubkey = await decryptSecret("secrets/ssh.yaml", '["adam-macbook"]["pub"]')
   if (isErr(sshPubkey)) return sshPubkey
 
-  const password = await sops("secrets/credentials.yaml", '["homelab_password"]')
+  const password = await decryptSecret("secrets/credentials.yaml", '["homelab_password"]')
   if (isErr(password)) return password
 
   const passwordCrypt = await hashPassword(password)
@@ -49,7 +51,7 @@ const getTemplateValues = async () => {
     FULLNAME: "Adam",
     SSH_PUBKEY: sshPubkey,
     PASSWORD_CRYPT: passwordCrypt,
-  } as const
+  }
 }
 
 const renderPreseed = async (templateValues: Record<string, string>): Promise<Result<string>> => {
@@ -62,7 +64,7 @@ const renderPreseed = async (templateValues: Record<string, string>): Promise<Re
     .split("\n")
     .filter((line) => !line.trimStart().startsWith("#"))
     .join("\n")
-  const templateVarNames = body.matchAll(/\{\{(?<varname>.+?)\}\}/gv).map((match) => match.groups?.["varname"])
+  const templateVarNames = body.matchAll(TEMPLATE_VAR).map((match) => match.groups?.["varname"])
   const templateVarNamesSet = new Set(templateVarNames)
 
   const extraTemplateValues = templateValueNamesSet.difference(templateVarNamesSet)
@@ -89,8 +91,7 @@ const renderPreseed = async (templateValues: Record<string, string>): Promise<Re
  * lookup: it binds to our address on whichever interface routes to the host.
  */
 const getLanIp = async (): Promise<Result<string>> => {
-  const HOST_IP = "10.8.8.2"
-  const socket = await attempt(async () => bun.udpSocket({ connect: { hostname: HOST_IP, port: 80 } }))
+  const socket = await attempt(async () => bun.udpSocket({ connect: { hostname: INCUS_HOST_IP, port: 80 } }))
   if (isErr(socket)) return err("failed to determine which address to serve on", socket)
 
   const { address } = socket.address
@@ -140,7 +141,7 @@ Serving ${url}
 const main = async (): Promise<number> => {
   const result = await serve()
   if (isErr(result)) {
-    console.error(result.messageChain)
+    console.error(messageChain(result))
     return 1
   }
   return 0
