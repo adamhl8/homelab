@@ -58,6 +58,7 @@ export default host(
 
     await wallpaper(h, path.join(HOSTS, "macbook/files/wallpaper.jpg"))
 
+    await sshKeys(h, { id_ed25519: "adam-macbook" })
     await gitConfig(h, REPO, { "remote.origin.url": "git@github.com:adamhl8/homelab.git" })
 
     const defaultsResult = await macosDefaults(h, MACOS_DEFAULTS)
@@ -77,7 +78,6 @@ export default host(
       { after: [defaultsResult, handlersResult] },
     )
 
-    await sshKeys(h, { id_ed25519: "adam-macbook" })
     await h.dir("~/.aws", { mode: PRIVATE_DIRECTORY_MODE })
 
     await linkFiles(h, { ...DOTFILES, ...(await binScripts()) })
