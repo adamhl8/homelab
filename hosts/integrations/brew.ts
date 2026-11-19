@@ -55,6 +55,19 @@ const parseEntries = (brewfile: string): Set<string> =>
       .map((line) => line.split(",")[0] ?? line),
   )
 
+// Print brew bundle's skip lists through `brew`, because `brew` also loads them from its `brew.env` files.
+const SKIP_LISTS_COMMAND = `brew ruby -e 'require "json"; puts JSON.generate(%w[tap brew cask mas].to_h { |type| [type, ENV.fetch("HOMEBREW_BUNDLE_#{type.upcase}_SKIP", "").split] })'`
+const SkipLists = type("string.json.parse").to("Record<string, string[]>")
+
+// Matches an entry by name, or by ID for App Store apps, the same way brew bundle does.
+const SKIPPABLE_LINE = /^(?<kind>tap|brew|cask|mas) "(?<name>[^"]+)"(?:, id: (?<id>\d+))?/v
+const isSkipped = (line: string, skipLists: typeof SkipLists.infer): boolean => {
+  const groups = SKIPPABLE_LINE.exec(line)?.groups
+  if (groups?.["kind"] === undefined || groups["name"] === undefined) return false
+  const skips = skipLists[groups["kind"]] ?? []
+  return skips.includes(groups["name"]) || (groups["id"] !== undefined && skips.includes(groups["id"]))
+}
+
 /** Installs `packages`, removes anything installed outside them, and cleans up after a change. */
 export const brewPackages = async (h: Host, packages: BrewPackages, options: BrewOptions = {}) => {
   const { taps = [], brews = [], casks = [], mas = {}, uv = [] } = packages
@@ -82,9 +95,12 @@ export const brewPackages = async (h: Host, packages: BrewPackages, options: Bre
   const packagesResult = await h.ensure("Brew packages", {
     want: wanted,
     // Use `brew bundle dump` because it prints what's installed in the Brewfile format.
+    // Count entries that brew bundle skips as installed, like `brew bundle check` does.
     check: async ({ read }) => {
-      const dump = await read("brew bundle dump --file=-")
-      return parseEntries(dump)
+      const installed = parseEntries(await read("brew bundle dump --file=-"))
+      const skipLists = SkipLists.assert(await read(SKIP_LISTS_COMMAND))
+      const skipped = brewfile.split("\n").filter((line) => isSkipped(line, skipLists))
+      return installed.union(parseEntries(skipped.join("\n")))
     },
     fix: async ({ exec }, { missing, extra }) => {
       if (missing.length > 0) await exec(`${askpass}brew bundle install${forceFlag} --file=-`, { input: brewfile })

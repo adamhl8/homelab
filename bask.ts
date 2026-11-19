@@ -30,13 +30,8 @@ export const apply = task(
   async ({ positionals }) => runTsinfra("apply", positionals),
 )
 
-export const vmTest = task(
-  {
-    desc: "Run the layer -1 recovery path in a throwaway macOS VM",
-    args: { keep: { short: "k", desc: "Keep the VM after a passing run" } },
-  },
-  async ({ args }) =>
-    runInteractive(["bun", path.join(import.meta.dir, "vm/recovery-test.ts"), ...(args.keep ? ["--keep"] : [])]),
+export const vmTest = task({ desc: "Set up a throwaway macOS VM to run the layer -1 recovery path in" }, async () =>
+  runInteractive(["bun", path.join(import.meta.dir, "vm/recovery-test.ts")]),
 )
 
 export const tvBuild = task(

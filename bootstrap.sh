@@ -21,7 +21,7 @@ cd "$REPO_DIR"
 
 # Install what tsinfra needs, plus `lefthook` for the `bask prepare` that `bun install` runs.
 echo "Installing bun, sops, age, lefthook..."
-brew install oven-sh/bun/bun sops age lefthook
+brew install bun sops age lefthook
 bun install
 
 if [ ! -f "$AGE_KEY" ]; then

@@ -153,23 +153,27 @@ before anything is installed or removed.
 
 ### Testing recovery in a VM
 
-`bask vm-test` checks that the one-liner really rebuilds a Mac, without touching this one. It clones a
-clean macOS VM with [Tart](https://tart.run) (`ghcr.io/cirruslabs/macos-tahoe-vanilla`), creates
-`adam` with the real password and auto-login, then runs the one-liner and the apply command it
-prints as `adam`, each from a fresh login shell, and finishes with `bask plan macbook`. It prints a verdict for
-each of the three steps. Run it by hand before trusting a big layer -1 change.
+`bask vm-test` gives you a clean Mac to run the recovery path on, without touching this one. It clones
+a macOS VM with [Tart](https://tart.run) (`ghcr.io/cirruslabs/macos-tahoe-vanilla`), creates `adam`
+with the real password, skips Setup Assistant's first-login screens, and reboots into adam's
+desktop. Then it's yours: open Terminal in the VM window and run the one-liner, exactly as on a wiped
+Mac. Run it by hand before trusting a big layer -1 change.
 
+- **The one-liner is in `~/Desktop/bootstrap.txt`** in the VM, copied from this README. The vanilla
+  image has no clipboard sharing with this Mac, so copy it from that file.
 - **It tests what's pushed to `main`**, because the one-liner clones from GitHub. Push first.
-- **You type the passphrase** when bootstrap asks for it, like on a real fresh Mac.
-- **It pauses before the apply** so you can sign into the App Store in the VM window. Skip that and
-  the `mas` installs fail.
-- **The VM holds real secrets** once bootstrap has run. A passing run deletes it (`--keep` keeps it).
-  A failing run asks whether to delete it, and keeps it for inspection unless you answer yes. An
-  interrupted run leaves it up and prints the `tart delete` command.
-- **It needs 40 GB free**, plus 27 GB the first time while it pulls the image. The vanilla image's
-  50 GB disk is too small for the cask list, so the script grows it to 120 GB. That means deleting
-  the guest's recovery partition with `sgdisk`, because `diskutil` refuses to (SIP). The VM's
-  macOS is one version behind this Mac's, because there's no newer image.
+- **App Store apps are skipped**, because installing them needs an Apple ID signed in to the VM. The
+  script lists their IDs from `hosts/macbook/brew.ts` in the VM's `/etc/homebrew/brew.env` as
+  `HOMEBREW_BUNDLE_MAS_SKIP`, so brew skips them while the host script runs unchanged. The brew
+  integration counts skipped entries as installed, like `brew bundle check` does.
+- **Closing the VM window deletes the VM**, and so does Ctrl-C in the script. The VM holds real
+  secrets once bootstrap has run, so it never outlives the window. If setup fails, the window
+  stays open for a look until you close it.
+- **It needs 40 GB free**, plus 27 GB the first time while it pulls the image, and it stops the VM
+  if this Mac drops below 15 GB. The vanilla image's 50 GB disk is too small for the cask list, so
+  the script grows it to 120 GB. That means deleting the guest's recovery partition with `sgdisk`,
+  because `diskutil` refuses to (SIP). The VM's macOS is one version behind this Mac's, because
+  there's no newer image.
 
 ## Bare-metal Debian install
 
