@@ -21,13 +21,17 @@ const parsePmset = (output: string): Record<string, number> => {
   return settings
 }
 
-/** Sets `pmset` settings for each power source, like `{ ac: { sleep: 0 }, battery: { displaysleep: 2 } }`. */
+/**
+ * Sets `pmset` settings for each power source, like `{ ac: { sleep: 0 }, battery: { displaysleep: 2 } }`. It skips
+ * settings this Mac doesn't report, like battery settings on a Mac without a battery.
+ */
 export const power = async (h: Host, settings: PowerSettings) => {
-  const wanted = Object.fromEntries(
-    Object.entries(settings).flatMap(([source, values]) =>
-      Object.entries(values).map(([key, value]) => [`${source} ${key}`, value]),
-    ),
+  // Read the supported settings first, because `pmset` exits 0 for a setting the hardware can't hold and saves nothing.
+  const supported = parsePmset(await h.read("pmset -g custom"))
+  const requested = Object.entries(settings).flatMap(([source, values]) =>
+    Object.entries(values).map(([key, value]) => [`${source} ${key}`, value] as const),
   )
+  const wanted: Record<string, number> = Object.fromEntries(requested.filter(([key]) => key in supported))
 
   return h.ensure("Power settings", {
     want: wanted,
