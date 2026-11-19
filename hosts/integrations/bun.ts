@@ -1,3 +1,5 @@
+import { stripVTControlCharacters } from "node:util"
+
 import type { Exec, Host } from "tsinfra"
 
 const LIST_COMMAND = "bun pm ls -g"
@@ -11,6 +13,9 @@ const LIST_HEADER = /^(?<dir>.+) node_modules \(/v
 
 const packageName = (spec: string): string => PACKAGE_SPEC.exec(spec)?.groups?.["name"] ?? spec
 
+// Strip color codes because `FORCE_COLOR` makes bun color each name, and a colored name never matches its spec.
+const readGlobals = async (read: Exec): Promise<string> => stripVTControlCharacters(await read(LIST_COMMAND))
+
 // Turns `bun pm ls -g` output into `[name, version]` pairs.
 const parseGlobals = (output: string): [name: string, version: string][] =>
   output.split("\n").flatMap((line) => {
@@ -22,7 +27,7 @@ const parseGlobals = (output: string): [name: string, version: string][] =>
 // That covers transitive dependencies, and top-level packages whose installed version already satisfies their spec.
 const refreshLockfile = async (exec: Exec): Promise<void> => {
   // Get the global dir from `bun pm ls -g` because bun has no command that prints it.
-  const bunGlobalsOutput = await exec(LIST_COMMAND)
+  const bunGlobalsOutput = await readGlobals(exec)
   const dir = LIST_HEADER.exec(bunGlobalsOutput)?.groups?.["dir"]
   if (!dir) throw new Error(`no global dir in the '${LIST_COMMAND}' header`)
   await exec(`rm -rf ${dir}/node_modules`)
@@ -43,12 +48,12 @@ export const bunGlobals = async (h: Host, ...specs: string[]) => {
   const packagesResult = await h.ensure("Bun global packages", {
     want: wanted,
     check: async ({ read }) => {
-      const bunGlobalsOutput = await read(LIST_COMMAND)
+      const bunGlobalsOutput = await readGlobals(read)
       const installed = parseGlobals(bunGlobalsOutput)
       return Object.fromEntries(installed.map(([name, version]) => [specByName[name] ?? name, version]))
     },
-    fix: async ({ exec }, { missing, extra, changed }) => {
-      const installs = [...Object.keys(missing), ...Object.keys(changed)]
+    fix: async ({ exec }, { unmet, extra }) => {
+      const installs = Object.keys(unmet)
       if (installs.length > 0) await exec(`bun add -g ${installs.join(" ")}`)
 
       const removals = Object.keys(extra)

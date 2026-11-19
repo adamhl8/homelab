@@ -46,8 +46,8 @@ export const iosevkaFonts = async (h: Host) => {
         }),
       )
     },
-    fix: async ({ exec }, { missing, changed }) => {
-      const patterns = [...Object.keys(missing), ...Object.keys(changed)].map((name) => `--pattern ${name}`)
+    fix: async ({ exec }, { unmet }) => {
+      const patterns = Object.keys(unmet).map((name) => `--pattern ${name}`)
       await exec(`gh release download -R ${RELEASE_REPO} ${patterns.join(" ")} --dir ${fontsDir} --clobber`)
     },
   })

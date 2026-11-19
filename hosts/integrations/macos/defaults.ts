@@ -38,11 +38,10 @@ export const macosDefaults = async (h: Host, settings: MacosDefaults) => {
         setResults.map(({ entry, result }) => [entry.id, parseValue(result.stdout, entry.value)]),
       )
     },
-    fix: async ({ exec }, { missing, changed }) => {
-      const updates = [...Object.keys(missing), ...Object.keys(changed)]
-      for (const id of updates) {
+    fix: async ({ exec }, { unmet }) => {
+      for (const [id, value] of Object.entries(unmet)) {
         const entry = entryById.get(id)
-        if (entry) await exec(`defaults write ${entry.domain} ${entry.key} ${writeArgs(entry.value)}`)
+        if (entry) await exec(`defaults write ${entry.domain} ${entry.key} ${writeArgs(value)}`)
       }
     },
   })

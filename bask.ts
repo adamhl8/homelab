@@ -7,20 +7,25 @@ import { task } from "@adamhl8/bask"
 
 export * from "@adamhl8/configs/bask"
 
+const TSINFRA = path.join(import.meta.dir, "node_modules/.bin/tsinfra")
+
+// Give tsinfra the terminal instead of running it through `sh`.
+// `sh` pipes a command's output, and tsinfra only shows its progress line and sudo prompt on a terminal.
+const runTsinfra = async (command: "plan" | "apply", hosts: string[]) => {
+  const subprocess = Bun.spawn([TSINFRA, command, ...hosts], { stdio: ["inherit", "inherit", "inherit"] })
+  const exitCode = await subprocess.exited
+  // Exit with tsinfra's code, like 2 for drift in `plan`, because bask sets 0 after a task that doesn't throw.
+  if (exitCode !== 0) process.exit(exitCode)
+}
+
 export const plan = task(
   { desc: "Show what tsinfra would change on the given hosts", positionals: true },
-  async ({ sh, positionals }) => {
-    // Pass the exit code through because tsinfra exits 2 on drift, which isn't a task failure.
-    const { exitCode } = await sh`tsinfra plan ${positionals}`.nothrow()
-    process.exitCode = exitCode
-  },
+  async ({ positionals }) => runTsinfra("plan", positionals),
 )
 
 export const apply = task(
   { desc: "Apply tsinfra changes to the given hosts", positionals: true },
-  async ({ sh, positionals }) => {
-    await sh`tsinfra apply ${positionals}`
-  },
+  async ({ positionals }) => runTsinfra("apply", positionals),
 )
 
 export const tvBuild = task(

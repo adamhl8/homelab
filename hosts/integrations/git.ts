@@ -12,8 +12,7 @@ export const gitConfig = async (h: Host, repo: string, settings: Record<string, 
       const setResults = results.filter(([, { exitCode }]) => exitCode === 0)
       return Object.fromEntries(setResults.map(([key, { stdout }]) => [key, stdout]))
     },
-    fix: async ({ exec }, { missing, changed }) => {
-      const updates = [...Object.keys(missing), ...Object.keys(changed)]
-      for (const key of updates) await exec(`git -C ${repo} config ${key} ${settings[key]}`)
+    fix: async ({ exec }, { unmet }) => {
+      for (const [key, value] of Object.entries(unmet)) await exec(`git -C ${repo} config ${key} "${value}"`)
     },
   })

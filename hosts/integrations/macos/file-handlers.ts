@@ -27,10 +27,9 @@ export const fileHandlers = async (h: Host, handlers: Record<string, string>) =>
       return current
     },
     // Add an entry, because `defaults` can't edit one entry inside the `LSHandlers` array.
-    fix: async ({ exec }, { missing, changed }) => {
-      const updates = [...Object.keys(missing), ...Object.keys(changed)]
-      for (const contentType of updates) {
-        const entry = `{LSHandlerContentType="${contentType}";LSHandlerRoleAll="${wanted[contentType]}";}`
+    fix: async ({ exec }, { unmet }) => {
+      for (const [contentType, bundleId] of Object.entries(unmet)) {
+        const entry = `{LSHandlerContentType="${contentType}";LSHandlerRoleAll="${bundleId}";}`
         await exec(`defaults write ${LS_DOMAIN} LSHandlers -array-add '${entry}'`)
       }
     },

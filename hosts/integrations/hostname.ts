@@ -42,9 +42,8 @@ export const hostname = async (h: Host, name: string, computerName: string) => {
       const setResults = results.filter(([, { exitCode, stdout }]) => exitCode === 0 && stdout !== "")
       return Object.fromEntries(setResults.map(([key, { stdout }]) => [key, stdout]))
     },
-    fix: async ({ exec }, { missing, changed }) => {
-      const updates = Object.entries(wanted).filter(([key]) => key in missing || key in changed)
-      for (const [key, value] of updates) await exec(tools.write(key, value))
+    fix: async ({ exec }, { unmet }) => {
+      for (const [key, value] of Object.entries(unmet)) await exec(tools.write(key, value))
     },
   })
 }

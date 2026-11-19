@@ -37,12 +37,11 @@ export const power = async (h: Host, settings: PowerSettings) => {
       // Keep only the managed keys, because `pmset` reports every setting.
       return Object.fromEntries(Object.entries(current).filter(([key]) => key in wanted))
     },
-    fix: async ({ exec }, { missing, changed }) => {
-      const updates = [...Object.keys(missing), ...Object.keys(changed)]
+    fix: async ({ exec }, { unmet }) => {
       for (const source of ["ac", "battery"] as const) {
-        const args = updates
-          .filter((key) => key.startsWith(`${source} `))
-          .map((key) => `${key.slice(source.length + 1)} ${wanted[key]}`)
+        const args = Object.entries(unmet)
+          .filter(([key]) => key.startsWith(`${source} `))
+          .map(([key, value]) => `${key.slice(source.length + 1)} ${value}`)
         if (args.length > 0) await exec(`sudo pmset ${SOURCE_FLAGS[source]} ${args.join(" ")}`)
       }
     },

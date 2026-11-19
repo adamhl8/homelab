@@ -1,7 +1,6 @@
 # todo
 
 manage npmrc, extract secret using sops
-check commit history for anything missed
 
 High-level plan. `bootstrap.sh` + `hosts/macbook.ts` (layer -1) and `metal/` (layer 0) are
 done. Layer -1 has been applied for real (2026-07-21): the old repo symlinks are gone, the
@@ -17,6 +16,15 @@ sources its config and decrypts the vault from `~/homelab/secrets/credentials.ya
   a fresh machine.
 - Not covered by layer -1, by nature: `aws sso login --profile adamhl8` (browser), and the
   passphrase itself.
+- **Make Keka the default for archives.** The 2024 installer ran Keka's external helper
+  (`https://d.keka.io/helper`) with `--set-as-default`. This Mac has Keka (`com.aone.keka`) on
+  ~85 archive types, but `fileHandlers` only sets folders and PDF, so a fresh machine won't get
+  it. Either run the helper once as a step, or add the main archive UTIs to `fileHandlers`.
+- **Log Docker into `ghcr.io`.** Every installer from 2023 to 2024 did this. This Mac still has
+  the login in its keychain, but nothing sets it up on a fresh one, and `github_ghcr_token` is
+  gone from the vault. If images still get pushed there, pipe a token into
+  `docker login ghcr.io --password-stdin`: `gh auth token` if `gh_token` has `write:packages`,
+  or a new vault entry.
 
 ## 0. Backups — do this regardless of the IaC work
 
@@ -35,15 +43,26 @@ iterating them.
 ## 1. tsinfra — host bootstrap
 
 Takes over from `metal/`. Owns the host OS and Incus's _existence_; Tofu owns everything
-inside the Incus API.
+inside the Incus API. It becomes `hosts/incus.ts`, replacing `incus/incus.md` up to its
+`incus profiles` section (the profiles belong to Tofu, in section 2).
+
+**Start with a read-only survey of the live host,** because the note has rotted (below). Read the
+network files, the zpools, the Incus config, and its trust store over SSH, and write the host
+script against what's really there. List the exact commands for approval before running any.
 
 - ZFS, systemd-networkd (`br0` bridging `enp3s0`), Incus from the zabbly repo
+- Import the `nas` zpool
 - `core.https_address = 10.8.8.2:8000`
 - **Mint Tofu's Incus client cert and add it to the trust store.** This is why the host script has
   to run before Tofu: Tofu cannot bootstrap its own access to an Incus that does not exist yet.
 - Passwordless sudo (deliberately dropped from the preseed — d-i puts `adam` in the `sudo`
   group, so the first run escalates with the password from sops)
 - Declarative hostname
+
+It's the first Linux host, so it needs new integrations: apt packages, an apt repo with its
+signing key (using `hostDistro` from `hosts/lib/facts.ts` for the release codename), enabling
+systemd services, and maybe a zpool import. `hostname`, `ssh`, `files`, and `fish` already
+work on Linux.
 
 **`incus/incus.md` has rotted and cannot be followed as written.** Its `lan0.network` matches
 `enp3s0`, but the live file matches `enp6s0`. Follow the note and the host comes up with no
@@ -95,6 +114,11 @@ Incus's native OCI support is **not** a viable replacement for Docker here: no c
 
 Start with the trivial ones (flaresolverr, byparr). Leave caddy and jellyfin for last.
 
+**Carry over updates.** `archive/incus-update` updated each container: apt `full-upgrade`, then
+`docker compose pull` plus a prune for the Docker ones, plus per-service updaters for backrest,
+caddy, filebrowser, and scrutiny (its `rybbit` plugin is dead). Nothing does that today. Fold it
+into the container scripts, and delete `archive/incus-update` once it's covered.
+
 ## 4. Make containers rebuildable (optional, per-service)
 
 `default/custom` is empty — there are no custom storage volumes today, which is why all app
@@ -122,3 +146,8 @@ this passes, the code only _claims_ to.
   since a human choosing correctly at the partitioner is now the only thing protecting the
   nas pool.
 - `debconf-utils` was installed on the host while investigating. Harmless, but it is drift.
+- Remove the stale OPNsense secrets from `secrets/credentials.yaml` (`opnsense_key`,
+  `opnsense_secret`, `opnsense_homepage_key`, `opnsense_homepage_secret`). OPNsense was removed
+  in June 2026.
+- Delete the broken `~/bin/incus-update` symlink on the macbook. It points at
+  `tools/incus-update/index.ts`, which moved to `archive/`.
