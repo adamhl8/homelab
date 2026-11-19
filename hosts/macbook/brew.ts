@@ -1,7 +1,7 @@
 import type { BrewPackages } from "#hosts/integrations/brew.ts"
 
 export const BREW_PACKAGES = {
-  taps: ["oven-sh/bun", "mikescher/tap", "adamhl8/inspectarr", "localstack/tap"],
+  taps: ["oven-sh/bun", "mikescher/tap", "adamhl8/inspectarr", "localstack/tap", "openai/tools"],
   brews: [
     "git",
     "git-delta",
@@ -58,6 +58,8 @@ export const BREW_PACKAGES = {
     "unzip",
 
     "localstack/tap/localstack-cli",
+    "openai/tools/tart",
+    "gptfdisk",
 
     "ffmpeg",
     "adamhl8/inspectarr/inspectarr",

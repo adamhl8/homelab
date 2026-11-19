@@ -2,7 +2,7 @@ import { knipConfig } from "@adamhl8/configs"
 
 const config = knipConfig({
   // Ignore the system binaries the scripts shell out to because no package provides them.
-  ignoreBinaries: ["adb", "brew", "fish", "fnm", "openssl", "sdkmanager", "sops"],
+  ignoreBinaries: ["adb", "brew", "fish", "fnm", "openssl", "sdkmanager", "sgdisk", "sops", "tart"],
   // Ignore `prettier` because the deployed `.prettierrc.mjs` types itself against the global install.
   ignoreDependencies: ["prettier"],
   // List every script as a runtime entry because there is no `src/` and each one runs on its own.
@@ -14,6 +14,7 @@ const config = knipConfig({
     "incus/homepage/env.ts!",
     "metal/serve.ts!",
     "tv/build.ts!",
+    "vm/recovery-test.ts!",
   ],
 })
 

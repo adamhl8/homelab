@@ -49,8 +49,12 @@ bask apply macbook
 One command, and one passphrase:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/adamhl8/homelab/main/bootstrap.sh | sh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/adamhl8/homelab/main/bootstrap.sh)"
 ```
+
+It has to be `sh -c "$(curl ...)"`, not `curl ... | sh`. Piped, the script's stdin is curl rather
+than the terminal, and the Homebrew installer then goes non-interactive and refuses to ask for the
+sudo password.
 
 That is the whole manual surface. `bootstrap.sh` is safe to re-run, and it does only the four
 things that have to happen before tsinfra can take over:
@@ -60,7 +64,8 @@ things that have to happen before tsinfra can take over:
 2. **Clone this repo over HTTPS.** It has to be HTTPS: a `git@` clone needs the SSH key, and
    the SSH key lives inside the repo being cloned. This works only because the repo is public.
    `hosts/macbook.ts` flips `origin` back to SSH once it has written the key.
-3. **`brew install bun sops age`, then `bun install`.** Only what tsinfra needs to run. Every other
+3. **`brew install bun sops age lefthook`, then `bun install`.** Only what tsinfra needs to run, plus
+   `lefthook`, because `bun install` runs `bask prepare`, which installs the git hooks. Every other
    package is declared in `hosts/macbook/brew.ts`, which the macbook host applies, so that list stays
    the single source of truth.
 4. **Decrypt `secrets/key.age`** to `~/.config/sops/age/keys.txt`, which prompts for the
@@ -71,6 +76,16 @@ passphrase is the one input to this entire system that isn't in git. It also can
 into tsinfra, because `hosts/macbook.ts` decrypts its sudo password with sops when tsinfra _loads_
 it: the key has to be on disk before tsinfra starts, so tsinfra can never be the thing that puts it
 there.
+
+Bootstrap ends by printing the one command to paste next:
+
+```sh
+cd ~/homelab && eval "$(/opt/homebrew/bin/brew shellenv)" && bunx bask apply macbook
+```
+
+It loads Homebrew's PATH itself because bootstrap can't. The script runs as its own process, so the
+`brew shellenv` it does for its own use is gone when it exits, and a new terminal doesn't have
+Homebrew on PATH either until the apply sets up fish.
 
 Everything downstream is a pure function of (passphrase + repo). A wiped machine is recoverable
 with nothing but this command and something you remember.
@@ -135,6 +150,26 @@ writing it first would break every `git commit` on the machine until the key sho
 Brew converges in both directions: apply installs what the package list names, and runs
 `brew bundle cleanup --force` on anything installed outside them. `bask plan macbook` lists both
 before anything is installed or removed.
+
+### Testing recovery in a VM
+
+`bask vm-test` checks that the one-liner really rebuilds a Mac, without touching this one. It clones a
+clean macOS VM with [Tart](https://tart.run) (`ghcr.io/cirruslabs/macos-tahoe-vanilla`), creates
+`adam` with the real password and auto-login, then runs the one-liner and the apply command it
+prints as `adam`, each from a fresh login shell, and finishes with `bask plan macbook`. It prints a verdict for
+each of the three steps. Run it by hand before trusting a big layer -1 change.
+
+- **It tests what's pushed to `main`**, because the one-liner clones from GitHub. Push first.
+- **You type the passphrase** when bootstrap asks for it, like on a real fresh Mac.
+- **It pauses before the apply** so you can sign into the App Store in the VM window. Skip that and
+  the `mas` installs fail.
+- **The VM holds real secrets** once bootstrap has run. A passing run deletes it (`--keep` keeps it).
+  A failing run asks whether to delete it, and keeps it for inspection unless you answer yes. An
+  interrupted run leaves it up and prints the `tart delete` command.
+- **It needs 40 GB free**, plus 27 GB the first time while it pulls the image. The vanilla image's
+  50 GB disk is too small for the cask list, so the script grows it to 120 GB. That means deleting
+  the guest's recovery partition with `sgdisk`, because `diskutil` refuses to (SIP). The VM's
+  macOS is one version behind this Mac's, because there's no newer image.
 
 ## Bare-metal Debian install
 

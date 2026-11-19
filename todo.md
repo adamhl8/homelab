@@ -9,6 +9,7 @@ sources its config and decrypts the vault from `~/homelab/secrets/credentials.ya
 
 ## -1. Macbook — remaining
 
+- **Work through `macbook-audit.md`**: what's on this Mac that `hosts/macbook.ts` doesn't capture yet.
 - **Test the recovery path on a VM**, not on the daily driver. Boot a clean macOS, run the
   one-liner, and see whether it really comes back. Until that passes, "recoverable" is a claim.
 - The brew package list in `hosts/macbook.ts` came from a `brew bundle dump` snapshot, so it includes
